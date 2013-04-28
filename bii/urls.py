@@ -15,7 +15,7 @@ url(r'^accounts/register/$', 'registration.views.register',
   (r'^accounts/', include('registration.urls')),
   url(r'^$', index),
   (r'^bii_web/static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
-   #(r'^bii_web/static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
+   # (r'^bii_web/static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
   # url('^accounts/profile/', 'bii_web.views.private_profile'),
   # url('^profile/(\w+)', 'bii_web.views.public_profile'),
   # url(r'^profiles/', include('profiles.urls')),
@@ -29,3 +29,8 @@ url(r'^accounts/register/$', 'registration.views.register',
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
 )
+
+if not settings.DEBUG:
+    urlpatterns += patterns('',
+        (r'^bii_web/static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
+    )
