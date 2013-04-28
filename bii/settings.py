@@ -8,7 +8,8 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER='django4589@gmail.com'
 EMAIL_HOST_PASSWORD='django852456'
 
-DEBUG=os.environ.get("SERVER", False)=="localhost";
+# DEBUG=os.environ.get("SERVER")=="localhost";
+DEBUG=True
 TEMPLATE_DEBUG = DEBUG
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -118,7 +119,7 @@ STATICFILES_FINDERS = (
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = os.path.join(os.path.dirname(os.path.dirname( __file__)), "static")
+STATIC_ROOT = os.path.join(os.path.dirname(os.path.dirname( __file__)), "bii_web\static")
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"

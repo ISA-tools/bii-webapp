@@ -14,8 +14,7 @@ url(r'^accounts/register/$', 'registration.views.register',
      name='registration_register'),
   (r'^accounts/', include('registration.urls')),
   url(r'^$', index),
- (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
-   # (r'^bii_web/static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
+  (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
   # url('^accounts/profile/', 'bii_web.views.private_profile'),
   # url('^profile/(\w+)', 'bii_web.views.public_profile'),
   # url(r'^profiles/', include('profiles.urls')),
@@ -30,7 +29,7 @@ url(r'^accounts/register/$', 'registration.views.register',
     # url(r'^admin/', include(admin.site.urls)),
 )
 
-#if not settings.DEBUG:
+# if not settings.DEBUG:
  #   urlpatterns += patterns('',
   #      (r'^bii_web/static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
   #  )
