@@ -130,6 +130,7 @@ STATIC_URL ='/app/bii_web/static/'
 # Additional locations of static files
 
 STATICFILES_DIRS = (
+    os.path.join(os.path.abspath(os.path.dirname(__file__) + '/..'), 'static'),
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -144,7 +145,6 @@ INSTALLED_APPS = (
     'registration',
     'django.contrib.humanize',
     'django.contrib.webdesign',
-    'storages'
     'bii_web',
     'widget_tweaks',
     # Uncomment the next line to enable the admin:
