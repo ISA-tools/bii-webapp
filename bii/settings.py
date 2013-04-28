@@ -1,6 +1,7 @@
 # Django settings for bii project.
 import os,sys
-from django.contrib.sites.models import Site
+
+ENVIRONMENT = os.environ
 
 ACCOUNT_ACTIVATION_DAYS=7
 EMAIL_USE_TLS = True
@@ -10,9 +11,8 @@ EMAIL_HOST_USER='django4589@gmail.com'
 EMAIL_HOST_PASSWORD='django852456'
 
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
-
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
@@ -24,8 +24,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 SERVER=(sys.argv[1] == 'runserver')
 
-if (sys.argv[1] == 'runserver'):
-
+if DEBUG:
 	DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -111,6 +110,7 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 )
 
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
@@ -123,11 +123,11 @@ STATICFILES_FINDERS = (
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = '/bii_web/static/'
+STATIC_ROOT = ''
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
-STATIC_URL ='/bii_web/static/'
+STATIC_URL ='/static/'
 # Additional locations of static files
 
 STATICFILES_DIRS = (
