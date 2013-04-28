@@ -8,7 +8,7 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER='django4589@gmail.com'
 EMAIL_HOST_PASSWORD='django852456'
 
-DEBUG=True
+DEBUG=os.environ.get("SERVER", False)=="localhost";
 TEMPLATE_DEBUG = DEBUG
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
