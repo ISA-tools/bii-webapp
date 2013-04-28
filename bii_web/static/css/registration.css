@@ -1,0 +1,31 @@
+@CHARSET "ISO-8859-1";
+
+.field{
+    min-width: 300px;
+}
+
+label{
+  color:#69696B;  
+}
+
+p{
+    color:#69696B;
+    font-size: 16px;
+}
+
+p a{
+    color:#476BB8;
+    font-weight: bold;
+}
+
+.errors{
+    color:red;
+}
+
+p a:hover{
+    color:#3B5999;
+}
+
+h1{
+    color: #3B5999;
+}
