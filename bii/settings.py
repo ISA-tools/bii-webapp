@@ -129,10 +129,7 @@ STATIC_ROOT = ''
 STATIC_URL ='/bii_web/static/'
 # Additional locations of static files
 
-PROJECT_DIR = os.path.dirname(os.path.dirname(__file__))
-
 STATICFILES_DIRS = (
-    os.path.join(PROJECT_DIR,'bii_web/static/'),
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
