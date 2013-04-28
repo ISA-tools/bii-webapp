@@ -126,7 +126,7 @@ STATIC_ROOT = ''
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
-STATIC_URL ='/bii_web/static/'
+STATIC_URL ='/app/bii_web/static/'
 # Additional locations of static files
 
 STATICFILES_DIRS = (
@@ -144,6 +144,7 @@ INSTALLED_APPS = (
     'registration',
     'django.contrib.humanize',
     'django.contrib.webdesign',
+    'storages'
     'bii_web',
     'widget_tweaks',
     # Uncomment the next line to enable the admin:
