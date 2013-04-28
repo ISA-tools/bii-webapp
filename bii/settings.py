@@ -129,7 +129,7 @@ STATIC_ROOT = ''
 STATIC_URL ='/bii_web/static/'
 # Additional locations of static files
 
-PROJECT_PATH = os.path.dirname(os.path.dirname(__file__))
+PROJECT_DIR = os.path.dirname(os.path.dirname(__file__))
 
 STATICFILES_DIRS = (
     os.path.join(PROJECT_DIR,'bii_web/static/'),
