@@ -1,6 +1,7 @@
 # Django settings for bii project.
-import os
- 
+import os,sys
+from django.contrib.sites.models import Site
+
 ACCOUNT_ACTIVATION_DAYS=7
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
@@ -21,7 +22,9 @@ MANAGERS = ADMINS
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-if os.environ.get('ON_HEROKU')==None:
+SERVER=(sys.argv[1] == 'runserver')
+
+if (sys.argv[1] == 'runserver'):
 
 	DATABASES = {
     'default': {
@@ -53,8 +56,6 @@ TIME_ZONE = 'America/Chicago'
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
-
-SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -122,15 +123,14 @@ STATICFILES_FINDERS = (
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = '/bii_web/static/'
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
-STATIC_URL ='/app/bii_web/static/'
+STATIC_URL ='/bii_web/static/'
 # Additional locations of static files
 
 STATICFILES_DIRS = (
-    os.path.join(os.path.abspath(os.path.dirname(__file__) + '/..'), 'static'),
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.

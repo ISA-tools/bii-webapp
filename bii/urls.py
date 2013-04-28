@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
 from bii_web.views import *
 from registration.forms import RegistrationFormUniqueEmail
+from django.conf import settings
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -13,6 +14,8 @@ url(r'^accounts/register/$', 'registration.views.register',
      name='registration_register'),
   (r'^accounts/', include('registration.urls')),
   url(r'^$', index),
+  (r'^bii_web/static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
+   #(r'^bii_web/static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
   # url('^accounts/profile/', 'bii_web.views.private_profile'),
   # url('^profile/(\w+)', 'bii_web.views.public_profile'),
   # url(r'^profiles/', include('profiles.urls')),
