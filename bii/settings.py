@@ -34,9 +34,6 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # else:
     # we are using a production machine
     
-import socket
-sock=os.environ.get('HOSTNAME')
-    
 #DATABASE_URL environment variable must be set
 import dj_database_url
 DATABASES = {'default': dj_database_url.config(env='DATABASE_URL')}
@@ -121,7 +118,7 @@ STATICFILES_FINDERS = (
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = os.path.join(os.getcwd(), "static")
+STATIC_ROOT = os.path.join(os.path.dirname(os.path.dirname( __file__)), "static")
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
