@@ -1,15 +1,15 @@
 # Django settings for bii project.
-import os,sys
+import os, sys
 
-ACCOUNT_ACTIVATION_DAYS=7
+ACCOUNT_ACTIVATION_DAYS = 7
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER='django4589@gmail.com'
-EMAIL_HOST_PASSWORD='django852456'
+EMAIL_HOST_USER = 'django4589@gmail.com'
+EMAIL_HOST_PASSWORD = 'django852456'
 
 # DEBUG=os.environ.get("SERVER")=="localhost";
-DEBUG=True
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -20,24 +20,24 @@ MANAGERS = ADMINS
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-# if DEBUG:
-# 	DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-#         'NAME': 'bii',                      # Or path to database file if using sqlite3.
-#         # The following settings are not used with sqlite3:
-#         'USER': 'root',
-#         'PASSWORD': '852456',
-#         'HOST': 'localhost',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-#         'PORT': '5432',                      # Set to empty string for default.
-# 		}
-# 	}
-# else:
-   # we are using a production machine
-    
-#DATABASE_URL environment variable must be set
-import dj_database_url
-DATABASES = {'default': dj_database_url.config(env='DATABASE_URL')}
+if os.environ.get('DATABASE_URL') != None:
+	DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'bii',  # Or path to database file if using sqlite3.
+        # The following settings are not used with sqlite3:
+        'USER': 'root',
+        'PASSWORD': '852456',
+        'HOST': 'localhost',  # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'PORT': '5432',  # Set to empty string for default.
+		}
+	}
+else:
+   import dj_database_url
+   DATABASES = {'default': dj_database_url.config(env='DATABASE_URL')}
+        
+# DATABASE_URL environment variable must be set
+
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
@@ -119,12 +119,12 @@ STATICFILES_FINDERS = (
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-PROJECT_PATH=os.path.normpath(os.path.dirname(os.path.dirname( __file__)))
+PROJECT_PATH = os.path.normpath(os.path.dirname(os.path.dirname(__file__)))
 STATIC_ROOT = os.path.join(PROJECT_PATH, "bii_web/static/")
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
-STATIC_URL ="/bii_web/static/"
+STATIC_URL = "/bii_web/static/"
 # Additional locations of static files
 STATICFILES_DIRS = (
 #     PROJECT_PATH+"/static/",
