@@ -1,0 +1,9 @@
+@CHARSET "ISO-8859-1";
+
+.regfield{
+    min-width: 300px;
+}
+
+h1{
+    color: rgb(100,100,100)
+}
