@@ -33,7 +33,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # 		}
 # 	}
 # else:
-    # we are using a production machine
+   # we are using a production machine
     
 #DATABASE_URL environment variable must be set
 import dj_database_url
