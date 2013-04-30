@@ -1,0 +1,332 @@
+{% extends "templates/base_profile.html" %}
+{% load webdesign %}
+{% load templateutils %}
+
+{% block title %}BioSharing | {{ profile.user.username }} {% endblock %}
+
+{% block top %}
+
+    <div class="hero-unit span8">
+
+        <h3>{% if loggedInUser %} Welcome {{ profile.user.username }}. This is your profile. {% else %}
+            {{ profile.user.username }}'s profile. {% endif %}</h3>
+
+        {% if loggedInUser %}
+            <p>Here you have access to all your added <span>Bio<span class="blueText">Sharing</span></span>
+                entries.
+            </p>
+        {% else %}
+            <p>
+                Here are {{ profile.user.username }}'s Standards, policies and BioDBCore entries.
+            </p>
+        {% endif %}
+
+
+        {% if loggedInUser %}
+            <p>
+                <a class="btn btn-info btn-large" href='/profiles/edit'>Expand Profile
+                </a>
+                <a class="btn btn btn-large" href='/accounts/password/reset/'>Reset Password
+                </a>
+                <a class="btn btn btn-large" href='/accounts/logout/'>Logout</a>
+                {% if profile.user.is_authenticated and profile.user.is_superuser %}
+                    <a class="btn btn btn-large" href='/admin/'>Administration pages</a>
+                {% endif %}
+            </p>
+        {% endif %}
+
+
+    </div>
+
+    <div id="orcid" class="span4">
+        {% ifnotequal profile.orcid "" %}
+            <span id="spinner" align="center">
+                <p><img align="center" src="{{ STATIC_URL }}/img/profile/spinner.gif"/><br/>
+                    Loading profile from ORCID</p>
+            </span>
+        {% else %}
+            <div class="standard-unit span4">
+                {% if loggedInUser %}
+                <p><a href="http://www.orcid.org" target="_blank">Register</a> for orcid then enter your orcid <a
+                        href="/profiles/edit">here</a> to integrate your profile information.</p>
+            {% else %}
+                    <p>{{ profile.user.username }} has not registered their ORCID, so this panel is blank. Learn more about ORCID <a href="http://www.orcid.org" target="_blank">here</a>.</p>
+            {% endif %}
+            </div>
+        {% endifnotequal %}
+    </div>
+
+
+{% endblock %}
+
+{% block additional %}
+
+    {% if loggedInUser and profile.user.is_superuser %}
+        <div class="clearfix"></div>
+        <div>
+            {% if biodbcore_approval|length != 0 or policy_approval|length != 0 or standard_approval|length != 0 %}
+                <div class="section-header margin10Top"><span
+                        class="header-text bolder">Approvals Required</span>
+                </div>
+
+                <div class="clearfix"></div>
+
+                {% for record in biodbcore_approval %}
+                    <div class="well well-small blue-block">
+
+                        <span class="span7">
+                            <span class="biosharing-text">{{ record.name }}</span><br/>
+                            <span class="biosharing-text bolder">{{ record.description }}</span>
+                        </span>
+
+                        <span class="span2">
+                            <span class="biosharing-text">Submitted by </span><br/>
+                            <span class="biosharing-text bolder">{{ record.owner.username }}</span>
+                        </span>
+
+                        <span class="span4 pull-right">
+                                <a href="{{ record.biodbcore_id }}" class="btn btn-small"><i class="icon-eye-open"></i>
+                                    View
+                                    Record</a>
+                             <a href="/approve/biodbcore/{{ record.biodbcore_id }}"
+                                class="btn btn-small btn-success">Approve Record</a>
+                        </span>
+
+                    </div>
+                {% endfor %}
+
+                {% for record in standard_approval %}
+                    <div class="well well-small blue-block">
+
+                        <span class="span7">
+                            <span class="biosharing-text">{{ record.name }}</span><br/>
+                            <span class="biosharing-text bolder">{{ record.description }}</span>
+                        </span>
+
+                        <span class="span2">
+                            <span class="biosharing-text">Submitted by </span><br/>
+                            <span class="biosharing-text bolder">{{ record.owner.username }}</span>
+                        </span>
+
+                        <span class="span4 pull-right">
+                                <a href="/{{ record.biosharing_id }}" class="btn btn-small"><i class="icon-eye-open"></i>
+                                    View
+                                    Record</a>
+                             <a href="/approve/standard/{{ record.biosharing_id }}"
+                                class="btn btn-small btn-success">Approve Record</a>
+                        </span>
+
+                    </div>
+                {% endfor %}
+
+                {% for record in policy_approval %}
+                    <div class="well well-small blue-block">
+
+                        <span class="span10">
+                            <span class="biosharing-text">{{ record.name }}</span><br/>
+                            <span class="biosharing-text bolder">{{ record.description }}</span>
+                        </span>
+
+                        <span class="span3 pull-right">
+                                <a href="/policy/{{ record.id }}" class="btn btn-small"><i class="icon-eye-open"></i>
+                                    View Record</a>
+                             <a href="/approve/policy/{{ record.id }}"
+                                class="btn btn-small btn-success">Approve Record</a>
+                        </span>
+
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="clearfix"></div>
+        <div>
+            {% if biodbcore_ownerships|length != 0 or standard_ownerships|length != 0 or policy_ownerships|length != 0 %}
+                <div class="section-header margin10Top"><span
+                        class="header-text bolder">Ownership Requests</span>
+                </div>
+
+                <div class="clearfix"></div>
+
+                {% for record in biodbcore_ownerships %}
+                    <div class="well well-small blue-block">
+
+                        <span class="span2">
+                            <span class="biosharing-text"><span class="bolder">Request by</span> <a
+                                    href="/profile/{{ record.user.username }}">{{ record.user.username }}</a></span><br/>
+
+                        </span>
+
+                        <span class="span5">
+                            <span class="biosharing-text">{{ record.biodbcore.biodbcore_id }}</span><br/>
+                            <span class="biosharing-text bolder">{{ record.biodbcore.name }}</span>
+                        </span>
+
+                        <span class="span5 pull-right">
+                            <a href="/{{ record.biodbcore.biodbcore_id }}" class="btn btn-small">View Record</a>
+                            <a href="mailto:{{ record.user.email }}" class="btn btn-small">Email Requester</a>
+                            <a href="/own/biodbcore/approve/{{ record.id }}"
+                               class="btn btn-small btn-success">Approve Ownership</a>
+                        </span>
+
+                    </div>
+                {% endfor %}
+
+                {% for record in standard_ownerships %}
+                    <div class="well well-small blue-block">
+
+                        <span class="span2">
+                            <span class="biosharing-text"><span class="bolder">Request by</span> <a
+                                    href="/profile/{{ record.user.username }}">{{ record.user.username }}</a></span><br/>
+
+                        </span>
+
+                        <span class="span5">
+                            <span class="biosharing-text">{{ record.standard.biosharing_id }}</span><br/>
+                            <span class="biosharing-text bolder">{{ record.standard.name }}</span>
+                        </span>
+
+                        <span class="span5 pull-right">
+                            <a href="/{{ record.standard.biosharing_id }}" class="btn btn-small">View Record</a>
+                            <a href="mailto:{{ record.user.email }}" class="btn btn-small">Email Requester</a>
+                            <a href="/own/standard/approve/{{ record.id }}"
+                               class="btn btn-small btn-success">Approve Ownership</a>
+                        </span>
+
+                    </div>
+                {% endfor %}
+
+                {% for record in policy_ownerships %}
+                    <div class="well well-small blue-block">
+
+                        <span class="span2">
+                            <span class="biosharing-text"><span class="bolder">Request by</span> <a
+                                    href="/profile/{{ record.user.username }}">{{ record.user.username }}</a></span><br/>
+                        </span>
+
+                        <span class="span5">
+                            <span class="biosharing-text">{{ record.policy.policyName }}</span><br/>
+                            <span class="biosharing-text bolder">{{ record.policy.homepage }}</span>
+                        </span>
+
+                        <span class="span5 pull-right">
+                            <a href="/policy/{{ record.policy.id }}" class="btn btn-small">View Record</a>
+                            <a href="mailto:{{ record.user.email }}" class="btn btn-small">Email Requester</a>
+                            <a href="/own/policy/approve/{{ record.id }}" class="btn btn-small btn-success">Approve
+                                Ownership</a>
+                        </span>
+
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <div class="clearfix"></div>
+    <div>
+        {% if standards|length != 0 %}
+
+            <div class="section-header margin10Top"><span
+                    class="header-text bolder publicationsIcon">{% if loggedInUser %} Your {% else %} My {% endif %} Standards</span>
+            </div>
+
+            <div class="clearfix"></div>
+
+            {% for record in standards %}
+                <div class="well well-small standard-block">
+
+                <span class="span8">
+                    <span class="biosharing-text">{{ record.shortname }}</span><br/>
+                    <span class="biosharing-text bolder">{{ record.name }}</span>
+                </span>
+
+                <span class="span2">
+                    {% if not record.approved %}
+                        <span class="label label-warning">Not approved</span>
+                    {% endif %}
+                </span>
+
+                <span class="span2 pull-right">
+                        <a href="/{{ record.biosharing_id }}" class="btn btn-small"><i class="icon-eye-open"></i> View
+                            Record</a>
+                </span>
+
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div>
+        {% if biodbcore|length != 0 %}
+            <div class="section-header margin10Top"><span
+                    class="header-text bolder systemsIcon">{% if loggedInUser %} Your {% else %} My {% endif %}Databases</span>
+            </div>
+
+            <div class="clearfix"></div>
+
+            {% for record in biodbcore %}
+                <div class="well well-small standard-block">
+
+                <span class="span8">
+                    <span class="biosharing-text">{{ record.name }}</span><br/>
+                    <span class="biosharing-text bolder">{{ record.description|shorten }}</span>
+                </span>
+
+                     <span class="span2">
+                    {% if not record.approved %}
+                        <span class="label label-warning">Not approved</span>
+                    {% endif %}
+                </span>
+
+                <span class="span2 pull-right">
+                        <a href="/{{ record.biodbcore_id }}" class="btn btn-small"><i class="icon-eye-open"></i> View
+                            Record</a>
+                </span>
+
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div>
+        {% if policies|length != 0 %}
+            <div class="section-header margin10Top"><span
+                    class="header-text bolder systemsIcon">{% if loggedInUser %} Your {% else %} My {% endif %} Policies</span>
+            </div>
+
+            <div class="clearfix"></div>
+
+            {% for record in policies %}
+                <div class="well well-small standard-block">
+
+                <span class="span8">
+                    <span class="biosharing-text">{{ record.policyName }}</span><br/>
+                    <span class="biosharing-text bolder">{{ record.description|shorten }}</span>
+                </span>
+
+                     <span class="span2">
+                    {% if not record.approved %}
+                        <span class="label label-warning">Not approved</span>
+                    {% endif %}
+                </span>
+
+                <span class="span2 pull-right">
+                        <a href="/policy/{{ record.id }}" class="btn btn-small"><i class="icon-eye-open"></i> View
+                            Record</a>
+                </span>
+
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+
+
+
+
+
+{% endblock %}
