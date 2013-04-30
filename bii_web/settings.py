@@ -94,15 +94,14 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'bii.urls'
+ROOT_URLCONF = 'bii_web.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'bii.wsgi.application'
+WSGI_APPLICATION = 'bii_web.wsgi.application'
 
 TEMPLATE_DIRS = (
-    "/bii_web/templates/registration",
-    "/bii_web/templates/",
-    "/bii_web/",
+    "/accounts/templates/",
+    "/bii_web/accounts/templates/",
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -121,11 +120,11 @@ STATICFILES_FINDERS = (
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
 PROJECT_PATH = os.path.normpath(os.path.dirname(os.path.dirname(__file__)))
-STATIC_ROOT = os.path.join(PROJECT_PATH, "bii_web/static/")
+STATIC_ROOT = os.path.join(PROJECT_PATH, "static/")
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
-STATIC_URL = "/bii_web/static/"
+STATIC_URL = "/static/"
 # Additional locations of static files
 STATICFILES_DIRS = (
 #     PROJECT_PATH+"/static/",
@@ -140,11 +139,11 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'registration',
     'django.contrib.humanize',
     'django.contrib.webdesign',
+    'accounts',
+    'registration',
     'bii_web',
-    'bii_web.registration',
     'widget_tweaks',
     'easy_thumbnails',
     # Uncomment the next line to enable the admin:
