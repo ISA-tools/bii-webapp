@@ -12,7 +12,7 @@ EMAIL_HOST_PASSWORD = 'django852456'
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('raiden4589', 'raiden4589@gmail.com'),
 )
 
 MANAGERS = ADMINS
@@ -20,7 +20,8 @@ MANAGERS = ADMINS
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-if os.environ.get('DATABASE_URL') != None:
+#postgres://root:852456@localhost:5432/bii
+if os.environ.get('DATABASE_URL') == None:
 	DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -143,9 +144,11 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'django.contrib.webdesign',
     'bii_web',
+    'bii_web.registration',
     'widget_tweaks',
+    'easy_thumbnails',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
