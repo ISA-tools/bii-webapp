@@ -8,3 +8,8 @@ from django.core.validators import URLValidator
 #     user = models.ForeignKey(User, unique=True)
 #     url = models.URLField("Website", blank=True)
 #     company = models.CharField(max_length=50, blank=True)
+
+# class UserProfile(models.Model):
+#     user = models.ForeignKey(User, unique=True)
+#     website = models.CharField(max_length=30)
+#     company = models.CharField(max_length=128)
