@@ -94,10 +94,10 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'main.urls'
+ROOT_URLCONF = 'app.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'main.wsgi.application'
+WSGI_APPLICATION = 'app.wsgi.application'
 
 TEMPLATE_DIRS = (
     "/accounts/templates/",
@@ -147,6 +147,7 @@ INSTALLED_APPS = (
     'django.contrib.webdesign',
     'accounts',
     'main',
+    'app',
     'registration',
     'widget_tweaks',
     # Uncomment the next line to enable the admin:
