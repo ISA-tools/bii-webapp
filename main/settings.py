@@ -149,7 +149,6 @@ INSTALLED_APPS = (
     'main',
     'registration',
     'widget_tweaks',
-    'easy_thumbnails',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
