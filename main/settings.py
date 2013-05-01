@@ -122,7 +122,7 @@ STATICFILES_FINDERS = (
 PROJECT_PATH = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 # STATIC_ROOT = os.path.join(PROJECT_PATH,"/static/")
-STATIC_ROOT=''
+STATIC_ROOT=PROJECT_PATH+'static'
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
