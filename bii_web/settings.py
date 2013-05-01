@@ -96,12 +96,14 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'bii_web.urls'
 
+PROJECT_PATH = os.path.normpath(os.path.dirname(os.path.dirname(__file__)))
+
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'bii_web.wsgi.application'
 
 TEMPLATE_DIRS = (
-    "/accounts/templates/",
-    "/bii_web/accounts/templates/",
+    PROJECT_PATH+"/accounts/templates/",
+    PROJECT_PATH+"/main/templates/",
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -119,8 +121,8 @@ STATICFILES_FINDERS = (
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-PROJECT_PATH = os.path.normpath(os.path.dirname(os.path.dirname(__file__)))
-STATIC_ROOT = os.path.join(PROJECT_PATH, "static/")
+
+STATIC_ROOT = os.path.join(PROJECT_PATH, "/static/")
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"

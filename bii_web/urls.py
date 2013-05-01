@@ -2,7 +2,6 @@ from django.conf.urls import patterns, include, url
 # from accounts.forms import RegistrationFormWithUniqueEmailAndName
 from django.conf import settings
 from django.contrib import admin
-from bii_web import views
 
 admin.autodiscover()
 
@@ -17,7 +16,7 @@ urlpatterns = patterns('',
 #                          'backend': 'bii_web.registration.backend.CustomBackend'},
 #                          name='registration_register'),
 #   (r'^accounts/', include('registration.urls')),
-  url(r'^$', views.index),
+  url(r'^$', include('main.urls')),
   (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
   #url(r'^accounts/profile', profile),
   url(r'^admin/', include(admin.site.urls)),
