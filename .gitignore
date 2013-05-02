@@ -1,0 +1,6 @@
+
+/.project
+/.pydevproject
+/venv
+/deploy
+*.pyc

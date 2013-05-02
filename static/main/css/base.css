@@ -1,0 +1,70 @@
+@CHARSET "ISO-8859-1";
+
+/*
+ * BODY, Container
+ */
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+h1 {
+    color: #3B5999 !important;
+}
+
+.container {
+    height: 100%;
+    width: 100% !important;
+}
+
+/**
+ *     TOP NAVBAR
+ */
+#searchbar {
+    border-radius: 3px !important;
+}
+
+.btn {
+    background-color: #3B5999 !important;
+    background-image: linear-gradient(#476BB8, #3B5999) !important;
+}
+
+.navbar {
+    height: 40px !important;
+    background-color: #3B5999 !important;
+    background-image: linear-gradient(#476BB8, #3B5999) !important;
+}
+
+.navbar a {
+    color: #ffffff !important;
+}
+
+.navbar li:hover {
+    background-color: #5678BE;
+}
+
+.navbar .caret {
+    border-top-color: #ffffff !important;
+    border-bottom-color: #ffffff !important;
+}
+
+ul #user_profile{
+    text-align: center;
+    min-width: 150px;
+}
+
+/**
+ *     MAIN CONTENT
+ */
+#main-container {
+    margin-top: 80px;
+    text-align: center;
+}
+
+#main-content {
+    display: inline-block;
+    *display: inline;/* IE*/
+    *zoom: 1;/* IE*/
+    overflow: hidden;
+    text-align: left;
+}
