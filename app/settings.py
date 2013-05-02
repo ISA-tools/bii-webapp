@@ -119,7 +119,7 @@ STATICFILES_FINDERS = (
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-PROJECT_PATH = os.path.normpath(os.path.dirname(__file__))
+PROJECT_PATH = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 STATIC_ROOT = os.path.join(PROJECT_PATH,"/static/")
 
@@ -129,7 +129,7 @@ STATIC_ROOT = os.path.join(PROJECT_PATH,"/static/")
 STATIC_URL = "/static/"
 # Additional locations of static files
 STATICFILES_DIRS = (
-#     PROJECT_PATH+"/static/",
+    PROJECT_PATH+"/static/",
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
