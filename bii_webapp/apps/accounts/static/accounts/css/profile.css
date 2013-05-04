@@ -1,0 +1,17 @@
+@CHARSET "ISO-8859-1";
+#id_email + changeattr{
+	color: #5678BE;
+}
+
+#id_email + changeattr:hover{
+	color: #3B5999;
+}
+
+.field{
+	min-width: 300px;
+}
+
+[readonly=readonly]{
+	background-color: white !important;
+}
+

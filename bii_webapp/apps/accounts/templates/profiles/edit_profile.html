@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block title %}BII | Edit Profile{% endblock %}
+
+{% load static from staticfiles %}
+{% block extrahead %}
+<link href="{% static 'accounts/css/profile.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+  <h1>Hi, {{user.username}}</h1>
+  <form method="post" action="" class="wide">
+	{% csrf_token %}
+     <label for="id_username">Username:</label>
+    {{ userform.username|add_class:"field"}}
+    <label for="id_first_name">First Name:</label>
+      {% if userform.first_name.errors %}
+        <p class="errors">{{ userform.first_name.errors.as_text }}</p>
+      {% endif %}
+      {{ userform.first_name|add_class:"field" }}
+    <label for="id_last_name">Last Name:</label>
+      {% if userform.last_name.errors %}
+        <p class="errors">{{ userform.last_name.errors.as_text }}</p>
+      {% endif %}
+      {{ userform.last_name|add_class:"field" }}
+      <label for="id_email">Email address:<a class="changeattr" href="{% url 'email_change' %}">Change email</a></label>
+      {{ userform.email|add_class:"field" }}
+      <label for="id_password">Password:<a class="changeattr" href="{% url 'password_change' %}">Change password</a></label>
+      {{ userform.password|add_class:"field"}}
+      <label for="id_website">Website:</label>
+      {% if profileform.website.errors %}
+        <p class="errors">{{ profileform.website.errors.as_text }}</p>
+      {% endif %}
+      {{ profileform.website|add_class:"field" }}
+      <label for="id_company">Company:</label>
+      {% if profileform.company.errors %}
+        <p class="errors">{{ profileform.company.errors.as_text }}</p>
+      {% endif %}
+      {{ profileform.company|add_class:"field" }}
+    <p class="submit"><input class="btn btn-info" type="submit" value="Save"></p>
+  </form>
+  
+{% endblock %}

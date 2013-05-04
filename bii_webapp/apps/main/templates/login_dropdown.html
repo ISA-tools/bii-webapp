@@ -1,0 +1,18 @@
+<div class="dropdown-menu"
+style="margin-top: 0px; padding: 15px; padding-bottom: 0px;">
+    <form method="post" action="/accounts/login/?next={{ next|default:"/" }}">{% csrf_token %}
+        <input id="id_username" name="username" style="margin-bottom: 15px;"
+        type="text" placeholder="Username"
+        size="30" />
+        <input id="id_password" name="password"
+        style="margin-bottom: 15px;" type="password" placeholder="Password" size="30" />
+        <input
+        id="user_remember_me" style="float: left; margin-right: 10px;"
+        type="checkbox" name="user[remember_me]" value="1" />
+        <label
+        class="string optional" for="user_remember_me"> Remember me</label>
+        <input class="btn btn-primary"
+        style="clear: left; width: 100%; height: 32px; font-size: 13px;"
+        type="submit" name="signin" value="Sign In" />
+    </form>
+</div>
