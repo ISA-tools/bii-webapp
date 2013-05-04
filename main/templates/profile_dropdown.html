@@ -12,6 +12,12 @@
     height: 40px;
     line-height:40px;
 }
+
+#dropdown-profile li:last-child {
+   border-radius:0px 0px 0px 10px;
+    border:2px;
+}
+
 #dropdown-profile li > a {
     text-align:center;
     font-weight: bold;
@@ -37,7 +43,7 @@
 
 <div id="dropdown-profile">
     <ul>
-    <li><a href="/accounts/logout">Account</a></li>
-    <li><a href="/accounts/logout">Sign Out</a></li>
+    <li><a href="{% url 'accounts.views.edit_profile' %}">Account</a></li>
+    <li><a href="{% url 'django.contrib.auth.views.logout' %}">Sign Out</a></li>
     </ul>
 </div>

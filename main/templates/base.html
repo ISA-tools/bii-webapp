@@ -34,7 +34,7 @@
 								placeholder="Search">
 						</form>
 					</li> {% if user.is_authenticated %}
-					<li id="user_profile" class="dropdown"><a class="dropdown-toggle disabled" href="/accounts/profile">{{user.username }}</a>
+					<li id="user_profile" class="dropdown"><a class="dropdown-toggle disabled" href="/accounts/profile/edit">{{user.username }}</a>
 					{% include "profile_dropdown.html" %}
 					</li>
 					{% else %}

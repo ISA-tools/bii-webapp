@@ -1,13 +1,14 @@
 from django.conf.urls import *
 from django.views.generic import TemplateView
-from forms import RegistrationFormWithUniqueEmailAndName
+from registration.forms import RegistrationFormUniqueEmail
 from registration.views import activate
 from registration.views import register
+from accounts.views import edit_profile
 
 urlpatterns = patterns('',
                          url('register/$', 'registration.views.register',
-                         {'form_class': RegistrationFormWithUniqueEmailAndName,
-                         'backend': 'accounts.backend.CustomBackend'},
+                         {'form_class': RegistrationFormUniqueEmail,
+                         'backend': 'registration.backends.default.DefaultBackend'},
                          name='registration_register'),
                        url(r'^activate/complete/$',
                            TemplateView.as_view(template_name='registration/activation_complete.html'),
@@ -27,4 +28,8 @@ urlpatterns = patterns('',
                            TemplateView.as_view(template_name='registration/registration_closed.html'),
                            name='registration_disallowed'),
                        (r'', include('registration.auth_urls')),
+                       
+                       
+                       url(r'^profile/edit/$',edit_profile,
+                          name='edit_profile'),
                        )
