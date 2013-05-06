@@ -18,7 +18,7 @@ DATABASES = {
     }
 }
 
-PROJECT_PATH = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+# PROJECT_PATH = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 # STATIC_ROOT = os.path.join(PROJECT_PATH,os.path.join("apps","static/"))
 
