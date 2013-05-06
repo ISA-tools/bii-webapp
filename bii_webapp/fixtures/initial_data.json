@@ -1,0 +1,34 @@
+[
+  {
+     "model": "sites.Site", 
+     "pk": 1, 
+     "fields": {
+     "domain": "localhost:8000", 
+     "name": "localhost"
+    }
+  },
+   {
+     "model": "sites.Site", 
+     "pk": 2, 
+     "fields": {
+     "domain": "localhost:5000", 
+     "name": "localhost"
+    }
+  },
+  {
+     "model": "sites.Site", 
+     "pk": 3, 
+     "fields": {
+     "domain": "bii-test.herokuapp.com", 
+     "name": "test"
+    }
+  },
+  {
+     "model": "sites.Site", 
+     "pk": 4, 
+     "fields": {
+     "domain": "bii.herokuapp.com", 
+     "name": "heroku"
+    }
+  }
+]
