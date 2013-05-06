@@ -17,13 +17,3 @@ DATABASES = {
         'PORT': '5432',  # Set to empty string for default.
     }
 }
-
-# PROJECT_PATH = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-
-# STATIC_ROOT = os.path.join(PROJECT_PATH,os.path.join("apps","static/"))
-
-STATICFILES_DIRS = (
-#     os.path.join(PROJECT_PATH,"apps/accounts/static/"),
-#     os.path.join(PROJECT_PATH,"apps/main/static/"),
-#     os.path.join(PROJECT_PATH,"apps/static/"),
-)

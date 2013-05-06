@@ -22,6 +22,10 @@ p a{
     color:red;
 }
 
+.errorlist{
+    color:red;
+}
+
 p a:hover{
     color:#3B5999;
 }
@@ -32,4 +36,8 @@ h1{
 
 h1+p{
 	max-width: 400px;
+}
+
+[readonly]{
+	background-color:white!important;
 }
