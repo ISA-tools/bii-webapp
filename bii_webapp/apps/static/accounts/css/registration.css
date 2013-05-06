@@ -29,3 +29,7 @@ p a:hover{
 h1{
     color: #3B5999;
 }
+
+h1+p{
+	max-width: 400px;
+}

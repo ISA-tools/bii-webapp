@@ -56,6 +56,63 @@ ul #user_profile{
 }
 
 /**
+ * 		LOGIN DROPDOWN
+ */
+
+#signin.dropdown:hover div.dropdown-menu {
+    display: block;
+}
+
+#signin a.menu:after, #signin.dropdown-toggle:after {
+    content: none;
+}
+
+/**
+ * 		PROFILE DROPDOWN
+ */
+
+#dropdown-profile {
+    display: none;
+    margin-top:0px;
+    padding: 0px;
+}
+#dropdown-profile ul {
+    list-style-type: none;
+    margin:0px 0px 0px 0px ;
+}
+#dropdown-profile li {
+    height: 40px;
+    line-height:40px;
+}
+
+#dropdown-profile li:last-child {
+   border-radius:0px 0px 0px 10px;
+    border:2px;
+}
+
+#dropdown-profile li > a {
+    text-align:center;
+    font-weight: bold;
+}
+
+#dropdown-profile li > a:hover{
+    color: yellow!important;
+    text-decoration: none;
+}
+
+#dropdown-profile a:hover{
+     background-color: #5678BE;
+} 
+
+#user_profile.dropdown:hover div#dropdown-profile {
+    display: block;
+}
+
+#user_profile a.menu:after, #user_profile.dropdown-toggle:after {
+    content: none;
+}
+
+/**
  *     MAIN CONTENT
  */
 #main-container {
