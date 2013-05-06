@@ -1,1 +1,1 @@
-web: gunicorn bii_webapp.wsgi:application
+web: gunicorn bii_webapp.wsgi:application --bind=0.0.0.0:8000
