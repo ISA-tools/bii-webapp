@@ -16,7 +16,4 @@ DATABASES = {'default': dj_database_url.config(env='DATABASE_URL')}
 
 PROJECT_PATH = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
-FIXTURE_DIRS=(
-              os.path.join(PROJECT_PATH,'fixtures/prod/'),
-              )
-
+SITE_ID=4

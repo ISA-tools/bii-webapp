@@ -105,6 +105,11 @@ STATICFILES_DIRS = (
 #     os.path.join(SITE_ROOT,"apps/static/"),
 )
 
+FIXTURE_DIRS=(
+              os.path.join(STATIC_ROOT,'fixtures/'),
+              )
+
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',

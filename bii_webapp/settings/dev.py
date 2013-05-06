@@ -3,6 +3,8 @@ from common import *
 DEBUG=True
 TEMPLATE_DEBUG = DEBUG
 
+SITE_ID=1
+
 #postgres://root:852456@localhost:5432/bii
 DATABASES = {
     'default': {
@@ -25,8 +27,3 @@ STATICFILES_DIRS = (
 #     os.path.join(PROJECT_PATH,"apps/main/static/"),
 #     os.path.join(PROJECT_PATH,"apps/static/"),
 )
-
-FIXTURE_DIRS=(
-              os.path.join(PROJECT_PATH,'fixtures/dev/'),
-              )
-
