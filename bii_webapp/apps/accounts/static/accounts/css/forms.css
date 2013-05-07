@@ -8,6 +8,10 @@ label{
   color:#69696B;  
 }
 
+[readonly]{
+	background-color:white!important;
+}
+
 p{
     color:#69696B;
     font-size: 16px;
@@ -38,6 +42,3 @@ h1+p{
 	max-width: 400px;
 }
 
-[readonly]{
-	background-color:white!important;
-}

@@ -5,6 +5,12 @@ TEMPLATE_DEBUG = DEBUG
 
 SITE_ID=1
 
+MIDDLEWARE_CLASSES += (
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+)
+
+INTERNAL_IPS = ('127.0.0.1',)
+
 #postgres://root:852456@localhost:5432/bii
 DATABASES = {
     'default': {
@@ -17,3 +23,7 @@ DATABASES = {
         'PORT': '5432',  # Set to empty string for default.
     }
 }
+
+INSTALLED_APPS += (
+    'debug_toolbar',
+)

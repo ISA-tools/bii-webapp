@@ -8,6 +8,10 @@ label{
   color:#69696B;  
 }
 
+[readonly]{
+	background-color:white!important;
+}
+
 p{
     color:#69696B;
     font-size: 16px;
@@ -22,6 +26,10 @@ p a{
     color:red;
 }
 
+.errorlist{
+    color:red;
+}
+
 p a:hover{
     color:#3B5999;
 }
@@ -33,3 +41,4 @@ h1{
 h1+p{
 	max-width: 400px;
 }
+
