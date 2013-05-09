@@ -14,7 +14,7 @@ p{
 }
 
 p a{
-    color:#476BB8;
+    color:#4f4f50;
     font-weight: bold;
 }
 
@@ -23,11 +23,11 @@ p a{
 }
 
 p a:hover{
-    color:#3B5999;
+    color:#3e3e3f;
 }
 
 h1{
-    color: #3B5999;
+    color: #3e3e3f;
 }
 
 h1+p{

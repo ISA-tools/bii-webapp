@@ -121,6 +121,7 @@ INSTALLED_APPS = (
     'bii_webapp',
     'bii_webapp.apps.accounts',
     'bii_webapp.apps.main',
+    'bii_webapp.apps.search',
     'registration',
     'widget_tweaks',
     'email_change',

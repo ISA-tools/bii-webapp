@@ -5,7 +5,11 @@
 }
 
 label{
-  color:#69696B;  
+  color:#3e3e3f !important;  
+}
+
+label a{
+  color:#24aae1 !important;  
 }
 
 [readonly]{
@@ -13,12 +17,12 @@ label{
 }
 
 p{
-    color:#69696B;
+    color:#3e3e3f;
     font-size: 16px;
 }
 
 p a{
-    color:#476BB8;
+    color:#3e3e3f;
     font-weight: bold;
 }
 
@@ -31,11 +35,7 @@ p a{
 }
 
 p a:hover{
-    color:#3B5999;
-}
-
-h1{
-    color: #3B5999;
+    color:#3e3e3f;
 }
 
 h1+p{

@@ -1,10 +1,10 @@
 @CHARSET "ISO-8859-1";
 #id_email + changeattr{
-	color: #5678BE;
+	color: ##3e3e3f;
 }
 
 #id_email + changeattr:hover{
-	color: #3B5999;
+	color: #3e3e3f;
 }
 
 .field{

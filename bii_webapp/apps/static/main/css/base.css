@@ -9,7 +9,7 @@ html, body {
 }
 
 h1 {
-    color: #3B5999 !important;
+    color: #3e3e3f !important;
 }
 
 .container {
@@ -25,14 +25,14 @@ h1 {
 }
 
 .btn {
-    background-color: #3B5999 !important;
-    background-image: linear-gradient(#476BB8, #3B5999) !important;
+    background-color: #3e3e3f !important;
+    background-image: linear-gradient(#4f4f50, #3e3e3f) !important;
 }
 
 .navbar {
     height: 40px !important;
-    background-color: #3B5999 !important;
-    background-image: linear-gradient(#476BB8, #3B5999) !important;
+    background-color: #3e3e3f !important;
+    background-image: linear-gradient(#4f4f50, #3e3e3f) !important;
 }
 
 .navbar a {
@@ -40,7 +40,7 @@ h1 {
 }
 
 .navbar li:hover {
-    background-color: #5678BE;
+    background-color: ##3e3e3f;
 }
 
 .navbar .caret {
@@ -101,7 +101,7 @@ ul #user_profile{
 }
 
 #dropdown-profile a:hover{
-     background-color: #5678BE;
+     background-color: ##3e3e3f;
 } 
 
 #user_profile.dropdown:hover div#dropdown-profile {

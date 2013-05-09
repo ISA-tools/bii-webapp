@@ -10,5 +10,6 @@ urlpatterns = patterns('',
     url(r'^$', include('bii_webapp.apps.main.urls')),
     url(r'^bii_webapp/apps/static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^search/', include('bii_webapp.apps.search.urls')),
 )
 

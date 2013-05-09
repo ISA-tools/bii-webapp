@@ -1,0 +1,14 @@
+.search-query{
+	width:800px !important;
+	border-radius: 5px !important;
+}
+
+.btn{
+	color:white !important;
+}
+
+.form-search img{
+	height: 12px;
+	width:12px;
+	margin-right:5px;
+}

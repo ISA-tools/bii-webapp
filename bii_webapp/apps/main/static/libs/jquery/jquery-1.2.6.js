@@ -849,7 +849,7 @@ jQuery.extend({
 		// Opera sometimes will give the wrong display answer, this fixes it, see #2037
 		if ( jQuery.browser.opera && name == "display" ) {
 			var save = style.outline;
-			style.outline = "0 solid black";
+			style.outline = "0 solid #3e3e3f";
 			style.outline = save;
 		}
 

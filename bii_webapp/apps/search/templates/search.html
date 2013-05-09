@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load static from staticfiles %}
+{% block extrahead %}
+<link href="{% static 'search/css/search.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title %}BII | Search{% endblock %}
+{% block content %}
+
+<h3>Browse the BII</h3>
+  <form class="well form-search">  
+            <input type="text" class="input-medium search-query">  
+            <button type="submit" class="btn"><img src="{% static 'search/img/search.png' %}">Search</button>  
+        </form> 
+{% endblock %}
+
