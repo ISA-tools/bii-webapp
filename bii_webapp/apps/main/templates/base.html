@@ -46,6 +46,12 @@
 				<div id="main-menu">
 						<ul class="nav nav-pills">
 							<li id="search" class="dropdown">
+								<a href="{% url 'bii_webapp.apps.main.views.index' %}" > <img src="{% static 'main/img/home.png' %}"/>
+								<p>
+									Home
+								</p></a>
+							</li>
+							<li id="search" class="dropdown">
 								<a href="{% url 'bii_webapp.apps.search.views.search' %}" > <img src="{% static 'main/img/search.png' %}"/>
 								<p>
 									Browse
