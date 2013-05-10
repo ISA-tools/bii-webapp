@@ -9,7 +9,6 @@ MIDDLEWARE_CLASSES += (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
-INTERNAL_IPS = ('127.0.0.1',)
 
 #postgres://root:852456@localhost:5432/bii
 DATABASES = {
@@ -24,6 +23,3 @@ DATABASES = {
     }
 }
 
-INSTALLED_APPS += (
-    'debug_toolbar',
-)

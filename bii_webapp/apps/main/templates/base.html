@@ -28,14 +28,14 @@
 					<ul class="nav pull-right">
 						{% if user.is_authenticated %}
 						<li id="user_profile" class="dropdown">
-							<a class="dropdown-toggle disabled" href="{% url 'accounts.views.profile_edit' %}">{{user.username }}</a>
-							{% include "profile_dropdown.html" %}
+							<a>{{user.username }}</a>
+							<a href="{% url 'bii_webapp.apps.accounts.views.edit_profile' %}">Profile</a>
+							<a href="{% url 'django.contrib.auth.views.logout' %}">Logout</a>
 						</li>
 						{% else %}
 						<li id="signin" class="dropdown">
 							<a class="dropdown-toggle disabled"
 							href="{% url 'django.contrib.auth.views.login' %}">Login</a>
-							{% include "login_dropdown.html" %}
 						</li>
 						<li>
 							<a href="{% url 'registration.views.register' %}">Register</a>
