@@ -27,6 +27,7 @@
 	</p>
 	<form method="post">
 		{% csrf_token %} <label for="id_email">Email address:</label>
+
 		{% if form.email.errors %}
 		<p class="errors">
 			{{ form.email.errors.as_text }}
@@ -39,7 +40,7 @@
 		</p>
 	</form>
 	<p>
-		&laquo; <a href="{% url 'edit_profile' %}">{% trans "Back to your profile" %}</a>
+		&laquo; <a href="{% url 'profile' %}">{% trans "Back to your profile" %}</a>
 	</p>
 </div>
 {% endblock %}

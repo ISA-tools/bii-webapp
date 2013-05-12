@@ -19,47 +19,48 @@
 	</head>
 	<body>
 		<div class="container">
-			<div class="navbar-fixed-top navbar">
-				<div id="top">
-					<ul class="nav pull-left">
-						<li><img src="{% static 'main/img/logo.png' %}"/>
-						</li>
-					</ul>
-					<ul class="nav pull-right">
-						{% if user.is_authenticated %}
-						<li id="user_profile" class="dropdown">
-							<a>{{user.username }}</a>
-							<a href="{% url 'bii_webapp.apps.accounts.views.edit_profile' %}">Profile</a>
-							<a href="{% url 'django.contrib.auth.views.logout' %}">Logout</a>
-						</li>
-						{% else %}
-						<li id="signin" class="dropdown">
-							<a class="dropdown-toggle disabled"
-							href="{% url 'django.contrib.auth.views.login' %}">Login</a>
-						</li>
-						<li>
-							<a href="{% url 'registration.views.register' %}">Register</a>
-						</li>
-						{% endif %}
-					</ul>
-				</div>
-				<div id="main-menu">
+			<div id="top-container">
+				<div class="navbar">
+					<div id="top">
+						<ul class="nav">
+							<li>
+								<a href="{% url 'bii_webapp.apps.main.views.index' %}"><img src="{% static 'main/img/logo.png' %}"/></a>
+							</li>
+							{% if user.is_authenticated %}
+							<li id="user_profile">
+								<div><img src="{% static 'main/img/profile.png' %}"/>
+								</div>
+								<div>
+									<a>{{user.username }}</a>
+									<a href="{% url 'bii_webapp.apps.accounts.views.profile' %}">Profile</a>
+									<a href="{% url 'django.contrib.auth.views.logout' %}">Logout</a>
+								</div>
+							</li>
+							{% else %}
+							<li id="login">
+								<a href="{% url 'django.contrib.auth.views.login' %}">Login</a>
+								<a href="{% url 'registration.views.register' %}">Register</a>
+							</li>
+							{% endif %}
+						</ul>
+					</div>
+					<div id="main-menu">
 						<ul class="nav nav-pills">
-							<li id="search" class="dropdown">
+							<li>
 								<a href="{% url 'bii_webapp.apps.main.views.index' %}" > <img src="{% static 'main/img/home.png' %}"/>
 								<p>
 									Home
 								</p></a>
 							</li>
-							<li id="search" class="dropdown">
-								<a href="{% url 'bii_webapp.apps.search.views.search' %}" > <img src="{% static 'main/img/search.png' %}"/>
+							<li>
+								<a href="{% url 'bii_webapp.apps.main.views.search' %}" > <img src="{% static 'main/img/search.png' %}"/>
 								<p>
 									Browse
 								</p></a>
 							</li>
 						</ul>
+					</div>
 				</div>
-
 			</div>
 
 			<div id="main-container">
@@ -67,6 +68,10 @@
 					{% block content %}{% endblock %}
 				</div>
 			</div>
+			<div id="footer">
+			<p><img src="{% static 'main/img/footer_logo.png' %}"/><span>Copyright 2013-Present, ISA tools team</span>
+			</p>
+		</div>
 		</div>
 	</body>
 </html>

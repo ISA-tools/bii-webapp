@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect,render,render_to_response
 
 @login_required
-def edit_profile(request):
+def profile(request):
     user = request.user
     profile,created=UserProfile.objects.get_or_create(user=user)
     
@@ -19,7 +19,7 @@ def edit_profile(request):
         profileform=ProfileForm(instance=profile)
         userform=UserForm(instance=user)
         
-        return render(request,'profiles/edit_profile.html',{'profileform':profileform,'userform':userform})
+        return render(request,'profiles/profile.html',{'profileform':profileform,'userform':userform})
     
-    return render(request,'profiles/edit_profile.html',{'profileform':profileform,'userform':userform})
+    return render(request,'profiles/profile.html',{'profileform':profileform,'userform':userform})
     

@@ -3,7 +3,7 @@ from django.views.generic import TemplateView
 from registration.forms import RegistrationFormUniqueEmail
 from registration.views import activate
 from registration.views import register
-from views import edit_profile
+from views import profile
 
 urlpatterns = patterns('',
                          url('register/$', 'registration.views.register',
@@ -47,6 +47,6 @@ urlpatterns = patterns('',
                             TemplateView.as_view(template_name='registration/password_change_form.html'),
                             name='password_change'),
                        
-                       url(r'^profile/edit/$',edit_profile,
-                          name='edit_profile'),
+                       url(r'^profile/$',profile,
+                          name='profile'),
                        )
