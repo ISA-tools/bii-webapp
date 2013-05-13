@@ -4,7 +4,7 @@
      "pk": 1, 
      "fields": {
      "domain": "localhost:8000", 
-     "name": "localhost"
+     "name": "bii-localhost"
     }
   },
   {
@@ -12,7 +12,7 @@
      "pk": 2, 
      "fields": {
      "domain": "192.168.56.1:5000", 
-     "name": "localhost"
+     "name": "bii-localhost"
     }
   },
   {
@@ -20,7 +20,7 @@
      "pk": 3, 
      "fields": {
      "domain": "bii-test.herokuapp.com", 
-     "name": "test"
+     "name": "bii-test"
     }
   },
   {
@@ -28,7 +28,7 @@
      "pk": 4, 
      "fields": {
      "domain": "bii.herokuapp.com", 
-     "name": "heroku"
+     "name": "bii"
     }
   }
 ]
