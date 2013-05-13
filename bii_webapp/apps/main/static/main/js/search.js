@@ -1,3 +1,7 @@
+/**
+ * Sets the size of the vertical investigation title
+ * once it knows how many studies it contains.
+ */
 $(document).ready(function() {
 	$(".investigation").each(function(index) {
 		var size = $(this).find('.study').length;
@@ -12,11 +16,4 @@ $(document).ready(function() {
 			$(this).css("margin-left",34+'px');
 		}
 	});
-	
-//	$(".investigation").each(function(index) {
-//		if(!$(this).parent(.investigation)){
-//			$(this).css("margin-left",35+'px');
-//		}
-//	});
-	
 });
