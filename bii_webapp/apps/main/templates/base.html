@@ -4,17 +4,13 @@
 	<head>
 		<title>{% block title %}BII{% endblock %}</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<!-- Bootstrap -->
-		<link href="{% static 'main/css/base.css' %}" rel="stylesheet">
-		<link href="{% static 'libs/bootstrap/css/bootstrap.css' %}"
-		rel="stylesheet" media="screen">
-		<link href="{% static 'libs/bootstrap/css/bootstrap.css' %}"
-		rel="stylesheet" media="screen">
-		<link
-		href="{% static 'libs/bootstrap/css/bootstrap-responsive.min.css' %}"
-		rel="stylesheet" media="screen">
+		<!-- JQuery -->
 		<script src="{% static 'libs/jquery/jquery-1.9.1.min.js' %}"></script>
+		<!-- Bootstrap -->
+		<link href="{% static 'libs/bootstrap/css/bootstrap.css' %}"
+		rel="stylesheet" media="screen">
 		<script src="{% static 'libs/bootstrap/js/bootstrap.min.js' %}"></script>
+		<link href="{% static 'main/css/base.css' %}" rel="stylesheet">
 		{% block extrahead %}{% endblock %}
 	</head>
 	<body>
@@ -56,6 +52,13 @@
 								<a href="{% url 'bii_webapp.apps.main.views.search' %}" > <img src="{% static 'main/img/search.png' %}"/>
 								<p>
 									Browse
+								</p></a>
+							</li>
+							
+							<li>
+								<a href="{% url 'bii_webapp.apps.main.views.upload' %}" > <img src="{% static 'main/img/upload.png' %}"/>
+								<p>
+									Upload
 								</p></a>
 							</li>
 						</ul>

@@ -6,8 +6,12 @@ def index(request):
     #    todo: we can also load in latest standards added, blog posts, etc
     return render_to_response("index.html", context_instance=RequestContext(request))
 
+@login_required(None, index, None)
 def search(request):
     return render_to_response("search.html", context_instance=RequestContext(request))
+
+def upload(request):
+    return render_to_response("upload.html", context_instance=RequestContext(request))
 #Registration view override
 
 # @login_required(login_url='/accounts/login/')
