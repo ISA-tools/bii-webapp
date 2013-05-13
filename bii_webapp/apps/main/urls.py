@@ -8,9 +8,9 @@ from views import *
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-  url(r'^$', index),
-  url(r'^search/',search,name='search'),
-  url(r'^upload/',upload,name='upload'),
+  url(r'^$', index,name='main.index'),
+  url(r'^search/',search,name='main.search'),
+#   url(r'^upload/',upload,name='upload'),
   # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
   # url('^accounts/profile/', 'main.views.private_profile'),
   # url('^profile/(\w+)', 'main.views.public_profile'),

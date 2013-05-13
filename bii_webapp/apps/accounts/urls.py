@@ -48,5 +48,5 @@ urlpatterns = patterns('',
                             name='password_change'),
                        
                        url(r'^profile/$',profile,
-                          name='profile'),
+                          name='accounts.profile'),
                        )

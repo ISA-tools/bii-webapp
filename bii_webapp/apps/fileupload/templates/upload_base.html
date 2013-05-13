@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+{% load upload_tags %}
+
+{% block extrahead %}
+<!-- Generic page styles -->
+<link rel="stylesheet" href="{% static 'fileupload/css/style.css' %}">
+{% block inner_extrahead %}
+{% endblock %}
+{% endblock %}

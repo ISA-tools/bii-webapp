@@ -1,0 +1,10 @@
+body{
+}
+
+.preview img {
+    max-height: 50px;
+}
+
+#deleteContainer{
+	text-align: center;
+}

@@ -40,28 +40,51 @@
 							{% endif %}
 						</ul>
 					</div>
-					<div id="main-menu">
-						<ul class="nav nav-pills">
-							<li>
-								<a href="{% url 'bii_webapp.apps.main.views.index' %}" > <img src="{% static 'main/img/home.png' %}"/>
-								<p>
-									Home
-								</p></a>
-							</li>
-							<li>
-								<a href="{% url 'bii_webapp.apps.main.views.search' %}" > <img src="{% static 'main/img/search.png' %}"/>
-								<p>
-									Browse
-								</p></a>
-							</li>
-							
-							<li>
-								<a href="{% url 'bii_webapp.apps.main.views.upload' %}" > <img src="{% static 'main/img/upload.png' %}"/>
-								<p>
-									Upload
-								</p></a>
-							</li>
-						</ul>
+					<div id="main-menu-container">
+						<div id="main-menu">
+							<ul class="nav nav-pills">
+								<li>
+									<a href="{% url 'bii_webapp.apps.main.views.index' %}" > <img src="{% static 'main/img/home.png' %}"/>
+									<p>
+										Home
+									</p></a>
+								</li>
+								<li>
+									<a href="{% url 'main.search' %}" > <img src="{% static 'main/img/search.png' %}"/>
+									<p>
+										Browse
+									</p></a>
+								</li>
+
+								<li>
+									<a href="{% url 'fileupload.upload-new' %}" > <img src="{% static 'main/img/upload.png' %}"/>
+									<p>
+										Upload
+									</p></a>
+								</li>
+
+								<li>
+									<a href="" > <img src="{% static 'main/img/files.png' %}"/>
+									<p>
+										Files
+									</p></a>
+								</li>
+
+								<li>
+									<a href="" > <img src="{% static 'main/img/settings.png' %}"/>
+									<p>
+										Settings
+									</p></a>
+								</li>
+
+								<li>
+									<a href="" > <img src="{% static 'main/img/admin.png' %}"/>
+									<p>
+										Admin
+									</p></a>
+								</li>
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -72,9 +95,9 @@
 				</div>
 			</div>
 			<div id="footer">
-			<p><img src="{% static 'main/img/footer_logo.png' %}"/><span>Copyright 2013-Present, ISA tools team</span>
-			</p>
-		</div>
+				<p><img src="{% static 'main/img/footer_logo.png' %}"/><span>Copyright 2013-Present, ISA tools team</span>
+				</p>
+			</div>
 		</div>
 	</body>
 </html>

@@ -20,7 +20,7 @@ h1 {
 	text-align: center;
 }
 
-.btn {
+.btn-info {
 	background-color: #0097d6 !important;
 	background-image: linear-gradient(#24aae1, #0097d6) !important;
 }
@@ -29,8 +29,7 @@ h1 {
  *     TOP NAVBAR
  */
 
-#top-container{
-	height: 195px;
+#top-container {
 }
 
 #searchbar {
@@ -111,52 +110,59 @@ h1 {
 	margin-right: 15px;
 }
 
-#user_profile div:nth-child(2){
+#user_profile div:nth-child(2) {
 	padding-left: 5px !important;
 }
 
-#user_profile div{
+#user_profile div {
 	display: table-cell;
-    vertical-align: middle;
+	vertical-align: middle;
 }
 
-#user_profile div a:first-child{
+#user_profile div a:first-child {
 	display: block;
 }
 
-#user_profile div a:first-child:hover{
-	cursor:default;
-	text-decoration:none;
+#user_profile div a:first-child:hover {
+	cursor: default;
+	text-decoration: none;
 }
 
-#user_profile div a:not(:first-child){
-font-size: 13px !important;
+#user_profile div a:not(:first-child) {
+	font-size: 13px !important;
 }
 
 #user_profile div a:not(:first-child):hover {
 	color: #24aae1 !important;
-	text-decoration:none;
+	text-decoration: none;
 }
 
 /**
  * 	MAIN MENU
  */
+#main-menu-container {
+	background-color: #3e3e3f;
+	height: 100px;
+}
 
 #main-menu {
-	height: 90px;
 	background-color: #3e3e3f;
 	text-align: center;
 	padding: 0px 10px;
+	display: inline-block;
 }
 
 #main-menu ul {
 	margin-top: 10px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 #main-menu li {
 	height: 60px;
 	width: 70px;
-	padding: 5px;
+	margin-left: 10px;
+	padding: 10px;
 	text-align: center;
 	border-radius: 5px;
 }
@@ -173,7 +179,7 @@ font-size: 13px !important;
 	padding: 0px 0px 0px 0px;
 }
 #main-menu p {
-	padding: 5px 0px 0px 0px;
+	padding: 10px 0px 0px 0px;
 	color: white;
 	font-weight: normal;
 	font-size: 16px;
@@ -194,7 +200,7 @@ font-size: 13px !important;
 	text-align: left;
 	overflow: hidden;
 	display: inline-block;
-    *display: inline;/* IE*/
+	*display: inline;/* IE*/
 }
 
 /**

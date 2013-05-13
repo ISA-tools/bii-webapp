@@ -42,12 +42,12 @@ USE_TZ = False
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = SITE_ROOT+"/media/"
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"
-MEDIA_URL = ''
+MEDIA_URL = '/media/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'e#xz__4)2lnojv%3=7c-u7vx#2_ur)0(cmtx5(0zbbr@8gp#_8'
@@ -95,9 +95,9 @@ STATICFILES_FINDERS = (
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
 
-STATIC_URL = "/bii_webapp/apps/static/"
+STATIC_URL = "/bii_webapp/static/"
 
-STATIC_ROOT = SITE_ROOT+"/apps/static/"
+STATIC_ROOT = SITE_ROOT+"/static/"
 
 STATICFILES_DIRS = (
 #     os.path.join(SITE_ROOT,"apps/accounts/static/"),
@@ -121,6 +121,7 @@ INSTALLED_APPS = (
     'bii_webapp',
     'bii_webapp.apps.accounts',
     'bii_webapp.apps.main',
+    'bii_webapp.apps.fileupload',
     'registration',
     'widget_tweaks',
     'email_change',
