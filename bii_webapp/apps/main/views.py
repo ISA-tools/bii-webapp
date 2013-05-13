@@ -6,7 +6,7 @@ def index(request):
     #    todo: we can also load in latest standards added, blog posts, etc
     return render_to_response("index.html", context_instance=RequestContext(request))
 
-@login_required(None, index, None)
+# @login_required(None, index, None)
 def search(request):
     return render_to_response("search.html", context_instance=RequestContext(request))
 
