@@ -8,8 +8,15 @@ label{
   color:#3e3e3f !important;  
 }
 
+#forgot_pass{
+	margin-left: 10px;
+	display: inline;
+	vertical-align: bottom;
+}
+
 label a{
-  color:#24aae1 !important;  
+  color:#24aae1; 
+  font-weight: bold;
 }
 
 [readonly]{
@@ -18,11 +25,10 @@ label a{
 
 p{
     color:#3e3e3f;
-    font-size: 16px;
 }
 
 p a{
-    color:#3e3e3f;
+    color:#0088cc;
     font-weight: bold;
 }
 
@@ -34,11 +40,11 @@ p a{
     color:red;
 }
 
-p a:hover{
-    color:#3e3e3f;
+p a:hover,label a:hover{
+    color:#005580;
 }
 
 h1+p{
-	max-width: 700px;
+	max-width: 600px;
 }
 

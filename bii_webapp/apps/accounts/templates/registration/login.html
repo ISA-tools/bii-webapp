@@ -18,7 +18,8 @@
 <dt><label for="id_password">Password:</label>
 {% if form.password.errors %}<span class="errors">{{ form.password.errors|join:", " }}</span>{% endif %}</dt>
 {{ form.password|add_class:"field" }}
-<dt><input type="submit" class="btn btn-info" value="Login" /></dt>
+<dt><input type="submit" class="btn btn-info" value="Login" />
+    <a id="forgot_pass" href="{% url 'django.contrib.auth.views.password_reset' %}">Forgot password</a></dt>
 </dl>
 </form>
 <p>Need an account, you can <a href="{% url 'registration.views.register' %}">register here</a>
