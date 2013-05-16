@@ -44,8 +44,10 @@
                     </li>
                     {% else %}
                     <li id="login">
-                        <a href="{% url 'django.contrib.auth.views.login' %}">Login</a>
-                        <a href="{% url 'registration.views.register' %}">Register</a>
+                        <div>
+                            <a href="{% url 'django.contrib.auth.views.login' %}">Login</a>
+                            <a href="{% url 'registration.views.register' %}">Register</a>
+                        </div>
                     </li>
                     {% endif %}
                 </ul>
