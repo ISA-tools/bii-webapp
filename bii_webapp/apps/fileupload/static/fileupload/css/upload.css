@@ -1,0 +1,14 @@
+#upload{
+    background-color: rgba(89,89,90,0.4) !important;
+}
+
+body{
+}
+
+.preview img {
+    max-height: 50px;
+}
+
+#deleteContainer{
+	text-align: center;
+}

@@ -1,0 +1,117 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}BII{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- JQuery -->
+    <script src="{% static 'libs/jquery/jquery-1.9.1.min.js' %}"></script>
+    <!-- Bootstrap -->
+    <link href="{% static 'libs/bootstrap/css/bootstrap.css' %}"
+          rel="stylesheet" media="screen">
+    <script src="{% static 'libs/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>
+    <link href="{% static 'browse/css/base.css' %}" rel="stylesheet">
+    {% block extrahead %}{% endblock %}
+</head>
+<body>
+<div class="container">
+    <div id="top-container">
+        <div class="navbar">
+            <div id="top">
+                <ul class="nav">
+                    <li>
+                        <div>
+                            <a href="{% url 'browse.browse' %}"><img src="{% static 'browse/img/logo.png' %}"/></a>
+                        </div>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li id="user_profile">
+                        <div id="profile_img">
+                            <img src="{% static 'browse/img/profile.png' %}"/>
+                        </div>
+                        <div id="profile_dets">
+                            <div><a id="username">{{user.username }}</a></div>
+                            <div>
+                                <a class="profile_dets"
+                                   href="{% url 'bii_webapp.apps.accounts.views.profile' %}">Profile</a>
+                                <a class="profile_dets"
+                                   href="{% url 'django.contrib.auth.views.logout' %}">Logout</a>
+                            </div>
+                        </div>
+                    </li>
+                    {% else %}
+                    <li id="login">
+                        <a href="{% url 'django.contrib.auth.views.login' %}">Login</a>
+                        <a href="{% url 'registration.views.register' %}">Register</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div id="main-menu-container">
+                <div id="main-menu">
+                    <ul class="nav">
+                        <li id="browse">
+                            <a href="{% url 'browse.browse' %}"> <img src="{% static 'browse/img/search.png' %}"/>
+
+                                <p>
+                                    Browse
+                                </p></a>
+                        </li>
+
+                        <li id="upload">
+                            <a href="{% url 'fileupload.upload-new' %}"> <img
+                                    src="{% static 'browse/img/upload.png' %}"/>
+
+                                <p>
+                                    Upload
+                                </p></a>
+                        </li>
+
+                        <li id="files">
+                            <a href=""> <img src="{% static 'browse/img/files.png' %}"/>
+
+                                <p>
+                                    Files
+                                </p></a>
+                        </li>
+
+                        <li id="settings">
+                            <a href=""> <img src="{% static 'browse/img/settings.png' %}"/>
+
+                                <p>
+                                    Settings
+                                </p></a>
+                        </li>
+
+                        <li id="admin">
+                            <a href=""> <img src="{% static 'browse/img/admin.png' %}"/>
+
+                                <p>
+                                    Admin
+                                </p></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="main-container">
+        <div id="main-content">
+            <div id="breadcrumbs">
+                {% for breadcrumb in request.breadcrumbs %}
+                <a href="{{ breadcrumb.url }}">
+                    <h3>{{ breadcrumb.name }}</h3></a>{% if not forloop.last %} &raquo; {% endif %}
+                {% endfor %}
+            </div>
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+    <div id="footer">
+        <p><img src="{% static 'browse/img/footer_logo.png' %}"/><span>Copyright 2013-Present, ISA tools team</span>
+        </p>
+    </div>
+</div>
+</body>
+</html>

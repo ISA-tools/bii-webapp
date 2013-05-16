@@ -14,7 +14,7 @@ def profile(request):
         if profileform.is_valid() and userform.is_valid():
             profileform.save()
             userform.save()
-            return redirect('bii_webapp.apps.main.views.index')
+            return redirect('bii_webapp.apps.browse.views.browse')
     else:
         profileform=ProfileForm(instance=profile)
         userform=UserForm(instance=user)

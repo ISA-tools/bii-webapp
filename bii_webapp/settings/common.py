@@ -65,6 +65,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'breadcrumbs.middleware.BreadcrumbsMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -76,11 +77,19 @@ WSGI_APPLICATION = 'bii_webapp.wsgi.application'
 
 TEMPLATE_DIRS = (
     "/bii_webapp/apps/accounts/templates/",
-    "/bii_webapp/apps/main/templates/",
+    "/bii_webapp/apps/browse/templates/",
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
 )
+
+TEMPLATE_CONTEXT_PROCESSORS= ("django.contrib.auth.context_processors.auth",
+                                 "django.core.context_processors.debug",
+                                 "django.core.context_processors.i18n",
+                                 "django.core.context_processors.media",
+                                 "django.core.context_processors.static",
+                                 "django.contrib.messages.context_processors.messages",
+                                 'django.core.context_processors.request')
 
 # List of finder classes that know how to find static files in
 # various locations.
@@ -120,11 +129,12 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'bii_webapp',
     'bii_webapp.apps.accounts',
-    'bii_webapp.apps.main',
+    'bii_webapp.apps.browse',
     'bii_webapp.apps.fileupload',
     'registration',
     'widget_tweaks',
     'email_change',
+    'breadcrumbs',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
