@@ -1,0 +1,224 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load static from staticfiles %}
+{% block extrahead %}
+<link href="{% static 'browse/css/investigation.css' %}" rel="stylesheet">
+<link href="{% static 'browse/css/browse.css' %}" rel="stylesheet">
+{% endblock %}
+{% block title %}BII | Search{% endblock %}
+{% block content %}
+
+<div id="inv_top_details" class="inv_container">
+    <div id="inv_header">
+        <div id="inv_header_align">
+            <h1>BII-I-1</h1>
+
+            <div>
+                <a href=""><img src="{% static 'browse/img/download.png' %}"/></a>
+                <a href=""><img src="{% static 'browse/img/edit.png' %}"/></a>
+                <a href=""><img src="{% static 'browse/img/delete.png' %}"/></a>
+            </div>
+        </div>
+    </div>
+
+    <div id="inv_details">
+        <p>Study of the impact of changes in flux on the transcriptome, proteome, endometabolome
+            andxexometabolome of the yeast Saccharomyces cerevisiae under different nutrient limitations.
+        </p>
+
+        <p>
+            We wished to study the impact of growth rate on the total complement of mRNA molecules, proteins, and
+            metabolites in
+            S. cerevisiae, independent of any nutritional or other physiological effects. To achieve this, we carried
+            out
+            our analyses on
+            yeast grown in steady-state chemostat culture under four different nutrient limitations (glucose, ammonium,
+            phosphate,
+            and sulfate) at three different dilution (that is, growth) rates (D = u = 0.07, 0.1, and 0.2/hour,
+            equivalent to
+            population
+            doubling times (Td) of 10 hours, 7 hours, and 3.5 hours, respectively; u = specific growth rate defined as
+            grams
+            of biomass
+            generated per gram of biomass present per unit time).
+        </p>
+
+    </div>
+</div>
+
+<div id="inv_publications" class="inv_container">
+    <div class="inv_header">
+        <div class="inv_header_align">
+            <h2>Publications</h2>
+
+            <div>
+                <a href=""><img src="{% static 'browse/img/dropdown.png' %}"/></a>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="pub_title">Growth control of the eukaryote cell: a systems biology study in yeast.</div>
+        <p>Castrillo JI, Zeef LA, Hoyle DC, Zhang N, Hayes A, Gardner DC, Cornell MJ, Petty J,
+            Hakes L, Wardleworth L, Rash B, Brown M, Dunn WB, Broadhurst D, O'Donoghue K, Hester SS,
+            Dunkley TP, Hart SR, Swainston N, Li P, Gaskell SJ, Paton NW, Lilley KS, Kell DB, Oliver SG
+            <br><a href="">BIOINFORMATICS, 2008</a>
+        </p>
+    </div>
+
+</div>
+
+<div id="inv_contacts" class="inv_container">
+    <div class="inv_header">
+        <div class="inv_header_align">
+            <h2>Contacts</h2>
+
+            <div>
+                <a href=""><img src="{% static 'browse/img/dropdown.png' %}"/></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="inv_contact">
+        Juan I. Castrillo Cambridge University
+    </div>
+    <div class="inv_contact">
+        Leo A. Zeef Cambridge University
+    </div>
+    <div class="inv_contact">
+        Stephen G. Oliver Cambridge University
+    </div>
+</div>
+
+<div class="studies">
+    <div class="study">
+        <div class="study_id">
+            BII-S-1
+        </div>
+        <div class="study_info">
+            <div class="study_char">
+                SACCHROMYCES CEREVISIAE (BAKER'S YEAST)
+            </div>
+            <div class="study_details">
+                <div class="study_title">
+                    Study of the impact of changes in flux on the transcriptome,
+                    proteome, endometabolome and exometabolome of the yeast
+                    Saccharomyces cerevisiae under different nutrient limitations
+                </div>
+                <div class="assays">
+                    <div class="assay">
+                        <div>
+                            45
+                        </div>
+                        <div class="assay_type">
+                            <div>
+                                <img src="{% static 'browse/img/transcription.png' %}"/>
+
+                                <p>
+                                    transcription profiling
+                                </p>
+                            </div>
+                            <div>
+                                <img src="{% static 'browse/img/microarray.png' %}"/>
+
+                                <p>
+                                    dna microarray
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="assay">
+                        <div>
+                            111
+                        </div>
+                        <div class="assay_type">
+                            <div>
+                                <img src="{% static 'browse/img/metabolite.png' %}"/>
+
+                                <p>
+                                    metabolite profiling
+                                </p>
+                            </div>
+                            <div>
+                                <img src="{% static 'browse/img/spectrometry.png' %}"/>
+
+                                <p>
+                                    mass spectrometry
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="assay">
+                        <div>
+                            3
+                        </div>
+                        <div class="assay_type">
+                            <div>
+                                <img src="{% static 'browse/img/protein.png' %}"/>
+
+                                <p>
+                                    protein expression profiling
+                                </p>
+                            </div>
+                            <div>
+                                <img src="{% static 'browse/img/spectrometry.png' %}"/>
+
+                                <p>
+                                    mass spectrometry
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="study">
+        <div class="study_id">
+            BII-S-2
+        </div>
+        <div class="study_info">
+            <div class="study_char">
+                SACCHROMYCES CEREVISIAE (BAKER'S YEAST)
+            </div>
+            <div class="study_details">
+                <div class="study_title">
+                    A time course analysis of transcription response in
+                    yeast treated with rapamycin, a specific inhibitor of
+                    the TORC1 complex: impact on yeast growth
+                </div>
+                <div class="assays">
+                    <div class="assay">
+                        <div>
+                            14
+                        </div>
+                        <div class="assay_type">
+                            <div>
+                                <img src="{% static 'browse/img/transcription.png' %}"/>
+
+                                <p>
+                                    transcription profiling
+                                </p>
+                            </div>
+                            <div>
+                                <img src="{% static 'browse/img/microarray.png' %}"/>
+
+                                <p>
+                                    dna microarray
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
