@@ -4,4 +4,4 @@
 /venv
 /deploy
 *.pyc
-/bii_webapp/apps/static
+/bii_webapp/static
