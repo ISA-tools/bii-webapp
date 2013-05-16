@@ -138,9 +138,9 @@ h1 {
 
 #main-menu {
     background-color: #3e3e3f;
-    height:100px ;
+    height: 100px;
     width: 500px;
-    margin:0 auto;
+    margin: 0 auto;
 }
 
 #main-menu ul {
@@ -149,24 +149,24 @@ h1 {
 }
 
 #main-menu li {
-    height: 60px;
-    width: 70px;
     margin-left: 10px;
-    padding: 10px;
     text-align: center;
-    border-radius: 5px;
 }
 
 #main-menu li:hover {
     cursor: pointer;
 }
 
-#main-menu li:hover {
+#main-menu li>a:hover {
+    background-color: rgb(89, 89, 90) !important;
     background-color: rgba(89, 89, 90, 0.4) !important;
 }
 
 #main-menu a {
-    padding: 0px 0px 0px 0px;
+    padding: 10px;
+    height: 60px;
+    width: 70px;
+    border-radius: 5px;
 }
 
 #main-menu p {
@@ -177,21 +177,56 @@ h1 {
 }
 
 /**
+BREADCRUMB
+**/
+
+#breadcrumb-wrapper{
+    margin-top: 20px;
+    height: 36px;
+    margin-left:40px;
+    margin-right:40px;
+    padding-right: 10px;
+    border-radius: 5px;
+    background-color: #f5f5f5;
+}
+
+#breadcrumb-wrapper .breadcrumb {
+    font-size: 16px;
+    float: left;
+    border-radius: 5px;
+}
+
+#breadcrumb-wrapper div {
+    float: right;
+}
+
+#breadcrumb-wrapper div a{
+    color: #ffffff;
+    line-height: 36px;
+    background-color: #24aae1;
+    padding: 3px 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/**
  *     MAIN CONTENT
  */
+
 #main-container {
-    padding: 40px;
-    margin-left: auto;
-    margin-right: auto;
-    min-height: 1000px;;
+    padding-top: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-bottom: 40px;
+    min-height: 1000px;
 }
 
 #main-content {
-    *zoom: 1; /* IE*/
+    margin:0 auto;
+    float: left;
     text-align: left;
-    overflow: hidden;
-    display: inline-block;
-    *display: inline; /* IE*/
 }
 
 /**
@@ -199,8 +234,7 @@ h1 {
  */
 #footer {
     text-align: center;
-    width: 1044px;
-    margin: 0px 60px 0px 60px;
+    margin: 0px 40px 0px 40px;
 }
 
 #footer p {

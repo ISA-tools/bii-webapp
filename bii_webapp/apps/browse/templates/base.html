@@ -4,12 +4,14 @@
 <head>
     <title>{% block title %}BII{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="{% static 'libs/selectivizr/selectivizr.js' %}"></script>
     <!-- JQuery -->
     <script src="{% static 'libs/jquery/jquery-1.9.1.min.js' %}"></script>
     <!-- Bootstrap -->
     <link href="{% static 'libs/bootstrap/css/bootstrap.css' %}"
           rel="stylesheet" media="screen">
     <script src="{% static 'libs/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'browse/js/base.js' %}"></script>
     <script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>
     <link href="{% static 'browse/css/base.css' %}" rel="stylesheet">
     {% block extrahead %}{% endblock %}
@@ -51,16 +53,17 @@
             <div id="main-menu-container">
                 <div id="main-menu">
                     <ul class="nav">
-                        <li id="browse">
-                            <a href="{% url 'browse.browse' %}"> <img src="{% static 'browse/img/search.png' %}"/>
+                        <li>
+                            <a id="browse" href="{% url 'browse.browse' %}"> <img
+                                    src="{% static 'browse/img/search.png' %}"/>
 
                                 <p>
                                     Browse
                                 </p></a>
                         </li>
 
-                        <li id="upload">
-                            <a href="{% url 'fileupload.upload-new' %}"> <img
+                        <li>
+                            <a id="upload" href="{% url 'fileupload.upload-new' %}"> <img
                                     src="{% static 'browse/img/upload.png' %}"/>
 
                                 <p>
@@ -68,24 +71,24 @@
                                 </p></a>
                         </li>
 
-                        <li id="files">
-                            <a href=""> <img src="{% static 'browse/img/files.png' %}"/>
+                        <li>
+                            <a id="files" href=""> <img src="{% static 'browse/img/files.png' %}"/>
 
                                 <p>
                                     Files
                                 </p></a>
                         </li>
 
-                        <li id="settings">
-                            <a href=""> <img src="{% static 'browse/img/settings.png' %}"/>
+                        <li>
+                            <a id="settings" href=""> <img src="{% static 'browse/img/settings.png' %}"/>
 
                                 <p>
                                     Settings
                                 </p></a>
                         </li>
 
-                        <li id="admin">
-                            <a href=""> <img src="{% static 'browse/img/admin.png' %}"/>
+                        <li>
+                            <a id="admin" href=""> <img src="{% static 'browse/img/admin.png' %}"/>
 
                                 <p>
                                     Admin
@@ -97,14 +100,17 @@
         </div>
     </div>
 
+    <div id="breadcrumb-wrapper">
+        <ul class="breadcrumb">
+            {% for breadcrumb in request.breadcrumbs %}
+            <li><a href="{{ breadcrumb.url }}">{{ breadcrumb.name }}</a> <span class="divider">/</span></li>
+            {% endfor %}
+        </ul>
+        <div><a href="">i</a></div>
+    </div>
+
     <div id="main-container">
         <div id="main-content">
-            <div id="breadcrumbs">
-                {% for breadcrumb in request.breadcrumbs %}
-                <a href="{{ breadcrumb.url }}">
-                    <h3>{{ breadcrumb.name }}</h3></a>{% if not forloop.last %} &raquo; {% endif %}
-                {% endfor %}
-            </div>
             {% block content %}{% endblock %}
         </div>
     </div>

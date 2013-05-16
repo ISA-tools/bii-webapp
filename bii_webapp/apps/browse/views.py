@@ -8,7 +8,7 @@ def browse(request):
     return render_to_response("browse.html", context_instance=RequestContext(request))
 
 def investigation(request):
-    request.breadcrumbs('Investigation',  request.path)
+    request.breadcrumbs([('Browse the BII','/browse/'),('Investigation',  request.path)])
     return render_to_response("investigation.html", context_instance=RequestContext(request))
 
 #Registration view override

@@ -1,0 +1,114 @@
+.inv_container{
+    margin-bottom: 40px;
+}
+
+/**
+HEADER
+**/
+#inv_header{
+    width: 100%;
+    height: 100px;
+    background-color: #24aae1;
+    border-radius: 5px;
+}
+
+#inv_header #inv_header_align{
+    padding:0px 20px;
+    line-height: 100px;
+    height: 50px;
+}
+
+#inv_header_align h1{
+    font-size: 50px;
+    margin: 0px;
+    line-height: 100px;
+    color: white !important;
+    float: left;
+}
+
+#inv_header_align div{
+    float: right;
+}
+
+/**
+DETAILS
+**/
+
+#inv_details p:first-child{
+    font-size: 16px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+#inv_details p:last-child{
+    font-size: 14px;
+}
+
+/**
+INVESTIGATION HEADERS
+**/
+
+.inv_header {
+    background-color: #6e6e70;
+    height: 60px;
+    border-radius: 5px;
+}
+
+.inv_header > div:first-child{
+    height: 30px;
+    padding: 0px 20px;
+    line-height: 60px;
+}
+
+.inv_header_align h2{
+    line-height: 60px;
+    color: #ffffff;
+    float: left;
+    margin: 0px;
+    font-size: 30px;
+}
+
+.inv_header_align div{
+    float: right;
+}
+
+/**
+PUBLICATIONS
+**/
+#inv_publications .pub_title{
+    margin: 10px 0px;
+    padding: 0px 10px;
+    border-radius: 5px;
+    background-color:#f3f3f4 ;
+    height: 30px;
+    font-weight: bold;
+    line-height: 30px;
+}
+
+/**
+CONTACTS
+**/
+
+.inv_contact{
+    margin-top: 10px;
+    margin-right: 10px;
+    padding: 5px;
+    background-color:#f3f3f4 ;
+    float: left;
+    width: 150px;
+    word-wrap: break-word;
+    border-radius: 5px;
+}
+
+/**
+STUDIES
+**/
+
+.studies {
+    margin-top: 40px;
+    width: 100% !important;
+}
+.study_info {
+    width: 1004px!important;
+}
