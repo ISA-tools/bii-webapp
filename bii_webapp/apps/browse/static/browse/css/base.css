@@ -74,21 +74,14 @@ h1 {
     float: right !important;
 }
 
-#login a {
-    padding-top: 0px;
-    padding-bottom: 0px;
-    padding-left: 2px;
-    padding-right: 2px;
-    float: left;
+.divider{
+    border-left: 2px solid;
+    margin-right:0px;
+    margin-left: 5px;
 }
 
 #login a:hover {
     color: #24aae1 !important;
-}
-
-#login a:first-child {
-    border-right: 2px #3e3e3f solid;
-    padding-right: 6px;
 }
 
 /**

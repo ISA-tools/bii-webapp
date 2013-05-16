@@ -37,6 +37,7 @@
                             <div>
                                 <a class="profile_dets"
                                    href="{% url 'bii_webapp.apps.accounts.views.profile' %}">Profile</a>
+                                <span class="divider">&nbsp;</span>
                                 <a class="profile_dets"
                                    href="{% url 'django.contrib.auth.views.logout' %}">Logout</a>
                             </div>
@@ -46,6 +47,7 @@
                     <li id="login">
                         <div>
                             <a href="{% url 'django.contrib.auth.views.login' %}">Login</a>
+                            <span class="divider">&nbsp;</span>
                             <a href="{% url 'registration.views.register' %}">Register</a>
                         </div>
                     </li>
