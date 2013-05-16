@@ -6,3 +6,4 @@ django-registration==0.8
 django-email-change==0.2.2
 pil==1.1.7
 pillow==2.0.0
+django-breadcrumbs==1.1.3
