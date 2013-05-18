@@ -1,0 +1,7 @@
+
+/.project
+/.pydevproject
+/venv
+/deploy
+*.pyc
+/bii_webapp/static
