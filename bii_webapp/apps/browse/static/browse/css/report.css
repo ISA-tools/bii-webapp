@@ -201,6 +201,7 @@ STUDIES
     border-left: 10px solid #6e6e70;
     margin: 10px 0px;
     width: 467px;
+    overflow: hidden;
 }
 
 .assay_column_title div{
