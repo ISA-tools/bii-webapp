@@ -24,13 +24,25 @@
                 <ul class="nav">
                     <li>
                         <div>
-                            <a href="{% url 'browse.browse' %}"><img src="{% static 'browse/img/logo.png' %}"/></a>
+                            <a href="{% url 'browse.browse' %}"><img src="{% static 'browse/img/logo.png' %}" width="74" height="35"/></a>
                         </div>
                     </li>
+
+                    <li>
+                        <div id="searchbar">
+                            <form class="well form-search">
+                                <input type="text" placeholder="Search the BII" class="input-medium search-query">
+                                <button type="submit" class="btn btn-info"><img
+                                        src="{% static 'browse/img/search_icon.png' %}">Search
+                                </button>
+                            </form>
+                        </div>
+                    </li>
+
                     {% if user.is_authenticated %}
                     <li id="user_profile">
                         <div id="profile_img">
-                            <img src="{% static 'browse/img/profile.png' %}"/>
+                            <img src="{% static 'browse/img/profile.png' %}" width="30" height="30"/>
                         </div>
                         <div id="profile_dets">
                             <div><a id="username">{{user.username }}</a></div>
@@ -52,6 +64,7 @@
                         </div>
                     </li>
                     {% endif %}
+
                 </ul>
             </div>
             <div id="main-menu-container">

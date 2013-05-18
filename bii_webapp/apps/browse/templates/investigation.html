@@ -2,15 +2,15 @@
 {% load widget_tweaks %}
 {% load static from staticfiles %}
 {% block extrahead %}
-<link href="{% static 'browse/css/investigation.css' %}" rel="stylesheet">
+<link href="{% static 'browse/css/report.css' %}" rel="stylesheet">
 <link href="{% static 'browse/css/browse.css' %}" rel="stylesheet">
 {% endblock %}
 {% block title %}BII | Investigation{% endblock %}
 {% block content %}
 
-<div id="inv_top_details" class="inv_container">
-    <div id="inv_header">
-        <div id="inv_header_align">
+<div id="rep_top_details" class="rep_container">
+    <div id="rep_header">
+        <div id="rep_header_align">
             <h1>BII-I-1</h1>
 
             <div>
@@ -21,7 +21,7 @@
         </div>
     </div>
 
-    <div id="inv_details">
+    <div id="rep_details">
         <p>Study of the impact of changes in flux on the transcriptome, proteome, endometabolome
             andxexometabolome of the yeast Saccharomyces cerevisiae under different nutrient limitations.
         </p>
@@ -46,9 +46,9 @@
     </div>
 </div>
 
-<div id="inv_publications" class="inv_container">
-    <div class="inv_header">
-        <div class="inv_header_align">
+<div id="rep_publications" class="rep_container">
+    <div class="rep_header">
+        <div class="rep_header_align">
             <h2>Publications</h2>
 
             <div>
@@ -68,9 +68,9 @@
 
 </div>
 
-<div id="inv_contacts" class="inv_container">
-    <div class="inv_header">
-        <div class="inv_header_align">
+<div id="rep_contacts" class="rep_container">
+    <div class="rep_header">
+        <div class="rep_header_align">
             <h2>Contacts</h2>
 
             <div>
@@ -79,21 +79,21 @@
         </div>
     </div>
 
-    <div class="inv_contact">
-        Juan I. Castrillo Cambridge University
+    <div class="rep_contact">
+        <span class="rep_contact_name">Juan I. Castrillo</span> Cambridge University
     </div>
-    <div class="inv_contact">
-        Leo A. Zeef Cambridge University
+    <div class="rep_contact">
+        <span class="rep_contact_name">Leo A. Zeef</span> Cambridge University
     </div>
-    <div class="inv_contact">
-        Stephen G. Oliver Cambridge University
+    <div class="rep_contact">
+        <span class="rep_contact_name">Stephen G. Oliver</span> Cambridge University
     </div>
 </div>
 
 <div class="studies">
     <div class="study">
         <div class="study_id">
-            BII-S-1
+            <a href="{% url 'browse.investigation.study' %}">BII-S-1</a>
         </div>
         <div class="study_info">
             <div class="study_char">
@@ -178,7 +178,7 @@
 
     <div class="study">
         <div class="study_id">
-            BII-S-2
+            <a href="{% url 'browse.investigation.study' %}">BII-S-2</a>
         </div>
         <div class="study_info">
             <div class="study_char">

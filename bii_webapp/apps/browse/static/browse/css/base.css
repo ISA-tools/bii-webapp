@@ -9,8 +9,8 @@ html, body {
     background-color: #cccccc !important;
 }
 
-a,p,h1,h2,h3,h4,h5,h6{
-    text-shadow: 0 0 0;
+a, p, h1, h2, h3, h4, h5, h6 {
+    text-shadow: none;
 }
 
 h1 {
@@ -34,7 +34,6 @@ h1 {
  */
 
 #searchbar {
-    border-radius: 3px !important;
 }
 
 .navbar {
@@ -71,6 +70,38 @@ h1 {
 }
 
 /**
+   SEARCH
+**/
+
+#searchbar {
+    text-align: center;
+}
+
+#searchbar .btn{
+    margin: 0px;
+}
+
+#searchbar .search-query {
+    width: 350px;
+    border-radius: 4px;
+}
+
+#searchbar .btn {
+    color: white !important;
+}
+
+#searchbar .form-search {
+    background-color: #ffffff;
+    border: 0px;
+    padding: 0px;
+    margin: 0px;
+}
+
+#searchbar .form-search img {
+    margin-right: 5px;
+}
+
+/**
  * 		LOGIN
  */
 #login {
@@ -79,7 +110,7 @@ h1 {
 
 .dividerVer {
     border-left: 2px solid;
-    margin-right:0px;
+    margin-right: 0px;
     margin-left: 5px;
 }
 
@@ -173,32 +204,29 @@ h1 {
 BREADCRUMB
 **/
 
-#breadcrumb-wrapper{
+#breadcrumb-wrapper {
     margin-top: 20px;
     height: 36px;
-    margin-left:40px;
-    margin-right:40px;
+    margin-left: 40px;
+    margin-right: 40px;
     padding-right: 10px;
-    border-radius: 5px;
     background-color: #f5f5f5;
 }
 
 #breadcrumb-wrapper .breadcrumb {
     font-size: 16px;
     float: left;
-    border-radius: 5px;
 }
 
 #breadcrumb-wrapper div {
     float: right;
 }
 
-#breadcrumb-wrapper div a{
+#breadcrumb-wrapper div a {
     color: #ffffff;
     line-height: 36px;
     background-color: #24aae1;
     padding: 3px 10px;
-    border-radius: 5px;
     text-align: center;
     font-size: 18px;
     font-weight: bold;
@@ -217,7 +245,7 @@ BREADCRUMB
 }
 
 #main-content {
-    margin:0 auto;
+    margin: 0 auto;
     float: left;
     text-align: left;
 }

@@ -11,22 +11,6 @@ h3 {
     text-align: left;
 }
 
-.search-query {
-    width: 920px !important;
-    border-radius: 5px !important;
-}
-.btn {
-    color: white !important;
-}
-
-.form-search {
-    border-radius: 5px;
-}
-
-.form-search img {
-    margin-right: 5px;
-}
-
 /**
  * 	INVESTIGATION
  */
@@ -45,7 +29,6 @@ h3 {
     width: 24px;
     margin-right: 10px;
     background-color: #f2f3f4;
-    border-radius: 5px !important;
     position: relative;
 }
 
@@ -74,6 +57,14 @@ h3 {
     width: 1050px;
 }
 
+.study a{
+     color: #ffffff;
+ }
+
+.study a:hover{
+    color: #005580;
+}
+
 .study {
     margin-bottom: 10px;
     height: 120px;
@@ -89,7 +80,6 @@ h3 {
     font-size: 16px;
     text-align: center;
     line-height: 120px;
-    border-radius: 5px;
 }
 
 .study_info {
@@ -100,7 +90,6 @@ h3 {
 }
 
 .study_char {
-    border-radius: 5px;
     width: 100%;
     background-color: #f2f3f4;
     padding-left: 10px;
@@ -146,7 +135,6 @@ h3 {
     text-align: center;
     padding: 0px 2px;
     width: 20px;
-    border-radius: 5px 5px 0px 0px;
 }
 
 .assay_type {
@@ -154,7 +142,6 @@ h3 {
     width: 140px;
     height: 70px;
     text-align: center;
-    border-radius: 5px;
 }
 
 .assay_type div {

@@ -8,12 +8,6 @@
 {% block title %}BII | Search{% endblock %}
 {% block content %}
 
-<form class="well form-search">
-	<input type="text" placeholder="Search the BII" class="input-medium search-query">
-	<button type="submit" class="btn btn-info"><img src="{% static 'browse/img/search_icon.png' %}">Search
-	</button>
-</form>
-
 <div id="results">
 	<div class="investigation">
 		<div class="inv_id">
@@ -23,7 +17,7 @@
 		<div class="studies">
 			<div class="study">
 				<div class="study_id">
-					BII-S-1
+                    <a href="{% url 'browse.investigation.study' %}">BII-S-1</a>
 				</div>
 				<div class="study_info">
 					<div class="study_char">
@@ -102,7 +96,7 @@
 			
 			<div class="study">
 				<div class="study_id">
-					BII-S-2
+                    <a href="{% url 'browse.investigation.study' %}">BII-S-2</a>
 				</div>
 				<div class="study_info">
 					<div class="study_char">
@@ -144,7 +138,7 @@
 	
 	<div class="study">
 				<div class="study_id">
-					BII-S-3
+                    <a href="{% url 'browse.investigation.study' %}">BII-S-3</a>
 				</div>
 				<div class="study_info">
 					<div class="study_char">
