@@ -15,6 +15,10 @@ def study(request):
     request.breadcrumbs([('Browse the BII','/browse/'),('Investigation',  '/browse/investigation/'),('Study',  request.path)])
     return render_to_response("study.html", context_instance=RequestContext(request))
 
+def assay(request):
+    request.breadcrumbs([('Browse the BII','/browse/'),('Investigation',  '/browse/investigation/'),('Study', '/browse/investigation/study/'),('Assay',  request.path)])
+    return render_to_response("assay.html", context_instance=RequestContext(request))
+
 #Registration view override
 
 # @login_required(login_url='/accounts/login/')
