@@ -29,6 +29,14 @@ h1 {
     background-image: linear-gradient(#24aae1, #0097d6) !important;
 }
 
+.left{
+    float:left !important;
+}
+
+.right{
+    float: right !important;
+}
+
 /**
  *     TOP NAVBAR
  */
@@ -104,9 +112,7 @@ h1 {
 /**
  * 		LOGIN
  */
-#login {
-    float: right !important;
-}
+
 
 .dividerVer {
     border-left: 2px solid;
@@ -124,16 +130,10 @@ h1 {
 
 #user_profile {
     text-align: center;
-    float: right;
-}
-
-#user_profile #profile_img {
-    float: left;
 }
 
 #user_profile #profile_dets {
     line-height: 20px;
-    float: left;
     margin-top: 30px;
     min-width: 120px;
 }
@@ -215,11 +215,6 @@ BREADCRUMB
 
 #breadcrumb-wrapper .breadcrumb {
     font-size: 16px;
-    float: left;
-}
-
-#breadcrumb-wrapper div {
-    float: right;
 }
 
 #breadcrumb-wrapper div a {
@@ -246,7 +241,6 @@ BREADCRUMB
 
 #main-content {
     margin: 0 auto;
-    float: left;
     text-align: left;
 }
 
@@ -265,12 +259,4 @@ BREADCRUMB
     height: 42px;
     font-size: 14px;
     font-weight: bold;
-}
-
-#footer p img {
-    float: left;
-}
-
-#footer p span {
-    float: right;
 }

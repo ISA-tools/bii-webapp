@@ -1,23 +1,40 @@
 .rep_container {
     margin-bottom: 40px;
     overflow: hidden;
+    width: 1084px;
 }
 
 .rep_container p {
     margin: 0px;
 }
 
+.gray_title {
+    margin: 10px 0px;
+    padding: 0px 10px;
+    background-color:#f3f3f4;
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+}
+
 /**
 HEADER
 **/
-#rep_header {
+
+.headerdivider {
+    border-left: 7px white solid;
+    margin-right: 0px;
+    margin-left: 15px;
+}
+
+#rep_header_blue {
     height: 100px;
     background-color: #24aae1;
     padding: 0px 20px;
     line-height: 100px;
 }
 
-#rep_header h1 {
+#rep_header_blue h1 {
     font-size: 50px;
     margin: 0px;
     line-height: 100px;
@@ -25,7 +42,7 @@ HEADER
     float: left;
 }
 
-#rep_header div {
+#rep_header_blue div {
     float: right;
 }
 
@@ -33,7 +50,7 @@ HEADER
 DETAILS
 **/
 
-#rep_details p:first-child {
+#rep_header_details p:first-child {
     font-size: 20px;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -41,12 +58,12 @@ DETAILS
     line-height: 25px;
 }
 
-#rep_details p:last-child {
+#rep_header_details p:last-child {
     font-size: 14px;
 }
 
 /**
-INVESTIGATION HEADERS
+DEEP GRAY HEADERS
 **/
 
 .rep_header {
@@ -74,16 +91,8 @@ INVESTIGATION HEADERS
     float: right;
 }
 
-/**
-PUBLICATIONS
-**/
-#rep_publications .pub_title {
-    margin: 10px 0px;
-    padding: 0px 10px;
-    background-color: #f3f3f4;
-    height: 40px;
-    line-height: 40px;
-    font-size: 20px;
+.rep_header div img{
+    margin-top:-3px;
 }
 
 /**
@@ -104,137 +113,4 @@ CONTACTS
 
 .rep_contact_name {
     font-weight: bold;
-}
-
-/**
-STUDIES
-**/
-
-.studies {
-    width: 100% !important;
-}
-
-.study_info {
-    width: 1004px !important;
-}
-
-/**
-   ASSAYS
-**/
-.assay_title {
-    margin: 10px 0px;
-    padding: 0px 10px;
-    background-color: #f3f3f4;
-    height: 40px;
-    font-size: 18px;
-    line-height: 40px;
-    border-left: 10px solid #24aae1;
-}
-
-.assay_title .title_text {
-    float: left;
-}
-
-.assay_title div {
-    float: right;
-}
-
-.assay_num {
-    margin-left: 20px;
-    background-color: #24aae1;
-    color: #ffffff;
-    border-radius: 18px;
-    padding: 3px;
-}
-
-.assay_title a {
-    background-color: #24aae1;
-    color: #ffffff;
-    font-size: 15px;
-    padding: 3px;
-}
-
-.assay_details_title {
-    padding: 0px 10px;
-    height: 40px;
-    line-height: 40px;
-    margin: 10px 0px;
-}
-
-.assay_details_title>div{
-    float: left;
-}
-
-.assay_details_title span{
-    font-size: 20px;
-    margin-left: 10px;
-}
-
-.assay_details > div:first-child span span {
-    background-color: #f3f3f4;
-    font-size: 15px;
-    padding: 3px;
-    font-weight: bold;
-}
-
-.assay_columns{
-    overflow: hidden;
-    padding: 0px 40px;
-}
-
-.assay_columns > .assay_column:first-child{
-    float: left;
-}
-
-.assay_columns > .assay_column:nth-child(2){
-    float: right;
-    margin-left: 10px;
-}
-
-.assay_column_title{
-    padding: 0px 10px;
-    line-height: 40px;
-    background-color: #f3f3f4;
-    border-left: 10px solid #6e6e70;
-    margin: 10px 0px;
-    width: 467px;
-    overflow: hidden;
-}
-
-.assay_column_title div{
-    float: right;
-}
-
-.assay_column_title>span{
-    float: left;
-}
-
-.assay_row{
-    border-top: 2px solid #f3f3f4;
-    border-left: 2px solid #f3f3f4;
-    border-right: 2px solid #f3f3f4;
-    line-height: 50px;
-    overflow: hidden;
-    width: 473px;
-    padding: 0px 10px;
-}
-
-.assay_row a{
-    float: left;
-}
-
-.assay_row div{
-    float: right;
-}
-
-.assay_row div img{
-   margin-left: 5px;
-}
-
-.assay_row div img:first-child{
-    margin-left: 0px;
-}
-
-.assay_rows .assay_row:last-child{
-    border-bottom: 2px solid #f3f3f4;
 }

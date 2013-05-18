@@ -61,10 +61,6 @@ h3 {
      color: #ffffff;
  }
 
-.study a:hover{
-    color: #005580;
-}
-
 .study {
     margin-bottom: 10px;
     height: 120px;
@@ -127,7 +123,7 @@ h3 {
     float: left;
 }
 
-.assay > div:first-child {
+.assay > a > div:first-child {
     background-color: #24aae1;
     color: white;
     font-size: 12px;
@@ -139,9 +135,9 @@ h3 {
 
 .assay_type {
     background-color: #f2f3f4;
-    width: 140px;
     height: 70px;
     text-align: center;
+    color: black;
 }
 
 .assay_type div {
@@ -152,13 +148,15 @@ h3 {
     margin-top: 12px;
 }
 
-.assay_type div:last-child {
+.assay_type div {
     margin-left: 5px;
 }
 
 .assay_type img {
     margin-bottom: 3px;
     vertical-align: top;
+    height: 20px;
+    width: auto;
 }
 
 .assay_type p {

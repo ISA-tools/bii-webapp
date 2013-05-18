@@ -24,7 +24,8 @@
                 <ul class="nav">
                     <li>
                         <div>
-                            <a href="{% url 'browse.browse' %}"><img src="{% static 'browse/img/logo.png' %}" width="74" height="35"/></a>
+                            <a href="{% url 'browse.browse' %}"><img src="{% static 'browse/img/logo.png' %}" width="74"
+                                                                     height="35"/></a>
                         </div>
                     </li>
 
@@ -40,11 +41,11 @@
                     </li>
 
                     {% if user.is_authenticated %}
-                    <li id="user_profile">
-                        <div id="profile_img">
+                    <li id="user_profile" class="right">
+                        <div class="left">
                             <img src="{% static 'browse/img/profile.png' %}" width="30" height="30"/>
                         </div>
-                        <div id="profile_dets">
+                        <div id="profile_dets" class="left">
                             <div><a id="username">{{user.username }}</a></div>
                             <div>
                                 <a class="profile_dets"
@@ -56,7 +57,7 @@
                         </div>
                     </li>
                     {% else %}
-                    <li id="login">
+                    <li id="login" class="right">
                         <div>
                             <a href="{% url 'django.contrib.auth.views.login' %}">Login</a>
                             <span class="dividerVer">&nbsp;</span>
@@ -118,21 +119,21 @@
     </div>
 
     <div id="breadcrumb-wrapper">
-        <ul class="breadcrumb">
+        <ul class="breadcrumb left">
             {% for breadcrumb in request.breadcrumbs %}
             <li><a href="{{ breadcrumb.url }}">{{ breadcrumb.name }}</a> <span class="divider">/</span></li>
             {% endfor %}
         </ul>
-        <div><a href="">i</a></div>
+        <div class="right"><a href="">i</a></div>
     </div>
 
     <div id="main-container">
-        <div id="main-content">
+        <div id="main-content" class="left">
             {% block content %}{% endblock %}
         </div>
     </div>
     <div id="footer">
-        <p><img src="{% static 'browse/img/footer_logo.png' %}"/><span>Copyright 2013-Present, ISA tools team</span>
+        <p><img class="left" src="{% static 'browse/img/footer_logo.png' %}"/><span class="right">Copyright 2013-Present, ISA tools team</span>
         </p>
     </div>
 </div>

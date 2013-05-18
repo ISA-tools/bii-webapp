@@ -3,13 +3,14 @@
 {% load static from staticfiles %}
 {% block extrahead %}
 <link href="{% static 'browse/css/report.css' %}" rel="stylesheet">
+<link href="{% static 'browse/css/study.css' %}" rel="stylesheet">
 <link href="{% static 'browse/css/browse.css' %}" rel="stylesheet">
 {% endblock %}
 {% block title %}BII | Study{% endblock %}
 {% block content %}
 
 <div id="rep_top_details" class="rep_container">
-    <div id="rep_header">
+    <div id="rep_header_blue">
         <h1>BII-S-1</h1>
 
         <div>
@@ -19,7 +20,7 @@
         </div>
     </div>
 
-    <div id="rep_details">
+    <div id="rep_header_details">
         <p>Study of the impact of changes in flux on the transcriptome, proteome, endometabolome
             andxexometabolome of the yeast Saccharomyces cerevisiae under different nutrient limitations.
         </p>
@@ -96,7 +97,7 @@
     <div class="assay_title">
         <span class="title_text"> TRANSCRIPTION PROFILING USING DNA MICROARRAY <span class="assay_num">48</span></span>
 
-        <div><a href="">DETAILS</a></div>
+        <div><a href="{% url 'browse.investigation.study.assay' %}">DETAILS</a></div>
     </div>
 
     <div class="assay_details">

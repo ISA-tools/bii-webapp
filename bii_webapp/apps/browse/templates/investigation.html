@@ -3,14 +3,16 @@
 {% load static from staticfiles %}
 {% block extrahead %}
 <link href="{% static 'browse/css/report.css' %}" rel="stylesheet">
+<link href="{% static 'browse/css/investigation.css' %}" rel="stylesheet">
 <link href="{% static 'browse/css/browse.css' %}" rel="stylesheet">
 {% endblock %}
 {% block title %}BII | Investigation{% endblock %}
 {% block content %}
 
 <div id="rep_top_details" class="rep_container">
-    <div id="rep_header">
+    <div id="rep_header_blue">
         <h1>BII-I-1</h1>
+
         <div>
             <a href=""><img src="{% static 'browse/img/download.png' %}"/></a>
             <a href=""><img src="{% static 'browse/img/edit.png' %}"/></a>
@@ -18,7 +20,7 @@
         </div>
     </div>
 
-    <div id="rep_details">
+    <div id="rep_header_details">
         <p>Study of the impact of changes in flux on the transcriptome, proteome, endometabolome
             andxexometabolome of the yeast Saccharomyces cerevisiae under different nutrient limitations.
         </p>
@@ -100,69 +102,75 @@
                 </div>
                 <div class="assays">
                     <div class="assay">
-                        <div>
-                            45
-                        </div>
-                        <div class="assay_type">
+                        <a href="{% url 'browse.investigation.study.assay' %}">
                             <div>
-                                <img src="{% static 'browse/img/transcription.png' %}"/>
-
-                                <p>
-                                    transcription profiling
-                                </p>
+                                45
                             </div>
-                            <div>
-                                <img src="{% static 'browse/img/microarray.png' %}"/>
+                            <div class="assay_type">
+                                <div>
+                                    <img src="{% static 'browse/img/transcription.png' %}"/>
 
-                                <p>
-                                    dna microarray
-                                </p>
+                                    <p>
+                                        transcription profiling
+                                    </p>
+                                </div>
+                                <div>
+                                    <img src="{% static 'browse/img/microarray.png' %}"/>
+
+                                    <p>
+                                        dna microarray
+                                    </p>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
 
                     <div class="assay">
-                        <div>
-                            111
-                        </div>
-                        <div class="assay_type">
+                        <a href="{% url 'browse.investigation.study.assay' %}">
                             <div>
-                                <img src="{% static 'browse/img/metabolite.png' %}"/>
-
-                                <p>
-                                    metabolite profiling
-                                </p>
+                                111
                             </div>
-                            <div>
-                                <img src="{% static 'browse/img/spectrometry.png' %}"/>
+                            <div class="assay_type">
+                                <div>
+                                    <img src="{% static 'browse/img/metabolite.png' %}"/>
 
-                                <p>
-                                    mass spectrometry
-                                </p>
+                                    <p>
+                                        metabolite profiling
+                                    </p>
+                                </div>
+                                <div>
+                                    <img src="{% static 'browse/img/spectrometry.png' %}"/>
+
+                                    <p>
+                                        mass spectrometry
+                                    </p>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
 
                     <div class="assay">
-                        <div>
-                            3
-                        </div>
-                        <div class="assay_type">
+                        <a href="{% url 'browse.investigation.study.assay' %}">
                             <div>
-                                <img src="{% static 'browse/img/protein.png' %}"/>
-
-                                <p>
-                                    protein expression profiling
-                                </p>
+                                3
                             </div>
-                            <div>
-                                <img src="{% static 'browse/img/spectrometry.png' %}"/>
+                            <div class="assay_type">
+                                <div>
+                                    <img src="{% static 'browse/img/protein.png' %}"/>
 
-                                <p>
-                                    mass spectrometry
-                                </p>
+                                    <p>
+                                        protein expression profiling
+                                    </p>
+                                </div>
+                                <div>
+                                    <img src="{% static 'browse/img/spectrometry.png' %}"/>
+
+                                    <p>
+                                        mass spectrometry
+                                    </p>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -185,25 +193,27 @@
                 </div>
                 <div class="assays">
                     <div class="assay">
-                        <div>
-                            14
-                        </div>
-                        <div class="assay_type">
+                        <a href="{% url 'browse.investigation.study.assay' %}">
                             <div>
-                                <img src="{% static 'browse/img/transcription.png' %}"/>
-
-                                <p>
-                                    transcription profiling
-                                </p>
+                                14
                             </div>
-                            <div>
-                                <img src="{% static 'browse/img/microarray.png' %}"/>
+                            <div class="assay_type">
+                                <div>
+                                    <img src="{% static 'browse/img/transcription.png' %}"/>
 
-                                <p>
-                                    dna microarray
-                                </p>
+                                    <p>
+                                        transcription profiling
+                                    </p>
+                                </div>
+                                <div>
+                                    <img src="{% static 'browse/img/microarray.png' %}"/>
+
+                                    <p>
+                                        dna microarray
+                                    </p>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
 
                 </div>
