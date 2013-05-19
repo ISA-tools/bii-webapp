@@ -1,14 +1,17 @@
 {% extends "base.html" %}
 {% load widget_tweaks %}
 {% load static from staticfiles %}
-{% block extrahead %}
+{% block extracss %}
 <link href="{% static 'browse/css/report.css' %}" rel="stylesheet">
 <link href="{% static 'browse/css/investigation.css' %}" rel="stylesheet">
 <link href="{% static 'browse/css/browse.css' %}" rel="stylesheet">
 {% endblock %}
+{% block extrascript %}
+<script src="{% static 'browse/js/collapse.js' %}"></script>
+{% endblock %}
+
 {% block title %}BII | Investigation{% endblock %}
 {% block content %}
-
 <div id="rep_top_details" class="rep_container">
     <div id="rep_header_blue">
         <h1>BII-I-1</h1>
@@ -50,12 +53,13 @@
         <h2>Publications</h2>
 
         <div>
-            <a href=""><img src="{% static 'browse/img/dropdown.png' %}"/></a>
+            <a data-target="#collapse_1" data-toggle="collapse" href="#collapse_1" class="dropdown_button"><img
+                    src="{% static 'browse/img/dropdown.png' %}"/></a>
         </div>
     </div>
 
-    <div>
-        <div class="pub_title">Growth control of the eukaryote cell: a systems biology study in yeast.</div>
+    <div id="collapse_1" class="collapse in">
+        <div class="gray_title">Growth control of the eukaryote cell: a systems biology study in yeast.</div>
         <p>Castrillo JI, Zeef LA, Hoyle DC, Zhang N, Hayes A, Gardner DC, Cornell MJ, Petty J,
             Hakes L, Wardleworth L, Rash B, Brown M, Dunn WB, Broadhurst D, O'Donoghue K, Hester SS,
             Dunkley TP, Hart SR, Swainston N, Li P, Gaskell SJ, Paton NW, Lilley KS, Kell DB, Oliver SG
@@ -70,18 +74,21 @@
         <h2>Contacts</h2>
 
         <div>
-            <a href=""><img src="{% static 'browse/img/dropdown.png' %}"/></a>
+            <a data-target="#collapse_2" data-toggle="collapse" href="#collapse_2" class="dropdown_button"><img
+                    src="{% static 'browse/img/dropdown.png' %}"/></a>
         </div>
     </div>
 
-    <div class="rep_contact">
-        <span class="rep_contact_name">Juan I. Castrillo</span> Cambridge University
-    </div>
-    <div class="rep_contact">
-        <span class="rep_contact_name">Leo A. Zeef</span> Cambridge University
-    </div>
-    <div class="rep_contact">
-        <span class="rep_contact_name">Stephen G. Oliver</span> Cambridge University
+    <div id="collapse_2" class="collapse in">
+        <div class="rep_contact">
+            <span class="rep_contact_name">Juan I. Castrillo</span> Cambridge University
+        </div>
+        <div class="rep_contact">
+            <span class="rep_contact_name">Leo A. Zeef</span> Cambridge University
+        </div>
+        <div class="rep_contact">
+            <span class="rep_contact_name">Stephen G. Oliver</span> Cambridge University
+        </div>
     </div>
 </div>
 

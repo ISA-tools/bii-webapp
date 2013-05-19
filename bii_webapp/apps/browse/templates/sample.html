@@ -1,0 +1,318 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load static from staticfiles %}
+{% block extracss %}
+<link href="{% static 'browse/css/report.css' %}" rel="stylesheet">
+<link href="{% static 'browse/css/sample.css' %}" rel="stylesheet">
+<link href="{% static 'browse/css/browse.css' %}" rel="stylesheet">
+{% endblock %}
+{% block extrascript %}
+<script src="{% static 'browse/js/collapse.js' %}"></script>
+{% endblock %}
+{% block title %}BII | Sample{% endblock %}
+{% block content %}
+
+<div id="rep_top_details" class="rep_container">
+    <div id="rep_header_blue">
+        <h1>BII-S-1 <span class="headerdivider">&nbsp;</span> GSM 23123</h1>
+
+        <div>
+            <a href=""><img src="{% static 'browse/img/download.png' %}"/></a>
+            <a href=""><img src="{% static 'browse/img/edit.png' %}"/></a>
+            <a href=""><img src="{% static 'browse/img/delete.png' %}"/></a>
+        </div>
+    </div>
+</div>
+
+<div id="rep_assay_details" class="rep_container">
+    <div class="gray_title50">
+        <div>
+            <div>
+                <img src="{% static 'browse/img/saccharomyces.png' %}">
+                <span>Saccharomyces cerevisiae (Baker's yeast)</span>
+            </div>
+            <div>
+                <a data-target="#collapse_1" data-toggle="collapse" href="#collapse_1" class="dropdown_button"><img src="{% static 'browse/img/dropdown_grey.png' %}"/></a>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="collapse_1" class="collapse in">
+
+        <div id="after_grey_title">STRAIN
+            <a href="">FY1679</a>
+        </div>
+
+        <div id="timeline_factor_value">
+            <div id="timeline">
+                <div>SAMPLE AND ASSAY PROCESSING TIMELINE</div>
+                <div></div>
+            </div>
+            <div id="factor_value">
+                <div id="factor">
+                    <div>Factor</div>
+                    <div>limiting nutrient</div>
+                    <div>rate</div>
+                </div>
+
+                <div id="value">
+                    <div>Value</div>
+                    <div>carbon</div>
+                    <div>0.07 l/hour</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="sassay_types rep_container">
+
+<div class="sassay_type rep_container2">
+
+    <div class="gray_title b_left_blue">
+        <span class="title_text"> TRANSCRIPTION PROFILING <b>USING</b> DNA MICROARRAY</span>
+
+        <div>
+            <a data-target="#collapse_2" data-toggle="collapse" href="#collapse_2" class="dropdown_button">
+                <img src="{% static 'browse/img/dropdown_grey.png' %}"/>
+            </a>
+        </div>
+    </div>
+
+    <div id="collapse_2" class="collapse in">
+
+        <div class="rep_container3">
+
+            <div class="sassay_type_title">PROTOCOLS</div>
+            <div class="protocols rep_container3">
+                <div class="protocol">
+                    <div class="protocol_text">
+                        <div>
+                            <p>mRNA Extraction<br>
+                                <span>extraction</span></p>
+                        </div>
+                        <div>
+                            <img src="{% static 'browse/img/protocol_question.png' %}">
+                        </div>
+                    </div>
+                    <div>
+                        <img src="{% static 'browse/img/protocol_arrow.png' %}">
+                    </div>
+                </div>
+
+                <div class="protocol">
+                    <div class="protocol_text">
+                        <div>
+                            <p>biotin labeling<br>
+                                <span>labeling</span></p>
+                        </div>
+                        <div>
+                            <img src="{% static 'browse/img/protocol_question.png' %}">
+                        </div>
+                    </div>
+                    <div>
+                        <img src="{% static 'browse/img/protocol_arrow.png' %}">
+                    </div>
+                </div>
+
+                <div class="protocol">
+                    <div class="protocol_text">
+                        <div>
+                            <p>hybridization<br>
+                                <span>hybridization</span>
+                            </p>
+                        </div>
+                        <div>
+                            <img src="{% static 'browse/img/protocol_question.png' %}">
+                        </div>
+                    </div>
+                    <div>
+                        <img src="{% static 'browse/img/protocol_arrow.png' %}">
+                    </div>
+                </div>
+
+                <div class="protocol">
+                    <div class="protocol_text">
+                        <div>
+                            <p>scanning<br>
+                                <span>scanning</span></p>
+                        </div>
+                        <div>
+                            <img src="{% static 'browse/img/protocol_question.png' %}">
+                        </div>
+                    </div>
+                    <div>
+                        <img src="{% static 'browse/img/protocol_arrow.png' %}">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="rep_container3">
+            <div class="sassay_type_title">FILES</div>
+
+            <div class="files">
+                <div class="file">
+                    <div><img src="{% static 'browse/img/raw_data.png' %}"/></div>
+                    <div class="data_type">Raw data</div>
+                    <div class="filename">file.raw.cel</div>
+                    <div>
+                        <a href="">
+                            <img src="{% static 'browse/img/download2.png' %}"/>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="file">
+                    <div><img src="{% static 'browse/img/processed_data.png' %}"/></div>
+                    <div class="data_type">Processed data</div>
+                    <div class="filename">file.processed.cel</div>
+                    <div>
+                        <a href="">
+                            <img src="{% static 'browse/img/download2.png' %}"/>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="file">
+                    <div><img src="{% static 'browse/img/analysis_result.png' %}"/></div>
+                    <div class="data_type">Analysis Result</div>
+                    <div class="filename">file.analysis.txt</div>
+                    <div>
+                        <a href="">
+                            <img src="{% static 'browse/img/download2.png' %}"/>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="sassay_type rep_container2 dropdown_parent">
+    <div class="gray_title b_left_orange">
+        <span class="title_text"> METABOLITE PROFILING USING <b>USING</b> MASS SPECTROMETRY</span>
+
+        <div>
+            <a data-target="#collapse_3" data-toggle="collapse" href="#collapse_3" class="dropdown_button">
+                <img src="{% static 'browse/img/dropdown_grey.png' %}"/>
+            </a>
+        </div>
+    </div>
+
+    <div id="collapse_3" class="collapse in">
+        <div class="rep_container3">
+
+            <div class="sassay_type_title">PROTOCOLS</div>
+            <div class="protocols rep_container3">
+                <div class="protocol">
+                    <div class="protocol_text">
+                        <div>
+                            <p>mRNA Extraction<br>
+                                <span>extraction</span></p>
+                        </div>
+                        <div>
+                            <img src="{% static 'browse/img/protocol_question.png' %}">
+                        </div>
+                    </div>
+                    <div>
+                        <img src="{% static 'browse/img/protocol_arrow.png' %}">
+                    </div>
+                </div>
+
+                <div class="protocol">
+                    <div class="protocol_text">
+                        <div>
+                            <p>biotin labeling<br>
+                                <span>labeling</span></p>
+                        </div>
+                        <div>
+                            <img src="{% static 'browse/img/protocol_question.png' %}">
+                        </div>
+                    </div>
+                    <div>
+                        <img src="{% static 'browse/img/protocol_arrow.png' %}">
+                    </div>
+                </div>
+
+                <div class="protocol">
+                    <div class="protocol_text">
+                        <div>
+                            <p>hybridization<br>
+                                <span>hybridization</span>
+                            </p>
+                        </div>
+                        <div>
+                            <img src="{% static 'browse/img/protocol_question.png' %}">
+                        </div>
+                    </div>
+                    <div>
+                        <img src="{% static 'browse/img/protocol_arrow.png' %}">
+                    </div>
+                </div>
+
+                <div class="protocol">
+                    <div class="protocol_text">
+                        <div>
+                            <p>scanning<br>
+                                <span>scanning</span></p>
+                        </div>
+                        <div>
+                            <img src="{% static 'browse/img/protocol_question.png' %}">
+                        </div>
+                    </div>
+                    <div>
+                        <img src="{% static 'browse/img/protocol_arrow.png' %}">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="rep_container3">
+            <div class="sassay_type_title">FILES</div>
+
+            <div class="files">
+                <div class="file">
+                    <div><img src="{% static 'browse/img/raw_data.png' %}"/></div>
+                    <div class="data_type">Raw data</div>
+                    <div class="filename">file.raw.cel</div>
+                    <div>
+                        <a href="">
+                            <img src="{% static 'browse/img/download2.png' %}"/>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="file">
+                    <div><img src="{% static 'browse/img/processed_data.png' %}"/></div>
+                    <div class="data_type">Processed data</div>
+                    <div class="filename">file.processed.cel</div>
+                    <div>
+                        <a href="">
+                            <img src="{% static 'browse/img/download2.png' %}"/>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="file">
+                    <div><img src="{% static 'browse/img/analysis_result.png' %}"/></div>
+                    <div class="data_type">Analysis Result</div>
+                    <div class="filename">file.analysis.txt</div>
+                    <div>
+                        <a href="">
+                            <img src="{% static 'browse/img/download2.png' %}"/>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+
+{% endblock %}
+

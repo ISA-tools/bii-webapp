@@ -1,10 +1,13 @@
 {% extends "base.html" %}
 {% load widget_tweaks %}
 {% load static from staticfiles %}
-{% block extrahead %}
+{% block extracss %}
 <link href="{% static 'browse/css/report.css' %}" rel="stylesheet">
 <link href="{% static 'browse/css/study.css' %}" rel="stylesheet">
 <link href="{% static 'browse/css/browse.css' %}" rel="stylesheet">
+{% endblock %}
+{% block extrascript %}
+<script src="{% static 'browse/js/collapse.js' %}"></script>
 {% endblock %}
 {% block title %}BII | Study{% endblock %}
 {% block content %}
@@ -50,12 +53,13 @@
         <h2>Publications</h2>
 
         <div>
-            <a href=""><img src="{% static 'browse/img/dropdown.png' %}"/></a>
+            <a data-target="#collapse_1" data-toggle="collapse" href="#collapse_1" class="dropdown_button"><img
+                    src="{% static 'browse/img/dropdown.png' %}"/></a>
         </div>
     </div>
 
-    <div>
-        <div class="pub_title">Growth control of the eukaryote cell: a systems biology study in yeast.</div>
+    <div id="collapse_1" class="collapse in">
+        <div class="gray_title">Growth control of the eukaryote cell: a systems biology study in yeast.</div>
         <p>Castrillo JI, Zeef LA, Hoyle DC, Zhang N, Hayes A, Gardner DC, Cornell MJ, Petty J,
             Hakes L, Wardleworth L, Rash B, Brown M, Dunn WB, Broadhurst D, O'Donoghue K, Hester SS,
             Dunkley TP, Hart SR, Swainston N, Li P, Gaskell SJ, Paton NW, Lilley KS, Kell DB, Oliver SG
@@ -70,18 +74,21 @@
         <h2>Contacts</h2>
 
         <div>
-            <a href=""><img src="{% static 'browse/img/dropdown.png' %}"/></a>
+            <a data-target="#collapse_2" data-toggle="collapse" href="#collapse_2" class="dropdown_button"><img
+                    src="{% static 'browse/img/dropdown.png' %}"/></a>
         </div>
     </div>
 
-    <div class="rep_contact">
-        <span class="rep_contact_name">Juan I. Castrillo</span> Cambridge University
-    </div>
-    <div class="rep_contact">
-        <span class="rep_contact_name">Leo A. Zeef</span> Cambridge University
-    </div>
-    <div class="rep_contact">
-        <span class="rep_contact_name">Stephen G. Oliver</span> Cambridge University
+    <div id="collapse_2" class="collapse in">
+        <div class="rep_contact">
+            <span class="rep_contact_name">Juan I. Castrillo</span> Cambridge University
+        </div>
+        <div class="rep_contact">
+            <span class="rep_contact_name">Leo A. Zeef</span> Cambridge University
+        </div>
+        <div class="rep_contact">
+            <span class="rep_contact_name">Stephen G. Oliver</span> Cambridge University
+        </div>
     </div>
 </div>
 
@@ -90,121 +97,127 @@
         <h2>ASSAYS</h2>
 
         <div>
-            <a href=""><img src="{% static 'browse/img/dropdown.png' %}"/></a>
+            <a data-target="#collapse_3" data-toggle="collapse" href="#collapse_3" class="dropdown_button"><img
+                    src="{% static 'browse/img/dropdown.png' %}"/></a>
         </div>
     </div>
 
-    <div class="assay_title">
-        <span class="title_text"> TRANSCRIPTION PROFILING USING DNA MICROARRAY <span class="assay_num">48</span></span>
 
-        <div><a href="{% url 'browse.investigation.study.assay' %}">DETAILS</a></div>
-    </div>
+    <div class="collapse in" id="collapse_3">
+        <div class="assay_title gray_title_lblue">
+            <span class="title_text"> TRANSCRIPTION PROFILING <b>USING</b> DNA MICROARRAY <span
+                    class="assay_num">48</span></span>
 
-    <div class="assay_details">
-        <div class="assay_details_title">
-            <div>
-                <a href=""><img src="{% static 'browse/img/dropdown_grey.png' %}"/></a>
-            </div>
-            <span>Saccharomyces cerevisiae (Baker's yeast) <span><a href="">STRAIN FY1679</a></span> </span>
+            <div><a href="{% url 'browse.investigation.study.assay' %}">DETAILS</a></div>
         </div>
 
-        <div class="assay_columns">
-            <div class="assay_column">
-                <div class="assay_column_title">
-                    <span>Carbon 0.2 l/hour</span>
+        <div class="assay_details">
+            <div class="assay_details_title">
+                <div>
+                    <a data-target="#collapse_4" data-toggle="collapse" href="#collapse_4"
+                       class="dropdown_button">
+                        <img src="{% static 'browse/img/dropdown_grey.png' %}"/>
+                    </a>
+                </div>
+                <span>Saccharomyces cerevisiae (Baker's yeast) <span><a href="">STRAIN FY1679</a></span> </span>
+            </div>
 
-                    <div>
-                        <a href=""><img src="{% static 'browse/img/dropdown_grey.png' %}"/></a>
+            <div id="collapse_4" class="assay_columns collapse in">
+                <div class="assay_column">
+                    <div class="assay_column_title">
+                        <span>Carbon 0.2 l/hour</span>
+
+                        <div>
+                            <a data-target="#collapse_5" data-toggle="collapse" href="#collapse_5"
+                               class="dropdown_button"><img src="{% static 'browse/img/dropdown_grey.png' %}"/></a>
+                        </div>
                     </div>
+
+                    <div class="assay_rows collapse in" id="collapse_5">
+
+                        <div class="assay_row">
+                            <a href="{% url 'browse.investigation.study.sample' %}">GSM 33421</a>
+
+                            <div>
+                                <img src="{% static 'browse/img/raw_data.png' %}"/>
+                                <img src="{% static 'browse/img/processed_data.png' %}"/>
+                                <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
+                            </div>
+                        </div>
+
+                        <div class="assay_row">
+                            <a href="{% url 'browse.investigation.study.sample' %}">GSM 33422</a>
+
+                            <div>
+                                <img src="{% static 'browse/img/raw_data.png' %}"/>
+                                <img src="{% static 'browse/img/processed_data.png' %}"/>
+                                <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
+                            </div>
+                        </div>
+
+                        <div class="assay_row">
+                            <a href="{% url 'browse.investigation.study.sample' %}">GSM 33423</a>
+
+                            <div>
+                                <img src="{% static 'browse/img/raw_data.png' %}"/>
+                                <img src="{% static 'browse/img/processed_data.png' %}"/>
+                                <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
+                            </div>
+                        </div>
+
+                    </div>
+
                 </div>
 
-                <div class="assay_rows">
+                <div class="assay_column">
 
-                    <div class="assay_row">
-                        <a href="">GSM 33421</a>
+                    <div class="assay_column_title">
+                        <span>Sulphur 0.07 l/hour</span>
 
                         <div>
-                            <img src="{% static 'browse/img/glyph1.png' %}"/>
-                            <img src="{% static 'browse/img/glyph2.png' %}"/>
-                            <img src="{% static 'browse/img/glyph3.png' %}"/>
+                            <a data-target="#collapse_6" data-toggle="collapse" href="#collapse_6" class="dropdown_button"><img src="{% static 'browse/img/dropdown_grey.png' %}"/></a>
                         </div>
                     </div>
 
-                    <div class="assay_row">
-                        <a href="">GSM 33422</a>
+                    <div class="assay_rows collapse in" id="collapse_6">
 
-                        <div>
-                            <img src="{% static 'browse/img/glyph1.png' %}"/>
-                            <img src="{% static 'browse/img/glyph2.png' %}"/>
-                            <img src="{% static 'browse/img/glyph3.png' %}"/>
+                        <div class="assay_row">
+                            <a href="{% url 'browse.investigation.study.sample' %}">GSM 33431</a>
+
+                            <div>
+                                <img src="{% static 'browse/img/raw_data.png' %}"/>
+                                <img src="{% static 'browse/img/processed_data.png' %}"/>
+                                <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="assay_row">
-                        <a href="">GSM 33423</a>
+                        <div class="assay_row">
+                            <a href="{% url 'browse.investigation.study.sample' %}">GSM 33432</a>
 
-                        <div>
-                            <img src="{% static 'browse/img/glyph1.png' %}"/>
-                            <img src="{% static 'browse/img/glyph2.png' %}"/>
-                            <img src="{% static 'browse/img/glyph3.png' %}"/>
+                            <div>
+                                <img src="{% static 'browse/img/raw_data.png' %}"/>
+                                <img src="{% static 'browse/img/processed_data.png' %}"/>
+                                <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
+                            </div>
                         </div>
+
+                        <div class="assay_row">
+                            <a href="{% url 'browse.investigation.study.sample' %}">GSM 33433</a>
+
+                            <div>
+                                <img src="{% static 'browse/img/raw_data.png' %}"/>
+                                <img src="{% static 'browse/img/processed_data.png' %}"/>
+                                <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
+                            </div>
+                        </div>
+
                     </div>
 
                 </div>
 
             </div>
-
-            <div class="assay_column">
-
-                <div class="assay_column_title">
-                    <span>Sulphur 0.07 l/hour</span>
-
-                    <div>
-                        <a href=""><img src="{% static 'browse/img/dropdown_grey.png' %}"/></a>
-                    </div>
-                </div>
-
-                <div class="assay_rows">
-
-                    <div class="assay_row">
-                        <a href="">GSM 33431</a>
-
-                        <div>
-                            <img src="{% static 'browse/img/glyph1.png' %}"/>
-                            <img src="{% static 'browse/img/glyph2.png' %}"/>
-                            <img src="{% static 'browse/img/glyph3.png' %}"/>
-                        </div>
-                    </div>
-
-                    <div class="assay_row">
-                        <a href="">GSM 33432</a>
-
-                        <div>
-                            <img src="{% static 'browse/img/glyph1.png' %}"/>
-                            <img src="{% static 'browse/img/glyph2.png' %}"/>
-                            <img src="{% static 'browse/img/glyph3.png' %}"/>
-                        </div>
-                    </div>
-
-                    <div class="assay_row">
-                        <a href="">GSM 33433</a>
-
-                        <div>
-                            <img src="{% static 'browse/img/glyph1.png' %}"/>
-                            <img src="{% static 'browse/img/glyph2.png' %}"/>
-                            <img src="{% static 'browse/img/glyph3.png' %}"/>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-
         </div>
-
     </div>
-
-
 </div>
 
 

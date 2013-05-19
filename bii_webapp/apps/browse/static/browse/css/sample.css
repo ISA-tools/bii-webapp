@@ -1,0 +1,191 @@
+#timeline_factor_value{
+    margin-top: 30px;
+}
+
+#timeline {
+    float: left;
+    width: 669px;
+    background-color: #f3f3f4;
+    padding: 5px 10px;
+    height: 100px;
+}
+
+#timeline > div:first-child {
+    font-size: 16px;
+}
+
+#timeline > div:last-child {
+    background-color: #ffffff;
+    margin-top: 5px;
+    height: 70px;
+}
+
+#factor_value {
+    float: right;
+    width: 388px;
+    margin-left: 7px;
+}
+
+/*headers*/
+#factor_value > div > div:first-child {
+    background-color: #f3f3f4;
+    border-top: 2px solid #d1d2d4;
+    color: #6e6e70;
+}
+
+#factor_value > div > div {
+    border-bottom: 2px solid #d1d2d4;
+    padding: 5px;
+    font-size:16px;
+}
+
+#factor {
+    width: 50%;
+    float: left;
+}
+
+#factor div {
+    border-left: 2px solid #d1d2d4;
+    border-right: 2px solid #d1d2d4;
+}
+
+#value {
+    width: 50%;
+    float: right;
+}
+
+#value div {
+    border-right: 2px solid #d1d2d4;
+}
+
+#value div:not(:first-child) {
+    color: #24aae1;
+}
+
+/**
+SAMPLE ASSAY TYPES
+**/
+
+.sassay_type_title {
+    padding: 5px;
+    border-bottom: 5px solid #f3f3f4;
+    margin-bottom: 10px;
+    font-size:20px;
+}
+
+/**
+PROTOCOLS
+**/
+.protocols{
+    padding: 5px;
+}
+
+.protocol{
+    overflow: hidden;
+    line-height: 50px;
+    height: 50px;
+    width: 263px;
+    float: left;
+
+}
+
+.protocol_text{
+    float: left;
+    background-color: #f3f3f4;
+    width: 216px;
+}
+
+.protocol_text div:first-child{
+    float: left;
+    padding: 5px;
+}
+
+.protocol_text div:first-child p{
+    line-height: 20px;
+    font-weight:bold;
+    font-size:16px;
+}
+
+.protocol_text div:first-child span{
+    color: #24aae1;
+}
+
+.protocol_text > div:last-child{
+    background-color:#24aae1 ;
+    padding: 0px 5px;
+    margin-left: 40px;
+    float: right;
+}
+
+.protocol_text div:last-child img{
+    height: 25px;
+    width: auto;
+}
+
+.protocol >div:last-child{
+    float: left;
+    padding: 0px 15px;
+}
+
+.protocol >div:last-child img{
+    height: 30px;
+    width: auto;
+}
+
+.protocols .protocol:last-child > div:last-child {
+    display: none;
+}
+/**
+FILES
+**/
+
+.files{
+    padding: 5px;
+}
+
+.file{
+    float:left;
+    height: 180px;
+    width: 180px;
+    background-color: #f3f3f4;
+    text-align: center;
+    position: relative;
+}
+
+.files > .file:not(:first-child){
+    margin-left: 10px;
+}
+
+.file div:first-child{
+    display: block;
+    height: 70px;
+    width: 70px;
+    margin:0px auto;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.file .data_type{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.file .filename{
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.file div:last-child{
+    background-color:#24aae1 ;
+    padding: 5px;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    position: absolute;
+    bottom:0px;
+    right: 0px;
+}
+
+.file div:last-child img{
+    margin-top: -2px;
+}

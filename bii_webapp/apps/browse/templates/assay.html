@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load widget_tweaks %}
 {% load static from staticfiles %}
-{% block extrahead %}
+{% block extracss %}
 <link href="{% static 'browse/css/report.css' %}" rel="stylesheet">
 <link href="{% static 'browse/css/assay.css' %}" rel="stylesheet">
 <link href="{% static 'browse/css/study.css' %}" rel="stylesheet">
@@ -14,7 +14,7 @@
     <div id="rep_header_blue">
         <h1>BII-S-1 <span class="headerdivider">&nbsp;</span> Transcription Profiling</h1>
     </div>
-    <div class="gray_title">
+    <div class="gray_title50">
         <div>
             <img src="{% static 'browse/img/transcription.png' %}">
             <span>transcription profiling</span>
@@ -28,19 +28,19 @@
 </div>
 
 <div id="rep_assay_details" class="rep_container">
-<div class="gray_title">
-    <div>
-        <div class="left">
-            <img src="{% static 'browse/img/saccharomyces.png' %}">
-            <span>Saccharomyces cerevisiae (Baker's yeast)</span>
-        </div>
-        <div class="right">
-            <a href=""><img src="{% static 'browse/img/dropdown_grey.png' %}"/></a>
+    <div class="gray_title50">
+        <div>
+            <div>
+                <img src="{% static 'browse/img/saccharomyces.png' %}">
+                <span>Saccharomyces cerevisiae (Baker's yeast)</span>
+            </div>
+            <div>
+                <a href="" class="dropdown_button"><img src="{% static 'browse/img/dropdown_grey.png' %}"/></a>
+            </div>
         </div>
     </div>
+    <div id="after_grey_title">STRAIN <a href="">FY1679</a></div>
 </div>
-
-<div id="after_grey_title">STRAIN <a href="">FY1679</a> </div>
 
 <div class="assay_columns">
     <div class="assay_column">
@@ -48,7 +48,7 @@
             <span>Carbon 0.2 l/hour</span>
 
             <div>
-                <a href=""><img src="{% static 'browse/img/dropdown_grey.png' %}"/></a>
+                <a href="" class="dropdown_button"><img src="{% static 'browse/img/dropdown_grey.png' %}"/></a>
             </div>
         </div>
 
@@ -58,12 +58,12 @@
                 <div>
                     <img src="{% static 'browse/img/checked.png' %}"/>
                 </div>
-                <a href="">GSM 33421</a>
+                <a href="{% url 'browse.investigation.study.sample' %}">GSM 33421</a>
 
                 <div>
-                    <img src="{% static 'browse/img/glyph1.png' %}"/>
-                    <img src="{% static 'browse/img/glyph2.png' %}"/>
-                    <img src="{% static 'browse/img/glyph3.png' %}"/>
+                    <img src="{% static 'browse/img/raw_data.png' %}"/>
+                    <img src="{% static 'browse/img/processed_data.png' %}"/>
+                    <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
                 </div>
             </div>
 
@@ -72,12 +72,12 @@
                     <img src="{% static 'browse/img/unchecked.png' %}"/>
                 </div>
 
-                <a href="">GSM 33422</a>
+                <a href="{% url 'browse.investigation.study.sample' %}">GSM 33422</a>
 
                 <div>
-                    <img src="{% static 'browse/img/glyph1.png' %}"/>
-                    <img src="{% static 'browse/img/glyph2.png' %}"/>
-                    <img src="{% static 'browse/img/glyph3.png' %}"/>
+                    <img src="{% static 'browse/img/raw_data.png' %}"/>
+                    <img src="{% static 'browse/img/processed_data.png' %}"/>
+                    <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
                 </div>
             </div>
 
@@ -85,12 +85,12 @@
                 <div>
                     <img src="{% static 'browse/img/unchecked.png' %}"/>
                 </div>
-                <a href="">GSM 33423</a>
+                <a href="{% url 'browse.investigation.study.sample' %}">GSM 33423</a>
 
                 <div>
-                    <img src="{% static 'browse/img/glyph1.png' %}"/>
-                    <img src="{% static 'browse/img/glyph2.png' %}"/>
-                    <img src="{% static 'browse/img/glyph3.png' %}"/>
+                    <img src="{% static 'browse/img/raw_data.png' %}"/>
+                    <img src="{% static 'browse/img/processed_data.png' %}"/>
+                    <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
                 </div>
             </div>
 
@@ -98,12 +98,12 @@
                 <div>
                     <img src="{% static 'browse/img/unchecked.png' %}"/>
                 </div>
-                <a href="">GSM 33424</a>
+                <a href="{% url 'browse.investigation.study.sample' %}">GSM 33424</a>
 
                 <div>
-                    <img src="{% static 'browse/img/glyph1.png' %}"/>
-                    <img src="{% static 'browse/img/glyph2.png' %}"/>
-                    <img src="{% static 'browse/img/glyph3.png' %}"/>
+                    <img src="{% static 'browse/img/raw_data.png' %}"/>
+                    <img src="{% static 'browse/img/processed_data.png' %}"/>
+                    <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
                 </div>
             </div>
 
@@ -111,12 +111,12 @@
                 <div>
                     <img src="{% static 'browse/img/checked.png' %}"/>
                 </div>
-                <a href="">GSM 33425</a>
+                <a href="{% url 'browse.investigation.study.sample' %}">GSM 33425</a>
 
                 <div>
-                    <img src="{% static 'browse/img/glyph1.png' %}"/>
-                    <img src="{% static 'browse/img/glyph2.png' %}"/>
-                    <img src="{% static 'browse/img/glyph4.png' %}"/>
+                    <img src="{% static 'browse/img/raw_data.png' %}"/>
+                    <img src="{% static 'browse/img/processed_data.png' %}"/>
+                    <img src="{% static 'browse/img/analysis_result.png' %}"/>
                 </div>
             </div>
 
@@ -124,12 +124,12 @@
                 <div>
                     <img src="{% static 'browse/img/checked.png' %}"/>
                 </div>
-                <a href="">GSM 33426</a>
+                <a href="{% url 'browse.investigation.study.sample' %}">GSM 33426</a>
 
                 <div>
-                    <img src="{% static 'browse/img/glyph1.png' %}"/>
-                    <img src="{% static 'browse/img/glyph2.png' %}"/>
-                    <img src="{% static 'browse/img/glyph3.png' %}"/>
+                    <img src="{% static 'browse/img/raw_data.png' %}"/>
+                    <img src="{% static 'browse/img/processed_data.png' %}"/>
+                    <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
                 </div>
             </div>
 
@@ -137,13 +137,13 @@
                 <div>
                     <img src="{% static 'browse/img/checked.png' %}"/>
                 </div>
-                <a href="">GSM
+                <a href="{% url 'browse.investigation.study.sample' %}">GSM
                     33427</a>
 
                 <div>
-                    <img src="{% static 'browse/img/glyph1.png' %}"/>
-                    <img src="{% static 'browse/img/glyph2.png' %}"/>
-                    <img src="{% static 'browse/img/glyph3.png' %}"/>
+                    <img src="{% static 'browse/img/raw_data.png' %}"/>
+                    <img src="{% static 'browse/img/processed_data.png' %}"/>
+                    <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
                 </div>
             </div>
 
@@ -157,7 +157,7 @@
             <span>Sulphur 0.07 l/hour</span>
 
             <div>
-                <a href=""><img src="{% static 'browse/img/dropdown_grey.png' %}"/></a>
+                <a href="" class="dropdown_button"><img src="{% static 'browse/img/dropdown_grey.png' %}"/></a>
             </div>
         </div>
 
@@ -168,12 +168,12 @@
                     <img src="{% static 'browse/img/checked.png' %}"/>
                 </div>
 
-                <a href="">GSM 33431</a>
+                <a href="{% url 'browse.investigation.study.sample' %}">GSM 33431</a>
 
                 <div>
-                    <img src="{% static 'browse/img/glyph1.png' %}"/>
-                    <img src="{% static 'browse/img/glyph2.png' %}"/>
-                    <img src="{% static 'browse/img/glyph3.png' %}"/>
+                    <img src="{% static 'browse/img/raw_data.png' %}"/>
+                    <img src="{% static 'browse/img/processed_data.png' %}"/>
+                    <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
                 </div>
             </div>
 
@@ -182,12 +182,12 @@
                     <img src="{% static 'browse/img/unchecked.png' %}"/>
                 </div>
 
-                <a href="">GSM 33432</a>
+                <a href="{% url 'browse.investigation.study.sample' %}">GSM 33432</a>
 
                 <div>
-                    <img src="{% static 'browse/img/glyph1.png' %}"/>
-                    <img src="{% static 'browse/img/glyph2.png' %}"/>
-                    <img src="{% static 'browse/img/glyph3.png' %}"/>
+                    <img src="{% static 'browse/img/raw_data.png' %}"/>
+                    <img src="{% static 'browse/img/processed_data.png' %}"/>
+                    <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
                 </div>
             </div>
 
@@ -196,12 +196,12 @@
                     <img src="{% static 'browse/img/unchecked.png' %}"/>
                 </div>
 
-                <a href="">GSM 33433</a>
+                <a href="{% url 'browse.investigation.study.sample' %}">GSM 33433</a>
 
                 <div>
-                    <img src="{% static 'browse/img/glyph1.png' %}"/>
-                    <img src="{% static 'browse/img/glyph2.png' %}"/>
-                    <img src="{% static 'browse/img/glyph3.png' %}"/>
+                    <img src="{% static 'browse/img/raw_data.png' %}"/>
+                    <img src="{% static 'browse/img/processed_data.png' %}"/>
+                    <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
                 </div>
             </div>
 
@@ -210,12 +210,12 @@
                     <img src="{% static 'browse/img/unchecked.png' %}"/>
                 </div>
 
-                <a href="">GSM 33434</a>
+                <a href="{% url 'browse.investigation.study.sample' %}">GSM 33434</a>
 
                 <div>
-                    <img src="{% static 'browse/img/glyph1.png' %}"/>
-                    <img src="{% static 'browse/img/glyph2.png' %}"/>
-                    <img src="{% static 'browse/img/glyph3.png' %}"/>
+                    <img src="{% static 'browse/img/raw_data.png' %}"/>
+                    <img src="{% static 'browse/img/processed_data.png' %}"/>
+                    <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
                 </div>
             </div>
 
@@ -224,12 +224,12 @@
                     <img src="{% static 'browse/img/checked.png' %}"/>
                 </div>
 
-                <a href="">GSM 33435</a>
+                <a href="{% url 'browse.investigation.study.sample' %}">GSM 33435</a>
 
                 <div>
-                    <img src="{% static 'browse/img/glyph1.png' %}"/>
-                    <img src="{% static 'browse/img/glyph2.png' %}"/>
-                    <img src="{% static 'browse/img/glyph3.png' %}"/>
+                    <img src="{% static 'browse/img/raw_data.png' %}"/>
+                    <img src="{% static 'browse/img/processed_data.png' %}"/>
+                    <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
                 </div>
             </div>
 

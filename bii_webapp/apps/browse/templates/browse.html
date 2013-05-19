@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 {% load widget_tweaks %}
 {% load static from staticfiles %}
-{% block extrahead %}
+{% block extracss %}
 <link href="{% static 'browse/css/browse.css' %}" rel="stylesheet">
+{% endblock %}
+{% block extrascript %}
 <script src="{% static 'browse/js/browse.js' %}"></script>
 {% endblock %}
 {% block title %}BII | Search{% endblock %}

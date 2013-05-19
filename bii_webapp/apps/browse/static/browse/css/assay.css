@@ -2,31 +2,6 @@
     margin-bottom: 60px;
 }
 
-.gray_title {
-    height: 50px;
-    line-height: 50px;
-    margin: 0px;
-}
-
-.gray_title span {
-    margin: 0px 10px;
-}
-
-.gray_title span a {
-    font-size: 16px;
-}
-
-.gray_title img {
-    height: 35px;
-    width: auto;
-    margin-top: -4px;
-}
-
-#after_grey_title{
-    margin-top: 5px;
-    font-size:16px ;
-}
-
 .assay_columns {
     padding: 0px !important;
     margin-top: 10px;

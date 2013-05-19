@@ -1,23 +1,6 @@
 /**
    ASSAYS
 **/
-.assay_title {
-    margin: 10px 0px;
-    padding: 0px 10px;
-    background-color: #f3f3f4;
-    height: 40px;
-    font-size: 18px;
-    line-height: 40px;
-    border-left: 10px solid #24aae1;
-}
-
-.assay_title .title_text {
-    float: left;
-}
-
-.assay_title div {
-    float: right;
-}
 
 .assay_num {
     margin-left: 20px;

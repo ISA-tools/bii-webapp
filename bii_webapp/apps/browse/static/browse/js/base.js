@@ -10,6 +10,6 @@ $(document).ready(function () {
     if(!rightWidth)
         rightWidth=$('#login').width();
     //logo width plus profile width
-    var widthLeft=1144-(rightWidth+74)
+    var widthLeft=1144-(rightWidth+74)-5;
     $('#searchbar').width(widthLeft);
 });

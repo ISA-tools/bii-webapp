@@ -1,4 +1,5 @@
 {% load static from staticfiles %}
+{% load compress %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,14 +8,20 @@
     <script src="{% static 'libs/selectivizr/selectivizr.js' %}"></script>
     <!-- JQuery -->
     <script src="{% static 'libs/jquery/jquery-1.9.1.min.js' %}"></script>
+    <script src="{% static 'libs/jquery/jQueryRotateCompressed.2.2.js' %}"></script>
+
     <!-- Bootstrap -->
     <link href="{% static 'libs/bootstrap/css/bootstrap.css' %}"
           rel="stylesheet" media="screen">
     <script src="{% static 'libs/bootstrap/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'browse/js/base.js' %}"></script>
-    <script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>
     <link href="{% static 'browse/css/base.css' %}" rel="stylesheet">
-    {% block extrahead %}{% endblock %}
+    {% block extracss %}{% endblock %}
+
+    {% compress js %}
+    <script src="{% static 'browse/js/base.js' %}"></script>
+    {% block extrascript %}{% endblock %}
+    {% endcompress %}
+
 </head>
 <body>
 <div class="container">

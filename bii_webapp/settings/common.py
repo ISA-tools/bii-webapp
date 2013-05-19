@@ -3,15 +3,21 @@ import os, sys
 
 SITE_ID = 1
 
+COMPRESS_ENABLED = False;
+
+COMPRESS_JS_FILTERS = [
+    'compressor.filters.template.TemplateFilter',
+]
+
 ACCOUNT_ACTIVATION_DAYS = 7
-EMAIL_CHANGE_VERIFICATION_DAYS=7
+EMAIL_CHANGE_VERIFICATION_DAYS = 7
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'django4589@gmail.com'
 EMAIL_HOST_PASSWORD = 'django852456'
 
-SITE_ROOT=os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+SITE_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 ADMINS = (
     ('raiden4589', 'raiden4589@gmail.com'),
@@ -42,7 +48,7 @@ USE_TZ = False
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = SITE_ROOT+"/media/"
+MEDIA_ROOT = SITE_ROOT + "/media/"
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -56,7 +62,7 @@ SECRET_KEY = 'e#xz__4)2lnojv%3=7c-u7vx#2_ur)0(cmtx5(0zbbr@8gp#_8'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    #     'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -83,20 +89,21 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 )
 
-TEMPLATE_CONTEXT_PROCESSORS= ("django.contrib.auth.context_processors.auth",
-                                 "django.core.context_processors.debug",
-                                 "django.core.context_processors.i18n",
-                                 "django.core.context_processors.media",
-                                 "django.core.context_processors.static",
-                                 "django.contrib.messages.context_processors.messages",
-                                 'django.core.context_processors.request')
+TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
+                               "django.core.context_processors.debug",
+                               "django.core.context_processors.i18n",
+                               "django.core.context_processors.media",
+                               "django.core.context_processors.static",
+                               "django.contrib.messages.context_processors.messages",
+                               'django.core.context_processors.request')
 
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'compressor.finders.CompressorFinder',
+    #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Absolute path to the directory static files should be collected to.
@@ -106,7 +113,7 @@ STATICFILES_FINDERS = (
 
 STATIC_URL = "/bii_webapp/static/"
 
-STATIC_ROOT = SITE_ROOT+"/static/"
+STATIC_ROOT = SITE_ROOT + "/static/"
 
 STATICFILES_DIRS = (
 #     os.path.join(SITE_ROOT,"apps/accounts/static/"),
@@ -114,8 +121,8 @@ STATICFILES_DIRS = (
 #     os.path.join(SITE_ROOT,"apps/static/"),
 )
 
-FIXTURE_DIRS=(
-              SITE_ROOT+'/fixtures/',
+FIXTURE_DIRS = (
+    SITE_ROOT + '/fixtures/',
 )
 
 INSTALLED_APPS = (
@@ -135,6 +142,7 @@ INSTALLED_APPS = (
     'widget_tweaks',
     'email_change',
     'breadcrumbs',
+    'compressor',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -159,21 +167,21 @@ LOGGING = {
     },
     'filters': {
         'require_debug_false': {
-        '()': 'django.utils.log.RequireDebugFalse'
+            '()': 'django.utils.log.RequireDebugFalse'
         }
     },
     'handlers': {
         'null': {
-            'level':'DEBUG',
-            'class':'django.utils.log.NullHandler',
+            'level': 'DEBUG',
+            'class': 'django.utils.log.NullHandler',
         },
-        'console':{
+        'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'simple'
         },
         # I always add this handler to facilitate separating loggings
-        'log_file':{
+        'log_file': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': os.path.join(SITE_ROOT, 'logs/django.log'),
