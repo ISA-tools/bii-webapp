@@ -11,6 +11,7 @@ $(document).ready(function () {
         $(this).click(function () {
             dropdown(dropdown_container, image);
         });
+        $(this).attr('href', 'javascript:void(0)');
     });
 });
 
