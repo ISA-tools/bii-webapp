@@ -3,7 +3,7 @@
  * when clicked
  */
 $(document).ready(function () {
-    var IE8orless = true;
+    var IE8orless = false;
     if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)) {
         var ieversion = new Number(RegExp.$1);
         IE8orless = ieversion <= 8;
@@ -54,18 +54,10 @@ $(document).ready(function () {
 //})
 
 function dropdown(element, image) {
-    var rotate = true;
-    if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)) {
-        var ieversion = new Number(RegExp.$1);
-        rotate = !(ieversion <= 8);
-    }
-
-    if (rotate) {
-        var angle = image.data('angle');
-        angle = angle > 0 ? 0 : 180;
-        image.rotate(angle);
-        image.data('angle', angle);
-    }
+    var angle = image.data('angle');
+    angle = angle > 0 ? 0 : 180;
+    image.rotate(angle);
+    image.data('angle', angle);
 }
 ;
 
