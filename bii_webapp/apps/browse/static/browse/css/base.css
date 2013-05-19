@@ -41,8 +41,7 @@ h1 {
     float: right !important;
 }
 
-.dropdown_container{
-    margin-top: 20px;
+.collapse{
     overflow: hidden;
 }
 
