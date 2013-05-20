@@ -9,11 +9,11 @@ html, body {
     background-color: #cccccc !important;
 }
 
-a, p,div,span h1, h2, h3, h4, h5, h6 {
+a, p, div, span h1, h2, h3, h4, h5, h6 {
     text-shadow: none;
 }
 
-p,div,span h1, h2, h3, h4, h5, h6 {
+p, div, span h1, h2, h3, h4, h5, h6 {
     color: #6e6e70;
 }
 
@@ -33,15 +33,15 @@ h1 {
     background-image: linear-gradient(#24aae1, #0097d6) !important;
 }
 
-.left{
-    float:left !important;
+.left {
+    float: left !important;
 }
 
-.right{
+.right {
     float: right !important;
 }
 
-.collapse{
+.collapse {
     overflow: hidden;
 }
 
@@ -93,7 +93,7 @@ h1 {
     text-align: center;
 }
 
-#searchbar .btn{
+#searchbar .btn {
     margin: 0px;
 }
 
@@ -120,7 +120,6 @@ h1 {
 /**
  * 		LOGIN
  */
-
 
 .dividerVer {
     border-left: 2px solid;
@@ -172,40 +171,121 @@ h1 {
 #main-menu {
     background-color: #3e3e3f;
     height: 100px;
-    width: 500px;
+    width: 600px;
     margin: 0 auto;
 }
 
-#main-menu ul {
+#main-menu > ul {
     margin-top: 10px;
     margin-right: 0px;
 }
 
-#main-menu li {
+#main-menu >ul>li {
     margin-left: 10px;
     text-align: center;
 }
 
-#main-menu li:hover {
+#main-menu >ul>li:hover {
     cursor: pointer;
 }
 
-#main-menu li>a:hover {
+#main-menu >ul>li>a:hover {
     background-color: rgb(89, 89, 90) !important;
     background-color: rgba(89, 89, 90, 0.4) !important;
 }
 
-#main-menu a {
+#main-menu >ul>li>a {
     padding: 10px;
     height: 60px;
     width: 70px;
     border-radius: 5px;
 }
 
-#main-menu p {
+#main-menu >ul>li>a>p {
     padding: 10px 0px 0px 0px;
     color: white;
     font-size: 18px;
+}
+
+#main-menu >ul>li>a>img {
+    height: 36px;
+    width: auto;
+}
+
+/**
+   BASKET
+**/
+
+#basket-menu {
+    text-align: center;
+    padding: 10px;
+    left: auto;
+    right: -103px;
+    width: 280px;
+    cursor: default;
+}
+
+#basket-menu:after {
+    left: 147px;
+}
+
+#basket-menu >ul {
+    list-style: none;
+    margin: 0px;
+}
+
+#basket-menu >ul>li {
+    padding: 10px;
+}
+
+#basket-menu >ul>li:first-child{
+    font-size: 20px;
+}
+
+#basket-menu >ul>li:first-child span {
+    font-weight: bold;
+    color:#24aae1 ;
+}
+
+#basket-menu .divider {
+    padding: 2px !important;
+    margin: 0px;
+}
+
+#basket-menu li>a {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+#basket-menu li>a>img {
+    height: 12px;
+    margin-top: -4px;
+}
+
+#basket-menu >a{
+    float: right;
+    background-color: #24aae1;
+}
+
+#basket-menu >a:nth-child(2){
+    padding: 8px 5px;
+}
+
+
+#basket-menu >a:last-child{
+    margin-right: 10px;
+}
+
+#basket-menu >a:nth-child(2)>img{
+    width:30px;
+    height: 24px;
+}
+
+#basket-menu >a:last-child>img{
+    width:40px;
+    height: 40px;
 }
 
 /**

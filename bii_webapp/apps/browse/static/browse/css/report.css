@@ -37,6 +37,10 @@
     color:#3e3e3f;
 }
 
+.gray_title .title_text span{
+    font-weight: bold;
+}
+
 .gray_title div {
     float: right;
 }
@@ -97,31 +101,6 @@ GREY TITLE WITH BLUE LEFT BORDER AT START
 
 .b_left_orange{
     border-left: 10px solid orangered;
-}
-
-.gray_title_lblue {
-    margin: 10px 0px;
-    padding: 0px 10px;
-    background-color: #f3f3f4;
-    height: 40px;
-    font-size: 18px;
-    line-height: 40px;
-    color:#3e3e3f;
-}
-
-.gray_title_lblue .title_text {
-    float: left;
-    color:#3e3e3f;
-}
-
-.gray_title_lblue div {
-    float: right;
-}
-
-.gray_title_lblue div img {
-    height: 30px;
-    width: auto;
-    margin-top: -2px;
 }
 
 /**
