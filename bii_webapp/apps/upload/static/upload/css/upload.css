@@ -1,3 +1,49 @@
-h2{
+h2 {
     margin-bottom: 40px;
+}
+
+.uneditable-input {
+    width: 400px !important;
+}
+
+.fileupload {
+    padding: 25px 40px;
+    background-color: #f2f3f4;
+}
+
+.input-append {
+    margin: 0px;
+}
+
+.upload-function {
+    background-color: #f2f3f4;
+    width: 200px;
+    height: 100px;
+    padding: 10px;
+    margin-bottom: 100px;
+}
+
+.upload-function:nth-child(2n+2) {
+    float: right;
+}
+
+.filename {
+
+}
+
+.filename span{
+
+}
+
+.loading-bar {
+
+}
+
+.warnings {
+
+}
+
+.result{
+    background-color: #24aae1;
+    padding: 20px;
 }

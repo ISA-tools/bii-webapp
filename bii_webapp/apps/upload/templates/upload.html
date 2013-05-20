@@ -17,12 +17,33 @@
     <div class="input-append">
         <div class="uneditable-input span3"><i class="icon-file fileupload-exists"></i> <span
                 class="fileupload-preview"></span></div>
-        <span class="btn btn-file"><span class="fileupload-new">Select file</span><span
+        <span class="btn btn-file btn-info"><span class="fileupload-new">Select file</span><span
                 class="fileupload-exists">Change</span><input type="file"/></span><a href="#"
                                                                                      class="btn fileupload-exists"
                                                                                      data-dismiss="fileupload">Remove</a>
     </div>
 </div>
 
+<div id="uploading" class="upload-function grey">
+    <div class="title">UPLOADING</div>
+    <div class="filename">BII-S-6.zip <span>(546kb)</span></div>
+    <div class="loading-bar gray"></div>
+    <div class="warnings"></div>
+</div>
 
+<div id="validating" class="upload-function green">
+    <div class="title">VALIDATING</div>
+    <div class="filename">BII-S-6.zip</span></div>
+    <div class="loading-bar green"></div>
+    <div class="warnings"></div>
+</div>
+
+<div id="persisting" class="upload-function orange">
+    <div class="title">PERSISTING</div>
+    <div class="filename">BII-S-6.zip</span></div>
+    <div class="loading-bar orange"></div>
+    <div class="warnings"></div>
+</div>
+
+<div class="result">BII-S-6</div>
 {% endblock %}
