@@ -1,5 +1,4 @@
 from django.conf.urls import patterns, include, url
-# from accounts.forms import RegistrationFormWithUniqueEmailAndName
 from django.conf import settings
 from django.contrib import admin
 from views import *

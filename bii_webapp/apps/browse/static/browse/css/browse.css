@@ -19,10 +19,9 @@ h3 {
     padding: 0px;
 }
 
-/*#results div {*/
-/*display: inline-block;*/
-/*display: inline;*/
-/*}*/
+.investigation{
+    overflow: hidden;
+}
 
 .inv_id {
     float: left;
@@ -164,3 +163,28 @@ h3 {
     line-height: 11px;
 }
 
+/**
+BREADCRUMB
+**/
+
+#breadcrumb-wrapper {
+    margin-bottom: 20px;
+    height: 36px;
+    padding-right: 10px;
+    background-color: #f5f5f5;
+    overflow: hidden;
+}
+
+#breadcrumb-wrapper .breadcrumb {
+    font-size: 16px;
+}
+
+#breadcrumb-wrapper div a {
+    color: #ffffff;
+    line-height: 36px;
+    background-color: #24aae1;
+    padding: 3px 10px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}

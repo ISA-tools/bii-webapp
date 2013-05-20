@@ -1,0 +1,8 @@
+<div id="breadcrumb-wrapper">
+    <ul class="breadcrumb left">
+        {% for breadcrumb in request.breadcrumbs %}
+        <li><a href="{{ breadcrumb.url }}">{{ breadcrumb.name }}</a> <span class="divider">/</span></li>
+        {% endfor %}
+    </ul>
+    <div class="right"><a href="">i</a></div>
+</div>
