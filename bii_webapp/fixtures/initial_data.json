@@ -1,34 +1,34 @@
 [
-  {
-     "model": "sites.Site", 
-     "pk": 1, 
-     "fields": {
-     "domain": "localhost:8000", 
-     "name": "bii-localhost"
+    {
+        "model": "sites.Site",
+        "pk": 1,
+        "fields": {
+            "domain": "localhost:8000",
+            "name": "bii-localhost"
+        }
+    },
+    {
+        "model": "sites.Site",
+        "pk": 2,
+        "fields": {
+            "domain": "192.168.56.1:5000",
+            "name": "bii-localhost"
+        }
+    },
+    {
+        "model": "sites.Site",
+        "pk": 3,
+        "fields": {
+            "domain": "bii-test.herokuapp.com",
+            "name": "bii-test"
+        }
+    },
+    {
+        "model": "sites.Site",
+        "pk": 4,
+        "fields": {
+            "domain": "bii.herokuapp.com",
+            "name": "bii"
+        }
     }
-  },
-  {
-     "model": "sites.Site", 
-     "pk": 2, 
-     "fields": {
-     "domain": "192.168.56.1:5000", 
-     "name": "bii-localhost"
-    }
-  },
-  {
-     "model": "sites.Site", 
-     "pk": 3, 
-     "fields": {
-     "domain": "bii-test.herokuapp.com", 
-     "name": "bii-test"
-    }
-  },
-  {
-     "model": "sites.Site", 
-     "pk": 4, 
-     "fields": {
-     "domain": "bii.herokuapp.com", 
-     "name": "bii"
-    }
-  }
 ]

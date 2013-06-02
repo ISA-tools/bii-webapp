@@ -1,49 +1,86 @@
 {% extends "base.html" %}
 {% load widget_tweaks %}
 {% load static from staticfiles %}
+{% load ws_tags %}
+
 {% block extracss %}
 <link href="{% static 'libs/bootstrap-fileupload/bootstrap-fileupload.min.css' %}" rel="stylesheet">
 <link href="{% static 'upload/css/upload.css' %}" rel="stylesheet">
 {% endblock %}
 {% block extrascript %}
 <script src="{% static 'libs/bootstrap-fileupload/bootstrap-fileupload.min.js' %}"></script>
+<script src="{% static 'upload/js/upload.js' %}"></script>
 {% endblock %}
 {% block title %}BII | Upload{% endblock %}
 {% block content %}
 
-<h2>Upload ISA-Tab</h2>
+<div id="upload-container">
+    <h2>Upload ISA-Tab</h2>
 
-<div class="fileupload fileupload-new" data-provides="fileupload">
-    <div class="input-append">
-        <div class="uneditable-input span3"><i class="icon-file fileupload-exists"></i> <span
-                class="fileupload-preview"></span></div>
-        <span class="btn btn-file btn-info"><span class="fileupload-new">Select file</span><span
-                class="fileupload-exists">Change</span><input type="file"/></span><a href="#"
-                                                                                     class="btn fileupload-exists"
-                                                                                     data-dismiss="fileupload">Remove</a>
+    <div class="fileupload fileupload-new" data-provides="fileupload">
+        <div class="input-append">
+            <div class="uneditable-input span3"><i class="icon-file fileupload-exists"></i> <span
+                    class="fileupload-preview"></span></div>
+                <span class="btn btn-file btn-info"><span class="fileupload-new">Select file</span>
+                    <span class="fileupload-exists">Change</span>
+                    <input id="ZipFile" name="ZipFile" type="file"/></span>
+            <a class="btn btn-info fileupload-exists" data-dismiss="fileupload">Remove</a>
+        </div>
+        <div id="upload-button">
+            <a href="javascript:upload.start();" class="btn btn-info">Upload</a>
+        </div>
+        <div class="main-connector"></div>
+    </div>
+
+    <div class="uploading-container">
+        <div class="connector">
+        </div>
+        <div class="connector-pin grey"></div>
+        <div id="uploading" class="upload-function">
+            <div class="title grey">UPLOADING</div>
+            <div>
+                <div class="filename">asd<span></span></div>
+                <div class="progress">
+                    <div class="bar grey">0%</div>
+                </div>
+                <div class="warnings"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="uploading-container">
+        <div class="connector"></div>
+        <div class="connector-pin green"></div>
+        <div id="validating" class="upload-function">
+            <div class="title green">VALIDATING</div>
+            <div>
+                <div class="filename">asd</div>
+                <div class="progress">
+                    <div class="bar green">0%</div>
+                </div>
+                <div class="warnings"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="uploading-container">
+        <div class="connector">
+        </div>
+        <div class="connector-pin orange"></div>
+        <div id="persisting" class="upload-function">
+            <div class="title orange">PERSISTING</div>
+            <div>
+                <div class="filename">asda</div>
+                <div class="progress">
+                    <div class="bar orange">0%</div>
+                </div>
+                <div class="warnings"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="result">
+        <div>BII-S-6</div>
     </div>
 </div>
-
-<!--<div id="uploading" class="upload-function grey">-->
-    <!--<div class="title">UPLOADING</div>-->
-    <!--<div class="filename">BII-S-6.zip <span>(546kb)</span></div>-->
-    <!--<div class="loading-bar gray"></div>-->
-    <!--<div class="warnings"></div>-->
-<!--</div>-->
-
-<!--<div id="validating" class="upload-function green">-->
-    <!--<div class="title">VALIDATING</div>-->
-    <!--<div class="filename">BII-S-6.zip</span></div>-->
-    <!--<div class="loading-bar green"></div>-->
-    <!--<div class="warnings"></div>-->
-<!--</div>-->
-
-<!--<div id="persisting" class="upload-function orange">-->
-    <!--<div class="title">PERSISTING</div>-->
-    <!--<div class="filename">BII-S-6.zip</span></div>-->
-    <!--<div class="loading-bar orange"></div>-->
-    <!--<div class="warnings"></div>-->
-<!--</div>-->
-
-<!--<div class="result">BII-S-6</div>-->
 {% endblock %}

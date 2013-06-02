@@ -15,3 +15,5 @@ import dj_database_url
 DATABASES = {'default': dj_database_url.config(env='DATABASE_URL')}
 
 SITE_ID=4
+
+WEBSERVICES_URL='http://ws-bii.herokuapp.com'

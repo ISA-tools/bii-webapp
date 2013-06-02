@@ -135,6 +135,8 @@ INSTALLED_APPS = (
     'django.contrib.webdesign',
     'django.contrib.sites',
     'bii_webapp',
+    'bii_webapp.apps',
+    'bii_webapp.apps.templatetags',
     'bii_webapp.apps.accounts',
     'bii_webapp.apps.browse',
     'bii_webapp.apps.upload',

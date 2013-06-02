@@ -5,15 +5,18 @@
   </component>
   <component name="FacetManager">
     <facet type="Python" name="Python">
-      <configuration sdkName="" />
+      <configuration sdkName="Python 2.7.5 (C:/Python27/python.exe)" />
     </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/bin" />
     <exclude-output />
     <content url="file://$MODULE_DIR$" />
+    <orderEntry type="jdk" jdkName="Python 2.7.5 (C:/Python27/python.exe)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Python 2.7.5 (C:/Python27/python.exe) interpreter library" level="application" />
   </component>
+  <component name="POM File Configuration" pomFile="" />
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">
       <map>
