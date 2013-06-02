@@ -133,6 +133,10 @@ h2 {
     color: #6e6e70 !important;
 }
 
+.upload-function .filename span{
+    margin-left: 5px;
+}
+
 .upload-function .warnings {
     background-color: #fbb03f;
     padding: 1px 3px;

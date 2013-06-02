@@ -1,5 +1,5 @@
 .rep_container {
-    margin-bottom: 40px;
+    margin-bottom: 25px;
     overflow: hidden;
     width: 1084px;
 }
@@ -19,17 +19,17 @@
 .rep_container p {
     margin: 0px;
 }
- /**
- GRAY TITLE
- **/
+/**
+GRAY TITLE
+**/
 .gray_title {
     color:#3e3e3f;
     margin: 10px 0px;
-    height: 40px;
-    line-height: 40px;
+    height: 35px;
+    line-height: 35px;
     padding: 0px 10px;
     background-color:#f3f3f4;
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .gray_title .title_text {
@@ -39,16 +39,18 @@
 
 .gray_title .title_text span{
     font-weight: bold;
+    line-height: 13px;
 }
 
 .gray_title div {
     float: right;
+    display: inline;
 }
 
 .gray_title div img {
-    height: 30px;
+    height: 28px;
     width: auto;
-    margin-top: -2px;
+    margin-top: -3px;
 }
 
 /**
@@ -56,8 +58,8 @@ GRAY TITLE SIZE 50
 **/
 .gray_title50{
     margin: 0px;
-    height: 50px;
-    line-height: 50px;
+    height: 40px;
+    line-height: 40px;
     padding: 0px 10px;
     background-color:#f3f3f4;
     font-size: 20px;
@@ -66,6 +68,7 @@ GRAY TITLE SIZE 50
 
 .gray_title50 span {
     margin: 0px 10px;
+    font-size: 20px;
 }
 
 .gray_title50 span a {
@@ -81,7 +84,7 @@ GRAY TITLE SIZE 50
 }
 
 .gray_title50 img {
-    height: 35px;
+    height: 28px;
     width: auto;
     margin-top: -4px;
 }
@@ -114,16 +117,16 @@ HEADER
 }
 
 #rep_header_blue {
-    height: 100px;
+    height: 70px;
     background-color: #24aae1;
     padding: 0px 20px;
-    line-height: 100px;
+    line-height: 70px;
 }
 
 #rep_header_blue h1 {
-    font-size: 50px;
+    font-size: 35px;
     margin: 0px;
-    line-height: 100px;
+    line-height: 70px;
     color: white !important;
     float: left;
 }
@@ -132,16 +135,20 @@ HEADER
     float: right;
 }
 
+#rep_header_blue img {
+    height: 45px;
+}
+
 /**
 DETAILS
 **/
 
 #rep_header_details p:first-child {
-    font-size: 20px;
+    font-size: 16px;
     margin-top: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 2px;
     font-weight: bold;
-    line-height: 25px;
+    line-height: 21px;
     color:#3e3e3f;
 }
 
@@ -155,9 +162,9 @@ DEEP GRAY HEADERS
 
 .rep_header {
     background-color: #6e6e70;
-    height: 60px;
+    height: 45px;
     padding: 0px 20px;
-    line-height: 60px;
+    line-height: 45px;
 }
 
 .rep_header > div:first-child {
@@ -167,11 +174,11 @@ DEEP GRAY HEADERS
 }
 
 .rep_header h2 {
-    line-height: 60px;
+    line-height: 45px;
     color: #ffffff;
     float: left;
     margin: 0px;
-    font-size: 30px;
+    font-size: 28px;
 }
 
 .rep_header div {
@@ -180,6 +187,7 @@ DEEP GRAY HEADERS
 
 .rep_header div img{
     margin-top:-3px;
+    height: 35px;
 }
 
 /**
@@ -187,7 +195,7 @@ CONTACTS
 **/
 
 .rep_contact {
-    font-size: 20px;
+    font-size: 17px;
     margin-top: 10px;
     margin-right: 10px;
     padding: 5px;
@@ -195,7 +203,7 @@ CONTACTS
     float: left;
     width: 200px;
     word-wrap: break-word;
-    line-height: 25px;
+    line-height: 23px;
 }
 
 .rep_contact_name {

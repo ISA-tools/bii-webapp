@@ -1,5 +1,5 @@
 #rep_top_details{
-    margin-bottom: 60px;
+    margin-bottom: 40px;
 }
 
 .assay_columns {
@@ -20,6 +20,6 @@
 }
 
 .assay_row > div:first-child > img {
-    height: 35px;
+    height: 30px;
     width: auto;
 }

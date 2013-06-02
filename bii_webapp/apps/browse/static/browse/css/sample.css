@@ -145,8 +145,8 @@ FILES
 
 .file{
     float:left;
-    height: 180px;
-    width: 180px;
+    height: 158px;
+    width: 162px;
     background-color: #f3f3f4;
     text-align: center;
     position: relative;
@@ -158,15 +158,15 @@ FILES
 
 .file div:first-child{
     display: block;
-    height: 70px;
-    width: 70px;
+    height: 59px;
+    width: 60px;
     margin:0px auto;
     margin-bottom: 10px;
     margin-top: 10px;
 }
 
 .file .data_type{
-    font-size: 20px;
+    font-size: 17px;
     font-weight: bold;
 }
 
@@ -178,8 +178,8 @@ FILES
 .file div:last-child{
     background-color:#24aae1 ;
     padding: 5px;
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 26px;
     line-height: 30px;
     position: absolute;
     bottom:0px;
