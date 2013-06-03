@@ -1,22 +1,23 @@
 {% extends "base.html" %}
 {% load widget_tweaks %}
 {% load static from staticfiles %}
-
+{% load ws_tags %}
+{% load compress %}
 {% block extracss %}
-<?php header('Access-Control-Allow-Origin: *'); ?>
 <link href="{% static 'libs/bootstrap-fileupload/bootstrap-fileupload.min.css' %}" rel="stylesheet">
 <link href="{% static 'upload/css/upload.css' %}" rel="stylesheet">
 {% endblock %}
 {% block extrascript %}
 <script src="{% static 'libs/bootstrap-fileupload/bootstrap-fileupload.min.js' %}"></script>
 <script src="{% static 'upload/js/upload.js' %}"></script>
+<script src="{% static 'libs/mustachejs/mustache.js' %}"></script>
 {% endblock %}
 {% block title %}BII | Upload{% endblock %}
 {% block content %}
 
 <div id="upload-container">
     <h2>Upload ISA-Tab</h2>
-
+      <span id="WS_SERVER" hidden>{{WS_SERVER}}</span>
     <div class="fileupload fileupload-new" data-provides="fileupload">
         <div class="input-append">
             <div class="uneditable-input span3"><i class="icon-file fileupload-exists"></i> <span

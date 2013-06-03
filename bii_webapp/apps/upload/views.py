@@ -16,4 +16,4 @@ def upload(request):
             x = 1
             return render_to_response("upload.html", context_instance=RequestContext(request))
     else:
-        return render_to_response("upload.html", context_instance=RequestContext(request))
+        return render_to_response("upload.html",{"WS_SERVER":settings.WEBSERVICES_URL}, context_instance=RequestContext(request))

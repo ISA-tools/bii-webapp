@@ -352,10 +352,9 @@ var upload = function () {
     var mock = 1;
 
     function requestUpdate(callback) {
-
         var sess = document.cookie.replace("csrftoken=", "");
         $.ajax({
-            url: 'http://localhost:9090/bii-ws/upload/progress?SessionID=' + sess,  //server script to process data
+            url:$('#WS_SERVER').text()+'upload/progress?SessionID='+ sess,  //server script to process data
             type: 'GET',
 //                    xhr: function () {  // custom xhr
 //                        myXhr = $.ajaxSettings.xhr();
@@ -469,7 +468,7 @@ var upload = function () {
             formData.append('ZipFile', file);
 
             $.ajax({
-                url: 'http://localhost:9090/bii-ws/upload',  //server script to process data
+                url: $('#WS_SERVER').text()+'upload',  //server script to process data
                 type: 'POST',
 //                    xhr: function () {  // custom xhr
 //                        myXhr = $.ajaxSettings.xhr();
