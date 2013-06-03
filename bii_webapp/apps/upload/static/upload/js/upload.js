@@ -284,6 +284,7 @@ var upload = function () {
 
     function start(file) {
         reset();
+        animate(1);
         uploadFile(file, function (session) {
             if (session.error) {
                 alert(session.error)
