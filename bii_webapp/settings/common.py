@@ -144,7 +144,6 @@ INSTALLED_APPS = (
     'bii_webapp.apps.upload',
     'bii_webapp.apps.base',
     'registration',
-    'django_php',
     'widget_tweaks',
     'email_change',
     'breadcrumbs',
