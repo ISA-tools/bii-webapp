@@ -3,8 +3,6 @@ import os
 
 SITE_ID = 1
 
-PHP_CGI = '/usr/local/bin/php-cgi'
-
 COMPRESS_ENABLED = False;
 
 COMPRESS_JS_FILTERS = [
