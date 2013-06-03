@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $('span.fileupload-new').click(function () {
         $('#ZipFile').val("");
-    })
+    });
 
 
     function calcSize(filesize) {
@@ -50,14 +50,14 @@ $(document).ready(function () {
 //QUEUE FUNCTIONS
 // ALL ANIMATIONS PLUS REQUEST UPDATES
 
-var upload = function () {
+var upload;
+upload = function () {
 
     var progressWidth = 230;
     var progressAnimTime = 500;
-    var revealBoxTime = 500;
-    var queue = new Array();
-//    var timeouts = new Array();
-    var timeouts = new Array();
+    var animPerPX = 5;
+    var queue = [];
+    var timeouts = [];
     var stopped = false;
 
     function reset() {
@@ -74,8 +74,7 @@ var upload = function () {
                 bar.width(0);
                 bar.data('progress', 0);
                 bar.text('0%');
-                $(':animated').clearQueue();
-                $(':animated').stop();
+                $(':animated').clearQueue().stop();
             });
         $('#result').hide();
         for (var i = 0; i < queue.length; i++) {
@@ -84,7 +83,8 @@ var upload = function () {
         queue = new Array();
         for (var i = 0; i < timeouts.length; i++) {
             clearTimeout(timeouts[i]);
-        };
+        }
+        ;
         timeouts = new Array();
         stopped = false;
     }
@@ -119,33 +119,36 @@ var upload = function () {
         }
     }();
 
-    function animate(stage,noCallback) {
+    function animate(stage, noCallback) {
 
         if (stopped) {
             return;
         }
 
+        var connector_height = $('.main-connector').height();
+
         var connector_difference = 0;
         if (stage == 1)
-            connector_difference = 56;
+            connector_difference = 56-connector_height;
         else
             connector_difference = 110;
 
-        var connector_height = $('.main-connector').height();
-        var total_height= connector_height + connector_difference;
-        $('.main-connector').animate({height:total_height + 'px'},
-            { duration: revealBoxTime, complete: function () {
+        var animTime=connector_difference*animPerPX;
+
+        var total_height = connector_height + connector_difference;
+        $('.main-connector').animate({height: total_height + 'px'},
+            { duration: animTime, complete: function () {
                 var el = $($('#upload-container').children('.uploading-container').get(stage - 1));
                 el.find('.connector-pin').show();
                 if (el.length > 0) {
-                    el.find('.connector').animate({width: '62px'}, {duration: 500, complete: function () {
+                    el.find('.connector').animate({width: '62px'}, {duration: 62*animPerPX, complete: function () {
                         el.find('.upload-function').show();
-                        if(!noCallback)callback.call();
+                        if (!noCallback)callback.call();
                     }});
                 }
                 else {
                     $('#result').show();
-                    if(!noCallback)callback.call();
+                    if (!noCallback)callback.call();
                     return;
                 }
 
@@ -192,7 +195,6 @@ var upload = function () {
 
 
         var animatePerc = function () {
-            console.log('anim')
             if (stopped) {
                 return;
             }
@@ -269,7 +271,6 @@ var upload = function () {
             }
 
             function checkQueue() {
-                console.log('checkQu');
                 if (stopped)
                     return;
                 if (queue.length == 0)
@@ -285,7 +286,7 @@ var upload = function () {
 
     function start(file) {
         reset();
-        animate(1,true);
+        animate(1, true);
         uploadFile(file, function (session) {
             if (session.error) {
                 alert(session.error)
