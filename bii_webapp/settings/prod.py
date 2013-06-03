@@ -19,4 +19,4 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 SITE_ID=4
 
-WEBSERVICES_URL='http://ws-bii.herokuapp.com'
+WEBSERVICES_URL='http://ws-bii.herokuapp.com/'
