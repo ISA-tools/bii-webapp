@@ -12,7 +12,10 @@ TEMPLATE_DEBUG = DEBUG
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 import dj_database_url
-DATABASES = {'default': dj_database_url.config(env='DATABASE_URL')}
+DATABASES['default'] =  dj_database_url.config()
+
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 SITE_ID=4
 
