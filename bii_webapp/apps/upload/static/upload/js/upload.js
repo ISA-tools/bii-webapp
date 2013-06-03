@@ -119,7 +119,7 @@ var upload = function () {
         }
     }();
 
-    function animate(stage) {
+    function animate(stage,noCallback) {
 
         if (stopped) {
             return;
@@ -139,12 +139,12 @@ var upload = function () {
                 if (el.length > 0) {
                     el.find('.connector').animate({width: '62px'}, {duration: 500, complete: function () {
                         el.find('.upload-function').show();
-                        callback.call();
+                        if(!noCallback)callback.call();
                     }});
                 }
                 else {
                     $('#result').show();
-                    callback.call();
+                    if(!noCallback)callback.call();
                     return;
                 }
 
@@ -284,7 +284,7 @@ var upload = function () {
 
     function start(file) {
         reset();
-        animate(1);
+        animate(1,true);
         uploadFile(file, function (session) {
             if (session.error) {
                 alert(session.error)
