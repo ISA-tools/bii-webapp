@@ -131,8 +131,9 @@ var upload = function () {
         else
             connector_difference = 110;
 
-        connector_height = $('.main-connector').height();
-        $('.main-connector').animate({height: connector_height + connector_difference + 'px'},
+        var connector_height = $('.main-connector').height();
+        var total_height= connector_height + connector_difference;
+        $('.main-connector').animate({height:total_height + 'px'},
             { duration: revealBoxTime, complete: function () {
                 var el = $($('#upload-container').children('.uploading-container').get(stage - 1));
                 el.find('.connector-pin').show();
