@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.core.validators import URLValidator
 # class B(models.Model):
 #     b1=models.CharField(max_length=200)
 #  

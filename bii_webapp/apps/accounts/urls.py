@@ -2,7 +2,6 @@ from django.conf.urls import *
 from django.views.generic import TemplateView
 from registration.forms import RegistrationFormUniqueEmail
 from registration.views import activate
-from registration.views import register
 from views import profile
 
 urlpatterns = patterns('',

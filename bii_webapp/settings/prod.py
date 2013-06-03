@@ -2,8 +2,6 @@ import logging
 logger = logging.getLogger('bii_webapp')
 logger.info("PRODUCTION SETTINGS")
 
-from common import *
-
 ALLOWED_HOSTS = [".herokuapp.com"]
 
 DEBUG=False

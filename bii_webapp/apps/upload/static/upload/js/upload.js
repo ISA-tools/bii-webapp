@@ -1,9 +1,61 @@
+$(document).ready(function () {
+    $('span.fileupload-new').click(function () {
+        $('#ZipFile').val("");
+    })
+
+
+    function calcSize(filesize) {
+        var size = filesize;
+        var mm = 'bytes';
+
+        if (size > 1024) {
+            size = Math.round(size / 1024);
+            mm = 'kb';
+        }
+
+        if (size > 1024) {
+            size = Math.round(size / 1024);
+            mm = 'mb';
+        }
+        if (size > 1024) {
+            size = Math.round(size / 1024);
+            mm = 'gb';
+        }
+
+        return size+''+mm;
+
+    }
+
+    function setFields(file) {
+        var first = true;
+        $('.filename').each(function () {
+            $(this).text(file.name);
+            if (first) {
+                first = false;
+                var size = calcSize(file.size);
+                $(this).text($(this).text() + ' (' + size +')');
+            }
+        });
+    }
+
+    $('#ZipFile').change(function () {
+        if ($('#ZipFile').val()) {
+            setFields(this.files[0]);
+            upload.start(this.files[0]);
+        }
+    })
+});
+
+
+//QUEUE FUNCTIONS
+// ALL ANIMATIONS PLUS REQUEST UPDATES
+
 var upload = function () {
 
     var progressWidth = 230;
-    var progressAnimTime = 2000;
-    var revealBoxTime = 1000;
-    var callbackstack = new Array();
+    var progressAnimTime = 500;
+    var revealBoxTime = 500;
+    var queue = new Array();
     var intervals = new Array();
     var resetting = false;
 
@@ -25,14 +77,10 @@ var upload = function () {
                 $(':animated').stop();
             });
         $('#result').hide();
-        for (var i = 0; i < callbackstack.length; i++) {
-            if (typeof callbackstack[i] != 'string')
-                callbackstack.shift()();
-            else {
-                callbackstack.shift();
-            }
+        for (var i = 0; i < queue.length; i++) {
+            queue.shift()();
         }
-        callbackstack = new Array();
+        queue = new Array();
         for (var i = 0; i < intervals.length; i++) {
             clearInterval(intervals[i]);
         }
@@ -41,34 +89,33 @@ var upload = function () {
         resetting = false;
     }
 
+    //Each function calls the call method when done
+    //to remove theirself off of the queue and call the
+    //next function
     var callback = function () {
 
-        function unshiftAnim() {
-            callbackstack.unshift('anim');
-        }
-
         function push(func) {
-            if (callbackstack.length == 0)
+            //No function in the queue add current and call it
+            if (queue.length == 0) {
+                queue.push(func);
                 func();
+            }
             else
-                callbackstack.push(func);
+                queue.push(func);
         }
 
         function call() {
-            if (callbackstack.length > 0)
-                callbackstack.shift()();
-        }
-
-        function removeCall() {
-            callbackstack.shift();
-            call();
+            //remove previous function
+            queue.shift();
+            if (queue.length > 0) {
+                //call current
+                queue[0]();
+            }
         }
 
         return{
             push: push,
-            unshiftAnim: unshiftAnim,
-            call: call,
-            removeCall: removeCall
+            call: call
         }
     }();
 
@@ -85,20 +132,19 @@ var upload = function () {
             connector_difference = 110;
 
         connector_height = $('.main-connector').height();
-        callback.unshiftAnim();
         $('.main-connector').animate({height: connector_height + connector_difference + 'px'},
             { duration: revealBoxTime, complete: function () {
                 var el = $($('#upload-container').children('.uploading-container').get(stage - 1));
                 el.find('.connector-pin').show();
-                if (el.length>0) {
-                    el.find('.connector').animate({width: '62px'}, {duration: 1000, complete: function () {
+                if (el.length > 0) {
+                    el.find('.connector').animate({width: '62px'}, {duration: 500, complete: function () {
                         el.find('.upload-function').show();
-                        callback.removeCall();
+                        callback.call();
                     }});
                 }
                 else {
                     $('#result').show();
-                    callback.removeCall();
+                    callback.call();
                     return;
                 }
 
@@ -116,7 +162,7 @@ var upload = function () {
         if (stage == 'persisting') {
             return 3;
         }
-        if (stage == 'finished') {
+        if (stage == 'complete') {
             return 4;
         }
     }
@@ -127,16 +173,20 @@ var upload = function () {
             return;
         }
 
+        if (el.attr('id') == 'result') {
+            return;
+        }
+
         if (percent == el.data('progress')) {
             callback.call();
             return;
         }
 
-        callback.unshiftAnim();
+//        callback.unshiftAnim();
         el.animate(
             {width: percent + '%'
             }, {easing: 'linear', duration: progressAnimTime, complete: function () {
-                callback.removeCall();
+                callback.call();
             }});
 
 
@@ -166,167 +216,289 @@ var upload = function () {
 
     }
 
-    function animatePercent(stage, percent) {
+    function animatePercent(currentStage, percentage) {
 
         if (resetting) {
             return;
         }
-        var cnt=$($('#upload-container').children('.uploading-container').get(stage - 1));
+        var cnt = $($('#upload-container').children('.uploading-container').get(currentStage - 1));
         var uplFun = cnt.find('.upload-function');
         var el = $(uplFun).find('.bar');
-        var diff = percent - el.data('progress');
+        var diff = percentage - el.data('progress');
         var durPerPerc = progressAnimTime / diff;
         if (!uplFun.is(':visible')) {
-            animate(stage);
-            callbackstack.push(function () {
-                animateIncrease(el, percent, durPerPerc)
+            callback.push(function () {
+                animate(currentStage);
+            });
+            callback.push(function () {
+                animateIncrease(el, percentage, durPerPerc)
             });
         }
         else
-            animateIncrease(el,percent, durPerPerc);
-    }
-
-    function updateState(session, stage) {
-
-        if (resetting) {
-            return;
-        }
-
-        var percent = session.percent;
-        var objStage = session.stage;
-
-        if (objStage == 'finished') {
-            stage = objStage;
-            animate(stageID(stage));
-            return;
-        }
-
-        if (stage != objStage) {
-            animatePercent(stageID(stage), 100);
-            stage = objStage;
             callback.push(function () {
-                animatePercent(stageID(stage), percent)
-            });
-        } else {
-            animatePercent(stageID(stage), percent);
-        }
+                animateIncrease(el, percentage, durPerPerc);
+            })
     }
 
-    var mock = 1;
-
-    function requestUpdate() {
+    function updateState(session, currentStage) {
 
         if (resetting) {
             return;
         }
 
-        var session = null;
-        if (mock == 1) {
-            session = {
-                stage: 'uploading',
-                percent: '50'
-            }
+        var objStage = session.stage;
+        var percentage = session[objStage];
+        var currStageID = stageID(currentStage);
+//        if (objStage == 'complete') {
+//            currentStage = objStage;
+//            animate(stageID(currentStage));
+//            return;
+//        }
+
+//        if (currentStage != stageID(objStage)) {
+//            animatePercent(stageID(currentStage), 100);
+//            currentStage = stageID(currentStage) + 1;
+        while (currStageID < stageID(objStage)) {
+            animatePercent(currStageID, 100)
+            currStageID += 1;
         }
 
-        if (mock == 2) {
-            session = {
-                stage: 'uploading',
-                percent: '80'
-            }
-        }
+//        if (objStage == 'complete') {
+//            currentStage = objStage;
+//            callback.push(function () {
+//                animate(stageID(currentStage));
+//            });
+//            return;
+//        }
 
-        if (mock == 3) {
-            session = {
-                stage: 'uploading',
-                percent: '100'
-            }
-        }
+        animatePercent(currStageID, percentage)
+//            }
 
-        if (mock == 4) {
-            session = {
-                stage: 'validating',
-                percent: '20'
-            }
-        }
-
-        if (mock == 5) {
-            session = {
-                stage: 'validating',
-                percent: '100'
-            }
-        }
-
-        if (mock == 6) {
-            session = {
-                stage: 'persisting',
-                percent: '30'
-            }
-        }
-
-        if (mock == 7) {
-            session = {
-                stage: 'persisting',
-                percent: '80'
-            }
-        }
-
-        if (mock == 8) {
-            session = {
-                stage: 'persisting',
-                percent: '100'
-            }
-        }
-
-        if (mock == 9) {
-            session = {
-                stage: 'finished',
-                percent: '0'
-            }
-        }
-        mock++;
-        return JSON.stringify(session);
+//        callback.push(function () {
+//            animatePercent(stageID(currentStage), percentage)
+//        });
+//    }
+//
+//    else
+//    {
+//        animatePercent(stageID(currentStage), percentage);
+//    }
     }
 
-    function recursiveUpdates(session, stage) {
+    function recursiveUpdates(session, currentStage) {
         if (resetting) {
             return;
         }
-        var session = $.parseJSON(requestUpdate());
-        updateState(session, stage);
-        if (session.stage == 'finished')
-            return;
-        callback.push(function () {
-            recursiveUpdates(session, stage)
-        })
+        requestUpdate(function (session) {
+            updateState(session, currentStage);
+            if (session.stage == 'complete') {
+                setTimeout(function () {
+                    $('.input-append .fileupload-exists').hide();
+                    $('.input-append .fileupload-new').css({'display': 'inline-block'});
+                }, 500);
+                return;
+            }
+
+            var checkQueue = function () {
+                setTimeout(function () {
+                    if (queue.length > 0) {
+                        checkQueue();
+                    } else {
+                        recursiveUpdates(session, currentStage);
+                    }
+                }, 500)
+            };
+            checkQueue();
+
+        });
     }
 
-    function uploadFile(file) {
-
-        if (resetting) {
-            return;
-        }
-
-        var session = {
-            stage: 'uploading',
-            percent: '10'
-        };
-        return JSON.stringify(session);
-    }
+//    function uploadFile() {
+//
+//        if (resetting) {
+//            return;
+//        }
+//
+//        var session = {
+//            stage: 'uploading',
+//            uploading: '10'
+//        };
+//        return JSON.stringify(session);
+//    }
 
     function start(file) {
         reset();
-        var session = uploadFile(file);
-        var stage = 'uploading';
-        recursiveUpdates(session, stage)
-//        animate(stageID(stage));
-//        setInterval(function(){recursiveUpdates(session, stage)},1000);
+        uploadFile(file, function (session) {
+            if (session.error) {
+                alert(session.error)
+                return;
+            }
+
+            var currentStage = 'uploading';
+            recursiveUpdates(session, currentStage)
+        });
+    }
+
+    function cancelFile() {
+
+    }
+
+    function cancel() {
+        reset();
+        cancelFile();
+    }
+
+
+    var mock = 1;
+
+    function requestUpdate(callback) {
+
+        var sess = document.cookie.replace("csrftoken=", "");
+        $.ajax({
+            url: 'http://localhost:9090/bii-ws/upload/progress?SessionID=' + sess,  //server script to process data
+            type: 'GET',
+//                    xhr: function () {  // custom xhr
+//                        myXhr = $.ajaxSettings.xhr();
+//                        if (myXhr.upload) { // if upload property exists
+//                            myXhr.upload.addEventListener('progress', progressHandlingFunction, false); // progressbar
+//                        }
+//                        return myXhr;
+//                    },
+            //Ajax events
+            success: completeHandler = function (data) {
+                callback(data);
+            },
+            error: errorHandler = function () {
+                return JSON.stringify({error: 'Uploading failed'});
+            },
+            dataType: 'json'
+        });
+
+//        if (resetting) {
+//            return;
+//        }
+//
+//        var session = null;
+//        if (mock == 1) {
+//            session = {
+//                stage: 'uploading',
+//                uploading: '50'
+//            }
+//        }
+//
+//        if (mock == 2) {
+//            session = {
+//                stage: 'uploading',
+//                uploading: '80'
+//            }
+//        }
+//
+//        if (mock == 3) {
+//            session = {
+//                stage: 'uploading',
+//                uploading: '100'
+//            }
+//        }
+//
+//        if (mock == 4) {
+//            session = {
+//                stage: 'validating',
+//                validating: '20'
+//            }
+//        }
+//
+//        if (mock == 5) {
+//            session = {
+//                stage: 'validating',
+//                validating: '100'
+//            }
+//        }
+//
+//        if (mock == 6) {
+//            session = {
+//                stage: 'persisting',
+//                persisting: '30'
+//            }
+//        }
+//
+//        if (mock == 7) {
+//            session = {
+//                stage: 'persisting',
+//                persisting: '80'
+//            }
+//        }
+//
+//        if (mock == 8) {
+//            session = {
+//                stage: 'persisting',
+//                persisting: '100'
+//            }
+//        }
+//
+//        if (mock == 9) {
+//            session = {
+//                stage: 'complete'
+//            }
+//        }
+//        mock++;
+//        return JSON.stringify(session);
+    }
+
+    function uploadFile(file, callback) {
+
+        if (resetting) {
+            return;
+        }
+
+        name = file.name;
+        size = file.size;
+        type = file.type;
+
+        if (file.name.length < 1) {
+
+        }
+        else if (file.size > 100000) {
+            alert("File is to big");
+        }
+        else if (file.type != '') {
+            alert("File doesnt match zip");
+        }
+        else {
+            var formData = new FormData();
+            formData.append('SessionID', document.cookie.replace("csrftoken=", ""));
+            formData.append('ZipFile', file);
+
+            $.ajax({
+                url: 'http://localhost:9090/bii-ws/upload',  //server script to process data
+                type: 'POST',
+//                    xhr: function () {  // custom xhr
+//                        myXhr = $.ajaxSettings.xhr();
+//                        if (myXhr.upload) { // if upload property exists
+//                            myXhr.upload.addEventListener('progress', progressHandlingFunction, false); // progressbar
+//                        }
+//                        return myXhr;
+//                    },
+                //Ajax events
+                success: completeHandler = function (data) {
+                    callback(data);
+                },
+                error: errorHandler = function () {
+                    return JSON.stringify({error: 'Uploading failed'});
+                },
+                // Form data
+                data: formData,
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        }
     }
 
     return {
-        start: start
+        start: start,
+        cancel: cancel
     };
 
 }
-
     ();
-

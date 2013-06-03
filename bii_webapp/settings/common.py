@@ -1,7 +1,9 @@
 # Django settings for bii project.
-import os, sys
+import os
 
 SITE_ID = 1
+
+PHP_CGI = '/usr/local/bin/php-cgi'
 
 COMPRESS_ENABLED = False;
 
@@ -142,6 +144,7 @@ INSTALLED_APPS = (
     'bii_webapp.apps.upload',
     'bii_webapp.apps.base',
     'registration',
+    'django_php',
     'widget_tweaks',
     'email_change',
     'breadcrumbs',

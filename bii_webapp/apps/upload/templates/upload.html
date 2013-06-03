@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% load widget_tweaks %}
 {% load static from staticfiles %}
-{% load ws_tags %}
 
 {% block extracss %}
+<?php header('Access-Control-Allow-Origin: *'); ?>
 <link href="{% static 'libs/bootstrap-fileupload/bootstrap-fileupload.min.css' %}" rel="stylesheet">
 <link href="{% static 'upload/css/upload.css' %}" rel="stylesheet">
 {% endblock %}
@@ -21,13 +21,9 @@
         <div class="input-append">
             <div class="uneditable-input span3"><i class="icon-file fileupload-exists"></i> <span
                     class="fileupload-preview"></span></div>
-                <span class="btn btn-file btn-info"><span class="fileupload-new">Select file</span>
-                    <span class="fileupload-exists">Change</span>
+                <span class="btn btn-file btn-info fileupload-new"><span class="fileupload-new">Select file</span>
                     <input id="ZipFile" name="ZipFile" type="file"/></span>
-            <a class="btn btn-info fileupload-exists" data-dismiss="fileupload">Remove</a>
-        </div>
-        <div id="upload-button">
-            <a href="javascript:upload.start();" class="btn btn-info">Upload</a>
+            <a onclick="javascript:upload.cancel();" class="btn btn-info fileupload-exists" data-dismiss="fileupload">Cancel</a>
         </div>
         <div class="main-connector"></div>
     </div>
@@ -39,7 +35,7 @@
         <div id="uploading" class="upload-function">
             <div class="title grey">UPLOADING</div>
             <div>
-                <div class="filename">BII-S-6.zip<span>(546kb)</span></div>
+                <div class="filename"></div>
                 <div class="progress">
                     <div class="bar grey">0%</div>
                 </div>
@@ -54,7 +50,7 @@
         <div id="validating" class="upload-function">
             <div class="title green">VALIDATING</div>
             <div>
-                <div class="filename">BII-S-6</div>
+                <div class="filename"></div>
                 <div class="progress">
                     <div class="bar green">0%</div>
                 </div>
@@ -70,7 +66,7 @@
         <div id="persisting" class="upload-function">
             <div class="title orange">PERSISTING</div>
             <div>
-                <div class="filename">BII-S-6</div>
+                <div class="filename"></div>
                 <div class="progress">
                     <div class="bar orange">0%</div>
                 </div>
@@ -80,7 +76,9 @@
     </div>
 
     <div id="result">
-        <div>BII-S-6</div>
+        <a href="{% url 'browse.investigation' %}">
+            <div class="filename"></div>
+        </a>
     </div>
 </div>
 {% endblock %}

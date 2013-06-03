@@ -1,7 +1,9 @@
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect,render
+
 from forms import ProfileForm,UserForm
 from models import UserProfile
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect,render,render_to_response
+
 
 @login_required
 def profile(request):

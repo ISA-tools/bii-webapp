@@ -1,8 +1,5 @@
 from django import forms
-from registration.forms import RegistrationFormUniqueEmail
 from django.utils.translation import ugettext_lazy as _
-from django.core.validators import URLValidator
-from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from models import UserProfile
 
