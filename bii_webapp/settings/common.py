@@ -56,7 +56,7 @@ MEDIA_ROOT = SITE_ROOT + "/media/"
 MEDIA_URL = '/media/'
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'e#xz__4)2lnojv%3=7c-u7vx#2_ur)0(cmtx5(0zbbr@8gp#_8'
+SECRET_KEY = '9%$in^gpdaig@v3or_to&_z(=n)3)$f1mr3hf9e#kespy2ajlo'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (

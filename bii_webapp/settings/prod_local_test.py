@@ -1,4 +1,4 @@
-from prod import *
+from dev import *
 
 ALLOWED_HOSTS = [".192.168.56.1",".localhost"]
 

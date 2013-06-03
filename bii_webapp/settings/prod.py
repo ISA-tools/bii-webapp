@@ -1,3 +1,5 @@
+from common import *
+
 import logging
 logger = logging.getLogger('bii_webapp')
 logger.info("PRODUCTION SETTINGS")
