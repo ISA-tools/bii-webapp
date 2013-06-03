@@ -22,7 +22,7 @@ $(document).ready(function () {
             mm = 'gb';
         }
 
-        return size+''+mm;
+        return size + '' + mm;
 
     }
 
@@ -33,7 +33,7 @@ $(document).ready(function () {
             if (first) {
                 first = false;
                 var size = calcSize(file.size);
-                $(this).text($(this).text() + ' (' + size +')');
+                $(this).text($(this).text() + ' (' + size + ')');
             }
         });
     }
@@ -56,11 +56,12 @@ var upload = function () {
     var progressAnimTime = 500;
     var revealBoxTime = 500;
     var queue = new Array();
-    var intervals = new Array();
-    var resetting = false;
+//    var timeouts = new Array();
+    var timeouts = new Array();
+    var stopped = false;
 
     function reset() {
-        resetting = true;
+        stopped = true;
         mock = 1;
         $('.main-connector').height(0);
         $('.uploading-container').each(
@@ -81,12 +82,11 @@ var upload = function () {
             queue.shift()();
         }
         queue = new Array();
-        for (var i = 0; i < intervals.length; i++) {
-            clearInterval(intervals[i]);
-        }
-        ;
-        intervals = new Array();
-        resetting = false;
+        for (var i = 0; i < timeouts.length; i++) {
+            clearTimeout(timeouts[i]);
+        };
+        timeouts = new Array();
+        stopped = false;
     }
 
     //Each function calls the call method when done
@@ -121,7 +121,7 @@ var upload = function () {
 
     function animate(stage) {
 
-        if (resetting) {
+        if (stopped) {
             return;
         }
 
@@ -169,7 +169,7 @@ var upload = function () {
 
     function animateIncrease(el, percent, dur) {
 
-        if (resetting) {
+        if (stopped) {
             return;
         }
 
@@ -190,8 +190,9 @@ var upload = function () {
             }});
 
 
-        function animatePerc() {
-            if (resetting) {
+        var animatePerc = function () {
+            console.log('anim')
+            if (stopped) {
                 return;
             }
 
@@ -203,22 +204,18 @@ var upload = function () {
             el.text(percW + '%');
             if (percW == 100) {
                 el.text('COMPLETE');
-                for (var i = 0; i < intervals.length; i++) {
-                    clearInterval(intervals[i]);
-                }
+            } else {
+                timeouts[1] = setTimeout(animatePerc, 50);
             }
         };
 
-        for (var i = 0; i < progressAnimTime / 300; i++) {
-            var timeout = setInterval(animatePerc, 300 + (i * 300));
-            intervals.push(timeout);
-        }
+        animatePerc();
 
     }
 
     function animatePercent(currentStage, percentage) {
 
-        if (resetting) {
+        if (stopped) {
             return;
         }
         var cnt = $($('#upload-container').children('.uploading-container').get(currentStage - 1));
@@ -242,51 +239,22 @@ var upload = function () {
 
     function updateState(session, currentStage) {
 
-        if (resetting) {
+        if (stopped) {
             return;
         }
 
         var objStage = session.stage;
         var percentage = session[objStage];
         var currStageID = stageID(currentStage);
-//        if (objStage == 'complete') {
-//            currentStage = objStage;
-//            animate(stageID(currentStage));
-//            return;
-//        }
-
-//        if (currentStage != stageID(objStage)) {
-//            animatePercent(stageID(currentStage), 100);
-//            currentStage = stageID(currentStage) + 1;
         while (currStageID < stageID(objStage)) {
             animatePercent(currStageID, 100)
             currStageID += 1;
         }
-
-//        if (objStage == 'complete') {
-//            currentStage = objStage;
-//            callback.push(function () {
-//                animate(stageID(currentStage));
-//            });
-//            return;
-//        }
-
         animatePercent(currStageID, percentage)
-//            }
-
-//        callback.push(function () {
-//            animatePercent(stageID(currentStage), percentage)
-//        });
-//    }
-//
-//    else
-//    {
-//        animatePercent(stageID(currentStage), percentage);
-//    }
     }
 
     function recursiveUpdates(session, currentStage) {
-        if (resetting) {
+        if (stopped) {
             return;
         }
         requestUpdate(function (session) {
@@ -299,32 +267,20 @@ var upload = function () {
                 return;
             }
 
-            var checkQueue = function () {
-                setTimeout(function () {
-                    if (queue.length > 0) {
-                        checkQueue();
-                    } else {
-                        recursiveUpdates(session, currentStage);
-                    }
-                }, 500)
-            };
+            function checkQueue() {
+                console.log('checkQu');
+                if (stopped)
+                    return;
+                if (queue.length == 0)
+                    recursiveUpdates(session, currentStage);
+                else
+                    timeouts[2] = setTimeout(checkQueue, 100);
+            }
+
             checkQueue();
 
         });
     }
-
-//    function uploadFile() {
-//
-//        if (resetting) {
-//            return;
-//        }
-//
-//        var session = {
-//            stage: 'uploading',
-//            uploading: '10'
-//        };
-//        return JSON.stringify(session);
-//    }
 
     function start(file) {
         reset();
@@ -354,15 +310,8 @@ var upload = function () {
     function requestUpdate(callback) {
         var sess = document.cookie.replace("csrftoken=", "");
         $.ajax({
-            url:$('#WS_SERVER').text()+'upload/progress?SessionID='+ sess,  //server script to process data
+            url: $('#WS_SERVER').text() + 'upload/progress?SessionID=' + sess,  //server script to process data
             type: 'GET',
-//                    xhr: function () {  // custom xhr
-//                        myXhr = $.ajaxSettings.xhr();
-//                        if (myXhr.upload) { // if upload property exists
-//                            myXhr.upload.addEventListener('progress', progressHandlingFunction, false); // progressbar
-//                        }
-//                        return myXhr;
-//                    },
             //Ajax events
             success: completeHandler = function (data) {
                 callback(data);
@@ -372,80 +321,11 @@ var upload = function () {
             },
             dataType: 'json'
         });
-
-//        if (resetting) {
-//            return;
-//        }
-//
-//        var session = null;
-//        if (mock == 1) {
-//            session = {
-//                stage: 'uploading',
-//                uploading: '50'
-//            }
-//        }
-//
-//        if (mock == 2) {
-//            session = {
-//                stage: 'uploading',
-//                uploading: '80'
-//            }
-//        }
-//
-//        if (mock == 3) {
-//            session = {
-//                stage: 'uploading',
-//                uploading: '100'
-//            }
-//        }
-//
-//        if (mock == 4) {
-//            session = {
-//                stage: 'validating',
-//                validating: '20'
-//            }
-//        }
-//
-//        if (mock == 5) {
-//            session = {
-//                stage: 'validating',
-//                validating: '100'
-//            }
-//        }
-//
-//        if (mock == 6) {
-//            session = {
-//                stage: 'persisting',
-//                persisting: '30'
-//            }
-//        }
-//
-//        if (mock == 7) {
-//            session = {
-//                stage: 'persisting',
-//                persisting: '80'
-//            }
-//        }
-//
-//        if (mock == 8) {
-//            session = {
-//                stage: 'persisting',
-//                persisting: '100'
-//            }
-//        }
-//
-//        if (mock == 9) {
-//            session = {
-//                stage: 'complete'
-//            }
-//        }
-//        mock++;
-//        return JSON.stringify(session);
     }
 
     function uploadFile(file, callback) {
 
-        if (resetting) {
+        if (stopped) {
             return;
         }
 
@@ -468,7 +348,7 @@ var upload = function () {
             formData.append('ZipFile', file);
 
             $.ajax({
-                url: $('#WS_SERVER').text()+'upload',  //server script to process data
+                url: $('#WS_SERVER').text() + 'upload',  //server script to process data
                 type: 'POST',
 //                    xhr: function () {  // custom xhr
 //                        myXhr = $.ajaxSettings.xhr();
