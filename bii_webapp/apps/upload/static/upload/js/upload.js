@@ -7,8 +7,8 @@ var upload = function () {
     var animPerPX = 5;
     var queue = [];
     var timeouts = [];
-    var IMMEDIATE_STOP = false;
-    var currentStage='uploading'
+    var IMMEDIATE_STOP = true;
+    var currentStage=''
 
     function reset() {
         console.log('reset');
@@ -39,8 +39,6 @@ var upload = function () {
         timeouts = new Array();
         $('.warnings-container').hide();
         $('.errors-container').hide();
-        IMMEDIATE_STOP = false;
-        currentStage='uploading'
     }
 
     //Each function calls the call method when done
@@ -199,9 +197,11 @@ var upload = function () {
     }
 
     function recursiveUpdates(session) {
-        console.log('progressStage')
-        request.requestUpdate(function (session) {
 
+        if(IMMEDIATE_STOP)
+            return;
+
+        request.requestUpdate(function (session) {
             if(isIssuesExist(session))
                 return;
             update(session);
@@ -231,6 +231,8 @@ var upload = function () {
 
     function start(file) {
         reset();
+        currentStage='uploading'
+        IMMEDIATE_STOP=false;
         progressStage(1, 0);
         request.uploadFile(file, function (session) {
             isIssuesExist(session);
@@ -289,5 +291,4 @@ var upload = function () {
         cancel: cancel
     };
 
-}
-    ();
+}();
