@@ -212,7 +212,7 @@ var upload = function () {
             }
 
             function checkQueue() {
-                if (queue.length == 0 || IMMEDIATE_STOP)
+                if (IMMEDIATE_STOP)
                     return;
 
                 if (queue.length == 0)
