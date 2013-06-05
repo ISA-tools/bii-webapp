@@ -1,68 +1,17 @@
-$(document).ready(function () {
-    $('span.fileupload-new').click(function () {
-        $('#ZipFile').val("");
-    });
-
-
-    function calcSize(filesize) {
-        var size = filesize;
-        var mm = 'bytes';
-
-        if (size > 1024) {
-            size = Math.round(size / 1024);
-            mm = 'kb';
-        }
-
-        if (size > 1024) {
-            size = Math.round(size / 1024);
-            mm = 'mb';
-        }
-        if (size > 1024) {
-            size = Math.round(size / 1024);
-            mm = 'gb';
-        }
-
-        return size + '' + mm;
-
-    }
-
-    function setFields(file) {
-        var first = true;
-        $('.filename').each(function () {
-            $(this).text(file.name);
-            if (first) {
-                first = false;
-                var size = calcSize(file.size);
-                $(this).text($(this).text() + ' (' + size + ')');
-            }
-        });
-    }
-
-    $('#ZipFile').change(function () {
-        if ($('#ZipFile').val()) {
-            setFields(this.files[0]);
-            upload.start(this.files[0]);
-        }
-    })
-});
-
-
 //QUEUE FUNCTIONS
 // ALL ANIMATIONS PLUS REQUEST UPDATES
 
-var upload;
-upload = function () {
+var upload = function () {
 
-    var progressWidth = 230;
     var progressAnimTime = 500;
     var animPerPX = 5;
     var queue = [];
     var timeouts = [];
-    var stopped = false;
+    var IMMEDIATE_STOP = false;
 
     function reset() {
-        stopped = true;
-        mock = 1;
+        console.log('reset');
+        IMMEDIATE_STOP = true;
         $('.main-connector').height(0);
         $('.uploading-container').each(
             function () {
@@ -74,7 +23,8 @@ upload = function () {
                 bar.width(0);
                 bar.data('progress', 0);
                 bar.text('0%');
-                $(':animated').clearQueue().stop();
+                $(':animated').clearQueue();
+                $(':animated').stop();
             });
         $('#result').hide();
         for (var i = 0; i < queue.length; i++) {
@@ -86,7 +36,9 @@ upload = function () {
         }
         ;
         timeouts = new Array();
-        stopped = false;
+        $('.warnings-container').hide();
+        $('.errors-container').hide();
+        IMMEDIATE_STOP = false;
     }
 
     //Each function calls the call method when done
@@ -119,9 +71,9 @@ upload = function () {
         }
     }();
 
-    function animate(stage, noCallback) {
-
-        if (stopped) {
+    function showStage(stage) {
+        console.log('showStage');
+        if (IMMEDIATE_STOP) {
             return;
         }
 
@@ -129,26 +81,26 @@ upload = function () {
 
         var connector_difference = 0;
         if (stage == 1)
-            connector_difference = 56-connector_height;
+            connector_difference = 56 - connector_height;
         else
             connector_difference = 110;
 
-        var animTime=connector_difference*animPerPX;
+        var animTime = connector_difference * animPerPX;
 
         var total_height = connector_height + connector_difference;
         $('.main-connector').animate({height: total_height + 'px'},
             { duration: animTime, complete: function () {
-                var el = $($('#upload-container').children('.uploading-container').get(stage - 1));
+                var el = stageElement(stage);
                 el.find('.connector-pin').show();
                 if (el.length > 0) {
-                    el.find('.connector').animate({width: '62px'}, {duration: 62*animPerPX, complete: function () {
+                    el.find('.connector').animate({width: '62px'}, {duration: 62 * animPerPX, complete: function () {
                         el.find('.upload-function').show();
-                        if (!noCallback)callback.call();
+                        callback.call();
                     }});
                 }
                 else {
                     $('#result').show();
-                    if (!noCallback)callback.call();
+                    callback.call();
                     return;
                 }
 
@@ -171,97 +123,86 @@ upload = function () {
         }
     }
 
-    function animateIncrease(el, percent, dur) {
-
-        if (stopped) {
-            return;
-        }
-
+    function showProgress(el, progress, dur) {
+        console.log('showProgress')
         if (el.attr('id') == 'result') {
             return;
         }
 
-        if (percent == el.data('progress')) {
+        if (progress == el.data('progress')) {
             callback.call();
             return;
         }
 
-//        callback.unshiftAnim();
+
+        var pixelProgress = Math.floor((progress * $('.progress').width())/100 );
+
         el.animate(
-            {width: percent + '%'
+            {width: pixelProgress + 'px'
             }, {easing: 'linear', duration: progressAnimTime, complete: function () {
                 callback.call();
             }});
 
 
-        var animatePerc = function () {
-            if (stopped) {
-                return;
-            }
-
+        var animatePerc = function (progress) {
             var pixelW = el.width();
-            var percW = Math.round(pixelW * 100 / progressWidth);
-            if (percW > 100)
-                percW = 100;
-            el.data('progress', percW);
+            var percW = Math.floor((pixelW * 100)/ $('.progress').width());
             el.text(percW + '%');
+            el.data('progress', percW);
             if (percW == 100) {
                 el.text('COMPLETE');
-            } else {
-                timeouts[1] = setTimeout(animatePerc, 50);
+            } else if(progress > el.data('progress')){
+                timeouts[1] = setTimeout(function(){animatePerc(progress)}, progressAnimTime/10);
             }
         };
-
-        animatePerc();
+        animatePerc(progress);
 
     }
 
-    function animatePercent(currentStage, percentage) {
-
-        if (stopped) {
-            return;
-        }
-        var cnt = $($('#upload-container').children('.uploading-container').get(currentStage - 1));
+    function progressStage(currentStage, progress) {
+        console.log('progressStage')
+        var cnt = stageElement(currentStage);
         var uplFun = cnt.find('.upload-function');
         var el = $(uplFun).find('.bar');
-        var diff = percentage - el.data('progress');
+        var diff = progress - el.data('progress');
         var durPerPerc = progressAnimTime / diff;
         if (!uplFun.is(':visible')) {
             callback.push(function () {
-                animate(currentStage);
-            });
-            callback.push(function () {
-                animateIncrease(el, percentage, durPerPerc)
+                showStage(currentStage);
             });
         }
-        else
-            callback.push(function () {
-                animateIncrease(el, percentage, durPerPerc);
-            })
+        callback.push(function () {
+            showProgress(el, progress, durPerPerc);
+        })
     }
 
-    function updateState(session, currentStage) {
+    function update(session) {
+        console.log('recursiveUpdates')
+        var stage = session.stage;
+        var progress=0;
+        if (stage != 'complete')
+            progress = session[session.stage].progress;
+        var currStageID = stageID(stage);
 
-        if (stopped) {
-            return;
+        for (var i = 1; i < currStageID; i++) {
+            progressStage(i, 100);
         }
 
-        var objStage = session.stage;
-        var percentage = session[objStage];
-        var currStageID = stageID(currentStage);
-        while (currStageID < stageID(objStage)) {
-            animatePercent(currStageID, 100)
-            currStageID += 1;
-        }
-        animatePercent(currStageID, percentage)
+        progressStage(currStageID, progress)
     }
 
-    function recursiveUpdates(session, currentStage) {
-        if (stopped) {
-            return;
-        }
-        requestUpdate(function (session) {
-            updateState(session, currentStage);
+    function stageElement(id) {
+        return $($('#upload-container').children('.uploading-container').get(id - 1));
+    }
+
+    function recursiveUpdates(session) {
+        console.log('progressStage')
+        request.requestUpdate(function (session) {
+
+            if(!handleIssues(session))
+                return;
+            update(session);
+
             if (session.stage == 'complete') {
                 setTimeout(function () {
                     $('.input-append .fileupload-exists').hide();
@@ -271,10 +212,11 @@ upload = function () {
             }
 
             function checkQueue() {
-                if (stopped)
+                if (queue.length == 0 || IMMEDIATE_STOP)
                     return;
+
                 if (queue.length == 0)
-                    recursiveUpdates(session, currentStage);
+                    recursiveUpdates(session);
                 else
                     timeouts[2] = setTimeout(checkQueue, 100);
             }
@@ -286,16 +228,48 @@ upload = function () {
 
     function start(file) {
         reset();
-        animate(1, true);
-        uploadFile(file, function (session) {
-            if (session.error) {
-                alert(session.error)
-                return;
+        progressStage(1, 15);
+        request.uploadFile(file, function (session) {
+            handleIssues(session);
+            recursiveUpdates(session)
+        });
+    }
+
+    function handleIssues(session) {
+        var cnt = stageElement(stageID(session.stage));
+        var currStage = session[session.stage];
+        var errors_exist=false;
+
+        if (session.errors || currStage.errors) {
+            if(session.errors){
+                total=session.errors.total
+                messages=session.errors.messages
+            }else{
+                total=currStage.errors.total
+                messages=currStage.errors.messages
             }
 
-            var currentStage = 'uploading';
-            recursiveUpdates(session, currentStage)
-        });
+            var errors_cnt = cnt.find('.errors-container');
+            var errors_title = errors_cnt.find('.issue_title');
+            errors_title.text(total + ' error' + (total > 1 ? 's' : ''));
+            var errors_box = errors_cnt.find('.issue_content');
+            errors_box.text(messages);
+            errors_box.trigger('contentChange');
+            errors_cnt.show();
+            errors_exist=true;
+        }
+        if (currStage &&currStage.warnings) {
+            var warnings_cnt = cnt.find('.warnings-container');
+            var warnings_title = warnings_cnt.find('.issue_title');
+            var warnings_num = currStage.warnings.total;
+            warnings_title.text(warnings_num + ' warning' + (warnings_num > 1 ? 's' : ''));
+            var warnings_box = warnings_cnt.find('.issue_content');
+            warnings_box.text(currStage.warnings.messages);
+            warnings_box.trigger('contentChange');
+            warnings_cnt.show();
+        }
+
+        return errors_exist;
     }
 
     function cancelFile() {
@@ -305,76 +279,6 @@ upload = function () {
     function cancel() {
         reset();
         cancelFile();
-    }
-
-
-    var mock = 1;
-
-    function requestUpdate(callback) {
-        var sess = document.cookie.replace("csrftoken=", "");
-        $.ajax({
-            url: $('#WS_SERVER').text() + 'upload/progress?SessionID=' + sess,  //server script to process data
-            type: 'GET',
-            //Ajax events
-            success: completeHandler = function (data) {
-                callback(data);
-            },
-            error: errorHandler = function () {
-                return JSON.stringify({error: 'Uploading failed'});
-            },
-            dataType: 'json'
-        });
-    }
-
-    function uploadFile(file, callback) {
-
-        if (stopped) {
-            return;
-        }
-
-        name = file.name;
-        size = file.size;
-        type = file.type;
-
-        if (file.name.length < 1) {
-
-        }
-        else if (file.size > 100000) {
-            alert("File is to big");
-        }
-        else if (file.type != '') {
-            alert("File doesnt match zip");
-        }
-        else {
-            var formData = new FormData();
-            formData.append('SessionID', document.cookie.replace("csrftoken=", ""));
-            formData.append('ZipFile', file);
-
-            $.ajax({
-                url: $('#WS_SERVER').text() + 'upload',  //server script to process data
-                type: 'POST',
-//                    xhr: function () {  // custom xhr
-//                        myXhr = $.ajaxSettings.xhr();
-//                        if (myXhr.upload) { // if upload property exists
-//                            myXhr.upload.addEventListener('progress', progressHandlingFunction, false); // progressbar
-//                        }
-//                        return myXhr;
-//                    },
-                //Ajax events
-                success: completeHandler = function (data) {
-                    callback(data);
-                },
-                error: errorHandler = function () {
-                    return JSON.stringify({error: 'Uploading failed'});
-                },
-                // Form data
-                data: formData,
-                dataType: 'json',
-                cache: false,
-                contentType: false,
-                processData: false
-            });
-        }
     }
 
     return {

@@ -23,10 +23,6 @@ h2 {
     position: absolute;
     width: 4px;
     height: 0px;
-    /*height: 56px;*/
-    /*height: 166px;*/
-    /*height: 276px;*/
-    /*height: 386px;*/
     background-color: #f2f3f4;
     left: 312px;
     top: 98px;
@@ -36,7 +32,7 @@ h2 {
     margin: 25px 38px;
 }
 
-.fileupload #upload-button{
+.fileupload #upload-button {
     margin-top: 0px;
     text-align: center;
 }
@@ -45,7 +41,7 @@ h2 {
     width: 87px;
 }
 
-.uploading-container{
+.uploading-container {
     position: relative;
     width: 250px;
     height: 110px;
@@ -126,22 +122,74 @@ h2 {
 .upload-function .bar {
     background-image: none !important;
     width: 0%;
-    filter:none;
+    filter: none;
 }
 
 .upload-function .filename {
     color: #6e6e70 !important;
 }
 
-.upload-function .warnings {
-    background-color: #fbb03f;
+/**
+ISSUES
+**/
+.upload-function .issue {
+    display: none;
+    text-align: center;
+    float: right;
+}
+
+.upload-function .issue a {
+    color: #ffffff;
+}
+
+.upload-function .issue a:hover {
+    text-decoration: none;
+}
+
+.upload-function .issue_title {
     padding: 1px 3px;
     border-radius: 5px;
     float: right;
     margin-top: 3px;
-    display: none;
 }
 
+.upload-function .issue_content {
+    text-align: left;
+}
+
+.upload-function .warnings {
+    background-color: #fbb03f;
+    margin-left: 3px;
+}
+
+.upload-function .errors {
+    background-color: #CC3434;
+}
+
+.upload-function div.dropdown-menu {
+    top: 22px;
+    left: 0px;
+    padding: 0px;
+}
+
+.upload-function div.dropdown-menu >div {
+    max-width: 170px;
+    padding: 3px 10px;
+    white-space: pre-wrap;
+    max-height: 170px;
+}
+
+.upload-function div.issue:hover div.dropdown-menu {
+    display: block;
+}
+
+.upload-function div.issue a.menu:after, .dropdown-toggle:after {
+    /*content: none;*/
+}
+
+/**
+RESULT
+**/
 #result {
     text-align: center;
     margin-top: 34px;

@@ -7,13 +7,24 @@
 {% endblock %}
 {% block extrascript %}
 <script src="{% static 'libs/bootstrap-fileupload/bootstrap-fileupload.min.js' %}"></script>
+<script src="{% static 'upload/js/request.js' %}"></script>
+<script src="{% static 'upload/js/init_upload.js' %}"></script>
 <script src="{% static 'upload/js/upload.js' %}"></script>
 {% endblock %}
 {% block title %}BII | Upload{% endblock %}
 {% block content %}
-
+<script>
+var vars={
+    ws_server:'{{WS_SERVER}}',
+    url:{
+        uploadFile:"{% url 'upload.uploadFile' %}",
+        uploadFileProgress:"{% url 'upload.uploadFileProgress' %}"
+    }
+}
+</script>
 <div id="upload-container">
     <h2>Upload ISA-Tab</h2>
+
     <div class="fileupload fileupload-new" data-provides="fileupload">
         <div class="input-append">
             <div class="uneditable-input span3"><i class="icon-file fileupload-exists"></i> <span
@@ -36,7 +47,17 @@
                 <div class="progress">
                     <div class="bar grey">0%</div>
                 </div>
-                <div class="warnings"></div>
+
+                <div class="issue dropdown warnings-container">
+                    <a class="dropdown-toggle" href="#"> <div class="issue_title warnings"></div></a>
+                    <div class="dropdown-menu warnings"><div class="issue_content"></div></div>
+                </div>
+
+                <div class="issue dropdown errors-container">
+                    <a class="dropdown-toggle" href="#"> <div class="issue_title errors"></div></a>
+                    <div class="dropdown-menu errors"><div class="issue_content"></div></div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -51,7 +72,15 @@
                 <div class="progress">
                     <div class="bar green">0%</div>
                 </div>
-                <div class="warnings">4 warnings</div>
+                <div class="issue dropdown warnings-container">
+                    <a class="dropdown-toggle" href="#"> <div class="issue_title warnings"></div></a>
+                    <div class="dropdown-menu warnings"><div class="issue_content"></div></div>
+                </div>
+
+                <div class="issue dropdown errors-container">
+                    <a class="dropdown-toggle" href="#"> <div class="issue_title errors"></div></a>
+                    <div class="dropdown-menu errors"><div class="issue_content"></div></div>
+                </div>
             </div>
         </div>
     </div>
@@ -67,7 +96,15 @@
                 <div class="progress">
                     <div class="bar orange">0%</div>
                 </div>
-                <div class="warnings"></div>
+                <div class="issue dropdown warnings-container">
+                    <a class="dropdown-toggle" href="#"> <div class="issue_title warnings"></div></a>
+                    <div class="dropdown-menu warnings"><div class="issue_content"></div></div>
+                </div>
+
+                <div class="issue dropdown errors-container">
+                    <a class="dropdown-toggle" href="#"> <div class="issue_title errors"></div></a>
+                    <div class="dropdown-menu errors"><div class="issue_content"></div></div>
+                </div>
             </div>
         </div>
     </div>
@@ -78,5 +115,4 @@
         </a>
     </div>
 </div>
-<span id="WS_SERVER" hidden>{{WS_SERVER}}</span>
 {% endblock %}

@@ -11,11 +11,12 @@ COMPRESS_JS_FILTERS = [
 
 ACCOUNT_ACTIVATION_DAYS = 7
 EMAIL_CHANGE_VERIFICATION_DAYS = 7
+
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'django4589@gmail.com'
-EMAIL_HOST_PASSWORD = 'django852456'
+EMAIL_HOST_USER = 'bioinvindex@gmail.com'
+EMAIL_HOST_PASSWORD = 'bii2013$'
 
 SITE_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
