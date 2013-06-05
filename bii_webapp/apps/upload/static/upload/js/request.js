@@ -11,9 +11,6 @@ var request = function () {
             timeout: -1,
             error: errorHandler = function (xhRequest, ErrorText, thrownError) {
                 var error_message = "Failed to communicate with the server";
-                if (thrownError != '') {
-                    error_message = thrownError
-                }
                 var data = {
                     errors: {
                         total: 1,
@@ -46,17 +43,11 @@ var request = function () {
                 timeout: -1,
                 error: errorHandler = function (xhRequest, ErrorText, thrownError) {
                     var error_message = "Failed to communicate with the server";
-                    if (thrownError != '') {
-                        error_message = thrownError;
-                    }
 
                     var data = {
-                        stage: 'uploading',
-                        uploading: {
-                            errors: {
-                                total: 1,
-                                messages: error_message.charAt(0).toUpperCase() + error_message.slice(1)
-                            }
+                        errors: {
+                            total: 1,
+                            messages: error_message.charAt(0).toUpperCase() + error_message.slice(1)
                         }
                     }
                     callback(data);
