@@ -4,7 +4,8 @@
 
 {% block content %}
 <h1>Login</h1>
-<form method="post" action="{% url 'django.contrib.auth.views.login'%}?next=/">
+<form method="post" action="">
+
 {% csrf_token %}
 
  {% if form.errors %}

@@ -3,11 +3,7 @@ import os
 
 SITE_ID = 1
 
-COMPRESS_ENABLED = False;
-
-COMPRESS_JS_FILTERS = [
-    'compressor.filters.template.TemplateFilter',
-]
+LOGIN_REDIRECT_URL='/'
 
 ACCOUNT_ACTIVATION_DAYS = 7
 EMAIL_CHANGE_VERIFICATION_DAYS = 7
@@ -117,10 +113,13 @@ STATIC_URL = "/bii_webapp/static/"
 STATIC_ROOT = SITE_ROOT + "/static/"
 
 STATICFILES_DIRS = (
-#     os.path.join(SITE_ROOT,"apps/accounts/static/"),
-#     os.path.join(SITE_ROOT,"apps/main/static/"),
-#     os.path.join(SITE_ROOT,"apps/static/"),
 )
+
+COMPRESS_ENABLED = False;
+
+COMPRESS_JS_FILTERS = [
+    'compressor.filters.template.TemplateFilter',
+    ]
 
 FIXTURE_DIRS = (
     SITE_ROOT + '/fixtures/',

@@ -1,20 +1,21 @@
+from django.contrib.auth import decorators,views
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.decorators import login_required
+
 import json
 import re
 import requests
 
+@decorators.login_required(login_url=views.login)
 def upload(request):
     return render_to_response("upload.html", {"WS_SERVER": settings.WEBSERVICES_URL},
                               context_instance=RequestContext(request))
 
 
 @csrf_exempt
-@login_required
 def uploadFile(request):
     if request.is_ajax():
         sessionID = request.session.session_key
@@ -51,7 +52,6 @@ def uploadFile(request):
 
 
 @csrf_exempt
-@login_required
 def uploadFileProgress(request):
     if request.is_ajax():
         url = settings.WEBSERVICES_URL + 'upload/progress'
