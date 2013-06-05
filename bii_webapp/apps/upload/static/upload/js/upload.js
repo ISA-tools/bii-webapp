@@ -8,6 +8,7 @@ var upload = function () {
     var queue = [];
     var timeouts = [];
     var IMMEDIATE_STOP = false;
+    var currentStage='uploading'
 
     function reset() {
         console.log('reset');
@@ -39,6 +40,7 @@ var upload = function () {
         $('.warnings-container').hide();
         $('.errors-container').hide();
         IMMEDIATE_STOP = false;
+        currentStage='uploading'
     }
 
     //Each function calls the call method when done
@@ -182,7 +184,8 @@ var upload = function () {
         var progress=0;
         if (stage != 'complete')
             progress = session[session.stage].progress;
-        var currStageID = stageID(stage);
+
+        currentStage = stageID(stage);
 
         for (var i = 1; i < currStageID; i++) {
             progressStage(i, 100);
@@ -236,17 +239,16 @@ var upload = function () {
     }
 
     function isIssuesExist(session) {
-        var cnt = stageElement(stageID(session.stage));
-        var currStage = session[session.stage];
+        var cnt = stageElement(stageID(currentStage));
         var errors_exist=false;
 
-        if (session.errors || (currStage && currStage.errors)) {
+        if (session.errors || (currentStage && currentStage.errors)) {
             if(session.errors){
                 total=session.errors.total
                 messages=session.errors.messages
             }else{
-                total=currStage.errors.total
-                messages=currStage.errors.messages
+                total=currentStage.errors.total
+                messages=currentStage.errors.messages
             }
 
             var errors_cnt = cnt.find('.errors-container');
@@ -258,13 +260,13 @@ var upload = function () {
             errors_cnt.show();
             errors_exist=true;
         }
-        if (currStage && currStage.warnings) {
+        if (currentStage && currentStage.warnings) {
             var warnings_cnt = cnt.find('.warnings-container');
             var warnings_title = warnings_cnt.find('.issue_title');
-            var warnings_num = currStage.warnings.total;
+            var warnings_num = currentStage.warnings.total;
             warnings_title.text(warnings_num + ' warning' + (warnings_num > 1 ? 's' : ''));
             var warnings_box = warnings_cnt.find('.issue_content');
-            warnings_box.text(currStage.warnings.messages);
+            warnings_box.text(currentStage.warnings.messages);
             warnings_box.trigger('contentChange');
             warnings_cnt.show();
         }

@@ -3,5 +3,6 @@
 /.pydevproject
 /venv
 /deploy
+/requests
 *.pyc
 /bii_webapp/static
