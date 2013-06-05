@@ -161,16 +161,16 @@ var upload = function () {
 
     }
 
-    function progressStage(currentStage, progress) {
+    function progressStage(stage, progress) {
         console.log('progressStage')
-        var cnt = stageElement(currentStage);
+        var cnt = stageElement(stage);
         var uplFun = cnt.find('.upload-function');
         var el = $(uplFun).find('.bar');
         var diff = progress - el.data('progress');
         var durPerPerc = progressAnimTime / diff;
         if (!uplFun.is(':visible')) {
             callback.push(function () {
-                showStage(currentStage);
+                showStage(stage);
             });
         }
         callback.push(function () {
@@ -180,12 +180,12 @@ var upload = function () {
 
     function update(session) {
         console.log('recursiveUpdates')
-        var stage = session.stage;
+        currentStage = session.stage;
         var progress=0;
-        if (stage != 'complete')
+        if (currentStage != 'complete')
             progress = session[session.stage].progress;
 
-        currentStage = stageID(stage);
+        var currStageID = stageID(currentStage);
 
         for (var i = 1; i < currStageID; i++) {
             progressStage(i, 100);
@@ -241,14 +241,15 @@ var upload = function () {
     function isIssuesExist(session) {
         var cnt = stageElement(stageID(currentStage));
         var errors_exist=false;
+        var sessionStage=session[session.stage]
 
-        if (session.errors || (currentStage && currentStage.errors)) {
+        if (session.errors || (sessionStage && sessionStage.errors)) {
             if(session.errors){
                 total=session.errors.total
                 messages=session.errors.messages
             }else{
-                total=currentStage.errors.total
-                messages=currentStage.errors.messages
+                total=sessionStage.errors.total
+                messages=sessionStage.errors.messages
             }
 
             var errors_cnt = cnt.find('.errors-container');
@@ -260,13 +261,13 @@ var upload = function () {
             errors_cnt.show();
             errors_exist=true;
         }
-        if (currentStage && currentStage.warnings) {
+        if (sessionStage && sessionStage.warnings) {
             var warnings_cnt = cnt.find('.warnings-container');
             var warnings_title = warnings_cnt.find('.issue_title');
-            var warnings_num = currentStage.warnings.total;
+            var warnings_num = sessionStage.warnings.total;
             warnings_title.text(warnings_num + ' warning' + (warnings_num > 1 ? 's' : ''));
             var warnings_box = warnings_cnt.find('.issue_content');
-            warnings_box.text(currentStage.warnings.messages);
+            warnings_box.text(sessionStage.warnings.messages);
             warnings_box.trigger('contentChange');
             warnings_cnt.show();
         }
