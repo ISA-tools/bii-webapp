@@ -231,7 +231,7 @@ var upload = function () {
 
     function start(file) {
         reset();
-        progressStage(1, 15);
+        progressStage(1, 0);
         request.uploadFile(file, function (session) {
             isIssuesExist(session);
             recursiveUpdates(session)

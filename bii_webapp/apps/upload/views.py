@@ -6,9 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 import json
 import re
-
 import requests
-
 
 def upload(request):
     return render_to_response("upload.html", {"WS_SERVER": settings.WEBSERVICES_URL},

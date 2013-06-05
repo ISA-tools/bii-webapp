@@ -10,7 +10,7 @@ var request = function () {
             },
             timeout: -1,
             error: errorHandler = function (xhRequest, ErrorText, thrownError) {
-                var error_message = "Failed to communicate with the server";
+                var error_message = "Connection failed";
                 var data = {
                     errors: {
                         total: 1,
@@ -42,7 +42,7 @@ var request = function () {
                 },
                 timeout: -1,
                 error: errorHandler = function (xhRequest, ErrorText, thrownError) {
-                    var error_message = "Failed to communicate with the server";
+                    var error_message = "Connection failed";
 
                     var data = {
                         errors: {
