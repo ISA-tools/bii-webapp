@@ -240,7 +240,7 @@ var upload = function () {
         var currStage = session[session.stage];
         var errors_exist=false;
 
-        if (session.errors || currStage.errors) {
+        if (session.errors || (currStage && currStage.errors)) {
             if(session.errors){
                 total=session.errors.total
                 messages=session.errors.messages
@@ -258,7 +258,7 @@ var upload = function () {
             errors_cnt.show();
             errors_exist=true;
         }
-        if (currStage &&currStage.warnings) {
+        if (currStage && currStage.warnings) {
             var warnings_cnt = cnt.find('.warnings-container');
             var warnings_title = warnings_cnt.find('.issue_title');
             var warnings_num = currStage.warnings.total;
