@@ -199,7 +199,7 @@ var upload = function () {
         console.log('progressStage')
         request.requestUpdate(function (session) {
 
-            if(!handleIssues(session))
+            if(isIssuesExist(session))
                 return;
             update(session);
 
@@ -230,12 +230,12 @@ var upload = function () {
         reset();
         progressStage(1, 15);
         request.uploadFile(file, function (session) {
-            handleIssues(session);
+            isIssuesExist(session);
             recursiveUpdates(session)
         });
     }
 
-    function handleIssues(session) {
+    function isIssuesExist(session) {
         var cnt = stageElement(stageID(session.stage));
         var currStage = session[session.stage];
         var errors_exist=false;
