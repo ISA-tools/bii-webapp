@@ -3,12 +3,12 @@
 
 var upload = function () {
 
-    var progressAnimTime = 500;
-    var animPerPX = 5;
+    var timePerPx = 5;
     var queue = [];
     var timeouts = [];
-    var IMMEDIATE_STOP = false;
-    var currentStage = ''
+    var STOP = false;
+    var STARTED = false;
+    var currentStage = '';
 
     function setFields(file) {
         var first = true;
@@ -51,8 +51,8 @@ var upload = function () {
         $('.main-connector').height(0);
         $('.uploading-container').each(
             function () {
-                $(':animated').clearQueue();
                 $(':animated').stop();
+                $(':animated').clearQueue();
                 $(this).find('.upload-function').hide();
                 var bar = $(this).find('.bar');
                 $(this).find('.connector-pin').hide();
@@ -64,24 +64,32 @@ var upload = function () {
             });
         $('#result .filename').text('');
         $('#result').hide();
-        $('#ZipFile').val();
+        $('#file').val();
+        $('.uneditable-input >i').removeClass('icon-file');
         $('.warnings-container').hide();
         $('.errors-container').hide();
     }
 
-    function reset() {
-        console.log('reset');
-        IMMEDIATE_STOP = true;
-        clearFields();
-//        for (var i = 0; i < queue.length; i++) {
-//            queue.shift()();
-//        }
+    function reset(callback, param) {
+        STOP = true;
+        $('#cancel').hide();
+        $('#select_file').show();
         queue = [];
         for (var i = 0; i < timeouts.length; i++) {
             clearTimeout(timeouts[i]);
         }
         ;
         timeouts = [];
+        var stop = function () {
+            clearFields();
+            if (STARTED)
+                setTimeout(stop, 100);
+            else {
+                if (callback)callback(param);
+            }
+        };
+
+        stop();
     }
 
     //Each function calls the call method when done
@@ -142,7 +150,7 @@ var upload = function () {
 
         var total_height = connector_height + connector_difference;
 
-        if (animate==false) {
+        if (animate == false) {
             $('.main-connector').height(total_height + 'px');
             var el = stageElement(stage);
             if (el.length > 0) {
@@ -155,7 +163,7 @@ var upload = function () {
             return
         }
 
-        var animTime = connector_difference * animPerPX;
+        var animTime = connector_difference * timePerPx;
 
         $('.main-connector').animate({height: total_height + 'px'},
             { duration: animTime, complete: function () {
@@ -163,7 +171,7 @@ var upload = function () {
                 el.find('.connector-pin').show();
                 //Is it the result or not
                 if (el.length > 0) {
-                    el.find('.connector').animate({width: '62px'}, {duration: 62 * animPerPX, complete: function () {
+                    el.find('.connector').animate({width: '62px'}, {duration: 62 * timePerPx, complete: function () {
                         el.find('.upload-function').show();
                         callback.call();
                     }});
@@ -183,14 +191,20 @@ var upload = function () {
             return;
         }
 
-        if (progress == el.data('progress')) {
+        if (progress > 100)
+            progress = 100;
+
+        var pixelProgress = progress * $('.progress').width() / 100;
+        var currWidth = el.width();
+        var diff = pixelProgress - currWidth;
+        var percDiff = diff * 100 / $('.progress').width();
+
+        if (pixelProgress == el.width()) {
             callback.call();
             return;
         }
 
-        var pixelProgress = Math.floor((progress * $('.progress').width()) / 100);
-
-        if (animate==false) {
+        if (animate == false) {
             el.width(pixelProgress + 'px');
             el.text(progress + '%');
             if (progress == 100) {
@@ -203,7 +217,7 @@ var upload = function () {
         //Bar increase
         el.animate(
             {width: pixelProgress + 'px'
-            }, {easing: 'linear', duration: progressAnimTime, complete: function () {
+            }, {easing: 'linear', duration: percDiff * timePerPx, complete: function () {
                 callback.call();
             }});
 
@@ -220,7 +234,7 @@ var upload = function () {
             } else if (progress > el.data('progress')) {
                 timeouts[1] = setTimeout(function () {
                     animatePerc(progress)
-                }, progressAnimTime / 10);
+                }, percDiff * timePerPx / 10);
             }
         };
         animatePerc(progress);
@@ -275,17 +289,17 @@ var upload = function () {
 
             if (upload_session.stage == 'complete') {
                 setTimeout(function () {
-                    $('.input-append .fileupload-exists').hide();
-                    $('.input-append .fileupload-new').css({'display': 'inline-block'});
                 }, 500);
-                IMMEDIATE_STOP = true;
+                STOP = true;
             }
 
             update(upload_session);
 
             function checkQueue() {
-                if (IMMEDIATE_STOP)
+                if (STOP) {
+                    STARTED = false;
                     return;
+                }
 
                 if (queue.length == 0)
                     recursiveUpdates();
@@ -299,24 +313,39 @@ var upload = function () {
     }
 
     function start(file) {
-        reset();
-        setFields(file);
-        currentStage = 'uploading'
-        IMMEDIATE_STOP = false;
-        progressStage(1, 0);
-        request.uploadFile(file, function (upload_session) {
-            if (isIssuesExist(upload_session))return;
-            recursiveUpdates();
-        });
+        var callback = function (file) {
+            $('.uneditable-input >i').addClass('icon-file');
+            STOP = false;
+            STARTED = true;
+            $('#select_file').hide();
+            $('#cancel').css({'display': 'inline-block'});
+            setFields(file);
+            currentStage = 'uploading'
+            progressStage(1, 0);
+            request.uploadFile(file, function (upload_session) {
+                if (isIssuesExist(upload_session))return;
+                recursiveUpdates();
+            });
+        }
+        reset(callback, file);
     }
 
     function resume(upload_session) {
+        if (isIssuesExist(upload_session))
+            return;
         var file = {};
         file.name = upload_session.filename;
         file.size = upload_session.filesize;
         setFields(file);
         update(upload_session, false);
-        recursiveUpdates();
+        if (upload_session.stage != 'complete') {
+            $('#select_file').hide();
+            $('#cancel').css({'display': 'inline-block'});
+            STARTED = true;
+            recursiveUpdates();
+        } else {
+            $('#cancel').hide();
+        }
     }
 
     function isIssuesExist(upload_session) {
@@ -361,8 +390,19 @@ var upload = function () {
     }
 
     function cancel() {
-        reset();
-        cancelFile();
+        $('#cancel').off('click');
+        $('#cancel').css('opacity', 0.5);
+        $('.fileupload-preview').text('');
+        $('.uneditable-input >i').removeClass('icon-file');
+        var callback = function () {
+            cancelFile();
+            $('#cancel').hide();
+            $('#cancel').css('opacity', 1);
+            $('#cancel').on('click');
+            $('#cancel').text('Cancel');
+            $('#select_file').show();
+        }
+        reset(callback);
     }
 
     return {
@@ -370,7 +410,8 @@ var upload = function () {
         start: start,
         cancel: cancel,
         clearFields: clearFields,
-        setFields: setFields
+        setFields: setFields,
+        reset: reset
     };
 
 }

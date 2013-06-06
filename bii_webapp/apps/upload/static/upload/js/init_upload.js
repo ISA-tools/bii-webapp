@@ -1,6 +1,8 @@
 $(document).ready(function () {
-    $('span.fileupload-new').click(function () {
-        $('#ZipFile').val("");
+    upload.reset();
+    $('#select_file').click(function () {
+        $('#file').val("");
+        $('#file').trigger('change');
     });
 
     $(window).bind('beforeunload', function () {
@@ -8,14 +10,13 @@ $(document).ready(function () {
             return 'Uploading will resume in the background';
     });
 
-    if (vars.upload_session)
+    if (vars.upload_session) {
         upload.resume(vars.upload_session);
+    }
 
-    $('#ZipFile').change(function () {
-        if ($('#ZipFile').val()) {
+    $('#file').change(function () {
+        if ($('#file').val()) {
             upload.start(this.files[0]);
-        }else{
-            upload.clearFields();
         }
     })
 });

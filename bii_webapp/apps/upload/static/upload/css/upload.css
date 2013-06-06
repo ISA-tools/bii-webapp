@@ -6,6 +6,10 @@ h2 {
     margin-bottom: 20px;
 }
 
+#cancel{
+    display: none;
+}
+
 .uneditable-input {
     width: 400px !important;
     *display: inline !important;

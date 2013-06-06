@@ -9,7 +9,6 @@ import json
 import re
 import requests
 
-
 @decorators.login_required(login_url=views.login)
 def upload(request):
     if 'upload_session' in request.session:
@@ -44,7 +43,6 @@ def uploadFile(request):
                 }
             }
             return HttpResponse(json.dumps(error))
-
         files = {'file': file}
         data = {'sessionID': sessionID,'filesize': size,'filename': name}
         url = settings.WEBSERVICES_URL + 'upload'
@@ -55,7 +53,7 @@ def uploadFile(request):
 
 
 def respond(request, response):
-    request.session['upload_session'] = response.content
+    request.session['upload_session'] = json.loads(json.dumps(response.text))
     return HttpResponse(response)
 
 

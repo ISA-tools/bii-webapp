@@ -8,8 +8,12 @@
 {% block extrascript %}
 <script>
     var upload_session = '{% autoescape off %}{{ request.session.upload_session }}{% endautoescape %}';
-    if (upload_session && upload_session.length > 0)
+    if (upload_session && upload_session.length > 0) {
+        upload_session = upload_session.replace('\\n', '\\\\n')
+        upload_session = upload_session.replace('\\t', '\\\\t')
+        upload_session = upload_session.replace('\\r', '\\\\r')
         upload_session = JSON.parse(upload_session);
+    }
 
     var vars = {
         ws_server: '{{WS_SERVER}}',
@@ -32,11 +36,12 @@
 
     <div class="fileupload fileupload-new" data-provides="fileupload">
         <div class="input-append">
-            <div class="uneditable-input span3"><i class="icon-file fileupload-exists"></i> <span
+            <div class="uneditable-input span3"><i class="icon-file"></i> <span
                     class="fileupload-preview"></span></div>
-                <span class="btn btn-file btn-info fileupload-new"><span class="fileupload-new">Select file</span>
-                    <input id="ZipFile" name="ZipFile" type="file"/></span>
-            <a onclick="javascript:upload.cancel();" class="btn btn-info fileupload-exists" data-dismiss="fileupload">Cancel</a>
+                <span id="select_file" class="btn btn-file btn-info"><span>Select file</span>
+                    <input id="file" name="file" type="file"/></span>
+            <a id="cancel" onclick="javascript:upload.cancel();" class="btn btn-info"
+               data-dismiss="fileupload">Cancel</a>
         </div>
         <div class="main-connector"></div>
     </div>

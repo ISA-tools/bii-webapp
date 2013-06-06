@@ -7,20 +7,18 @@ $(document).ready(function () {
     $('#main-content').css("margin-left", (parentSize - size) / 2 + 'px');
 
     (function ($) {
-        $(document).ready(function () {
-            $('div').each(function () {
+        $('div').each(function () {
 
-                $(this).bind('contentChange', function (evt) {
-                    if ($(this).css('max-height') != 'none')
-                        if ($(this).actual('outerHeight') > $(this).css('max-height').replace(/[^-\d\.]/g, ''))
-                            $(this).slimscroll({height: $(this).css('max-height'), alwaysVisible: true});
-                    return false;
-                });
-                $(this).trigger('contentChange');
+            $(this).bind('contentChange', function (evt) {
+                if ($(this).css('max-height') != 'none')
+                    if ($(this).actual('outerHeight') > $(this).css('max-height').replace(/[^-\d\.]/g, ''))
+                        $(this).slimscroll({height: $(this).css('max-height'), alwaysVisible: true});
+                return false;
             });
-            //Modify main scrollbar
-            $('.container').slimscroll({height: 'auto', alwaysVisible: true});
+            $(this).trigger('contentChange');
         });
+        //Modify main scrollbar
+        $('.container').slimscroll({height: 'auto', alwaysVisible: true});
     })(jQuery);
 
     var rightWidth = $('#user_profile').width();
@@ -30,3 +28,11 @@ $(document).ready(function () {
     var widthLeft = 1144 - (rightWidth + 74) - 5;
     $('#searchbar').width(widthLeft);
 });
+
+var toast_message = function (el, msg) {
+    el.add('div').addClass('toast').hide().text(msg).show(1000, function () {
+        setTimeout(function () {
+            el.hide(1000);
+        }, 2000);
+    });
+}
