@@ -22,7 +22,7 @@ h1 {
 }
 
 .container {
-    min-height: 100%;
+    min-height: 1200px;
     width: 1164px !important;
     background-color: white !important;
     text-align: center;
@@ -336,17 +336,20 @@ h1 {
     font-weight: bold;
 }
 
-.toast-wrapper{
-
-}
-
 .toast{
-    padding: 2px;
+    padding: 2px 10px;
     border-radius: 15px;
     color: white;
-    width: 340px;
+    max-width: 600px;
     z-index: 1;
-    margin: 0 auto;
-    bottom: 10%;
     position: absolute;
+    bottom: 10%;
+    left: 50%;
+    margin-left: -291px;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+    background-color: rgba(62,62,63,0.9);
 }

@@ -17,8 +17,6 @@ $(document).ready(function () {
             });
             $(this).trigger('contentChange');
         });
-        //Modify main scrollbar
-        $('.container').slimscroll({height: 'auto', alwaysVisible: true});
     })(jQuery);
 
     var rightWidth = $('#user_profile').width();
@@ -29,10 +27,16 @@ $(document).ready(function () {
     $('#searchbar').width(widthLeft);
 });
 
-var toast_message = function (el, msg) {
-    el.add('div').addClass('toast').hide().text(msg).show(1000, function () {
+var showToast = function (msg) {
+    var el = $('body');
+    el.append('<div class="toast"></div>');
+    $('.toast').text(msg);
+    $('.toast').css('margin-left', -$('.toast').outerWidth() / 2 + 'px');
+    $('.toast').show(1000, function () {
         setTimeout(function () {
-            el.hide(1000);
+            $('.toast').hide(1000, function () {
+                el.remove('.toast')
+            });
         }, 2000);
     });
 }

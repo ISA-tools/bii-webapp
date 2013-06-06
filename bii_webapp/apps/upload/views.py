@@ -53,9 +53,16 @@ def uploadFile(request):
 
 
 def respond(request, response):
-    request.session['upload_session'] = json.loads(json.dumps(response.text))
+    request.session['upload_session'] = response.text
     return HttpResponse(response)
 
+@csrf_exempt
+def cancelUpload(request):
+    url = settings.WEBSERVICES_URL + 'upload/cancel'
+    sessionID = request.session.session_key
+    url += '?sessionID=' + sessionID
+    r = requests.get(url)
+    return respond(request, r)
 
 @csrf_exempt
 def uploadFileProgress(request):
@@ -64,7 +71,3 @@ def uploadFileProgress(request):
         url += '?sessionID=' + sessionID
         r = requests.get(url)
         return respond(request, r)
-
-
-import threading, time
-

@@ -15,11 +15,12 @@
         upload_session = JSON.parse(upload_session);
     }
 
-    var vars = {
+    vars = {
         ws_server: '{{WS_SERVER}}',
         url: {
             uploadFile: "{% url 'upload.uploadFile' %}",
-            uploadFileProgress: "{% url 'upload.uploadFileProgress' %}"
+            uploadFileProgress: "{% url 'upload.uploadFileProgress' %}",
+            cancelUpload: "{% url 'upload.cancelUpload' %}"
         },
         upload_session: upload_session
     }
@@ -28,6 +29,7 @@
 <script src="{% static 'upload/js/request.js' %}"></script>
 <script src="{% static 'upload/js/init_upload.js' %}"></script>
 <script src="{% static 'upload/js/upload.js' %}"></script>
+<script src="{% static 'upload/js/progressHandler.js' %}"></script>
 {% endblock %}
 {% block title %}BII | Upload{% endblock %}
 {% block content %}
@@ -37,7 +39,7 @@
     <div class="fileupload fileupload-new" data-provides="fileupload">
         <div class="input-append">
             <div class="uneditable-input span3"><i class="icon-file"></i> <span
-                    class="fileupload-preview"></span></div>
+                    class="fileupload-name"></span></div>
                 <span id="select_file" class="btn btn-file btn-info"><span>Select file</span>
                     <input id="file" name="file" type="file"/></span>
             <a id="cancel" onclick="javascript:upload.cancel();" class="btn btn-info"

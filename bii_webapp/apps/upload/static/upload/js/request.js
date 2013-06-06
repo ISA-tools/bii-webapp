@@ -25,6 +25,31 @@ var request = function () {
         });
     }
 
+    function cancelFile(callback) {
+        $.ajax({
+            url: vars.url.cancelUpload,  //server script to process data
+            type: 'GET',
+            //Ajax events
+            success: completeHandler = function (data) {
+                callback(data);
+            },
+            timeout: -1,
+            error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
+                if(xmlHttpRequest.readyState == 0 || xmlHttpRequest.status == 0)
+                    return;  // it's not really an error
+                var error_message = "Connection failed";
+                var data = {
+                    errors: {
+                        total: 1,
+                        messages: error_message.charAt(0).toUpperCase() + error_message.slice(1)
+                    }
+                }
+                callback(data);
+            },
+            dataType: 'json'
+        });
+    }
+
     function uploadFile(file, callback) {
         name = file.name;
         size = file.size;
@@ -68,6 +93,7 @@ var request = function () {
 
     return {
         requestUpdate: requestUpdate,
+        cancelFile:cancelFile,
         uploadFile: uploadFile
     }
 }();

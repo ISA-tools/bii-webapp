@@ -1,13 +1,14 @@
 $(document).ready(function () {
-    upload.reset();
+
+//    $('.uneditable-input >i').removeClass('icon-file')
+
     $('#select_file').click(function () {
-        $('#file').val("");
         $('#file').trigger('change');
     });
 
     $(window).bind('beforeunload', function () {
-        if (vars.upload_session)
-            return 'Uploading will resume in the background';
+        if (upload.isStarted())
+            showToast('Uploading will resume in the background')
     });
 
     if (vars.upload_session) {
@@ -16,7 +17,7 @@ $(document).ready(function () {
 
     $('#file').change(function () {
         if ($('#file').val()) {
-            upload.start(this.files[0]);
+            upload.reset(upload.start, this.files[0]);
         }
     })
 });
