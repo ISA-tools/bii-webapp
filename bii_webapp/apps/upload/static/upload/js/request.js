@@ -9,7 +9,9 @@ var request = function () {
                 callback(data);
             },
             timeout: -1,
-            error: errorHandler = function (xhRequest, ErrorText, thrownError) {
+            error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
+                if(xmlHttpRequest.readyState == 0 || xmlHttpRequest.status == 0)
+                    return;  // it's not really an error
                 var error_message = "Connection failed";
                 var data = {
                     errors: {
@@ -41,7 +43,9 @@ var request = function () {
                     callback(data);
                 },
                 timeout: -1,
-                error: errorHandler = function (xhRequest, ErrorText, thrownError) {
+                error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
+                    if(xmlHttpRequest.readyState == 0 || xmlHttpRequest.status == 0)
+                        return;  // it's not really an error
                     var error_message = "Connection failed";
 
                     var data = {

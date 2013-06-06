@@ -1,4 +1,4 @@
-from django.contrib.auth import decorators,views
+from django.contrib.auth import decorators, views
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -9,8 +9,11 @@ import json
 import re
 import requests
 
+
 @decorators.login_required(login_url=views.login)
 def upload(request):
+    if 'upload_file' in request.session:
+        uploadFileProgress(request)
     return render_to_response("upload.html", {"WS_SERVER": settings.WEBSERVICES_URL},
                               context_instance=RequestContext(request))
 
@@ -43,12 +46,17 @@ def uploadFile(request):
             return HttpResponse(json.dumps(error))
 
         files = {'file': file}
-        data = {'sessionID': sessionID, 'filesize': size}
+        data = {'sessionID': sessionID,'filesize': size,'filename': name}
         url = settings.WEBSERVICES_URL + 'upload'
         r = requests.post(url, data=data, files=files)
-        return HttpResponse(r)
+        return respond(request, r)
     else:
         return HttpResponse('Invalid request', content_type="text/plain")
+
+
+def respond(request, response):
+    request.session['upload_session'] = response.content
+    return HttpResponse(response)
 
 
 @csrf_exempt
@@ -56,8 +64,12 @@ def uploadFileProgress(request):
     if request.is_ajax():
         url = settings.WEBSERVICES_URL + 'upload/progress'
         sessionID = request.session.session_key
-        url+='?sessionID='+sessionID
+        url += '?sessionID=' + sessionID
         r = requests.get(url)
-        return HttpResponse(r)
+        return respond(request, r)
     else:
         return HttpResponse('Invalid request', content_type="text/plain")
+
+
+import threading, time
+

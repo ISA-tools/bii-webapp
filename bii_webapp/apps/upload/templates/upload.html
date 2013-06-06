@@ -6,6 +6,20 @@
 <link href="{% static 'upload/css/upload.css' %}" rel="stylesheet">
 {% endblock %}
 {% block extrascript %}
+<script>
+    var upload_session = '{% autoescape off %}{{ request.session.upload_session }}{% endautoescape %}';
+    if (upload_session && upload_session.length > 0)
+        upload_session = JSON.parse(upload_session);
+
+    var vars = {
+        ws_server: '{{WS_SERVER}}',
+        url: {
+            uploadFile: "{% url 'upload.uploadFile' %}",
+            uploadFileProgress: "{% url 'upload.uploadFileProgress' %}"
+        },
+        upload_session: upload_session
+    }
+</script>
 <script src="{% static 'libs/bootstrap-fileupload/bootstrap-fileupload.min.js' %}"></script>
 <script src="{% static 'upload/js/request.js' %}"></script>
 <script src="{% static 'upload/js/init_upload.js' %}"></script>
@@ -13,15 +27,6 @@
 {% endblock %}
 {% block title %}BII | Upload{% endblock %}
 {% block content %}
-<script>
-var vars={
-    ws_server:'{{WS_SERVER}}',
-    url:{
-        uploadFile:"{% url 'upload.uploadFile' %}",
-        uploadFileProgress:"{% url 'upload.uploadFileProgress' %}"
-    }
-}
-</script>
 <div id="upload-container">
     <h2>Upload ISA-Tab</h2>
 
@@ -49,13 +54,23 @@ var vars={
                 </div>
 
                 <div class="issue dropdown warnings-container">
-                    <a class="dropdown-toggle" href="#"> <div class="issue_title warnings"></div></a>
-                    <div class="dropdown-menu warnings"><div class="issue_content"></div></div>
+                    <a class="dropdown-toggle" href="#">
+                        <div class="issue_title warnings"></div>
+                    </a>
+
+                    <div class="dropdown-menu warnings">
+                        <div class="issue_content"></div>
+                    </div>
                 </div>
 
                 <div class="issue dropdown errors-container">
-                    <a class="dropdown-toggle" href="#"> <div class="issue_title errors"></div></a>
-                    <div class="dropdown-menu errors"><div class="issue_content"></div></div>
+                    <a class="dropdown-toggle" href="#">
+                        <div class="issue_title errors"></div>
+                    </a>
+
+                    <div class="dropdown-menu errors">
+                        <div class="issue_content"></div>
+                    </div>
                 </div>
 
             </div>
@@ -73,13 +88,23 @@ var vars={
                     <div class="bar green">0%</div>
                 </div>
                 <div class="issue dropdown warnings-container">
-                    <a class="dropdown-toggle" href="#"> <div class="issue_title warnings"></div></a>
-                    <div class="dropdown-menu warnings"><div class="issue_content"></div></div>
+                    <a class="dropdown-toggle" href="#">
+                        <div class="issue_title warnings"></div>
+                    </a>
+
+                    <div class="dropdown-menu warnings">
+                        <div class="issue_content"></div>
+                    </div>
                 </div>
 
                 <div class="issue dropdown errors-container">
-                    <a class="dropdown-toggle" href="#"> <div class="issue_title errors"></div></a>
-                    <div class="dropdown-menu errors"><div class="issue_content"></div></div>
+                    <a class="dropdown-toggle" href="#">
+                        <div class="issue_title errors"></div>
+                    </a>
+
+                    <div class="dropdown-menu errors">
+                        <div class="issue_content"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -97,13 +122,23 @@ var vars={
                     <div class="bar orange">0%</div>
                 </div>
                 <div class="issue dropdown warnings-container">
-                    <a class="dropdown-toggle" href="#"> <div class="issue_title warnings"></div></a>
-                    <div class="dropdown-menu warnings"><div class="issue_content"></div></div>
+                    <a class="dropdown-toggle" href="#">
+                        <div class="issue_title warnings"></div>
+                    </a>
+
+                    <div class="dropdown-menu warnings">
+                        <div class="issue_content"></div>
+                    </div>
                 </div>
 
                 <div class="issue dropdown errors-container">
-                    <a class="dropdown-toggle" href="#"> <div class="issue_title errors"></div></a>
-                    <div class="dropdown-menu errors"><div class="issue_content"></div></div>
+                    <a class="dropdown-toggle" href="#">
+                        <div class="issue_title errors"></div>
+                    </a>
+
+                    <div class="dropdown-menu errors">
+                        <div class="issue_content"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -114,5 +149,6 @@ var vars={
             <div class="filename"></div>
         </a>
     </div>
+
 </div>
 {% endblock %}
