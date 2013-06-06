@@ -12,7 +12,7 @@ import requests
 
 @decorators.login_required(login_url=views.login)
 def upload(request):
-    if 'upload_file' in request.session:
+    if 'upload_session' in request.session:
         uploadFileProgress(request)
     return render_to_response("upload.html", {"WS_SERVER": settings.WEBSERVICES_URL},
                               context_instance=RequestContext(request))
@@ -61,14 +61,11 @@ def respond(request, response):
 
 @csrf_exempt
 def uploadFileProgress(request):
-    if request.is_ajax():
         url = settings.WEBSERVICES_URL + 'upload/progress'
         sessionID = request.session.session_key
         url += '?sessionID=' + sessionID
         r = requests.get(url)
         return respond(request, r)
-    else:
-        return HttpResponse('Invalid request', content_type="text/plain")
 
 
 import threading, time

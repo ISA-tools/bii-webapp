@@ -142,7 +142,7 @@ var upload = function () {
 
         var total_height = connector_height + connector_difference;
 
-        if (!animate) {
+        if (animate==false) {
             $('.main-connector').height(total_height + 'px');
             var el = stageElement(stage);
             if (el.length > 0) {
@@ -189,10 +189,8 @@ var upload = function () {
         }
 
         var pixelProgress = Math.floor((progress * $('.progress').width()) / 100);
-        var pixelW = el.width();
-        var percW = Math.floor((pixelW * 100) / $('.progress').width());
 
-        if (!animate) {
+        if (animate==false) {
             el.width(pixelProgress + 'px');
             el.text(progress + '%');
             if (progress == 100) {
@@ -211,6 +209,9 @@ var upload = function () {
 
         //Numerical percentage increase
         var animatePerc = function (progress) {
+
+            var pixelW = el.width();
+            var percW = Math.floor((pixelW * 100) / $('.progress').width());
             el.text(percW + '%');
             el.data('progress', percW);
 
