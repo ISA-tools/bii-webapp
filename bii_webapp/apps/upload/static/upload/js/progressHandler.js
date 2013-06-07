@@ -58,7 +58,7 @@ var progressHandler = function () {
 
         if (animate == false) {
             $('.main-connector').height(total_height + 'px');
-            var el = upload.stageElement(stage);
+            var el = helper.stageElement(stage);
             if (el.length > 0) {
                 el.find('.connector').width('62px');
                 el.find('.upload-function').show();
@@ -73,7 +73,7 @@ var progressHandler = function () {
 
         $('.main-connector').animate({height: total_height + 'px'},
             { duration: animTime, complete: function () {
-                var el = upload.stageElement(stage);
+                var el = helper.stageElement(stage);
                 el.find('.connector-pin').show();
                 //Is it the result or not
                 if (el.length > 0) {
@@ -148,7 +148,7 @@ var progressHandler = function () {
 
     function progressStage(stage, progress, animate) {
         console.log('progressStage')
-        var cnt = upload.stageElement(stage);
+        var cnt = helper.stageElement(stage);
         var uplFun = cnt.find('.upload-function');
         var el = $(uplFun).find('.bar');
 

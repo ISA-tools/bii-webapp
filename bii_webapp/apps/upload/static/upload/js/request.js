@@ -2,52 +2,66 @@ var request = function () {
 
     function requestUpdate(callback) {
         $.ajax({
-            url: vars.url.uploadFileProgress,  //server script to process data
-            type: 'GET',
-            //Ajax events
-            success: completeHandler = function (data) {
-                callback(data);
-            },
-            timeout: -1,
-            error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
-                if(xmlHttpRequest.readyState == 0 || xmlHttpRequest.status == 0)
-                    return;  // it's not really an error
-                var error_message = "Connection failed";
-                var data = {
+                url: vars.url.uploadFileProgress,  //server script to process data
+                type: 'GET',
+                //Ajax events
+                success: completeHandler = function (data) {
+                    callback(data);
+                },
+                timeout: -1,
+                error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
+                    if (xmlHttpRequest.readyState == 0 || xmlHttpRequest.status == 0)
+                        return;  // it's not really an error
+                    handleConnectionErrors();
+                    callback(vars.upload_session);
+                },
+                dataType: 'json'
+            }
+        )
+        ;
+    }
+
+    function handleConnectionErrors() {
+        var error_message = "Connection failed";
+        if (vars.upload_session)
+            vars.upload_session[vars.upload_session.stage].errors =
+            {
+                total: 1,
+                messages: error_message.charAt(0).toUpperCase() + error_message.slice(1)
+            }
+        else {
+            vars.upload_session = {
+                errors:true,
+                stage:'uploading',
+                uploading: {
                     errors: {
                         total: 1,
                         messages: error_message.charAt(0).toUpperCase() + error_message.slice(1)
                     }
                 }
-                callback(data);
-            },
-            dataType: 'json'
-        });
+            }
+        }
     }
 
     function cancelFile(callback) {
         $.ajax({
-            url: vars.url.cancelUpload,  //server script to process data
-            type: 'GET',
-            //Ajax events
-            success: completeHandler = function (data) {
-                callback(data);
-            },
-            timeout: -1,
-            error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
-                if(xmlHttpRequest.readyState == 0 || xmlHttpRequest.status == 0)
-                    return;  // it's not really an error
-                var error_message = "Connection failed";
-                var data = {
-                    errors: {
-                        total: 1,
-                        messages: error_message.charAt(0).toUpperCase() + error_message.slice(1)
-                    }
-                }
-                callback(data);
-            },
-            dataType: 'json'
-        });
+                url: vars.url.cancelUpload,  //server script to process data
+                type: 'GET',
+                //Ajax events
+                success: completeHandler = function (data) {
+                    callback(data);
+                },
+                timeout: -1,
+                error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
+                    if (xmlHttpRequest.readyState == 0 || xmlHttpRequest.status == 0)
+                        return;  // it's not really an error
+                    handleConnectionErrors();
+                    callback(vars.upload_session);
+                },
+                dataType: 'json'
+            }
+        )
+        ;
     }
 
     function uploadFile(file, callback) {
@@ -69,17 +83,10 @@ var request = function () {
                 },
                 timeout: -1,
                 error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
-                    if(xmlHttpRequest.readyState == 0 || xmlHttpRequest.status == 0)
+                    if (xmlHttpRequest.readyState == 0 || xmlHttpRequest.status == 0)
                         return;  // it's not really an error
-                    var error_message = "Connection failed";
-
-                    var data = {
-                        errors: {
-                            total: 1,
-                            messages: error_message.charAt(0).toUpperCase() + error_message.slice(1)
-                        }
-                    }
-                    callback(data);
+                    handleConnectionErrors();
+                    callback(vars.upload_session);
                 },
                 // Form data
                 data: formData,
@@ -93,7 +100,9 @@ var request = function () {
 
     return {
         requestUpdate: requestUpdate,
-        cancelFile:cancelFile,
+        cancelFile: cancelFile,
         uploadFile: uploadFile
     }
-}();
+}
+
+    ();

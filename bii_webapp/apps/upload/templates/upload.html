@@ -30,6 +30,7 @@
 <script src="{% static 'upload/js/init_upload.js' %}"></script>
 <script src="{% static 'upload/js/upload.js' %}"></script>
 <script src="{% static 'upload/js/progressHandler.js' %}"></script>
+<script src="{% static 'upload/js/helper.js' %}"></script>
 {% endblock %}
 {% block title %}BII | Upload{% endblock %}
 {% block content %}
@@ -38,12 +39,12 @@
 
     <div class="fileupload fileupload-new" data-provides="fileupload">
         <div class="input-append">
-            <div class="uneditable-input span3"><i class="icon-file"></i> <span
+            <div class="uneditable-input span3"><i class="fileupload-exists icon-file"></i> <span
                     class="fileupload-name"></span></div>
-                <span id="select_file" class="btn btn-file btn-info"><span>Select file</span>
+                <span id="select_file" class="btn btn-file btn-info fileupload-new"><span>Select file</span>
                     <input id="file" name="file" type="file"/></span>
-            <a id="cancel" onclick="javascript:upload.cancel();" class="btn btn-info"
-               data-dismiss="fileupload">Cancel</a>
+            <button id="cancel" onclick="javascript:upload.cancel();" class="fileupload-exists btn btn-info"
+               data-dismiss="fileupload">Cancel</button>
         </div>
         <div class="main-connector"></div>
     </div>
