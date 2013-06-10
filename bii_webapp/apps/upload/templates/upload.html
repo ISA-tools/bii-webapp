@@ -7,23 +7,24 @@
 {% endblock %}
 {% block extrascript %}
 <script>
-    var upload_session = '{% autoescape off %}{{ request.session.upload_session }}{% endautoescape %}';
-    if (upload_session && upload_session.length > 0) {
-        upload_session = upload_session.replace('\\n', '\\\\n')
-        upload_session = upload_session.replace('\\t', '\\\\t')
-        upload_session = upload_session.replace('\\r', '\\\\r')
-        upload_session = JSON.parse(upload_session);
-    }
+    vars=function() {
+        var upload_session = '{% autoescape off %}{{ request.session.upload_session }}{% endautoescape %}';
+        var x = '{{ request.session.upload_session }}'
+        if (upload_session && upload_session.length > 0) {
+            upload_session = JSON.parse(upload_session);
+        }
 
-    vars = {
-        ws_server: '{{WS_SERVER}}',
-        url: {
-            uploadFile: "{% url 'upload.uploadFile' %}",
-            uploadFileProgress: "{% url 'upload.uploadFileProgress' %}",
-            cancelUpload: "{% url 'upload.cancelUpload' %}"
-        },
-        upload_session: upload_session
-    }
+        return {
+            ws_server: '{{WS_SERVER}}',
+            url: {
+                uploadFile: "{% url 'upload.uploadFile' %}",
+                uploadFileProgress: "{% url 'upload.uploadFileProgress' %}",
+                cancelUpload: "{% url 'upload.cancelUpload' %}",
+                resetUpload: "{% url 'upload.resetUpload' %}"
+            },
+            upload_session: upload_session
+        }
+    }();
 </script>
 <script src="{% static 'libs/bootstrap-fileupload/bootstrap-fileupload.min.js' %}"></script>
 <script src="{% static 'upload/js/request.js' %}"></script>
@@ -39,12 +40,13 @@
 
     <div class="fileupload fileupload-new" data-provides="fileupload">
         <div class="input-append">
-            <div class="uneditable-input span3"><i class="fileupload-exists icon-file"></i> <span
+            <div class="uneditable-input span3"><i class="icon-file fileupload-exists"></i> <span
                     class="fileupload-name"></span></div>
                 <span id="select_file" class="btn btn-file btn-info fileupload-new"><span>Select file</span>
                     <input id="file" name="file" type="file"/></span>
             <button id="cancel" onclick="javascript:upload.cancel();" class="fileupload-exists btn btn-info"
-               data-dismiss="fileupload">Cancel</button>
+                    data-dismiss="fileupload">Cancel
+            </button>
         </div>
         <div class="main-connector"></div>
     </div>

@@ -6,27 +6,28 @@ var upload = function () {
     var STATE = 'STOPPED';
 
     function reset(callback, param) {
-        helper.toggleButtons('cancelling');
+        helper.toggleButtons('resetting');
+        request.reset();
+        vars.upload_session = '';
         if (STATE == 'STARTED')
             STATE = 'STOPPING'
         //Stop showing animations
         progressHandler.clear();
-        var stop = function () {
+        var wait = function () {
             if (STATE == 'STOPPING')
                 setTimeout(stop, 100);
             else {
                 helper.clearFields();
                 //Ensure that any animations left are cleared
                 progressHandler.clear();
-                helper.toggleButtons('select');
+                stop()
                 if (callback)callback(param);
             }
         };
-        stop();
+        wait();
     }
 
     function update(upload_session, animate) {
-
         var progress = 0;
         if (upload_session.stage != 'complete')
             progress = upload_session[upload_session.stage].progress;
@@ -41,9 +42,18 @@ var upload = function () {
     }
 
     function recursiveUpdates() {
+
         request.requestUpdate(function (upload_session) {
-            if (isIssuesExist(upload_session))
+
+            if (upload_session.stage == undefined) {
+                return setTimeout(recursiveUpdates, 1000);
+            }
+
+            if (isIssuesExist(upload_session)) {
+                STATE = 'STOPPED'
+                helper.toggleButtons('select');
                 return;
+            }
 
             update(upload_session);
 
@@ -72,15 +82,14 @@ var upload = function () {
     }
 
     function start(file) {
-        helper.insertFields(file);
-        STATE = 'STARTED';
-        helper.toggleButtons('cancel');
-        progressHandler.progressStage(1, 0);
-        request.uploadFile(file, function (upload_session) {
-            if (isIssuesExist(upload_session))return;
-            update(upload_session);
+        reset(function (file) {
+            STATE = 'STARTED';
+            helper.insertFields(file);
+            helper.toggleButtons('cancel');
+            progressHandler.progressStage(1, 0);
+            request.uploadFile(file);
             recursiveUpdates();
-        });
+        }, file)
     }
 
     function resume(upload_session) {
@@ -93,6 +102,7 @@ var upload = function () {
             return;
         if (upload_session.stage != 'complete') {
             STATE = 'STARTED';
+            helper.toggleButtons('cancel');
             recursiveUpdates();
         }
     }
@@ -132,11 +142,10 @@ var upload = function () {
         STATE = 'STOPPING'
         helper.toggleButtons('cancelling');
         callback = function (data) {
+            vars.upload_session = '';
             reset(function (data) {
-                if (data.cancel.error)
-                    showToast(data.cancel.error.messages);
-                else
-                    showToast(data.cancel.success.messages);
+                if (data.cancel)
+                    showToast(data.cancel.messages);
             }, data);
         }
         request.cancelFile(callback);

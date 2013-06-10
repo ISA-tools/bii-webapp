@@ -6,7 +6,7 @@ var request = function () {
                 type: 'GET',
                 //Ajax events
                 success: completeHandler = function (data) {
-                    callback(data);
+                    if(callback)callback(data);
                 },
                 timeout: -1,
                 error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
@@ -49,7 +49,7 @@ var request = function () {
                 type: 'GET',
                 //Ajax events
                 success: completeHandler = function (data) {
-                    callback(data);
+                    if(callback)callback(data);
                 },
                 timeout: -1,
                 error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
@@ -62,6 +62,16 @@ var request = function () {
             }
         )
         ;
+    }
+
+    function reset() {
+        $.ajax({
+                url: vars.url.resetUpload,  //server script to process data
+                type: 'GET',
+                async:false
+                //Ajax events
+            }
+        );
     }
 
     function uploadFile(file, callback) {
@@ -79,7 +89,7 @@ var request = function () {
                 type: 'POST',
                 //Ajax events
                 success: successHandler = function (data) {
-                    callback(data);
+                   if(callback) callback(data);
                 },
                 timeout: -1,
                 error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
@@ -101,7 +111,8 @@ var request = function () {
     return {
         requestUpdate: requestUpdate,
         cancelFile: cancelFile,
-        uploadFile: uploadFile
+        uploadFile: uploadFile,
+        reset:reset
     }
 }
 

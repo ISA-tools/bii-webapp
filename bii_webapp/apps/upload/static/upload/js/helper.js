@@ -20,13 +20,13 @@ var helper = function () {
         else if (state == 'select') {
             $('#cancel').hide();
             $('#select_file').show();
-        } else if (state == 'cancelling') {
+        } else {
             toggleButtons('cancel');
             $('#cancel').css('opacity', 0.5);
             $('#cancel').css('background-image', 'none', 'important');
             $('#cancel').attr('disabled',true);
             $('#cancel').unbind('mouseenter mouseleave');
-            $('#cancel').text('Cancelling');
+            $('#cancel').text(state.charAt(0).toUpperCase() + state.slice(1));
         }
     }
 
@@ -72,7 +72,7 @@ var helper = function () {
 
     function insertFields(file) {
         $('.fileupload-name').text(file.name);
-        $('.uneditable-input >i').addClass('icon-file');
+        $('.uneditable-input >i').css('display','inline-block');
 
         var first = true;
         $('.filename').each(function () {
@@ -104,10 +104,11 @@ var helper = function () {
         $('#result .filename').text('');
         $('#result').hide();
         $('#file').val('');
-        $('.uneditable-input >i').removeClass('icon-file');
+        $('.uneditable-input >i').hide();
         $('.fileupload-name').text('');
         $('.warnings-container').hide();
         $('.errors-container').hide();
+        helper.toggleButtons('select');
     }
 
     return{

@@ -6,6 +6,6 @@ urlpatterns = patterns('',
     url(r'^uploadFile/$',uploadFile,name='upload.uploadFile'),
     url(r'^uploadFile/progress$',uploadFileProgress,name='upload.uploadFileProgress'),
     url(r'^uploadFile/cancel$',cancelUpload,name='upload.cancelUpload'),
-
+    url(r'^uploadFile/reset$',resetUpload,name='upload.resetUpload'),
 )
 
