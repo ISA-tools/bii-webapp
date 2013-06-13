@@ -26,16 +26,7 @@ class UserForm(forms.ModelForm):
                                 error_messages={'invalid': _("This value may contain only letters, numbers and @/./+/-/_ characters.")})
     
     email = forms.CharField(widget=forms.TextInput(attrs={'readonly':'readonly'}))
-    
-#     ''' Called by django form validation to validate email '''
-#     def clean_email(self):
-#         curremail=self.cleaned_data['email']
-#         username = self.cleaned_data["username"]
-#         user=User.objects.get(username=username)
-#         if user.email!=curremail and User.objects.filter(email=curremail):
-#             raise forms.ValidationError(_("This email address is already in use. Please supply a different email address."))
-#         return curremail
-#     
+
 
 class ProfileForm(forms.ModelForm):
     class Meta:

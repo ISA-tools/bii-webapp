@@ -1,31 +1,40 @@
 from django.contrib.auth import decorators, views
 from django.http import HttpResponse, HttpResponseBadRequest
-from django.shortcuts import render_to_response
-from django.template import RequestContext
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
-from beans import *
+from models import *
 import json
 import requests
 import re
+import os
+import stat
 
-TIMEOUT = 100
+TIMEOUT = 100 #seconds
 
-
-class Enum(set):
-    def __getattr__(self, name):
-        if name in self:
-            return name
-        raise AttributeError
-
-
-Errors = Enum(["BAD_REQUEST", "UPLOADING", "CONNECTION"])
+@csrf_exempt
+@decorators.login_required(login_url=views.login)
+def getInit(request):
+    if request.is_ajax():
+        url = settings.WEBSERVICES_URL + 'upload/init'
+        try:
+            r = requests.get(url, timeout=TIMEOUT)
+            obj = json.loads(r.text)
+            request.session['uploadID'] = obj['INFO']['uploadID']
+            request.session['upload_progress'] = obj['UPLOAD']
+        except requests.exceptions.ConnectionError, e:
+            r = HttpResponse(json.dumps({'ERROR':{'messages':'Upload server could not be reached'}}))
+        except requests.exceptions.Timeout, e:
+            r = HttpResponse(json.dumps({'ERROR':{'messages':'Connection timed out, please try again later'}}))
+        return HttpResponse(r)
+    else:
+        return errorResponse(request, 'Invalid request', 1)
 
 
 @csrf_exempt
+@decorators.login_required(login_url=views.login)
 def uploadFile(request):
     if request.is_ajax():
-        sessionID = request.session.session_key
+        STATE='UPLOADING'
         file = request.FILES['file']
         name = file.name
         size = file.size
@@ -35,122 +44,106 @@ def uploadFile(request):
         valid_ext = '(\.(?i)(zip|tar|gz)$)'
         valid_mime = '^application/(zip|x-zip-compressed|x-tar|x-gzip|octet-stream)$'
 
-        obj = dict()
-        obj.update({'filename': name, 'filesize': size, 'stage': 'uploading', 'uploading': {'progress': 0}})
-        request.session['upload_session'] = json.dumps(obj)
-
         # Validate file type
         if not (re.match(valid_mime, mimetype) and re.match(valid_ext, extension)):
-            r = errorResponse(request, 'Invalid file type', 1, Errors.UPLOADING)
+            r = errorResponse(request, 'Invalid file type', 1)
             return r
 
         files = {'file': file}
-        data = {'sessionID': sessionID, 'filesize': size}
+        data = {'uploadID': request.session['uploadID'], 'filesize': size}
         url = settings.WEBSERVICES_URL + 'upload'
         try:
             r = requests.post(url, data=data, files=files, timeout=TIMEOUT)
+            resp=json.loads(r.text);
+            if(resp['UPLOAD']['stage']=='cancelled'):
+                return HttpResponse(r)
+
+            if resp['UPLOAD']['stage']=='complete':
+                user = request.user
+
+                model = ISATabFile(uploaded_by=user,isafile=file)
+                model.save()
+                model.access.add(user)
+
         except requests.exceptions.RequestException, e:
-            r = errorResponse(request, 'Upload server could not be reached', 1, Errors.CONNECTION)
+            r = errorResponse(request, 'Upload server could not be reached', 1)
         except requests.exceptions.Timeout, e:
-            r = errorResponse(request, 'Connection timed out, please try again later', 1, Errors.CONNECTION)
+            r = errorResponse(request, 'Connection timed out, please try again later', 1)
 
-        return respond(request, r)
-
+        return storeAndRespond(request, r)
     else:
         return HttpResponse('Invalid request', content_type="text/plain")
 
 
-def getError(numOfErrors, errorMsg, type):
-    errors = {
-        'total': numOfErrors,
-        'messages': errorMsg[0].upper() + errorMsg[1:],
-        'type': type
-    }
-    return errors
+@csrf_exempt
+@decorators.login_required(login_url=views.login)
+def getCancel(request):
+    if request.is_ajax():
+        if 'upload_progress' in request.session:
+            uploadID = request.session['uploadID']
+            del request.session['upload_progress']
+            del request.session['uploadID']
+            url = settings.WEBSERVICES_URL + 'upload/cancel'
+            url += '?uploadID=' + uploadID
+            try:
+                r = requests.get(url, timeout=TIMEOUT)
+            except requests.exceptions.ConnectionError, e:
+                r = errorResponse('Upload server could not be reached, please delete the file')
+            except requests.exceptions.Timeout, e:
+                r = errorResponse('Connection timed out, please delete the file')
+            return HttpResponse(r)
+        else:
+            return HttpResponse('Cancel complete')
+    else:
+        return errorResponse(request, 'Invalid request', 1)
 
 
-def respond(request, response):
+@csrf_exempt
+@decorators.login_required(login_url=views.login)
+def resetUpload(request):
+    if request.is_ajax():
+        if 'upload_progress' in request.session:
+            del request.session['upload_progress']
+        return HttpResponse('')
+    else:
+        return errorResponse(request, 'Invalid request', 1)
+
+
+@csrf_exempt
+@decorators.login_required(login_url=views.login)
+def getProgress(request):
+    if request.is_ajax():
+        uploadID = request.session['uploadID']
+        url = settings.WEBSERVICES_URL + 'upload/progress'
+        url += '?uploadID=' + uploadID
+        try:
+            r = requests.get(url, timeout=TIMEOUT)
+        except requests.exceptions.ConnectionError, e:
+            r = errorResponse(request, 'Upload server could not be reached', 1)
+        except requests.exceptions.Timeout, e:
+            r = errorResponse(request, 'Connection timed out, please try again later', 1)
+        return storeAndRespond(request, r)
+    else:
+        return errorResponse(request, 'Invalid request', 1)
+
+
+def errorResponse(request, objErrors):
+    if 'upload_progress' in request.session:
+        prog = request.session['upload_progress']['UPLOAD']
+        prog[prog['stage']]['errors'] = objErrors
+        request.session['upload_progress'] = json.dumps(prog)
+        r = HttpResponse(json.dumps(prog))
+        r.text = json.dumps(prog)
+        return r
+    else:
+        return HttpResponse(objErrors)
+
+
+def storeAndRespond(request, response):
     if (response.status_code != 200):
-        resp = errorResponse(request, 'Server error with status code ' + str(response.status_code), 1,
-                             Errors.BAD_REQUEST)
+        resp = errorResponse(request, 'Server error with status code ' + str(response.status_code), 1)
         return resp
     else:
         obj = json.loads(response.text)
-        if('requestErrors' in obj):
-           return errorResponse(request, obj['requestErrors'], 1, Errors.BAD_REQUEST)
-
-        request.session['upload_session'] = json.dumps(obj).replace('\\', '\\\\')
+        request.session['upload_progress'] = json.dumps(obj).replace('\\', '\\\\')
         return HttpResponse(json.dumps(obj))
-
-
-def errorResponse(request, strerror, numOfErrors, type):
-    session = uploadSession(request)
-    if session == None:
-        session = dict()
-        session['stage'] = 'uploading'
-        session['uploading'] = {'progress': 0}
-
-    session[session['stage']]['errors'] = getError(numOfErrors, strerror, type)
-    session['errors'] = type
-    request.session['upload_session'] = json.dumps(session)
-    r = HttpResponse(json.dumps(session))
-    r.text = json.dumps(session)
-    return r
-
-
-def cancelResponse(request, resp):
-    cancelResp = dict()
-    cancelResp['cancel'] = Messages(1, resp)
-    request.session['upload_session'] = json.dumps(cancelResp)
-    r = HttpResponse(json.dumps(cancelResp))
-    return r
-
-
-@csrf_exempt
-def cancelUpload(request):
-    if (uploadSession(request)):
-        del request.session['upload_session']
-        url = settings.WEBSERVICES_URL + 'upload/cancel'
-        sessionID = request.session.session_key
-        url += '?sessionID=' + sessionID
-        try:
-            r = requests.get(url, timeout=TIMEOUT)
-        except requests.exceptions.ConnectionError, e:
-            r = cancelResponse('Upload server could not be reached, please delete the file')
-        except requests.exceptions.Timeout, e:
-            r = cancelResponse('Connection timed out, please delete the file')
-        return HttpResponse(r)
-    else:
-        return HttpResponse(cancelResponse('No cancellation required'))
-
-
-@csrf_exempt
-def resetUpload(request):
-    if (uploadSession(request)):
-        del request.session['upload_session']
-    return HttpResponse('')
-
-
-def uploadSession(request):
-    if ('upload_session' in request.session):
-        sess = json.loads(request.session['upload_session'].replace('\\\\', '\\'))
-    else:
-        sess = None
-    return sess
-
-
-@csrf_exempt
-def uploadFileProgress(request):
-    url = settings.WEBSERVICES_URL + 'upload/progress'
-    sessionID = request.session.session_key
-    if sessionID:
-        url += '?sessionID=' + sessionID
-        try:
-            r = requests.get(url, timeout=TIMEOUT)
-        except requests.exceptions.ConnectionError, e:
-            r = errorResponse(request, 'Upload server could not be reached', 1, Errors.CONNECTION)
-        except requests.exceptions.Timeout, e:
-            r = errorResponse(request, 'Connection timed out, please try again later', 1, Errors.CONNECTION)
-    else:
-        r = errorResponse(request, 'Invalid SessionID', 1, Errors.BAD_REQUEST)
-    return respond(request, r)

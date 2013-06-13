@@ -1,0 +1,43 @@
+h2{
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+table.paleblue td, table.paleblue th{
+    line-height: 30px;
+    padding: 5px 10px;
+    font-size: 16px;
+    color: #6e6e70 !important;
+    background:none !important;
+    background-color: white !important;
+}
+table.paleblue thead th, table.paleblue thead td{
+    font-size: 16px;
+    padding: 5px 10px;
+    background-color: #24aae1 !important;
+}
+
+table.paleblue thead th > a:link, table.paleblue thead th > a{
+    color: white !important;
+}
+
+table.paleblue thead th.orderable > a{
+    background-size: 10px 12px !important;
+}
+
+table.paleblue thead th.orderable.asc > a {
+    background-image: url("../img/arrow_up_active.png");
+}
+
+table.paleblue thead th.orderable.desc > a {
+    background-image: url("../img/arrow_down_active.png");
+}
+table.paleblue thead th.orderable > a{
+    background: url(../img/arrow_up_inactive.png) right center no-repeat;
+}
+
+table.paleblue td,th{
+    max-width: 755px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

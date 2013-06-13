@@ -7,8 +7,8 @@ $(document).ready(function () {
             showToast('Uploading will resume in the background')
     });
 
-    if (vars.upload_session) {
-        upload.resume(vars.upload_session);
+    if (vars.upload_progress) {
+        upload.resume(vars.upload_progress);
     }
 
     $('#file').change(function () {

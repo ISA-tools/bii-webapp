@@ -45,12 +45,12 @@ USE_TZ = False
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = SITE_ROOT + "/media/"
+MEDIA_ROOT = SITE_ROOT
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"
-MEDIA_URL = '/media/'
+MEDIA_URL = 'media/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '9%$in^gpdaig@v3or_to&_z(=n)3)$f1mr3hf9e#kespy2ajlo'
@@ -141,6 +141,8 @@ INSTALLED_APPS = (
     'bii_webapp.apps.browse',
     'bii_webapp.apps.upload',
     'bii_webapp.apps.base',
+    'bii_webapp.apps.files',
+    'django_tables2',
     'registration',
     'widget_tweaks',
     'email_change',

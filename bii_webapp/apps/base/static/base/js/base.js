@@ -1,4 +1,4 @@
-String.prototype.escapeSpecialChars = function() {
+String.prototype.escapeSpecialChars = function () {
     return this.replace(/[\\]/g, '\\\\')
         .replace(/[\"]/g, '\\"')
         .replace(/[\\]/g, '\\\\')
@@ -9,7 +9,7 @@ String.prototype.escapeSpecialChars = function() {
         .replace(/[\r]/g, '\\r')
         .replace(/[\t]/g, '\\t')
 
-    replace('\\n','\\n').replace('\\t','\\t').replace('\\"','\\"')
+    replace('\\n', '\\n').replace('\\t', '\\t').replace('\\"', '\\"')
 };
 /**
  * Sets the current main content in the middle
@@ -45,11 +45,9 @@ var showToast = function (msg) {
     el.append('<div class="toast"></div>');
     $('.toast').text(msg);
     $('.toast').css('margin-left', -$('.toast').outerWidth() / 2 + 'px');
-    $('.toast').show(1000, function () {
-        setTimeout(function () {
-            $('.toast').hide(1000, function () {
-                el.remove('.toast')
-            });
-        }, 2000);
-    });
+    $('.toast').show();
+    setTimeout(function () {
+        $('.toast').hide();
+        el.remove('.toast')
+    }, 2000);
 }

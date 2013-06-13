@@ -29,10 +29,11 @@ var upload = function () {
 
     function update(upload_session, animate) {
         var progress = 0;
-        if (upload_session.stage != 'complete')
-            progress = upload_session[upload_session.stage].progress;
+        var stage = upload_session.UPLOAD.stage
+        if (stage != 'complete')
+            progress = upload_session.UPLOAD[stage].progress;
 
-        var currStageID = helper.stageID(upload_session.stage);
+        var currStageID = helper.stageID(stage);
 
         for (var i = 1; i < currStageID; i++) {
             progressHandler.progressStage(i, 100, animate);
@@ -45,21 +46,14 @@ var upload = function () {
 
         request.requestUpdate(function (upload_session) {
 
-            if (upload_session.stage == undefined) {
-                return setTimeout(recursiveUpdates, 1000);
-            }
-
             if (isIssuesExist(upload_session)) {
-                STATE = 'STOPPED'
+                STATE = 'STOPPING'
                 helper.toggleButtons('select');
-                return;
             }
 
             update(upload_session);
 
-            if (upload_session.stage == 'complete') {
-                setTimeout(function () {
-                }, 500);
+            if (upload_session.UPLOAD.stage == 'complete') {
                 helper.toggleButtons('select');
                 STATE = 'STOPPING';
             }
@@ -82,39 +76,54 @@ var upload = function () {
     }
 
     function start(file) {
-        reset(function (file) {
-            STATE = 'STARTED';
-            helper.insertFields(file);
-            helper.toggleButtons('cancel');
+        helper.insertFields(file);
+        showToast('Initiating upload');
+        request.requestInit(function (data) {
+            if (data.ERROR) {
+                showToast(data.ERROR.messages);
+                return;
+            }
             progressHandler.progressStage(1, 0);
-            request.uploadFile(file);
+            helper.toggleButtons('cancel');
+            request.uploadFile(file,function(data){
+                if (upload_session.UPLOAD.stage == 'complete') {
+                    helper.toggleButtons('select');
+                }
+            });
+            STATE = 'STARTED';
             recursiveUpdates();
-        }, file)
+        })
     }
 
     function resume(upload_session) {
         var file = {};
-        file.name = upload_session.filename;
-        file.size = upload_session.filesize;
+        file.name = upload_session.UPLOAD.filename;
+        file.size = upload_session.UPLOAD.filesize;
         helper.insertFields(file);
         update(upload_session, false);
         if (isIssuesExist(upload_session))
             return;
-        if (upload_session.stage != 'complete') {
+        if (upload_session.UPLOAD.stage != 'complete') {
             STATE = 'STARTED';
             helper.toggleButtons('cancel');
             recursiveUpdates();
         }
     }
 
-    function isIssuesExist(upload_session) {
-        var cnt = helper.stageElement(helper.stageID(upload_session.stage));
-        var errors_exist = false;
-        var upload_sessionStage = upload_session[upload_session.stage]
+    function isIssuesExist(data) {
 
-        if (upload_session.errors) {
-            var total = upload_sessionStage.errors.total
-            var messages = upload_sessionStage.errors.messages
+        if (data.ERROR) {
+            showToast(data.ERROR.messages);
+            return true;
+        }
+
+        var cnt = helper.stageElement(helper.stageID(data.UPLOAD.stage));
+        var errors_exist = false;
+        var upload_sessionStage = data.UPLOAD[data.UPLOAD.stage]
+
+        if (upload_sessionStage.ERROR) {
+            var total = upload_sessionStage.ERROR.total
+            var messages = upload_sessionStage.ERROR.messages
             var errors_cnt = cnt.find('.errors-container');
             var errors_title = errors_cnt.find('.issue_title');
             errors_title.text(total + ' error' + (total > 1 ? 's' : ''));
@@ -124,13 +133,13 @@ var upload = function () {
             errors_cnt.show();
             errors_exist = true;
         }
-        if (upload_sessionStage && upload_sessionStage.warnings) {
+        if (upload_sessionStage && upload_sessionStage.WARNING) {
             var warnings_cnt = cnt.find('.warnings-container');
             var warnings_title = warnings_cnt.find('.issue_title');
-            var warnings_num = upload_sessionStage.warnings.total;
+            var warnings_num = upload_sessionStage.WARNING.total;
             warnings_title.text(warnings_num + ' warning' + (warnings_num > 1 ? 's' : ''));
             var warnings_box = warnings_cnt.find('.issue_content');
-            warnings_box.text(upload_sessionStage.warnings.messages);
+            warnings_box.text(upload_sessionStage.WARNING.messages);
             warnings_box.trigger('contentChange');
             warnings_cnt.show();
         }
@@ -144,8 +153,10 @@ var upload = function () {
         callback = function (data) {
             vars.upload_session = '';
             reset(function (data) {
-                if (data.cancel)
-                    showToast(data.cancel.messages);
+                if (data.INFO)
+                    showToast(data.INFO.messages);
+                if (data.ERROR)
+                    showToast(data.ERROR.messages);
             }, data);
         }
         request.cancelFile(callback);

@@ -177,10 +177,8 @@ ISSUES
 }
 
 .upload-function div.dropdown-menu >div {
-    max-width: 200px;
     padding: 3px 10px;
     white-space: pre-wrap;
-    max-height: 200px;
 }
 
 .upload-function div.issue:hover div.dropdown-menu {

@@ -8,10 +8,9 @@
 {% block extrascript %}
 <script>
     vars=function() {
-        var upload_session = '{% autoescape off %}{{ request.session.upload_session }}{% endautoescape %}';
-        var x = '{{ request.session.upload_session }}'
-        if (upload_session && upload_session.length > 0) {
-            upload_session = JSON.parse(upload_session);
+        var upload_progress = '{% autoescape off %}{{ request.session.upload_progress }}{% endautoescape %}';
+        if (upload_progress && upload_progress.length > 0) {
+            upload_progress = JSON.parse(upload_progress);
         }
 
         return {
@@ -20,9 +19,10 @@
                 uploadFile: "{% url 'upload.uploadFile' %}",
                 uploadFileProgress: "{% url 'upload.uploadFileProgress' %}",
                 cancelUpload: "{% url 'upload.cancelUpload' %}",
-                resetUpload: "{% url 'upload.resetUpload' %}"
+                resetUpload: "{% url 'upload.resetUpload' %}",
+                init: "{% url 'upload.initUpload' %}"
             },
-            upload_session: upload_session
+            upload_progress: upload_progress
         }
     }();
 </script>

@@ -5,7 +5,6 @@
 <head>
     <title>{% block title %}BII{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="{% static 'libs/selectivizr/selectivizr.js' %}"></script>
     <!-- JQuery -->
     <script src="{% static 'libs/jquery/jquery-1.9.1.min.js' %}"></script>
     <script src="{% static 'libs/jquery/jquery-ui.min.js' %}"></script>
@@ -104,7 +103,7 @@
                         </li>
 
                         <li>
-                            <a id="files" href=""> <img src="{% static 'browse/img/files.png' %}"/>
+                            <a id="files" href="{% url 'files.files' %}"> <img src="{% static 'browse/img/files.png' %}"/>
 
                                 <p>
                                     Files
