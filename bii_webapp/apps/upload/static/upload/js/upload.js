@@ -20,7 +20,7 @@ var upload = function () {
                 helper.clearFields();
                 //Ensure that any animations left are cleared
                 progressHandler.clear();
-                stop()
+                wait()
                 if (callback)callback(param);
             }
         };
