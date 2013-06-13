@@ -2,7 +2,7 @@ from django.contrib.auth import decorators, views
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
-from models import *
+from bii_webapp.apps.files.models import *
 import json
 import requests
 import re

@@ -41,3 +41,8 @@ table.paleblue td,th{
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+table.paleblue > tbody > tr > td > .missing {
+    background: transparent url(../img/broken_link.png) right center no-repeat;
+    background-size: 27px 24px !important;
+}

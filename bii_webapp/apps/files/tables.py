@@ -1,5 +1,5 @@
 import django_tables2 as tables
-from bii_webapp.apps.upload.models import ISATabFile
+from models import ISATabFile
 
 class FilesTable(tables.Table):
     # name = tables.TemplateColumn('<a href="asdsa">asdsa</a>')

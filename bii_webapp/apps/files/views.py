@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.conf import settings
-from bii_webapp.apps.upload.models import ISATabFile,FILES_PATH
+from models import ISATabFile,FILES_PATH
 from django.utils.encoding import smart_str
 from django.core.servers.basehttp import FileWrapper
 from django_tables2   import RequestConfig
