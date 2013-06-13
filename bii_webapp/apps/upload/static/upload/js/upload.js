@@ -15,12 +15,11 @@ var upload = function () {
         progressHandler.clear();
         var wait = function () {
             if (STATE == 'STOPPING')
-                setTimeout(stop, 100);
+                setTimeout(wait, 100);
             else {
                 helper.clearFields();
                 //Ensure that any animations left are cleared
                 progressHandler.clear();
-                wait()
                 if (callback)callback(param);
             }
         };
