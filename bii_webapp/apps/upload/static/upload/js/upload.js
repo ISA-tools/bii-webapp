@@ -92,7 +92,7 @@ var upload = function () {
             request.uploadFile(file, function (data) {
                 if (STATE != 'STARTED')
                     return;
-                if (STATE == 'STARTED')STATE = 'STOPPING';
+//                if (STATE == 'STARTED')STATE = 'STOPPING';
                 helper.toggleButtons('select');
                 if(isIssuesExist(data))
                     $('#retry').show();

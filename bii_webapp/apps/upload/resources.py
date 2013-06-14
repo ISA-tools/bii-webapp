@@ -104,8 +104,8 @@ def resetUpload(request):
 @csrf_exempt
 @decorators.login_required(login_url=views.login)
 def getProgress(request):
-    if (errorsExist(request)):
-        return HttpResponse(request.session['upload_progress'])
+    # if (errorsExist(request)):
+    #     return HttpResponse(request.session['upload_progress'])
     uploadID = request.session['uploadID']
     url = settings.WEBSERVICES_URL + 'upload/progress'
     url += '?uploadID=' + uploadID

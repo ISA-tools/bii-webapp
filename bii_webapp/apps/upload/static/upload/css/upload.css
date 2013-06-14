@@ -143,6 +143,10 @@ h2 {
     background-image: none !important;
     width: 0%;
     filter: none;
+    -webkit-transition: none;
+    -moz-transition: none;
+    -o-transition: none;
+    transition: none;
 }
 
 .upload-function .filename {

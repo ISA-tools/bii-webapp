@@ -56,7 +56,7 @@ var progressHandler = function () {
 
         var total_height = connector_height + connector_difference;
 
-        if (animate == false) {
+        if (animate==false) {
             $('.main-connector').height(total_height + 'px');
             var el = helper.stageElement(stage);
             if (el.length > 0) {
@@ -110,8 +110,9 @@ var progressHandler = function () {
             return;
         }
 
-        if (animate == false) {
-            el.width(pixelProgress + 'px');
+        if (animate==false) {
+            el.width(pixelProgress+'px');
+//            el.width(pixelProgress + 'px');
             el.text(progress + '%');
             if (progress == 100) {
                 el.text('COMPLETE');
