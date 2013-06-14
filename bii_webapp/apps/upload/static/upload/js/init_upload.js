@@ -2,6 +2,13 @@ $(document).ready(function () {
 
 //    $('.uneditable-input >i').removeClass('icon-file')
 
+    $('#retry').hide();
+
+    $('#select_file').click(function(){
+        $('#file').val('');
+        $('#retry').hide();
+    })
+
     $(window).bind('beforeunload', function () {
         if (upload.getState()=='STARTED')
             showToast('Uploading will resume in the background')

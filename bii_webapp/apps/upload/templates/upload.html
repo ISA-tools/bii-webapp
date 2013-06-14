@@ -47,6 +47,7 @@
             <button id="cancel" onclick="javascript:upload.cancel();" class="fileupload-exists btn btn-info"
                     data-dismiss="fileupload">Cancel
             </button>
+            <a id="retry" class="btn btn-info" href="javascript:$('#file').trigger('change')"><img src="{% static 'upload/img/retry.png' %}"/></a>
         </div>
         <div class="main-connector"></div>
     </div>

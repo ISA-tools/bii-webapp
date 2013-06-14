@@ -43,12 +43,12 @@ var upload = function () {
 
     function recursiveUpdates(upload_session) {
 
+        update(upload_session);
+
         if (STATE == 'STOPPING') {
             STATE = 'STOPPED';
             return;
         }
-
-        update(upload_session);
 
         if (upload_session.UPLOAD.stage == 'complete') {
             helper.toggleButtons('select');
@@ -58,6 +58,7 @@ var upload = function () {
 
         if (isIssuesExist(upload_session)) {
             helper.toggleButtons('select');
+            $('#retry').show();
             STATE = 'STOPPED';
             return;
         }
@@ -65,11 +66,6 @@ var upload = function () {
         request.requestUpdate(function (upload_session) {
 
             function checkQueue() {
-                if (STATE == 'STOPPING') {
-                    STATE = 'STOPPED';
-                    return;
-                }
-
                 if (!progressHandler.isRunning())
                     recursiveUpdates(upload_session);
                 else
@@ -85,15 +81,21 @@ var upload = function () {
         helper.insertFields(file);
         showToast('Initiating upload', -1);
         request.requestInit(function (data) {
+            if (isIssuesExist(data)) {
+                showToast(data.ERROR.messages);
+                $('#retry').show();
+                return;
+            }
             hideToast();
             progressHandler.progressStage(1, 0);
             helper.toggleButtons('cancel');
             request.uploadFile(file, function (data) {
-                if(STATE!='STARTED')
+                if (STATE != 'STARTED')
                     return;
-                isIssuesExist(data)
-                if(STATE=='STARTED')STATE = 'STOPPING';
+                if (STATE == 'STARTED')STATE = 'STOPPING';
                 helper.toggleButtons('select');
+                if(isIssuesExist(data))
+                    $('#retry').show();
             });
             STATE = 'STARTED';
             recursiveUpdates(data);
@@ -102,14 +104,15 @@ var upload = function () {
 
     function resume(upload_session) {
         var file = {};
-        if(upload_session.UPLOAD.filesize==-1)
+        if (upload_session.UPLOAD.filesize == -1)
             return;
         file.name = upload_session.UPLOAD.filename;
         file.size = upload_session.UPLOAD.filesize;
         helper.insertFields(file);
         update(upload_session, false);
-        if (isIssuesExist(upload_session))
+        if (isIssuesExist(upload_session)){
             return;
+        }
         if (upload_session.UPLOAD.stage != 'complete') {
             STATE = 'STARTED';
             helper.toggleButtons('cancel');
@@ -155,7 +158,7 @@ var upload = function () {
     }
 
     function cancel() {
-        if(STATE=='STARTED')STATE = 'STOPPING';
+        if (STATE == 'STARTED')STATE = 'STOPPING';
         helper.toggleButtons('cancelling');
         callback = function (data) {
             if (data.INFO)

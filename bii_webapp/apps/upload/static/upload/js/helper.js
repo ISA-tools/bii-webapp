@@ -86,6 +86,7 @@ var helper = function () {
     }
 
     function clearFields() {
+        $('#retry').hide();
         $('.filename').each(function () {
             $(this).text('');
         });
@@ -103,7 +104,7 @@ var helper = function () {
             });
         $('#result .filename').text('');
         $('#result').hide();
-        $('#file').val('');
+//        $('#file').val('');
         $('.uneditable-input >i').hide();
         $('.fileupload-name').text('');
         $('.warnings-container').hide();

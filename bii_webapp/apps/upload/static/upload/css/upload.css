@@ -10,6 +10,22 @@ h2 {
     display: none;
 }
 
+#retry {
+    border-radius: 4px;
+    margin-left: 5px;
+    height: 28px !important;
+    width: 30px !important;
+    float: right;
+    line-height: 28px;
+    text-align: center;
+    padding: 0px;
+}
+
+#retry img{
+    height: 21px;
+    width: 22px;
+}
+
 .uneditable-input {
     width: 400px !important;
     *display: inline !important;

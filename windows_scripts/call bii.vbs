@@ -1,4 +1,4 @@
-sites = Array("http://bii.heroku.com","http://bii-test.heroku.com","http://ws-bii.heroku.com","http://ws-bii-test.heroku.com")
+sites = Array("http://bii.heroku.com","http://bii-test.heroku.com","http://bii-ws.heroku.com","http://bii-test-ws.heroku.com")
 
 For Each site In sites
 
