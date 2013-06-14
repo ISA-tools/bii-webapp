@@ -312,6 +312,7 @@ h1 {
 #main-container {
     padding: 30px 40px;
     min-height: 1000px;
+    overflow: auto;
 }
 
 #main-content {
@@ -325,15 +326,12 @@ h1 {
 #footer {
     text-align: center;
     margin: 0px 40px 0px 40px;
+    height: 100px;
+    line-height: 100px;
 }
 
-#footer p {
-    display: inline-block;
-    width: 100%;
-    line-height: 42px;
-    height: 42px;
-    font-size: 14px;
-    font-weight: bold;
+#footer >div {
+    float:left;
 }
 
 .toast{

@@ -40,14 +40,21 @@ $(document).ready(function () {
     $('#searchbar').width(widthLeft);
 });
 
-var showToast = function (msg) {
+var showToast = function (msg, duration) {
+    if (duration == undefined)
+        duration = 2000
     var el = $('body');
     el.append('<div class="toast"></div>');
     $('.toast').text(msg);
     $('.toast').css('margin-left', -$('.toast').outerWidth() / 2 + 'px');
     $('.toast').show();
-    setTimeout(function () {
-        $('.toast').hide();
-        el.remove('.toast')
-    }, 2000);
+    if (duration != -1)
+        setTimeout(function () {
+            $('.toast').hide();
+            el.remove('.toast')
+        }, duration);
+}
+
+var hideToast = function () {
+    $('.toast').hide();
 }

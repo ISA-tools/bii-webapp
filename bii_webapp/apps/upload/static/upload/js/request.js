@@ -6,14 +6,14 @@ var request = function () {
                 type: 'GET',
                 //Ajax events
                 success: completeHandler = function (data) {
-                    if(callback)callback(data);
+                    if (callback)callback(data);
                 },
                 timeout: -1,
                 error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
                     if (xmlHttpRequest.readyState == 0 || xmlHttpRequest.status == 0)
                         return;  // it's not really an error
                     handleConnectionErrors();
-                    if(callback)callback(vars.upload_progress);
+                    if (callback)callback(vars.upload_progress);
                 },
                 dataType: 'json'
             }
@@ -27,14 +27,14 @@ var request = function () {
                 type: 'GET',
                 //Ajax events
                 success: completeHandler = function (data) {
-                    if(callback)callback(data);
+                    if (callback)callback(data);
                 },
                 timeout: -1,
                 error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
                     if (xmlHttpRequest.readyState == 0 || xmlHttpRequest.status == 0)
                         return;  // it's not really an error
                     handleConnectionErrors();
-                    if(callback)callback(vars.upload_progress);
+                    if (callback)callback(vars.upload_progress);
                 },
                 dataType: 'json'
             }
@@ -44,19 +44,23 @@ var request = function () {
 
     function handleConnectionErrors() {
         var error_message = "Connection failed";
-        if (vars.upload_progress)
-            vars.upload_progress[vars.upload_progress.UPLOAD.stage].ERROR =
+        if (vars.upload_progress){
+            var obj=vars.upload_progress.UPLOAD;
+            obj[obj.stage].ERROR =
             {
                 total: 1,
                 messages: error_message.charAt(0).toUpperCase() + error_message.slice(1)
             }
+        }
         else {
             vars.upload_progress = {
-                stage:'uploading',
-                uploading: {
-                    ERROR: {
-                        total: 1,
-                        messages: error_message.charAt(0).toUpperCase() + error_message.slice(1)
+                'UPLOAD': {
+                    stage: 'uploading',
+                    uploading: {
+                        ERROR: {
+                            total: 1,
+                            messages: error_message.charAt(0).toUpperCase() + error_message.slice(1)
+                        }
                     }
                 }
             }
@@ -69,14 +73,14 @@ var request = function () {
                 type: 'GET',
                 //Ajax events
                 success: completeHandler = function (data) {
-                    if(callback)callback(data);
+                    if (callback)callback(data);
                 },
                 timeout: -1,
                 error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
                     if (xmlHttpRequest.readyState == 0 || xmlHttpRequest.status == 0)
                         return;  // it's not really an error
                     handleConnectionErrors();
-                    if(callback)callback(vars.upload_progress);
+                    if (callback)callback(vars.upload_progress);
                 },
                 dataType: 'json'
             }
@@ -88,7 +92,7 @@ var request = function () {
         $.ajax({
                 url: vars.url.resetUpload,  //server script to process data
                 type: 'GET',
-                async:false
+                async: false
                 //Ajax events
             }
         );
@@ -109,14 +113,14 @@ var request = function () {
                 type: 'POST',
                 //Ajax events
                 success: successHandler = function (data) {
-                   if(callback) callback(data);
+                    if (callback) callback(data);
                 },
                 timeout: -1,
                 error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
                     if (xmlHttpRequest.readyState == 0 || xmlHttpRequest.status == 0)
                         return;  // it's not really an error
                     handleConnectionErrors();
-                    if(callback)callback(vars.upload_progress);
+                    if (callback)callback(vars.upload_progress);
                 },
                 // Form data
                 data: formData,
@@ -132,8 +136,8 @@ var request = function () {
         requestUpdate: requestUpdate,
         cancelFile: cancelFile,
         uploadFile: uploadFile,
-        reset:reset,
-        requestInit:requestInit
+        reset: reset,
+        requestInit: requestInit
     }
 }
 
