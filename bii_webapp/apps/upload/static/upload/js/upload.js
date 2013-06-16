@@ -43,6 +43,11 @@ var upload = function () {
 
     function recursiveUpdates(upload_session) {
 
+        if(upload_session.ERROR){
+            STATE = 'STOPPED';
+            return;
+        }
+
         update(upload_session);
 
         if (STATE == 'STOPPING') {
@@ -90,9 +95,7 @@ var upload = function () {
             progressHandler.progressStage(1, 0);
             helper.toggleButtons('cancel');
             request.uploadFile(file, function (data) {
-                if (STATE != 'STARTED')
-                    return;
-//                if (STATE == 'STARTED')STATE = 'STOPPING';
+                update(data,true);
                 helper.toggleButtons('select');
                 if(isIssuesExist(data))
                     $('#retry').show();

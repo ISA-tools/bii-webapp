@@ -5,7 +5,7 @@ TEMPLATE_DEBUG = DEBUG
 
 SITE_ID=1
 
-WEBSERVICES_URL='http://localhost:9090/'
+WEBSERVICES_URL='http://localhost:9090/bii-ws/'
 
 MIDDLEWARE_CLASSES += (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
