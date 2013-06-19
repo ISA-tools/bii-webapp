@@ -30,5 +30,14 @@
             "domain": "bii.herokuapp.com",
             "name": "bii"
         }
+    },
+
+    {
+        "model": "sites.Site",
+        "pk": 5,
+        "fields": {
+            "domain": "http://bii.oerc.ox.ac.uk/",
+            "name": "bii"
+        }
     }
 ]

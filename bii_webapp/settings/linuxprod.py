@@ -28,6 +28,6 @@ DATABASES = {
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-SITE_ID=4
+SITE_ID=5
 
-WEBSERVICES_URL='http://bii-ws.herokuapp.com/'
+WEBSERVICES_URL='http://bii.oerc.ox.ac.uk/ws/'
