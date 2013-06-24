@@ -12,10 +12,6 @@
     <script src="{% static 'libs/jquery/jQueryRotateCompressed.2.2.js' %}"></script>
     <script src="{% static 'libs/jquery/jquery.slimscroll.min.js' %}"></script>
     <script src="{% static 'libs/jquery/jquery.actual.min.js' %}"></script>
-    <!-- Knockoutjs -->
-    <script src="{% static 'libs/knockoutjs/knockout-2.2.1.js' %}"></script>
-    <!-- JSONJS -->
-    <!--<script src="{% static 'libs/jsonjs/json2.js' %}"></script>-->
     <script src="{% static 'libs/jsonjs/json2.js' %}"></script>
     <!-- Bootstrap -->
     <link href="{% static 'libs/bootstrap/css/bootstrap.css' %}" rel="stylesheet">
@@ -37,7 +33,7 @@
                 <ul class="nav">
                     <li>
                         <div>
-                            <a href="{% url 'browse.browse' %}"><img src="{% static 'browse/img/logo.png' %}" width="74"
+                            <a href="{% url 'browse.browse' %}"><img src="{% static 'base/img/logo.png' %}" width="74"
                                                                      height="35"/></a>
                         </div>
                     </li>
@@ -47,7 +43,7 @@
                             <form class="well form-search">
                                 <input type="text" placeholder="Search the BII" class="input-medium search-query">
                                 <button type="submit" class="btn btn-info"><img
-                                        src="{% static 'browse/img/search_icon.png' %}">Search
+                                        src="{% static 'base/img/search_icon.png' %}">Search
                                 </button>
                             </form>
                         </div>
@@ -56,7 +52,7 @@
                     {% if user.is_authenticated %}
                     <li id="user_profile" class="right">
                         <div class="left">
-                            <img src="{% static 'browse/img/profile.png' %}" width="30" height="30"/>
+                            <img src="{% static 'base/img/profile.png' %}" width="30" height="30"/>
                         </div>
                         <div id="profile_dets" class="left">
                             <div><a id="username">{{user.username }}</a></div>
@@ -86,7 +82,7 @@
                     <ul class="nav">
                         <li>
                             <a id="browse" href="{% url 'browse.browse' %}"> <img
-                                    src="{% static 'browse/img/search.png' %}"/>
+                                    src="{% static 'base/img/search.png' %}"/>
 
                                 <p>
                                     Browse
@@ -94,8 +90,18 @@
                         </li>
 
                         <li>
+                            <a id="create" href="{% url 'create.create' %}"> <img
+                                    src="{% static 'base/img/create.png' %}"/>
+
+                                <p>
+                                    Create
+                                </p></a>
+                        </li>
+
+
+                        <li>
                             <a id="upload" href="{% url 'upload.upload' %}"> <img
-                                    src="{% static 'browse/img/upload.png' %}"/>
+                                    src="{% static 'base/img/upload.png' %}"/>
 
                                 <p>
                                     Upload
@@ -103,7 +109,7 @@
                         </li>
 
                         <li>
-                            <a id="files" href="{% url 'files.files' %}"> <img src="{% static 'browse/img/files.png' %}"/>
+                            <a id="files" href="{% url 'files.files' %}"> <img src="{% static 'base/img/files.png' %}"/>
 
                                 <p>
                                     Files
@@ -111,7 +117,7 @@
                         </li>
 
                         <li>
-                            <a id="settings" href=""> <img src="{% static 'browse/img/settings.png' %}"/>
+                            <a id="settings" href=""> <img src="{% static 'base/img/settings.png' %}"/>
 
                                 <p>
                                     Settings
@@ -119,7 +125,7 @@
                         </li>
 
                         <li>
-                            <a id="admin" href="{% url 'admin:index' %}"> <img src="{% static 'browse/img/admin.png' %}"/>
+                            <a id="admin" href="{% url 'admin:index' %}"> <img src="{% static 'base/img/admin.png' %}"/>
 
                                 <p>
                                     Admin
@@ -129,8 +135,7 @@
                         <li id="basket_li">
                             <a id="basket" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
                                 <div>6</div>
-                                <img src="{% static 'browse/img/basket.png' %}"/>
-
+                                <img src="{% static 'base/img/basket.png' %}"/>
                                 <p>
                                     Basket
                                 </p>
@@ -149,7 +154,7 @@
         </div>
     </div>
     <div id="footer">
-        <div><img src="{% static 'browse/img/footer_logo.png' %}"/></div><span class="right">Copyright 2013-Present, ISA tools team</span>
+        <div><img src="{% static 'base/img/footer_logo.png' %}"/></div><span class="right">Copyright 2013-Present, ISA tools team</span>
     </div>
 </div>
 </body>

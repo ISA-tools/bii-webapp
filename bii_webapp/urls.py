@@ -8,6 +8,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^accounts/', include('bii_webapp.apps.accounts.urls')),
     url(r'^browse/', include('bii_webapp.apps.browse.urls')),
+    url(r'^create/', include('bii_webapp.apps.create.urls')),
     url(r'^$',include('bii_webapp.apps.base.urls')),
     url(r'^upload/', include('bii_webapp.apps.upload.urls')),
     url(r'^files/', include('bii_webapp.apps.files.urls')),
