@@ -8,7 +8,7 @@
 var viewModel;
 $(document).ready(function () {
 
-    viewModel = new StudyModel();
+    viewModel = new InvestigationModel();
     ko.applyBindings(viewModel);
 
     // Activate jQuery Validation
