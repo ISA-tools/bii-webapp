@@ -48,6 +48,13 @@ var upload = function () {
             return;
         }
 
+        if (isIssuesExist(upload_session)) {
+            helper.toggleButtons('select');
+            $('#retry').show();
+            STATE = 'STOPPED';
+            return;
+        }
+
         update(upload_session);
 
         if (STATE == 'STOPPING') {
@@ -61,14 +68,7 @@ var upload = function () {
             return;
         }
 
-        if (isIssuesExist(upload_session)) {
-            helper.toggleButtons('select');
-            $('#retry').show();
-            STATE = 'STOPPED';
-            return;
-        }
-
-        request.requestUpdate(function (upload_session) {
+        setTimeout(function(){request.requestUpdate(function (upload_session) {
 
             function checkQueue() {
                 if (!progressHandler.isRunning())
@@ -79,7 +79,7 @@ var upload = function () {
 
             checkQueue();
 
-        });
+        })},2000);
     }
 
     function start(file) {
@@ -99,6 +99,7 @@ var upload = function () {
                 helper.toggleButtons('select');
                 if(isIssuesExist(data))
                     $('#retry').show();
+                STATE = 'STOPPED';
             });
             STATE = 'STARTED';
             recursiveUpdates(data);
@@ -107,8 +108,12 @@ var upload = function () {
 
     function resume(upload_session) {
         var file = {};
-        if (upload_session.UPLOAD.filesize == -1)
+        if (upload_session.ERROR || upload_session.UPLOAD.filesize == -1)
             return;
+        if (upload_session.UPLOAD.stage== 'complete') {
+             return;
+        }
+
         file.name = upload_session.UPLOAD.filename;
         file.size = upload_session.UPLOAD.filesize;
         helper.insertFields(file);

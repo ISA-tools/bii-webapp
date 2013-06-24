@@ -143,6 +143,10 @@ def storeAndRespond(request, response):
         resp = errorResponse(request, 'Server error with status code ' + str(response.status_code))
         return resp
     else:
-        obj = json.loads(response.content)
-        request.session['upload_progress'] = json.dumps(obj).replace('\\', '\\\\')
+        try:
+            obj = json.loads(response.content)
+        except:Exception
+
+        if not 'ERROR' in obj:
+            request.session['upload_progress'] = json.dumps(obj).replace('\\', '\\\\')
         return HttpResponse(json.dumps(obj))
