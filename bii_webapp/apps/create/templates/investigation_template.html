@@ -25,28 +25,3 @@
     </tr>
     </tbody>
 </table>
-
-<div class="tabbable tabs-left">
-    <ul id="studies_tab" class="nav nav-tabs" data-bind="foreach:investigation().i_studies_model.studies">
-        <li data-bind="attr: {class:$index()===0 ? 'active' : ''}">
-            <a data-bind="attr: { href:'#study_tab' + ($index()+1)}" data-toggle="tab">
-                <!-- ko if: ($index() !== 0) -->
-                <img data-bind='click: $parent.investigation().i_studies_model.removeStudy'
-                     src="/bii_webapp/static/base/img/basket_x.png"
-                     onclick="javascript:selectDefaultStudy(this)">
-                <!-- /ko -->
-                Study <span data-bind="text: ($index()+1)"></span></a></li>
-        <!-- ko if: ($index() === ($parent.investigation().i_studies_model.studies().length - 1)) -->
-        <li class="add_item"><a href="#" data-bind='click: $parent.investigation().i_studies_model.addStudy' data-toggle="tab">+</a>
-        </li>
-        <!-- /ko -->
-    </ul>
-    <div class="tab-content">
-        <!-- ko foreach: investigation().i_studies_model.studies -->
-        <div class="tab-pane active"
-             data-bind="attr: { id:'study_tab'+($index()+1),class:$parent.investigation().i_studies_model.studies().length==1 || $index()===0 ? 'tab-pane active' : 'tab-pane'} ">
-            {% include "study_template.html" %}
-        </div>
-        <!-- /ko -->
-    </div>
-</div>

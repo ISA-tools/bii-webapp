@@ -53,24 +53,6 @@ $(document).ready(function () {
             self.studies.remove(study);
         };
 
-        self.save = function (form) {
-            var studies = self.toJSON();
-            var formData = new FormData();
-            formData.append('studies', JSON.stringify(studies));
-            $.ajax({
-                type: "POST",
-                url: uploadURL,
-                data: formData,
-                success: function(data){
-                     var x=1;
-                },
-                dataType: 'json',
-                cache: false,
-                contentType: false,
-                processData: false
-            });
-        };
-
         self.toJSON = function () {
             var jsonStudies=[];
             for (var i = 0; i < self.studies().length; i++) {

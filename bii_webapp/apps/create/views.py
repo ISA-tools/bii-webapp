@@ -19,8 +19,8 @@ def create(request):
 @decorators.login_required(login_url=views.login)
 @csrf_exempt
 def upload(request):
-    studies=json.loads(request.POST['studies'])
-    listOfStudies=studies['studies']
-
+    investigation=json.loads(request.POST['investigation'])
+    investigation=investigation['investigation']
+    studies=investigation['i_studies']
     x=1
     return render_to_response("create.html", context_instance=RequestContext(request))

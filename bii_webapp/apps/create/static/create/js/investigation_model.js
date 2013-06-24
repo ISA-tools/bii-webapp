@@ -28,9 +28,9 @@ $(document).ready(function () {
         self.investigation = ko.observable(investigation);
 
         self.save = function (form) {
-            var studies = self.toJSON();
+            var investigation = self.toJSON();
             var formData = new FormData();
-            formData.append('studies', JSON.stringify(studies));
+            formData.append('investigation', JSON.stringify(investigation));
             $.ajax({
                 type: "POST",
                 url: uploadURL,
@@ -52,9 +52,9 @@ $(document).ready(function () {
                 i_description: self.investigation().i_description,
                 i_submission_date: self.investigation().i_submission_date,
                 i_public_release_date: self.investigation().i_public_release_date,
-                i_pubs_model: self.investigation().i_pubs_model.toJSON().publications,
-                i_contacts_model: self.investigation().i_contacts_model.toJSON().contacts,
-                i_studies_model: self.investigation().i_studies_model.toJSON().studies
+                i_pubs: self.investigation().i_pubs_model.toJSON().publications,
+                i_contacts: self.investigation().i_contacts_model.toJSON().contacts,
+                i_studies: self.investigation().i_studies_model.toJSON().studies
             };
 
             return {

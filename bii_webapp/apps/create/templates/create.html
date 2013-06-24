@@ -29,25 +29,55 @@
 <div id="upload-container">
     <h2>Create ISA-Tab</h2>
 
-    <p id="num_of_studies"><span data-bind='text: investigation().i_studies_model.studies().length'>&nbsp;</span> study(s) added</p>
+    <p id="num_of_studies"><span data-bind='text: investigation().i_studies_model.studies().length'>&nbsp;</span>
+        study(s) added</p>
 
     <div class='study_edit'>
         <form id="createISAForm">
             <div class="tabbable tabs-left">
-                <ul id="investigation_tab" class="nav nav-tabs">
-                    <li class='active'>
-                        <a href="#investigation_tab1" data-toggle="tab">
-                            Investigation 1</a></li>
+                <ul id="inv_study_tab" class="nav nav-tabs">
+                    <li class='active inv_li'>
+                        <a class="a_inv" href="#investigation_tab1" data-toggle="tab">
+                            Investigation</a></li>
+
+                    <!--  ko foreach:investigation().i_studies_model.studies -->
+                    <li class="study_li">
+                        <!-- ko if: ($index() !== 0) -->
+                        <a class="a_remove"><img data-bind='click: $parent.investigation().i_studies_model.removeStudy'
+                                                 src="/bii_webapp/static/base/img/basket_x.png"
+                                                 onclick="javascript:selectDefaultStudy(this)"></a>
+                        <!-- /ko -->
+                        <a class="a_study" data-bind="attr: { href:'#study_tab' + ($index()+1)}" data-toggle="tab">
+                            Study <span data-bind="text: ($index()+1)"></span></a></li>
+
+                    <!-- ko if: ($index() === ($parent.investigation().i_studies_model.studies().length - 1)) -->
+                    <li class="add_item">
+                        <a class="a_study" href="#" data-bind='click: $parent.investigation().i_studies_model.addStudy'
+                           data-toggle="tab">+</a>
+                    </li>
+                    <!-- /ko -->
+                    <!-- /ko -->
                 </ul>
+
                 <div class="tab-content">
+
                     <div id="investigation_tab1" class="tab-pane active">
                         {% include "investigation_template.html" %}
                     </div>
+
+                    <!-- ko foreach: investigation().i_studies_model.studies -->
+                    <div class="tab-pane" data-bind="attr: { id:'study_tab'+($index()+1)} ">
+                        {% include "study_template.html" %}
+                    </div>
+                    <!-- /ko -->
+
                     <div class="upload_button">
                         <button class="btn btn-info" type="submit">Upload
                         </button>
                     </div>
+
                 </div>
+
             </div>
         </form>
     </div>
