@@ -3,6 +3,18 @@
  * once it knows how many studies it contains.
  */
 $(document).ready(function () {
+    var options = {
+        currentPage: 1,
+        totalPages: 5,
+        alignment:"center",
+        useBootstrapTooltip:true,
+        pageUrl: function(type, page, current){
+            return vars.url.getPage+page;
+        }
+    }
+
+    $('#pagination').bootstrapPaginator(options);
+
     $(".investigation").each(function (index) {
         var size = $(this).find('.study').length;
         var el = $(this).find('.inv_id');

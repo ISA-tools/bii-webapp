@@ -5,13 +5,23 @@
 <link href="{% static 'browse/css/browse.css' %}" rel="stylesheet">
 {% endblock %}
 {% block extrascript %}
+<script>
+    vars=function() {
+        return {
+            url: {
+                getPage: "{% url 'browse.getPage' 1 %}".slice(0,-2)
+            }
+        }
+    }();
+</script>
 <script src="{% static 'browse/js/browse.js' %}"></script>
+<script src="{% static 'browse/js/lib/bootstrap-paginator.min.js' %}"></script>
 {% endblock %}
 {% block title %}BII | Search{% endblock %}
 {% block content %}
 
 {% include "breadcrumb_bar.html" %}
-
+<div id="pagination"></div>
 <div id="results">
 <div class="investigation">
     <div class="inv_id">
