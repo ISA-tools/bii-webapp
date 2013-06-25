@@ -15,6 +15,12 @@ TIMEOUT = 60 #seconds
 @csrf_exempt
 @decorators.login_required(login_url=views.login)
 def getInit(request):
+    if 'uploadID' in request.session:
+        del request.session['uploadID']
+
+    if 'upload_progress' in request.session:
+        del request.session['upload_progress']
+
     url = settings.WEBSERVICES_URL + 'upload/init'
     try:
         r = requests.get(url, timeout=TIMEOUT)
@@ -22,54 +28,57 @@ def getInit(request):
         request.session['uploadID'] = obj['INFO']['uploadID']
         request.session['upload_progress'] = json.dumps({'UPLOAD': obj['UPLOAD']})
     except requests.exceptions.ConnectionError, e:
-        r = HttpResponse(json.dumps({'ERROR': {'messages': 'Upload server could not be reached, please try again'}}))
+        r = HttpResponse(json.dumps({'ERROR': {'total': 1,'messages': 'Upload server could not be reached, please try again'}}))
     except requests.exceptions.Timeout, e:
-        r = HttpResponse(json.dumps({'ERROR': {'messages': 'Connection timed out, please try again'}}))
+        r = HttpResponse(json.dumps({'ERROR': {'total': 1,'messages': 'Connection timed out, please try again'}}))
     return HttpResponse(r)
 
 
 @csrf_exempt
 @decorators.login_required(login_url=views.login)
 def uploadFile(request):
-    STATE = 'UPLOADING'
-    file = request.FILES['file']
-    name = file.name
-    size = file.size
-    obj = json.loads(request.session['upload_progress'])
-    obj['UPLOAD']['filename'] = name
-    obj['UPLOAD']['filesize'] = size
-    request.session['upload_progress'] = json.dumps(obj)
-    mimetype = file.content_type
-    extension = file.name[file.name.rindex('.'):]
-
-    valid_ext = '(\.(?i)(zip|tar|gz)$)'
-    valid_mime = '^application/(zip|x-zip-compressed|x-tar|x-gzip|octet-stream)$'
-
-    # Validate file type
-    if not (re.match(valid_mime, mimetype) and re.match(valid_ext, extension)):
-        r = errorResponse(request, 'Invalid file type', 1)
-        return r
-
-    files = {'file': file}
-    data = {'uploadID': request.session['uploadID'], 'filesize': size}
-    url = settings.WEBSERVICES_URL + 'upload'
     try:
-        r = requests.post(url, data=data, files=files, timeout=TIMEOUT)
-        resp = json.loads(r.content);
-        if (resp['UPLOAD']['stage'] == 'cancelled'):
-            return HttpResponse(r)
+        STATE = 'UPLOADING'
+        file = request.FILES['file']
+        name = file.name
+        size = file.size
+        obj = json.loads(request.session['upload_progress'])
+        obj['UPLOAD']['filename'] = name
+        obj['UPLOAD']['filesize'] = size
+        request.session['upload_progress'] = json.dumps(obj)
+        mimetype = file.content_type
+        extension = file.name[file.name.rindex('.'):]
 
-        if resp['UPLOAD']['stage'] == 'complete':
-            user = request.user
+        valid_ext = '(\.(?i)(zip|tar|gz)$)'
+        valid_mime = '^application/(zip|x-zip-compressed|x-tar|x-gzip|octet-stream)$'
 
-            model = ISATabFile(uploaded_by=user, isafile=file)
-            model.save()
-            model.access.add(user)
+        # Validate file type
+        if not (re.match(valid_mime, mimetype) and re.match(valid_ext, extension)):
+            r = errorResponse(request, 'Invalid file type', 1)
+            return r
 
-    except requests.exceptions.RequestException, e:
-        r = errorResponse(request, 'Upload server could not be reached')
-    except requests.exceptions.Timeout, e:
-        r = errorResponse(request, 'Connection timed out, please try again later')
+        files = {'file': file}
+        data = {'uploadID': request.session['uploadID'], 'filesize': size}
+        url = settings.WEBSERVICES_URL + 'upload'
+        try:
+            r = requests.post(url, data=data, files=files, timeout=TIMEOUT)
+            resp = json.loads(r.content);
+            if (resp['UPLOAD']['stage'] == 'cancelled'):
+                return HttpResponse(r)
+
+            if resp['UPLOAD']['stage'] == 'complete':
+                user = request.user
+
+                model = ISATabFile(uploaded_by=user, isafile=file)
+                model.save()
+                model.access.add(user)
+
+        except requests.exceptions.RequestException, e:
+            r = errorResponse(request, 'Upload server could not be reached')
+        except requests.exceptions.Timeout, e:
+            r = errorResponse(request, 'Connection timed out, please try again later')
+    except Exception, e:
+        r = errorResponse(request, 'Oops something went wrong, please try again')
 
     return storeAndRespond(request, r)
 
@@ -81,6 +90,7 @@ def getCancel(request):
         uploadID = request.session['uploadID']
         del request.session['upload_progress']
         del request.session['uploadID']
+
         url = settings.WEBSERVICES_URL + 'upload/cancel'
         url += '?uploadID=' + uploadID
         try:
@@ -91,7 +101,7 @@ def getCancel(request):
             r = errorResponse('Connection timed out, please delete the file')
         return HttpResponse(r)
     else:
-        return HttpResponse('Cancel complete')
+        return HttpResponse(json.dumps({'INFO': {'total': 1,'messages': 'Cancel complete'}}))
 
 @csrf_exempt
 @decorators.login_required(login_url=views.login)
@@ -104,8 +114,6 @@ def resetUpload(request):
 @csrf_exempt
 @decorators.login_required(login_url=views.login)
 def getProgress(request):
-    # if (errorsExist(request)):
-    #     return HttpResponse(request.session['upload_progress'])
     uploadID = request.session['uploadID']
     url = settings.WEBSERVICES_URL + 'upload/progress'
     url += '?uploadID=' + uploadID
@@ -117,25 +125,16 @@ def getProgress(request):
         r = errorResponse(request, 'Connection timed out, please try again later')
     return storeAndRespond(request, r)
 
-
-def errorsExist(request):
-    obj = json.loads(request.session['upload_progress'])
-    prog = obj['UPLOAD']
-    if 'ERROR' in prog[prog['stage']] :
-        return True
-    return False
-
-
 def errorResponse(request, objErrors):
+    errorMsgs={'total': 1, 'messages': objErrors}
     if 'upload_progress' in request.session:
         obj = json.loads(request.session['upload_progress'])
-        prog = obj['UPLOAD']
-        prog[prog['stage']]['ERROR'] = {'total': 1, 'messages': objErrors}
-        request.session['upload_progress'] = json.dumps({'UPLOAD': prog})
-        r = HttpResponse(json.dumps({'UPLOAD': prog}))
-        return r
+        if 'UPLOAD' in obj:
+            prog = obj['UPLOAD']
+            prog[prog['stage']]['ERROR'] =errorMsgs
+        return HttpResponse(json.dumps({'UPLOAD': prog}))
     else:
-        return HttpResponse(objErrors)
+        return HttpResponse(json.dumps({'ERROR': errorMsgs}))
 
 
 def storeAndRespond(request, response):
@@ -143,10 +142,7 @@ def storeAndRespond(request, response):
         resp = errorResponse(request, 'Server error with status code ' + str(response.status_code))
         return resp
     else:
-        try:
-            obj = json.loads(response.content)
-        except:Exception
+        obj = json.loads(response.content)
+        request.session['upload_progress'] = json.dumps(obj).replace('\\', '\\\\')
 
-        if not 'ERROR' in obj:
-            request.session['upload_progress'] = json.dumps(obj).replace('\\', '\\\\')
         return HttpResponse(json.dumps(obj))

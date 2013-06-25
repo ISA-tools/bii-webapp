@@ -24,6 +24,7 @@ h2 {
 #retry img{
     height: 21px;
     width: 22px;
+    margin-top: -3px;
 }
 
 .uneditable-input {

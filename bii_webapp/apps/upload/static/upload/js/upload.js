@@ -57,14 +57,9 @@ var upload = function () {
 
         update(upload_session);
 
-        if (STATE == 'STOPPING') {
+        if (STATE == 'STOPPING' || upload_session.UPLOAD.stage == 'complete') {
             STATE = 'STOPPED';
-            return;
-        }
-
-        if (upload_session.UPLOAD.stage == 'complete') {
             helper.toggleButtons('select');
-            STATE = 'STOPPED';
             return;
         }
 
@@ -73,8 +68,8 @@ var upload = function () {
             function checkQueue() {
                 if (!progressHandler.isRunning())
                     recursiveUpdates(upload_session);
-                else
-                    setTimeout(checkQueue, 100);
+                else if(STATE=='STARTED')
+                    setTimeout(checkQueue, 500);
             }
 
             checkQueue();
@@ -87,6 +82,7 @@ var upload = function () {
         showToast('Initiating upload', -1);
         request.requestInit(function (data) {
             if (isIssuesExist(data)) {
+                hideToast();
                 showToast(data.ERROR.messages);
                 $('#retry').show();
                 return;
@@ -110,10 +106,6 @@ var upload = function () {
         var file = {};
         if (upload_session.ERROR || upload_session.UPLOAD.filesize == -1)
             return;
-        if (upload_session.UPLOAD.stage== 'complete') {
-             return;
-        }
-
         file.name = upload_session.UPLOAD.filename;
         file.size = upload_session.UPLOAD.filesize;
         helper.insertFields(file);
