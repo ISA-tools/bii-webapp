@@ -185,6 +185,10 @@ DEEP GRAY HEADERS
     float: right;
 }
 
+.rep_header div:last-child {
+    margin-right:5px
+}
+
 .rep_header div img{
     margin-top:-3px;
     height: 35px;

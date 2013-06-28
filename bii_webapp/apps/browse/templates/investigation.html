@@ -1,23 +1,37 @@
-{% extends "base.html" %}
-{% load widget_tweaks %}
+{% extends "browse_base.html" %}
 {% load static from staticfiles %}
-{% block extracss %}
+{% block extra_browse_css %}
 <link href="{% static 'browse/css/report.css' %}" rel="stylesheet">
 <link href="{% static 'browse/css/investigation.css' %}" rel="stylesheet">
 <link href="{% static 'browse/css/browse.css' %}" rel="stylesheet">
 {% endblock %}
-{% block extrascript %}
+{% block extra_browse_script %}
+<script>
+    var data = {% autoescape off %}{{data}}{% endautoescape %};
+    if (data && data.length > 0) {
+        data.replace("\'","\\\'")
+        data = JSON.parse(data);
+    }
+    vars.investigation = data.investigations[0];
+</script>
+<script src="{% static 'browse/js/contacts_model.js' %}"></script>
+<script src="{% static 'browse/js/assays_model.js' %}"></script>
+<script src="{% static 'browse/js/factors_model.js' %}"></script>
+<script src="{% static 'browse/js/protocols_model.js' %}"></script>
+<script src="{% static 'browse/js/publications_model.js' %}"></script>
+<script src="{% static 'browse/js/study_model.js' %}"></script>
+<script src="{% static 'browse/js/investigation_model.js' %}"></script>
+<script src="{% static 'browse/js/view_model.js' %}"></script>
 <script src="{% static 'browse/js/collapse.js' %}"></script>
+<script src="{% static 'browse/js/investigation.js' %}"></script>
 {% endblock %}
 
 {% block title %}BII | Investigation{% endblock %}
-{% block content %}
-
-{% include "breadcrumb_bar.html" %}
+{% block browse_content %}
 
 <div id="rep_top_details" class="rep_container">
     <div id="rep_header_blue">
-        <h1>BII-I-1</h1>
+        <h1 data-bind='text: investigation().i_id'></h1>
 
         <div>
             <a href=""><img src="{% static 'browse/img/download.png' %}"/></a>
@@ -27,25 +41,10 @@
     </div>
 
     <div id="rep_header_details">
-        <p>Study of the impact of changes in flux on the transcriptome, proteome, endometabolome
-            andxexometabolome of the yeast Saccharomyces cerevisiae under different nutrient limitations.
+        <p data-bind='text: investigation().i_title'>
         </p>
 
-        <p>
-            We wished to study the impact of growth rate on the total complement of mRNA molecules, proteins, and
-            metabolites in
-            S. cerevisiae, independent of any nutritional or other physiological effects. To achieve this, we carried
-            out
-            our analyses on
-            yeast grown in steady-state chemostat culture under four different nutrient limitations (glucose, ammonium,
-            phosphate,
-            and sulfate) at three different dilution (that is, growth) rates (D = u = 0.07, 0.1, and 0.2/hour,
-            equivalent to
-            population
-            doubling times (Td) of 10 hours, 7 hours, and 3.5 hours, respectively; u = specific growth rate defined as
-            grams
-            of biomass
-            generated per gram of biomass present per unit time).
+        <p data-bind='text: investigation().i_description'>
         </p>
 
     </div>
@@ -59,13 +58,16 @@
             <a data-target="#collapse_1" data-toggle="collapse" href="#collapse_1" class="dropdown_button"><img
                     src="{% static 'browse/img/dropdown.png' %}"/></a>
         </div>
+
+        <div>
+            <a><img src="{% static 'browse/img/edit.png' %}"/>
+            </a>
+        </div>
     </div>
 
-    <div id="collapse_1" class="collapse in">
-        <div class="gray_title">Growth control of the eukaryote cell: a systems biology study in yeast.</div>
-        <p>Castrillo JI, Zeef LA, Hoyle DC, Zhang N, Hayes A, Gardner DC, Cornell MJ, Petty J,
-            Hakes L, Wardleworth L, Rash B, Brown M, Dunn WB, Broadhurst D, O'Donoghue K, Hester SS,
-            Dunkley TP, Hart SR, Swainston N, Li P, Gaskell SJ, Paton NW, Lilley KS, Kell DB, Oliver SG
+    <div id="collapse_1" class="collapse in" data-bind="foreach:investigation().i_pubs_model.publications">
+        <div class="gray_title" data-bind='text: pub_title'></div>
+        <p data-bind='text: pub_author_list'>
             <br><a href="">BIOINFORMATICS, 2008</a>
         </p>
     </div>
@@ -80,156 +82,68 @@
             <a data-target="#collapse_2" data-toggle="collapse" href="#collapse_2" class="dropdown_button"><img
                     src="{% static 'browse/img/dropdown.png' %}"/></a>
         </div>
+        <div>
+            <a><img src="{% static 'browse/img/edit.png' %}"/>
+            </a>
+        </div>
     </div>
 
-    <div id="collapse_2" class="collapse in">
+    <div id="collapse_2" class="collapse in" data-bind="foreach:investigation().i_contacts_model.contacts">
         <div class="rep_contact">
-            <div class="rep_contact_name">Juan I. Castrillo</div> Cambridge University
-        </div>
-        <div class="rep_contact">
-            <div class="rep_contact_name">Leo A. Zeef</div> Cambridge University
-        </div>
-        <div class="rep_contact">
-            <div class="rep_contact_name">Stephen G. Oliver</div> Cambridge University
+            <div class="rep_contact_name">
+                <span data-bind='text: $data.person_first_name'></span>
+                <span data-bind="text: $data.person_mid_initials+'.' "></span>
+                <span data-bind='text: $data.person_last_name'></span>
+            </div>
+            <span data-bind='text: $data.person_affiliation'></span>
         </div>
     </div>
 </div>
 
-<div class="studies">
+<div class="studies" data-bind="foreach:investigation().i_studies_model.studies">
+
     <div class="study">
         <div class="study_id">
-            <a href="{% url 'browse.investigation.study' %}">BII-S-1</a>
+            <a href="{% url 'browse.investigation.study' request.session.currentInvestigation %}+$index" data-bind="text: $data.s_id"></a>
         </div>
         <div class="study_info">
-            <div class="study_char">
-                SACCHROMYCES CEREVISIAE (BAKER'S YEAST)
+            <div class="study_char" data-bind="foreach:$data.s_organisms">
+                <!-- ko if: ($index() < $parent.s_organisms.length-1) --><span data-bind="text:$data+','"></span><!-- /ko -->
+                <!-- ko if: ($index() == $parent.s_organisms.length-1) --><span data-bind="text:$data"></span><!-- /ko -->
             </div>
+
             <div class="study_details">
-                <div class="study_title">
-                    Study of the impact of changes in flux on the transcriptome,
-                    proteome, endometabolome and exometabolome of the yeast
-                    Saccharomyces cerevisiae under different nutrient limitations
+
+                <div class="study_title" data-bind='text: $data.s_title'>
                 </div>
-                <div class="assays">
+
+                <div class="assays" data-bind="foreach:$data.s_assays_model.assays">
                     <div class="assay">
-                        <a href="{% url 'browse.investigation.study.assay' %}">
-                            <div>
-                                45
+                        <a href="{% url 'browse.investigation.study' request.session.currentInvestigation %}+$parentContext/assay/$index">
+                            <div data-bind='text: $data.number_of_samples'>
                             </div>
                             <div class="assay_type">
                                 <div>
-                                    <img src="{% static 'browse/img/transcription.png' %}"/>
+                                    <img data-bind="attr: { src:'{% static 'browse/img/measurements/'%}'+$data.measurement+'.png'}"/>
 
-                                    <p>
-                                        transcription profiling
+                                    <p data-bind='text: $data.measurement'>
                                     </p>
                                 </div>
                                 <div>
-                                    <img src="{% static 'browse/img/microarray.png' %}"/>
+                                    <img data-bind="attr: { src:'{% static 'browse/img/technologies/'%}'+$data.technology+'.png'}"/>
 
-                                    <p>
-                                        dna microarray
-                                    </p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="assay">
-                        <a href="{% url 'browse.investigation.study.assay' %}">
-                            <div>
-                                111
-                            </div>
-                            <div class="assay_type">
-                                <div>
-                                    <img src="{% static 'browse/img/metabolite.png' %}"/>
-
-                                    <p>
-                                        metabolite profiling
-                                    </p>
-                                </div>
-                                <div>
-                                    <img src="{% static 'browse/img/spectrometry.png' %}"/>
-
-                                    <p>
-                                        mass spectrometry
-                                    </p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="assay">
-                        <a href="{% url 'browse.investigation.study.assay' %}">
-                            <div>
-                                3
-                            </div>
-                            <div class="assay_type">
-                                <div>
-                                    <img src="{% static 'browse/img/protein.png' %}"/>
-
-                                    <p>
-                                        protein expression profiling
-                                    </p>
-                                </div>
-                                <div>
-                                    <img src="{% static 'browse/img/spectrometry.png' %}"/>
-
-                                    <p>
-                                        mass spectrometry
+                                    <p data-bind='text: $data.technology'>
                                     </p>
                                 </div>
                             </div>
                         </a>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
 
-    <div class="study">
-        <div class="study_id">
-            <a href="{% url 'browse.investigation.study' %}">BII-S-2</a>
-        </div>
-        <div class="study_info">
-            <div class="study_char">
-                SACCHROMYCES CEREVISIAE (BAKER'S YEAST)
-            </div>
-            <div class="study_details">
-                <div class="study_title">
-                    A time course analysis of transcription response in
-                    yeast treated with rapamycin, a specific inhibitor of
-                    the TORC1 complex: impact on yeast growth
-                </div>
-                <div class="assays">
-                    <div class="assay">
-                        <a href="{% url 'browse.investigation.study.assay' %}">
-                            <div>
-                                14
-                            </div>
-                            <div class="assay_type">
-                                <div>
-                                    <img src="{% static 'browse/img/transcription.png' %}"/>
-
-                                    <p>
-                                        transcription profiling
-                                    </p>
-                                </div>
-                                <div>
-                                    <img src="{% static 'browse/img/microarray.png' %}"/>
-
-                                    <p>
-                                        dna microarray
-                                    </p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 

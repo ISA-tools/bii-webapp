@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+{% load widget_tweaks %}
+{% block extracss %}
+<link href="{% static 'browse/css/report.css' %}" rel="stylesheet">
+<link href="{% static 'browse/css/browse.css' %}" rel="stylesheet">
+{% block extra_browse_css %}
+{% endblock %}
+
+{% endblock %}
+{% block extrascript %}
+<script>
+    var vars={};
+    vars.urls={};
+</script>
+<script src="{% static 'browse/js/lib/knockoutjs/knockout-2.2.1.js' %}"></script>
+<script src="{% static 'browse/js/lib/jquery/jquery.validate.min.js' %}"></script>
+{% block extra_browse_script %}
+{% endblock %}
+{% endblock %}
+
+{% block title %}BII | Investigation{% endblock %}
+
+{% block content %}
+{% include "breadcrumb_bar.html" %}
+{% block browse_content %}
+{% endblock %}
+{% endblock %}
+

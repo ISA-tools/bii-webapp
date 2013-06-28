@@ -9,7 +9,7 @@ import re
 import os
 import stat
 
-TIMEOUT = 120 #seconds
+TIMEOUT = 300 #seconds
 
 
 @csrf_exempt

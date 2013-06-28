@@ -1,20 +1,16 @@
-{% extends "base.html" %}
-{% load widget_tweaks %}
-{% load static from staticfiles %}
-{% block extracss %}
+{% extends "browse_base.html" %}
+{% block extra_browse_css %}
 <link href="{% static 'browse/css/report.css' %}" rel="stylesheet">
 <link href="{% static 'browse/css/assay.css' %}" rel="stylesheet">
 <link href="{% static 'browse/css/study.css' %}" rel="stylesheet">
 <link href="{% static 'browse/css/browse.css' %}" rel="stylesheet">
 {% endblock %}
-{% block extrascript %}
+{% block extra_browse_script %}
 <script src="{% static 'browse/js/collapse.js' %}"></script>
 {% endblock %}
 {% block title %}BII | Assay{% endblock %}
-{% block content %}
-
-{% include "breadcrumb_bar.html" %}
-
+{% block browse_content %}
+{% load static from staticfiles %}
 <div id="rep_top_details" class="rep_container">
     <div id="rep_header_blue">
         <h1>BII-S-1 <span class="headerdivider">&nbsp;</span> Transcription Profiling</h1>

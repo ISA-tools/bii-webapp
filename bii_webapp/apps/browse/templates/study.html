@@ -1,19 +1,13 @@
-{% extends "base.html" %}
-{% load widget_tweaks %}
+{% extends "browse_base.html" %}
 {% load static from staticfiles %}
-{% block extracss %}
-<link href="{% static 'browse/css/report.css' %}" rel="stylesheet">
+{% block extra_browse_css %}
 <link href="{% static 'browse/css/study.css' %}" rel="stylesheet">
-<link href="{% static 'browse/css/browse.css' %}" rel="stylesheet">
 {% endblock %}
-{% block extrascript %}
+{% block extra_browse_script %}
 <script src="{% static 'browse/js/collapse.js' %}"></script>
 {% endblock %}
 {% block title %}BII | Study{% endblock %}
-{% block content %}
-
-{% include "breadcrumb_bar.html" %}
-
+{% block browse_content %}
 <div id="rep_top_details" class="rep_container">
     <div id="rep_header_blue">
         <h1>BII-S-1</h1>

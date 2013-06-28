@@ -1,235 +1,124 @@
-{% extends "base.html" %}
-{% load widget_tweaks %}
+{% extends "browse_base.html" %}
 {% load static from staticfiles %}
-{% block extracss %}
-<link href="{% static 'browse/css/browse.css' %}" rel="stylesheet">
-{% endblock %}
-{% block extrascript %}
+{% block extra_browse_script %}
 <script>
-    vars=function() {
-        return {
-            url: {
-                getPage: "{% url 'browse.getPage' 1 %}".slice(0,-2)
-            }
-        }
-    }();
+    vars.urls.getPage = "{% url 'browse.getPage' 1 %}".slice(0, -2)
 </script>
 <script src="{% static 'browse/js/browse.js' %}"></script>
 <script src="{% static 'browse/js/lib/bootstrap-paginator.min.js' %}"></script>
 {% endblock %}
+
 {% block title %}BII | Search{% endblock %}
-{% block content %}
+{% block browse_content %}
 
-{% include "breadcrumb_bar.html" %}
 <div id="pagination"></div>
+
 <div id="results">
-<div class="investigation">
-    <div class="inv_id">
-        <div><a href="{% url 'browse.investigation' %}">BII-I-1</a></div>
-        <!--<a href="{% url 'browse.investigation' %}"><p>BII-I-1</p></a>-->
-    </div>
-    <div class="studies">
-        <div class="study">
-            <div class="study_id">
-                <a href="{% url 'browse.investigation.study' %}">BII-S-1</a>
-            </div>
-            <div class="study_info">
-                <div class="study_char">
-                    SACCHROMYCES CEREVISIAE (BAKER'S YEAST)
-                </div>
-                <div class="study_details">
-                    <div class="study_title">
-                        Study of the impact of changes in flux on the transcriptome,
-                        proteome, endometabolome and exometabolome of the yeast
-                        Saccharomyces cerevisiae under different nutrient limitations
-                    </div>
-                    <div class="assays">
-                        <div class="assay">
-                            <a href="{% url 'browse.investigation.study.assay' %}">
-                                <div>
-                                    45
-                                </div>
-                                <div class="assay_type">
-                                    <div>
-                                        <img src="{% static 'browse/img/transcription.png' %}"/>
-
-                                        <p>
-                                            transcription profiling
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <img src="{% static 'browse/img/microarray.png' %}"/>
-
-                                        <p>
-                                            dna microarray
-                                        </p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div class="assay">
-                            <a href="{% url 'browse.investigation.study.assay' %}">
-                                <div>
-                                    111
-                                </div>
-                                <div class="assay_type">
-                                    <div>
-                                        <img src="{% static 'browse/img/metabolite.png' %}"/>
-
-                                        <p>
-                                            metabolite profiling
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <img src="{% static 'browse/img/spectrometry.png' %}"/>
-
-                                        <p>
-                                            mass spectrometry
-                                        </p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div class="assay">
-                            <a href="{% url 'browse.investigation.study.assay' %}">
-                                <div>
-                                    3
-                                </div>
-                                <div class="assay_type">
-                                    <div>
-                                        <img src="{% static 'browse/img/protein.png' %}"/>
-
-                                        <p>
-                                            protein expression profiling
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <img src="{% static 'browse/img/spectrometry.png' %}"/>
-
-                                        <p>
-                                            mass spectrometry
-                                        </p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    {% for investigation in data.investigations %}
+    <div class="investigation">
+        <div class="inv_id">
+            <div><a href="{% url 'browse.investigation' forloop.counter0 %}">{{ investigation.i_id }}</a></div>
         </div>
-
-        <div class="study">
-            <div class="study_id">
-                <a href="{% url 'browse.investigation.study' %}">BII-S-2</a>
-            </div>
-            <div class="study_info">
-                <div class="study_char">
-                    SACCHROMYCES CEREVISIAE (BAKER'S YEAST)
+        <div class="studies">
+            {% for study in investigation.i_studies %}
+            <div class="study">
+                <div class="study_id">
+                    <a href="{% url 'browse.investigation.study' forloop.parentloop.counter0 forloop.counter0 %}">{{ study.s_id }}</a>
                 </div>
-                <div class="study_details">
-                    <div class="study_title">
-                        A time course analysis of transcription response in
-                        yeast treated with rapamycin, a specific inhibitor of
-                        the TORC1 complex: impact on yeast growth
+                <div class="study_info">
+                    <div class="study_char">
+                        {% for organism in study.s_organisms %}
+                        <span>{{ organism }}</span>
+                        {% endfor %}
                     </div>
-                    <div class="assays">
-                        <div class="assay">
-                            <a href="{% url 'browse.investigation.study.assay' %}">
-                                <div>
-                                    14
-                                </div>
-                                <div class="assay_type">
+                    <div class="study_details">
+                        <div class="study_title">
+                            {{ study.s_title }}
+                        </div>
+                        <div class="assays">
+                            {% for assay in study.s_assays %}
+                            <div class="assay">
+                                <a href="{% url 'browse.investigation.study.assay' forloop.parentloop.parentloop.counter0 forloop.parentloop.counter0 forloop.counter0 %}">
                                     <div>
-                                        <img src="{% static 'browse/img/transcription.png' %}"/>
-
-                                        <p>
-                                            transcription profiling
-                                        </p>
+                                        {{assay.number_of_samples}}
                                     </div>
-                                    <div>
-                                        <img src="{% static 'browse/img/microarray.png' %}"/>
+                                    <div class="assay_type">
+                                        <div>
+                                            <img src="{% static 'browse/img/measurements/'%}{{assay.measurement}}.png"/>
 
-                                        <p>
-                                            dna microarray
-                                        </p>
+                                            <p>
+                                                {{assay.measurement}}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <img src="{% static 'browse/img/technologies/'%}{{assay.technology}}.png"/>
+                                            <p>
+                                                {{assay.technology}}
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
+                                </a>
+                            </div>
+                            {% endfor %}
                         </div>
 
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
 
-<div class="study">
-    <div class="study_id">
-        <a href="{% url 'browse.investigation.study' %}">BII-S-3</a>
-    </div>
-    <div class="study_info">
-        <div class="study_char">
-            MARINE METAGENOME
+            {% endfor %}
         </div>
-        <div class="study_details">
-            <div class="study_title">
-                Metagenomes and Metatranscriptomes of phytoplankton blooms
-                from an ocean acidification mesocosm experiment
+    </div>
+    {% endfor %}
+
+    {% for study in data.studies %}
+    <div class="study">
+        <div class="study_id">
+            <a href="{% url 'browse.study' forloop.counter0 %}">{{ study.s_id }}</a>
+        </div>
+        <div class="study_info">
+            <div class="study_char">
+                {% for organism in study.s_organisms %}
+                <span>{{ organism }}</span>
+                {% endfor %}
             </div>
-            <div class="assays">
-                <div class="assay">
-                    <a href="{% url 'browse.investigation.study.assay' %}">
-                        <div>
-                            4
-                        </div>
-                        <div class="assay_type">
-                            <div>
-                                <img src="{% static 'browse/img/transcription.png' %}"/>
-
-                                <p>
-                                    transcription profiling
-                                </p>
-                            </div>
-                            <div>
-                                <img src="{% static 'browse/img/nucleotide.png' %}"/>
-
-                                <p>
-                                    nucleotide sequencing
-                                </p>
-                            </div>
-                        </div>
-                    </a>
+            <div class="study_details">
+                <div class="study_title">
+                    {{ study.s_title }}
                 </div>
-                <div class="assay">
-                    <a href="{% url 'browse.investigation.study.assay' %}">
-                        <div>
-                            111
-                        </div>
-                        <div class="assay_type">
+                <div class="assays">
+                    {% for assay in study.s_assays %}
+                    <div class="assay">
+                        <a href="{% url 'browse.study.assay' forloop.parentloop.counter0 forloop.counter0 %}">
                             <div>
-                                <img src="{% static 'browse/img/metagenome.png' %}"/>
-
-                                <p>
-                                    metagenome sequencing
-                                </p>
+                                {{assay.number_of_samples}}
                             </div>
-                            <div>
-                                <img src="{% static 'browse/img/nucleotide.png' %}"/>
+                            <div class="assay_type">
+                                <div>
+                                    <img src="{% static 'browse/img/measurements/'%}{{assay.measurement}}.png"/>
 
-                                <p>
-                                    nucleotide sequencing
-                                </p>
+                                    <p>
+                                        {{assay.measurement}}
+                                    </p>
+                                </div>
+                                <div>
+                                    <img src="{% static 'browse/img/technologies/'%}{{assay.technology}}.png"/>
+
+                                    <p>
+                                        {{assay.technology}}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
+                    {% endfor %}
                 </div>
+
             </div>
         </div>
+        {% endfor %}
     </div>
-</div>
+
 </div>
 
 {% endblock %}

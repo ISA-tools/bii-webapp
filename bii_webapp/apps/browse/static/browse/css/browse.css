@@ -62,12 +62,11 @@ h3 {
 
 .study {
     margin-bottom: 10px;
-    height: 120px;
+    overflow: hidden;
 }
 
 .study_id {
     width: 70px;
-    height: 120px;
     background-color: #24aae1;
     float: left;
     margin-right: 10px;
@@ -79,7 +78,6 @@ h3 {
 
 .study_info {
     width: 970px;
-    height: 120px;
     float: right;
     font-size: 13px;
 }
@@ -94,7 +92,7 @@ h3 {
 }
 
 .study_details {
-    margin-top: 5px;
+    overflow: hidden;
 }
 
 .study_title {
@@ -116,7 +114,7 @@ h3 {
 
 .assay {
     margin-left: 5px;
-    margin-top: 0px;
+    margin-top: 5px;
     height: 90px;
     width: 150px;
     float: left;
