@@ -1,3 +1,36 @@
+h4{
+    margin-top: 20px;
+}
+
+#create-container .config_box {
+    border: 3px #6e6e70 solid;
+    border-radius: 10px;
+    min-width: 600px;
+    min-height: 300px;
+    list-style: none;
+    margin:10px 0px!important;
+}
+
+#create-container .config_box a {
+    color: white;
+    padding: 10px;
+    display: block;
+    background-color: gray;
+}
+
+#create-container .config_box a:hover {
+    text-decoration: none;
+    background-color:#24aae1!important;
+}
+
+#create-container .config_box a:last-child {
+    border-radius: 0px 0px 6px 6px;
+}
+
+#create-container .config_box a:first-child {
+    border-radius: 6px 6px 0px 0px;
+}
+
 .study_edit {
     padding: 10px;
     background-color: white;
@@ -113,12 +146,12 @@ tr td:first-child {
     margin-top: -2px;
 }
 
-.upload_button{
+.upload_button {
     text-align: center;
     margin-top: 20px;
 }
 
-.upload_button > button{
+.upload_button > button {
     width: 210px;
     height: 37px;
     margin-left: 123px;
@@ -126,28 +159,28 @@ tr td:first-child {
 
 .a_remove:hover {
     cursor: pointer !important;
-    background-color:transparent!important;
+    background-color: transparent !important;
 }
 
-.study_edit .study_li{
+.study_edit .study_li {
     height: 43px;
 }
 
-.a_remove{
+.a_remove {
     float: left;
-    min-width: 0px!important;
+    min-width: 0px !important;
     margin-top: 0px;
-    padding-right: 0px!important;
-    border:none !important;
+    padding-right: 0px !important;
+    border: none !important;
     margin-left: 19px;
 }
 
-.a_study{
+.a_study {
     float: right;
-    min-width: 0px!important;
+    min-width: 0px !important;
 }
 
-.a_inv{
+.a_inv {
     font-size: 18px;
     font-weight: bold;
 }

@@ -11,3 +11,7 @@ var selectDefaultStudy = function (element) {
         firstLi.addClass('active');
     }
 }
+
+$(document).ready(function(){
+    $("form").submit(function() { return false; });
+})

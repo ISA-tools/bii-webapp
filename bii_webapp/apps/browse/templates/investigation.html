@@ -7,22 +7,20 @@
 {% endblock %}
 {% block extra_browse_script %}
 <script>
-    var data = {% autoescape off %}{{data}}{% endautoescape %};
+    var data = '{% autoescape off %}{{data}}{% endautoescape %}';
     if (data && data.length > 0) {
-        data.replace("\'","\\\'")
+//        data.replace("\'","\\\'")
         data = JSON.parse(data);
     }
-    vars.investigation = data.investigations[0];
+    vars.investigation = data;
 </script>
-<script src="{% static 'browse/js/contacts_model.js' %}"></script>
-<script src="{% static 'browse/js/assays_model.js' %}"></script>
-<script src="{% static 'browse/js/factors_model.js' %}"></script>
-<script src="{% static 'browse/js/protocols_model.js' %}"></script>
-<script src="{% static 'browse/js/publications_model.js' %}"></script>
-<script src="{% static 'browse/js/study_model.js' %}"></script>
-<script src="{% static 'browse/js/investigation_model.js' %}"></script>
-<script src="{% static 'browse/js/view_model.js' %}"></script>
-<script src="{% static 'browse/js/collapse.js' %}"></script>
+<script src="{% static 'browse/js/models/contacts_model.js' %}"></script>
+<script src="{% static 'browse/js/models/assays_model.js' %}"></script>
+<script src="{% static 'browse/js/models/factors_model.js' %}"></script>
+<script src="{% static 'browse/js/models/protocols_model.js' %}"></script>
+<script src="{% static 'browse/js/models/publications_model.js' %}"></script>
+<script src="{% static 'browse/js/models/study_model.js' %}"></script>
+<script src="{% static 'browse/js/models/investigation_model.js' %}"></script>
 <script src="{% static 'browse/js/investigation.js' %}"></script>
 {% endblock %}
 
@@ -104,7 +102,7 @@
 
     <div class="study">
         <div class="study_id">
-            <a href="{% url 'browse.investigation.study' request.session.currentInvestigation %}+$index" data-bind="text: $data.s_id"></a>
+            <a data-bind="text: $data.s_id,attr:{href:'{{ request.get_full_path }}/study/'+$index()}"></a>
         </div>
         <div class="study_info">
             <div class="study_char" data-bind="foreach:$data.s_organisms">
@@ -119,7 +117,7 @@
 
                 <div class="assays" data-bind="foreach:$data.s_assays_model.assays">
                     <div class="assay">
-                        <a href="{% url 'browse.investigation.study' request.session.currentInvestigation %}+$parentContext/assay/$index">
+                        <a data-bind="attr:{href:'{{ request.get_full_path }}/study/'+$parentContext.$index() +'/assay/'+$index()}">
                             <div data-bind='text: $data.number_of_samples'>
                             </div>
                             <div class="assay_type">

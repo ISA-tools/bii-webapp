@@ -4,13 +4,28 @@
 <link href="{% static 'browse/css/study.css' %}" rel="stylesheet">
 {% endblock %}
 {% block extra_browse_script %}
-<script src="{% static 'browse/js/collapse.js' %}"></script>
+<script>
+    var data = '{% autoescape off %}{{data}}{% endautoescape %}';
+    if (data && data.length > 0) {
+//        data.replace("\'","\\\'")
+        data = JSON.parse(data);
+    }
+    vars.study = [data];
+</script>
+<script src="{% static 'browse/js/contacts_model.js' %}"></script>
+<script src="{% static 'browse/js/assays_model.js' %}"></script>
+<script src="{% static 'browse/js/factors_model.js' %}"></script>
+<script src="{% static 'browse/js/protocols_model.js' %}"></script>
+<script src="{% static 'browse/js/publications_model.js' %}"></script>
+<script src="{% static 'browse/js/study_model.js' %}"></script>
+<script src="{% static 'browse/js/investigation_model.js' %}"></script>
+<script src="{% static 'browse/js/study.js' %}"></script>
 {% endblock %}
 {% block title %}BII | Study{% endblock %}
 {% block browse_content %}
 <div id="rep_top_details" class="rep_container">
     <div id="rep_header_blue">
-        <h1>BII-S-1</h1>
+        <h1 data-bind='text: studies()[0].s_id'></h1>
 
         <div>
             <a href=""><img src="{% static 'browse/img/download.png' %}"/></a>
@@ -20,25 +35,10 @@
     </div>
 
     <div id="rep_header_details">
-        <p>Study of the impact of changes in flux on the transcriptome, proteome, endometabolome
-            andxexometabolome of the yeast Saccharomyces cerevisiae under different nutrient limitations.
+        <p data-bind='text: studies()[0].s_title'>
         </p>
 
-        <p>
-            We wished to study the impact of growth rate on the total complement of mRNA molecules, proteins, and
-            metabolites in
-            S. cerevisiae, independent of any nutritional or other physiological effects. To achieve this, we carried
-            out
-            our analyses on
-            yeast grown in steady-state chemostat culture under four different nutrient limitations (glucose, ammonium,
-            phosphate,
-            and sulfate) at three different dilution (that is, growth) rates (D = u = 0.07, 0.1, and 0.2/hour,
-            equivalent to
-            population
-            doubling times (Td) of 10 hours, 7 hours, and 3.5 hours, respectively; u = specific growth rate defined as
-            grams
-            of biomass
-            generated per gram of biomass present per unit time).
+        <p data-bind='text: studies()[0].s_description'>
         </p>
 
     </div>
@@ -52,13 +52,16 @@
             <a data-target="#collapse_1" data-toggle="collapse" href="#collapse_1" class="dropdown_button"><img
                     src="{% static 'browse/img/dropdown.png' %}"/></a>
         </div>
+
+        <div>
+            <a><img src="{% static 'browse/img/edit.png' %}"/>
+            </a>
+        </div>
     </div>
 
-    <div id="collapse_1" class="collapse in">
-        <div class="gray_title">Growth control of the eukaryote cell: a systems biology study in yeast.</div>
-        <p>Castrillo JI, Zeef LA, Hoyle DC, Zhang N, Hayes A, Gardner DC, Cornell MJ, Petty J,
-            Hakes L, Wardleworth L, Rash B, Brown M, Dunn WB, Broadhurst D, O'Donoghue K, Hester SS,
-            Dunkley TP, Hart SR, Swainston N, Li P, Gaskell SJ, Paton NW, Lilley KS, Kell DB, Oliver SG
+    <div id="collapse_1" class="collapse in" data-bind="foreach:studies()[0].s_pubs_model.publications">
+        <div class="gray_title" data-bind='text: pub_title'></div>
+        <p data-bind='text: pub_author_list'>
             <br><a href="">BIOINFORMATICS, 2008</a>
         </p>
     </div>
@@ -73,17 +76,20 @@
             <a data-target="#collapse_2" data-toggle="collapse" href="#collapse_2" class="dropdown_button"><img
                     src="{% static 'browse/img/dropdown.png' %}"/></a>
         </div>
+        <div>
+            <a><img src="{% static 'browse/img/edit.png' %}"/>
+            </a>
+        </div>
     </div>
 
-    <div id="collapse_2" class="collapse in">
+    <div id="collapse_2" class="collapse in" data-bind="foreach:studies()[0].s_contacts_model.contacts">
         <div class="rep_contact">
-            <span class="rep_contact_name">Juan I. Castrillo</span> Cambridge University
-        </div>
-        <div class="rep_contact">
-            <span class="rep_contact_name">Leo A. Zeef</span> Cambridge University
-        </div>
-        <div class="rep_contact">
-            <span class="rep_contact_name">Stephen G. Oliver</span> Cambridge University
+            <div class="rep_contact_name">
+                <span data-bind='text: $data.person_first_name'></span>
+                <span data-bind="text: $data.person_mid_initials+'.' "></span>
+                <span data-bind='text: $data.person_last_name'></span>
+            </div>
+            <span data-bind='text: $data.person_affiliation'></span>
         </div>
     </div>
 </div>
@@ -99,12 +105,12 @@
     </div>
 
 
-    <div class="collapse in" id="collapse_3">
+    <div class="collapse in" id="collapse_3" data-bind="foreach:studies()[0].s_assays_model.assays">
         <div class="assay_title gray_title b_left_blue">
-            <span class="title_text"> TRANSCRIPTION PROFILING <span>USING</span> DNA MICROARRAY <span
-                    class="assay_num">48</span></span>
+            <span class="title_text"> <!-- ko text:  $data.measurement --><!-- /ko --> <span>USING</span> <!-- ko text:  $data.technology --><!-- /ko -->
+                <span class="assay_num" data-bind='text: $data.num_of_samples'></span></span>
 
-            <div><a href="{% url 'browse.investigation.study.assay' %}">DETAILS</a></div>
+            <div><a href="">DETAILS</a></div>
         </div>
 
         <div class="assay_details">
@@ -115,7 +121,20 @@
                         <img src="{% static 'browse/img/dropdown_grey.png' %}"/>
                     </a>
                 </div>
-                <span>Saccharomyces cerevisiae (Baker's yeast) <span><a href="">STRAIN FY1679</a></span> </span>
+                <span data-bind="foreach:studies()[0].s_organisms">
+                    <!-- /ko --><!-- ko text:  $data -->
+                    <!-- /ko -->
+                    <!-- ko if:  $index()<$parent()[0].s_organisms.length-1 -->
+                    <!-- /ko --><!-- ko text:  ',' -->
+                    <!-- /ko -->
+                    <!-- /ko -->
+                <span data-bind="foreach:studies()[0].s_characteristics">
+                    <a href="" data-bind="text:$data "></a>
+                    <!-- ko if:  $index()<$parent()[0].s_characteristics.length-1 -->
+                    <!-- /ko --><!-- ko text:  ',' -->
+                    <!-- /ko -->
+                </span>
+                </span>
             </div>
 
             <div id="collapse_4" class="assay_columns collapse in">
@@ -132,7 +151,7 @@
                     <div class="assay_rows collapse in" id="collapse_5">
 
                         <div class="assay_row">
-                            <a href="{% url 'browse.investigation.study.sample' %}">GSM 33421</a>
+                            <a href="">GSM 33421</a>
 
                             <div>
                                 <img src="{% static 'browse/img/raw_data.png' %}"/>
@@ -142,7 +161,7 @@
                         </div>
 
                         <div class="assay_row">
-                            <a href="{% url 'browse.investigation.study.sample' %}">GSM 33422</a>
+                            <a href="">GSM 33422</a>
 
                             <div>
                                 <img src="{% static 'browse/img/raw_data.png' %}"/>
@@ -152,7 +171,7 @@
                         </div>
 
                         <div class="assay_row">
-                            <a href="{% url 'browse.investigation.study.sample' %}">GSM 33423</a>
+                            <a href="">GSM 33423</a>
 
                             <div>
                                 <img src="{% static 'browse/img/raw_data.png' %}"/>
@@ -171,14 +190,15 @@
                         <span>Sulphur 0.07 l/hour</span>
 
                         <div>
-                            <a data-target="#collapse_6" data-toggle="collapse" href="#collapse_6" class="dropdown_button"><img src="{% static 'browse/img/dropdown_grey.png' %}"/></a>
+                            <a data-target="#collapse_6" data-toggle="collapse" href="#collapse_6"
+                               class="dropdown_button"><img src="{% static 'browse/img/dropdown_grey.png' %}"/></a>
                         </div>
                     </div>
 
                     <div class="assay_rows collapse in" id="collapse_6">
 
                         <div class="assay_row">
-                            <a href="{% url 'browse.investigation.study.sample' %}">GSM 33431</a>
+                            <a href="">GSM 33431</a>
 
                             <div>
                                 <img src="{% static 'browse/img/raw_data.png' %}"/>
@@ -188,7 +208,7 @@
                         </div>
 
                         <div class="assay_row">
-                            <a href="{% url 'browse.investigation.study.sample' %}">GSM 33432</a>
+                            <a href="">GSM 33432</a>
 
                             <div>
                                 <img src="{% static 'browse/img/raw_data.png' %}"/>
@@ -198,7 +218,7 @@
                         </div>
 
                         <div class="assay_row">
-                            <a href="{% url 'browse.investigation.study.sample' %}">GSM 33433</a>
+                            <a href="">GSM 33433</a>
 
                             <div>
                                 <img src="{% static 'browse/img/raw_data.png' %}"/>
@@ -214,6 +234,8 @@
             </div>
         </div>
     </div>
+
+
 </div>
 
 

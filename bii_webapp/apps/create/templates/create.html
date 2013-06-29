@@ -6,34 +6,34 @@
 {% endblock %}
 {% block extrascript %}
 <script>
-    var assay_mapping = '{% autoescape off %}{{assay_mapping}}{% endautoescape %}';
-    if (assay_mapping && assay_mapping.length > 0) {
-        assay_mapping = JSON.parse(assay_mapping);
+    vars.configuration = '{% autoescape off %}{{configuration}}{% endautoescape %}';
+    if (vars.configuration && vars.configuration.length > 0) {
+        vars.configuration = JSON.parse(vars.configuration);
     }
-    var uploadURL = "{% url 'create.upload' %}";
 </script>
 <script src="{% static 'create/js/lib/knockoutjs/knockout-2.2.1.js' %}"></script>
 <script src="{% static 'create/js/lib/jquery/jquery.validate.min.js' %}"></script>
-<script src="{% static 'create/js/study_contacts_model.js' %}"></script>
-<script src="{% static 'create/js/study_assays_model.js' %}"></script>
-<script src="{% static 'create/js/study_factors_model.js' %}"></script>
-<script src="{% static 'create/js/study_protocols_model.js' %}"></script>
-<script src="{% static 'create/js/study_publications_model.js' %}"></script>
-<script src="{% static 'create/js/study_model.js' %}"></script>
-<script src="{% static 'create/js/investigation_model.js' %}"></script>
-<script src="{% static 'create/js/view_model.js' %}"></script>
+<script src="{% static 'create/js/lib/xml2json.js' %}"></script>
+<script src="{% static 'create/js/models/study_contacts_model.js' %}"></script>
+<script src="{% static 'create/js/models/study_assays_model.js' %}"></script>
+<script src="{% static 'create/js/models/study_factors_model.js' %}"></script>
+<script src="{% static 'create/js/models/study_protocols_model.js' %}"></script>
+<script src="{% static 'create/js/models/study_publications_model.js' %}"></script>
+<script src="{% static 'create/js/models/study_model.js' %}"></script>
+<script src="{% static 'create/js/models/investigation_model.js' %}"></script>
+<script src="{% static 'create/js/models/view_model.js' %}"></script>
 <script src="{% static 'create/js/create.js' %}"></script>
 {% endblock %}
 {% block title %}BII | Create{% endblock %}
 {% block content %}
-<div id="upload-container">
+<div id="create-container">
     <h2>Create ISA-Tab</h2>
 
     <p id="num_of_studies"><span data-bind='text: investigation().i_studies_model.studies().length'>&nbsp;</span>
         study(s) added</p>
 
     <div class='study_edit'>
-        <form id="createISAForm">
+        <form id="createISAForm" onSubmit="return false;">
             <div class="tabbable tabs-left">
                 <ul id="inv_study_tab" class="nav nav-tabs">
                     <li class='active inv_li'>

@@ -57,12 +57,13 @@
                 {
                     "s_id": "BII-S-1",
                     "s_title": "Study of the impact of changes in flux on the transcriptome, proteome, endometabolome and exometabolome of the yeast Saccharomyces cerevisiae under different nutrient limitations",
-                    "s_description": "",
+                    "s_description": "We wished to study the impact of growth rate on the total complement of mRNA molecules, proteins, and metabolites in S. cerevisiae, independent of any nutritional or other physiological effects. To achieve this, we carried out our analyses on yeast grown in steady-state chemostat culture under four different nutrient limitations (glucose, ammonium, phosphate, and sulfate) at three different dilution (that is, growth) rates (D = u = 0.07, 0.1, and 0.2/hour, equivalent to population doubling times (Td) of 10 hours, 7 hours, and 3.5 hours, respectively; u = specific growth rate defined as grams of biomass generated per gram of biomass present per unit time).",
                     "s_grand_number": "",
                     "s_funding_agency": "",
                     "s_submission_date": "",
                     "s_public_release_date": "",
                     "s_organisms": ["SACCHROMYCES CEREVISIAE (BAKER'S YEAST)"],
+                    "s_characteristics": ["STRAIN FY1679"],
                     "s_assays": [
                         {
                             "number_of_samples": 45,
@@ -93,22 +94,46 @@
                         {
                             "pubmed_id": "",
                             "pub_doi": "",
-                            "pub_author_list": "",
-                            "pub_title": "",
+                            "pub_author_list": "Castrillo JI, Zeef LA, Hoyle DC, Zhang N, Hayes A, Gardner DC, Cornell MJ, Petty J, Hakes L, Wardleworth L, Rash B, Brown M, Dunn WB, Broadhurst D, O'Donoghue K, Hester SS, Dunkley TP, Hart SR, Swainston N, Li P, Gaskell SJ, Paton NW, Lilley KS, Kell DB, Oliver SG",
+                            "pub_title": "Growth control of the eukaryote cell: a systems biology study in yeast.",
                             "pub_status": ""
                         }
                     ],
                     "s_contacts": [
                         {
                             "person_ref": "",
-                            "person_last_name": "",
-                            "person_first_name": "",
-                            "person_mid_initials": "",
+                            "person_last_name": "Castrillo",
+                            "person_first_name": "Juan",
+                            "person_mid_initials": "I",
                             "person_email": "",
                             "person_phone": "",
                             "person_fax": "",
                             "person_address": "",
-                            "person_affiliation": "",
+                            "person_affiliation": "Cambridge University",
+                            "person_roles": ""
+                        },
+                        {
+                            "person_ref": "",
+                            "person_last_name": "Zeef",
+                            "person_first_name": "Leo",
+                            "person_mid_initials": "A",
+                            "person_email": "",
+                            "person_phone": "",
+                            "person_fax": "",
+                            "person_address": "",
+                            "person_affiliation": "Cambridge University",
+                            "person_roles": ""
+                        },
+                        {
+                            "person_ref": "",
+                            "person_last_name": "Oliver",
+                            "person_first_name": "Stephen",
+                            "person_mid_initials": "G",
+                            "person_email": "",
+                            "person_phone": "",
+                            "person_fax": "",
+                            "person_address": "",
+                            "person_affiliation": "Cambridge University",
                             "person_roles": ""
                         }
                     ],
@@ -152,22 +177,34 @@
                         {
                             "pubmed_id": "",
                             "pub_doi": "",
-                            "pub_author_list": "",
-                            "pub_title": "",
+                            "pub_author_list": "Castrillo JI, Zeef LA, Hoyle DC, Zhang N, Hayes A, Gardner DC, Cornell MJ, Petty J, Hakes L, Wardleworth L, Rash B, Brown M, Dunn WB, Broadhurst D, O'Donoghue K, Hester SS, Dunkley TP, Hart SR, Swainston N, Li P, Gaskell SJ, Paton NW, Lilley KS, Kell DB, Oliver SG",
+                            "pub_title": "Growth control of the eukaryote cell: a systems biology study in yeast.",
                             "pub_status": ""
                         }
                     ],
                     "s_contacts": [
                         {
                             "person_ref": "",
-                            "person_last_name": "",
-                            "person_first_name": "",
+                            "person_last_name": "Georgiou",
+                            "person_first_name": "Pavlos",
                             "person_mid_initials": "",
                             "person_email": "",
                             "person_phone": "",
                             "person_fax": "",
                             "person_address": "",
-                            "person_affiliation": "",
+                            "person_affiliation": "Oxford University",
+                            "person_roles": ""
+                        },
+                        {
+                            "person_ref": "",
+                            "person_last_name": "Maguire",
+                            "person_first_name": "Eamonn",
+                            "person_mid_initials": "",
+                            "person_email": "",
+                            "person_phone": "",
+                            "person_fax": "",
+                            "person_address": "",
+                            "person_affiliation": "Oxford University",
                             "person_roles": ""
                         }
                     ],
@@ -197,6 +234,11 @@
         {
             "s_id": "BII-S-3",
             "s_title": "Metagenomes and Metatranscriptomes of phytoplankton blooms from an ocean acidification mesocosm experiment",
+            "s_description": "Metagenomes and Metatranscriptomes of phytoplankton blooms from an ocean acidification mesocosm experiment",
+            "s_grand_number": "",
+            "s_funding_agency": "",
+            "s_submission_date": "",
+            "s_public_release_date": "",
             "s_organisms": ["MARINE METAGENOME"],
             "s_assays": [
                 {
@@ -210,6 +252,59 @@
                     "measurement": "metagenome sequencing",
                     "technology": "nucleotide sequencing",
                     "platform": ""
+                }
+            ],
+            "s_publications": [
+                {
+                    "pubmed_id": "",
+                    "pub_doi": "",
+                    "pub_author_list": "Castrillo JI, Zeef LA, Hoyle DC, Zhang N, Hayes A, Gardner DC, Cornell MJ, Petty J, Hakes L, Wardleworth L, Rash B, Brown M, Dunn WB, Broadhurst D, O'Donoghue K, Hester SS, Dunkley TP, Hart SR, Swainston N, Li P, Gaskell SJ, Paton NW, Lilley KS, Kell DB, Oliver SG",
+                    "pub_title": "Growth control of the eukaryote cell: a systems biology study in yeast.",
+                    "pub_status": ""
+                }
+            ],
+            "s_contacts": [
+                {
+                    "person_ref": "",
+                    "person_last_name": "Gonzalez-Beltran",
+                    "person_first_name": "Alejandra",
+                    "person_mid_initials": "",
+                    "person_email": "",
+                    "person_phone": "",
+                    "person_fax": "",
+                    "person_address": "",
+                    "person_affiliation": "Oxford University",
+                    "person_roles": ""
+                },
+                {
+                    "person_ref": "",
+                    "person_last_name": "Rocca-Serra",
+                    "person_first_name": "Philippe",
+                    "person_mid_initials": "",
+                    "person_email": "",
+                    "person_phone": "",
+                    "person_fax": "",
+                    "person_address": "",
+                    "person_affiliation": "Oxford University",
+                    "person_roles": ""
+                }
+            ],
+            "s_factors": [
+                {
+                    "factor_name": "",
+                    "factor_type": ""
+                }
+            ],
+            "s_protocols": [
+                {
+                    "protocol_name": "",
+                    "protocol_type": "",
+                    "protocol_description": "",
+                    "protocol_uri": "",
+                    "protocol_version": "",
+                    "protocol_parameters_name": "",
+                    "protocol_components_name": "",
+                    "protocol_components_type": ""
                 }
             ]
         }

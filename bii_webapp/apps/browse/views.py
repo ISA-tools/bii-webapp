@@ -37,25 +37,39 @@ def investigation(request, invIndex=None):
     if not 'data' in request.session or invIndex==None:
         return redirect(browse)
 
-    request.session['currentInvestigation']=invIndex
+    invIndex=int(invIndex)
+    data=json.loads(request.session['data'])
+    data=data['investigations'][invIndex]
+    data=json.dumps(data).replace("'","\\'")
+
     request.breadcrumbs(
         [('Browse the BII', '/browse/'), ('Investigation', request.path)])
-    return render_to_response("investigation.html",{"data":json.dumps(request.session['data'])},context_instance=RequestContext(request))
+    return render_to_response("investigation.html",{"data":data},context_instance=RequestContext(request))
 
 
 def study(request,invIndex=None,studyIndex=None):
     if not 'data' in request.session or studyIndex==None:
-        return render_to_response("browse.html",context_instance=RequestContext(request))
+        return redirect(browse)
 
-    request.session['currentStudy']=studyIndex
+    data=json.loads(request.session['data'])
+    studyIndex=int(studyIndex)
+
+    if invIndex==None:
+        studies=data['studies']
+    else:
+        studies=data['investigations'][int(invIndex)]['i_studies']
+
+    data=studies[studyIndex]
+    data=json.dumps(data).replace("'","\\'")
+
     request.breadcrumbs(
         [('Browse the BII', '/browse/'), ('Investigation', '/browse/investigation/'), ('Study', request.path)])
-    return render_to_response("study.html", context_instance=RequestContext(request))
+    return render_to_response("study.html",{"data":data},context_instance=RequestContext(request))
 
 
 def assay(request,invIndex=None,studyIndex=None,assayIndex=None):
     if not 'data' in request.session or studyIndex==None or assayIndex==None:
-        return render_to_response("browse.html",context_instance=RequestContext(request))
+        return redirect(browse)
 
     request.breadcrumbs([('Browse the BII', '/browse/'), ('Investigation', '/browse/investigation/'),
                          ('Study', '/browse/investigation/study/'), ('Assay', request.path)])
@@ -64,7 +78,7 @@ def assay(request,invIndex=None,studyIndex=None,assayIndex=None):
 
 def sample(request,invIndex=-1,studyIndex=-1,sample=-1):
     if not 'data' in request.session or studyIndex==-1 or sample==-1:
-        return render_to_response("browse.html",context_instance=RequestContext(request))
+        return redirect(browse)
 
     request.breadcrumbs([('Browse the BII', '/browse/'), ('Investigation', '/browse/investigation/'),
                          ('Study', '/browse/investigation/study/'), ('Sample', request.path)])

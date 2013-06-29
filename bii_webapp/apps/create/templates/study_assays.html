@@ -8,12 +8,17 @@
     <tr>
         <td>Select Technology</td>
         <td>
-            <select id="technologiesSelect" data-bind="options: $parent.s_assays_model.availableTechnologies, value: s_technology"></select>
+            <select id="technologiesSelect" data-bind="options: $parent.s_assays_model.availableTechnologies, optionsText: 'technology', value: s_technology"></select>
     </tr>
     <tr>
         <td>Select Platform</td>
         <td>
             <select id="platformsSelect" data-bind="options: $parent.s_assays_model.availablePlatforms,  value: s_platform"></select>
+    </tr>
+    <tr>
+        <td>Edit Spreadsheet</td>
+        <td>
+            <button class="btn btn-info" id="edit_spreadsheet" data-bind="text: s_filename">filename</button>
     </tr>
     </tbody>
 </table>

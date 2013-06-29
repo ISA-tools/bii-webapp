@@ -9,12 +9,9 @@
 
 {% endblock %}
 {% block extrascript %}
-<script>
-    var vars={};
-    vars.urls={};
-</script>
 <script src="{% static 'browse/js/lib/knockoutjs/knockout-2.2.1.js' %}"></script>
 <script src="{% static 'browse/js/lib/jquery/jquery.validate.min.js' %}"></script>
+<script src="{% static 'browse/js/lib/collapse.js' %}"></script>
 {% block extra_browse_script %}
 {% endblock %}
 {% endblock %}

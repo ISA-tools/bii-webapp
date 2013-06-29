@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load static from staticfiles %}
+{% block extracss %}
+<link href="{% static 'create/css/create.css' %}" rel="stylesheet">
+{% endblock %}
+{% block extrascript %}
+{% endblock %}
+{% block title %}BII | Create{% endblock %}
+{% block content %}
+<div id="create-container">
+    <h2>Create ISA-Tab</h2>
+
+    <h4>Select Configuration</h4>
+    <ul class='config_box'>
+        {% for config in configurations %}
+           <a href="{% url 'create.create' config %}">{{config}}</a>
+        {% endfor %}
+    </ul>
+
+</div>
+{% endblock %}
