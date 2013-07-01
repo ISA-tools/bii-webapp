@@ -9,12 +9,12 @@
 var SpreadSheetModel;
 $(document).ready(function () {
 
-    SpreadSheetModel = function (assayID,measurement, technology) {
+    SpreadSheetModel = function (assayID, measurement, technology) {
         var self = this;
 
-        self.measurement=measurement;
-        self.technology=technology;
-        self.assayID=assayID;
+        self.measurement = measurement;
+        self.technology = technology;
+        self.assayID = assayID;
         self.columns = {};
         self.fields = [];
 
@@ -32,6 +32,15 @@ $(document).ready(function () {
         function getColumns() {
             self.columns.colHeaders = [];
             self.columns.colAttrs = [];
+            var data=[];
+            for(var i=0;i<20;i++){
+                var row=[];
+                for(var j=0;j<self.fields.length;j++){
+                    row[j]="";
+                }
+                data.push(row);
+            }
+            self.columns.data = [];
             for (var i = 0; i < self.fields.length; i++) {
                 self.columns.colHeaders.push(self.fields[i]['@header']);
                 var type = self.fields[i]['@data-type'];
@@ -43,43 +52,61 @@ $(document).ready(function () {
                     type = 'text';
 
                 self.columns.colAttrs.push({data: self.fields[i]['@header'], type: type});
+                self.columns.data.push("");
+
+                if(self.fields[i]['protocol-type']){
+                    self.columns.colHeaders.push('Protocol REF');
+                    self.columns.colAttrs.push({data: 'Protocol REF', type: 'text'});
+                    self.columns.data.push(self.fields[i]['protocol-type']);
+                }
             }
+
+            var data=[];
+            for(var i=0;i<20;i++){
+                data.push(self.columns.data);
+            }
+            self.columns.data=data;
+
         }
 
-        var initialised=false;
-        self.addSpreadSheet = function (init,measurement, technology) {
-            if(initialised && init)
+        var initialised = false;
+
+        var whiteRenderer = function (instance, td, row, col, prop, value, cellProperties) {
+            Handsontable.TextCell.renderer.apply(this, arguments);
+            $(td).css({
+                background: 'white'
+            });
+        };
+
+        self.addSpreadSheet = function (init, measurement, technology) {
+            if (initialised && init)
                 return;
 
-            if(!initialised && init)
-                initialised=true;
+            if (!initialised && init)
+                initialised = true;
 
-            if(measurement){
-                self.measurement=measurement;
+            if (measurement) {
+                self.measurement = measurement;
             }
-            if(technology){
-                self.technology=technology;
+            if (technology) {
+                self.technology = technology;
             }
 
             findFields();
             getColumns();
-            var modal = $('#modal'+self.assayID);
+            var modal = $('#modal' + self.assayID);
             modal.show();
-            var modalBody=$('#modal-body'+self.assayID);
+            var modalBody = $('#modal-body' + self.assayID);
             modalBody.handsontable({
-                minSpareCols: 1,
-                //always keep at least 1 spare row at the right
-                minSpareRows: 1,
-                //always keep at least 1 spare row at the bottom,
-                rowHeaders: true,
-                colHeaders: true,
+                data:self.columns.data,
+                startRows: 20,
                 colHeaders: self.columns.colHeaders,
-                columns: self.columns.colAttrs,
                 contextMenu: true,
                 width: 1152,
                 height: 600,
-                minRows: 20,
-                minCols: self.columns.colHeaders.length
+                cells: function (row, col, prop) {
+                    this.renderer = whiteRenderer;
+                }
             });
             modal.hide();
         }

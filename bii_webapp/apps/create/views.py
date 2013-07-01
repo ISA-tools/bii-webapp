@@ -7,6 +7,8 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import os
 import xmltodict
+import xml.etree.ElementTree as ElementTree
+
 
 
 configurations={}
@@ -14,6 +16,19 @@ configurations={}
 # def parseHeaders(fileconfig):
 #     headers=[]
 #     for field in fileconfig['field']:
+
+
+def parseFields(tree,fields):
+    tags=tree._children[0]._children
+    i=0
+    for tag in tags:
+       if 'header' in tag.attrib and tag.attrib['header']==fields[i]['@header']:
+            i+=1
+
+       if 'protocol-type' in tag.attrib:
+           fields[i-1]['protocol-type']=tag.attrib['protocol-type']
+
+    pass
 
 
 def loadConfigurations():
@@ -30,7 +45,9 @@ def loadConfigurations():
             for root,dirs,files in os.walk(directory+dir):
                 for file in files:
                     f=open(directory+dir+'/'+file)
-                    o = xmltodict.parse(f)
+                    strFile=f.read()
+                    tree=ElementTree.XML(strFile)
+                    o = xmltodict.parse(strFile)
                     configFile=o['isatab-config-file']
                     fileconfig=configFile['isatab-configuration']
                     if '@isatab-assay-type' not in fileconfig:
@@ -44,6 +61,7 @@ def loadConfigurations():
                     technology=fileconfig['technology']
                     tech=technology['@term-label']
 
+                    parseFields(tree,fileconfig['field'])
                     headers.append({'name':measurement['@term-label']+','+tech,'fields':fileconfig['field']})
 
                     techObj=next((t for t in technologiesPlatforms if t['technology']==tech),None)
