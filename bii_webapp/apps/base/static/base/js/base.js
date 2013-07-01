@@ -19,18 +19,18 @@ $(document).ready(function () {
     var parentSize = $('#main-container').width();
     $('#main-content').css("margin-left", (parentSize - size) / 2 + 'px');
 
-    (function ($) {
-        $('div').each(function () {
-
-            $(this).bind('contentChange', function (evt) {
-                if ($(this).css('max-height') != 'none')
-                    if ($(this).actual('outerHeight') > $(this).css('max-height').replace(/[^-\d\.]/g, ''))
-                        $(this).slimscroll({height: $(this).css('max-height'), alwaysVisible: true});
-                return false;
-            });
-            $(this).trigger('contentChange');
-        });
-    })(jQuery);
+//    (function ($) {
+//        $('div').each(function () {
+//
+//            $(this).bind('contentChange', function (evt) {
+//                if ($(this).css('max-height') != 'none')
+//                    if ($(this).actual('outerHeight') > $(this).css('max-height').replace(/[^-\d\.]/g, ''))
+//                        $(this).slimscroll({height: $(this).css('max-height'), alwaysVisible: true});
+//                return false;
+//            });
+//            $(this).trigger('contentChange');
+//        });
+//    })(jQuery);
 
     var rightWidth = $('#user_profile').width();
     if (!rightWidth)

@@ -55,28 +55,27 @@ $(document).ready(function () {
 
         var measuSubscription = function (data, assay) {
             self.availableTechnologies(data.technologies);
-//            var techOptions = '';
-//            for(var i=0;i<data.technologies.length;i++){
-//                var t=data.technologies[i];
-//                techOptions+="<option value="+t+">"+t+"</option>"
-//            }
-//            $('#assay_tab_content .active #technologiesSelect').html(techOptions);
-
             var filename = assay.s_filename();
             var split = filename.split('_').slice(0, 2);
             var spaceSplit = data.measurement.split(' ');
             split = split.concat(spaceSplit);
-            assay.s_filename(split.join('_') + '.txt');
+            filename= split.join('_');
+
+            var cnt=0;
+            for (var i = 0; i < self.assays().length; i++) {
+                var curName = self.assays()[i].s_filename();
+                if (curName.indexOf(filename)!=-1)
+                    cnt++;
+            }
+
+            filename += (cnt == 0 ? '' : cnt) + '.txt';
+            assay.s_filename(filename);
+            assay.s_spreadsheet.addSpreadSheet(false,assay.s_measurement().measurement,assay.s_technology().technology);
         }
 
         var techSubscription = function (data, assay) {
             self.availablePlatforms(data.platforms);
-//            var platOptions = '';
-//            for(var i=0;i<data.platforms.length;i++){
-//                var p=data.platforms[i];
-//                platOptions+="<option value="+p+">"+p+"</option>"
-//            }
-//            $('#assay_tab_content .active #platformsSelect').html(platOptions);
+            assay.s_spreadsheet.addSpreadSheet(false,assay.s_measurement().measurement,assay.s_technology().technology);
         }
 
         if (!assays) {
@@ -95,17 +94,18 @@ $(document).ready(function () {
             assay.s_technology.subscribe(function (data) {
                 techSubscription(data,assay)
             });
+            assay.s_spreadsheet=new SpreadSheetModel(1);
         }
 
         self.assays = ko.observableArray(assays);
 
         self.addAssay = function () {
             var filename = 'a_' + self.studyID() + "_" + self.availableMeasurements()[0].measurement;
+            filename = filename.replace(/ /g, '_');
             var cnt = 0;
-
             for (var i = 0; i < self.assays().length; i++) {
                 var curName = self.assays()[i].s_filename();
-                if (curName.indexOf(filename))
+                if (curName.indexOf(filename)!=-1)
                     cnt++;
             }
 
@@ -115,7 +115,7 @@ $(document).ready(function () {
                 s_measurement: ko.observable(0),
                 s_technology: ko.observable(0),
                 s_platform: ko.observable(0),
-                s_filename: ko.observable(filename.replace(/ /g, '_'))
+                s_filename: ko.observable(filename)
             }
             self.assays.push(assay);
             assay.s_measurement.subscribe(function (data) {
@@ -124,6 +124,7 @@ $(document).ready(function () {
             assay.s_technology.subscribe(function (data) {
                 techSubscription(data,assay)
             });
+            assay.s_spreadsheet=new SpreadSheetModel(self.assays().length,assay.s_measurement().measurement,assay.s_technology().technology);
         };
 
         self.removeAssay = function (assay) {

@@ -9,14 +9,21 @@ import os
 import xmltodict
 
 
-configurations=dict()
+configurations={}
+
+# def parseHeaders(fileconfig):
+#     headers=[]
+#     for field in fileconfig['field']:
+
 
 def loadConfigurations():
     directory = common.SITE_ROOT+'/config/'
     measurements=[]
     technologiesPlatforms=[]
+    headers=[]
 
     config={'measurements':measurements}
+    config['headers']=headers
     for root,dirs,files in os.walk(directory):
         for dir in dirs:
             configurations[dir]=config
@@ -36,6 +43,8 @@ def loadConfigurations():
 
                     technology=fileconfig['technology']
                     tech=technology['@term-label']
+
+                    headers.append({'name':measurement['@term-label']+','+tech,'fields':fileconfig['field']})
 
                     techObj=next((t for t in technologiesPlatforms if t['technology']==tech),None)
                     if techObj==None:
@@ -69,6 +78,7 @@ def loadConfigurations():
 
 @decorators.login_required(login_url=views.login)
 def create(request,config=None):
+        global configurations
         if(len(configurations)==0):
             loadConfigurations()
 

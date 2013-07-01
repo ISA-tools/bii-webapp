@@ -8,17 +8,28 @@
     <tr>
         <td>Select Technology</td>
         <td>
-            <select id="technologiesSelect" data-bind="options: $parent.s_assays_model.availableTechnologies, optionsText: 'technology', value: s_technology"></select>
+            <select id="technologiesSelect"
+                    data-bind="options: $parent.s_assays_model.availableTechnologies, optionsText: 'technology', value: s_technology"></select>
     </tr>
     <tr>
         <td>Select Platform</td>
         <td>
-            <select id="platformsSelect" data-bind="options: $parent.s_assays_model.availablePlatforms,  value: s_platform"></select>
+            <select id="platformsSelect"
+                    data-bind="options: $parent.s_assays_model.availablePlatforms,  value: s_platform"></select>
     </tr>
     <tr>
         <td>Edit Spreadsheet</td>
         <td>
-            <button class="btn btn-info" id="edit_spreadsheet" data-bind="text: s_filename">filename</button>
+            <a class="btn btn-info" rel="modal:open"
+                    data-bind="text: s_filename,attr: {'href':'#modal'+($index()+1)},click:function(){s_spreadsheet.addSpreadSheet(true)}"></a>
     </tr>
     </tbody>
 </table>
+
+<div data-bind="attr: {'id':'modal'+($index()+1)}" class="modal" style="display:none">
+    <div class="modal-header"><h1 data-bind="text: s_filename"></h1></div>
+    <div data-bind="attr: {'id':'modal-body'+($index()+1)}" class="modal-body"></div>
+    <div class="modal-footer"><a class="btn btn-info" href="#" rel="modal:close">Close</a> or press ESC</p></div>
+</div>
+
+
