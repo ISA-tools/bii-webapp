@@ -32,6 +32,7 @@ $(document).ready(function () {
         function getColumns() {
             self.columns.colHeaders = [];
             self.columns.colAttrs = [];
+            self.columns.data = [];
             var data=[];
             for(var i=0;i<20;i++){
                 var row=[];
@@ -40,32 +41,32 @@ $(document).ready(function () {
                 }
                 data.push(row);
             }
-            self.columns.data = [];
+
+            var dataObj={};
+            var protCnt=0;
             for (var i = 0; i < self.fields.length; i++) {
                 self.columns.colHeaders.push(self.fields[i]['@header']);
                 var type = self.fields[i]['@data-type'];
-                if (type.toUpperCase() == 'STRING')
-                    type = 'text';
-                else if (type.toUpperCase() == 'INTEGER')
-                    type = 'numeric';
-                else
-                    type = 'text';
 
-                self.columns.colAttrs.push({data: self.fields[i]['@header'], type: type});
-                self.columns.data.push("");
+                var obj={data: self.fields[i]['@header']};
+                if (type.toUpperCase() == 'INTEGER'){
+                    obj['type']='numeric'
+                }
+
+                self.columns.colAttrs.push(obj);
+                dataObj[self.fields[i]['@header']]="";
 
                 if(self.fields[i]['protocol-type']){
-                    self.columns.colHeaders.push('Protocol REF');
-                    self.columns.colAttrs.push({data: 'Protocol REF', type: 'text'});
-                    self.columns.data.push(self.fields[i]['protocol-type']);
+                    protCnt++;
+                    self.columns.colHeaders.push('Protocol REF'+protCnt);
+                    self.columns.colAttrs.push({data: 'Protocol REF'+protCnt, type: 'text'});
+                    dataObj['Protocol REF'+protCnt]=self.fields[i]['protocol-type'];
                 }
             }
 
-            var data=[];
             for(var i=0;i<20;i++){
-                data.push(self.columns.data);
+                self.columns.data.push(dataObj);
             }
-            self.columns.data=data;
 
         }
 
@@ -99,8 +100,9 @@ $(document).ready(function () {
             var modalBody = $('#modal-body' + self.assayID);
             modalBody.handsontable({
                 data:self.columns.data,
-                startRows: 20,
+                columns:self.columns.colAttrs,
                 colHeaders: self.columns.colHeaders,
+                startRows: 20,
                 contextMenu: true,
                 width: 1152,
                 height: 600,
