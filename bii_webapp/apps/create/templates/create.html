@@ -15,7 +15,8 @@
 </script>
 <script src="{% static 'create/js/lib/knockoutjs/knockout-2.2.1.js' %}"></script>
 <script src="{% static 'create/js/lib/handsontable/jquery.handsontable.full.js' %}"></script>
-<script src="{% static 'create/js/lib/jquery/jquery.validate.min.js' %}"></script>
+<script src="{% static 'create/js/lib/jquery/jquery.validate.js' %}"></script>
+<script src="{% static 'create/js/lib/jquery/additional-methods.js' %}"></script>
 <script src="{% static 'create/js/lib/jquery/jquery.modal.min.js' %}" type="text/javascript" charset="utf-8"></script>
 <script src="{% static 'create/js/lib/xml2json.js' %}"></script>
 <script src="{% static 'create/js/models/study_contacts_model.js' %}"></script>
@@ -39,6 +40,7 @@
 
     <div class='study_edit'>
         <form id="createISAForm" onSubmit="return false;">
+            {% csrf_token %}
             <div class="tabbable tabs-left">
                 <ul id="inv_study_tab" class="nav nav-tabs">
                     <li class='active inv_li'>
@@ -77,7 +79,7 @@
                     <!-- /ko -->
 
                     <div class="upload_button">
-                        <button class="btn btn-info" type="submit">Upload
+                        <button class="btn btn-info" type="submit">Save
                         </button>
                     </div>
 

@@ -1,3 +1,16 @@
+input[type='checkbox'] {
+    border: 1px solid #cccccc;
+    -webkit-appearance: none;
+    width: 20px!important;
+    height: 20px;
+    background: white;
+    border-radius: 3px;
+    margin-bottom: 7px;
+}
+input[type='checkbox']:checked {
+    background: #cccccc;
+}
+
 h4 {
     margin-top: 20px;
 }
@@ -92,7 +105,7 @@ tr td:first-child {
     width: 200px;
 }
 
-.study_edit input.error {
+.study_edit .error {
     border: 1px solid red;
     background-color: #FDC;
 }
@@ -101,6 +114,8 @@ tr td:first-child {
     display: block;
     color: Red;
     font-size: 0.8em;
+    border: none;
+    background-color:transparent;
 }
 
 .study_edit th {
@@ -189,6 +204,10 @@ tr td:first-child {
     width: 1152px !important;
     padding: 10px !important;
     margin-left: -587px !important;
+}
+
+.modal-header{
+    border-bottom: none;
 }
 
 .modal-header > h1 {

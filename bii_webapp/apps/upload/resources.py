@@ -11,7 +11,6 @@ import stat
 
 TIMEOUT = 300 #seconds
 
-
 @csrf_exempt
 @decorators.login_required(login_url=views.login)
 def getInit(request):
