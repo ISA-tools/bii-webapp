@@ -8,8 +8,10 @@
 {% endblock %}
 
 {% endblock %}
-{% block extrascript %}
+{% block no_compress_script %}
 <script src="{% static 'browse/js/lib/knockoutjs/knockout-2.2.1.js' %}"></script>
+{% endblock %}
+{% block extrascript %}
 <script src="{% static 'browse/js/lib/jquery/jquery.validate.min.js' %}"></script>
 <script src="{% static 'browse/js/lib/collapse.js' %}"></script>
 {% block extra_browse_script %}

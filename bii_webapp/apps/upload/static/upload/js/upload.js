@@ -79,15 +79,19 @@ var upload = function () {
 
     function start(file) {
         helper.insertFields(file);
-        showToast('Initiating upload', -1);
+        var initToast=$().toastmessage('showToast', {
+            text     : 'Initiating upload',
+            sticky   : true,
+            type     : 'notice'
+        });
         request.requestInit(function (data) {
             if (isIssuesExist(data)) {
-                hideToast();
-                showToast(data.ERROR.messages);
+                $().toastmessage('removeToast', initToast);
+                $().toastmessage('showErrorToast', data.ERROR.messages);
                 $('#retry').show();
                 return;
             }
-            hideToast();
+            $().toastmessage('removeToast', initToast);
             progressHandler.progressStage(1, 0);
             helper.toggleButtons('cancel');
             request.uploadFile(file, function (data) {
@@ -123,7 +127,7 @@ var upload = function () {
     function isIssuesExist(data) {
 
         if (data.ERROR) {
-            showToast(data.ERROR.messages);
+            $().toastmessage('showErrorToast', data.ERROR.messages);
             return true;
         }
 
@@ -162,9 +166,9 @@ var upload = function () {
         helper.toggleButtons('cancelling');
         callback = function (data) {
             if (data.INFO)
-                showToast(data.INFO.messages);
+                $().toastmessage('showNoticeToast', data.INFO.messages);
             if (data.ERROR)
-                showToast(data.ERROR.messages);
+                $().toastmessage('showErrorToast', data.ERROR.messages);
         }
         request.cancelFile(callback);
         vars.upload_session = '';

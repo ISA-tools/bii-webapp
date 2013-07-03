@@ -115,8 +115,6 @@ STATIC_ROOT = SITE_ROOT + "/static/"
 STATICFILES_DIRS = (
 )
 
-COMPRESS_ENABLED = False;
-
 COMPRESS_JS_FILTERS = [
     'compressor.filters.template.TemplateFilter',
     ]

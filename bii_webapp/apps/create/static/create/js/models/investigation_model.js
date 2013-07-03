@@ -17,7 +17,7 @@ var InvestigationModel = function (investigation) {
     if (investigation == undefined) {
         investigation =
         {
-            i_skip_investigation:ko.observable(false),
+            i_skip_investigation: ko.observable(false),
             i_id: ko.observable(""),
             i_title: "",
             i_description: "",
@@ -34,7 +34,28 @@ var InvestigationModel = function (investigation) {
 
     self.investigation = ko.observable(investigation);
 
+    self.activeState = function (element) {
+        var existsActive = false;
+        var currClass = element.attr('class') == undefined ? '' : element.attr('class');
+        var siblings = element.siblings(element.prop("tagName"));
+
+        if (siblings.length == 0)
+            return currClass + ' active';
+
+        siblings.each(function () {
+            if ($(this).hasClass('active'))
+                existsActive = true;
+        })
+
+        if (!existsActive) {
+            return currClass + ' active';
+        }
+        return currClass;
+    }
+
     self.save = function (form) {
+        $('#save_button').attr('disabled', 'disabled');
+        $('#save_button').text('Saving');
         var investigation = self.toJSON();
         var formData = new FormData();
         formData.append('investigation', JSON.stringify(investigation));
@@ -45,7 +66,9 @@ var InvestigationModel = function (investigation) {
             type: 'POST',
             //Ajax events
             success: successHandler = function (data) {
-                var x = 1;
+                $().toastmessage('showSuccessToast', data.INFO.messages);
+                $('#save_button').removeAttr('disabled', 'disabled');
+                $('#save_button').text('Save');
             },
             timeout: -1,
             error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {

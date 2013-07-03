@@ -36,7 +36,7 @@
 
 <h2>INVESTIGATION PUBLICATIONS(<span data-bind='text: investigation().i_pubs_model.publications().length'></span>)</h2>
 <div class="tabbable">
-    <ul id="i_pubs_tab" class="nav nav-tabs">
+    <ul id="i_pubs_main_tab" class="nav nav-tabs">
         <!-- ko if: investigation().i_pubs_model.publications().length ==0 -->
         <li><a href="#" class="add_item" data-bind='click: investigation().i_pubs_model.addPublication'
                data-toggle="tab">+</a>
@@ -44,7 +44,7 @@
         <!-- /ko -->
 
         <!-- ko foreach:investigation().i_pubs_model.publications -->
-        <li data-bind="attr: {class:$index()===0 ? 'active' : ''}">
+        <li data-bind="attr: {class:$root.activeState($($element))}">
             <a data-bind="attr: { href:'#i_pubs_tab' + ($index()+1)}" data-toggle="tab">
                 <img data-bind='click: $parent.investigation().i_pubs_model.removePublication'
                      src="/bii_webapp/static/base/img/basket_x.png" onclick="javascript:selectDefaultStudy(this)">
@@ -59,8 +59,8 @@
     </ul>
     <div class="tab-content">
         <!-- ko foreach: investigation().i_pubs_model.publications -->
-        <div class="tab-pane active"
-             data-bind="attr: { id:'i_pubs_tab'+($index()+1),class:$parent.investigation().i_pubs_model.publications().length==1 || $index()===0 ? 'tab-pane active' : 'tab-pane'} ">
+        <div class="tab-pane"
+             data-bind="attr: { id:'i_pubs_tab'+($index()+1),class:$root.activeState($($element))} ">
             {% include "study_publications.html" %}
         </div>
         <!-- /ko -->
@@ -70,7 +70,7 @@
 <h2>INVESTIGATION CONTACTS(<span data-bind='text: investigation().i_contacts_model.contacts().length'></span>)</h2>
 
 <div class="tabbable">
-    <ul id="i_contacts_tab" class="nav nav-tabs">
+    <ul id="i_contacts_main_tab" class="nav nav-tabs">
 
         <!-- ko if: investigation().i_contacts_model.contacts().length ==0 -->
         <li><a href="#" class="add_item" data-bind='click:investigation().i_contacts_model.addContact'
@@ -79,7 +79,7 @@
         <!-- /ko -->
 
         <!-- ko foreach:investigation().i_contacts_model.contacts -->
-        <li data-bind="attr: {class:$index()===0 ? 'active' : ''}">
+        <li data-bind="attr: {class:$root.activeState($($element))}">
             <a data-bind="attr: { href:'#i_contacts_tab' + ($index()+1)}" data-toggle="tab">
                 <img data-bind='click: $parent.investigation().i_contacts_model.removeContact'
                      src="/bii_webapp/static/base/img/basket_x.png" onclick="javascript:selectDefaultStudy(this)">
@@ -95,8 +95,8 @@
     </ul>
     <div class="tab-content">
         <!-- ko foreach: investigation().i_contacts_model.contacts -->
-        <div class="tab-pane active"
-             data-bind="attr: { id:'i_contacts_tab'+($index()+1),class:$parent.investigation().i_contacts_model.contacts().length==1 || $index()===0 ? 'tab-pane active' : 'tab-pane'} ">
+        <div class="tab-pane"
+             data-bind="attr: { id:'i_contacts_tab'+($index()+1),class:$root.activeState($($element))} ">
             {% include "study_contacts.html" %}
         </div>
         <!-- /ko -->

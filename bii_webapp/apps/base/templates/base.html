@@ -5,24 +5,29 @@
 <head>
     <title>{% block title %}BII{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% compress css %}
+    <link href="{% static 'libs/bootstrap/css/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'libs/jquery/toastmessage/css/jquery.toastmessage.css' %}" rel="stylesheet">
+    <link href="{% static 'base/css/base.css' %}" rel="stylesheet">
+    {% block extracss %}{% endblock %}
+    {% endcompress %}
+
+    {% compress js %}
     <!-- JQuery -->
     <script src="{% static 'libs/jquery/jquery-1.9.1.min.js' %}"></script>
-    <script src="{% static 'libs/jquery/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'libs/jquery/jquery-1.9.1.min.js' %}"></script>
+    <script src="{% static 'libs/jquery/toastmessage/jquery.toastmessage.js' %}"></script>
     <script src="{% static 'libs/jquery/jsapi.js' %}"></script>
     <script src="{% static 'libs/jquery/jQueryRotateCompressed.2.2.js' %}"></script>
     <script src="{% static 'libs/jquery/jquery.actual.min.js' %}"></script>
     <script src="{% static 'libs/jsonjs/json2.js' %}"></script>
     <!-- Bootstrap -->
-    <link href="{% static 'libs/bootstrap/css/bootstrap.css' %}" rel="stylesheet">
     <script src="{% static 'libs/bootstrap/js/bootstrap.min.js' %}"></script>
-    <link href="{% static 'base/css/base.css' %}" rel="stylesheet">
-    {% block extracss %}{% endblock %}
-
-    {% compress js %}
     <script src="{% static 'base/js/base.js' %}"></script>
     <script>vars={};vars.urls={};</script>
     {% block extrascript %}{% endblock %}
     {% endcompress %}
+    {% block no_compress_script %}{% endblock %}
 
 </head>
 <body>

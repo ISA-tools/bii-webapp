@@ -341,7 +341,7 @@ h1 {
     max-width: 600px;
     z-index: 1;
     position: absolute;
-    bottom: 10%;
+    bottom: 50px;
     left: 50%;
     margin-left: -291px;
     white-space: pre-wrap;
@@ -350,4 +350,8 @@ h1 {
     white-space: -o-pre-wrap;
     word-wrap: break-word;
     background-color: rgba(62,62,63,0.9);
+}
+
+.toast-item p{
+    color: white;
 }

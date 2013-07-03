@@ -11,7 +11,7 @@ $(document).ready(function () {
 
     $(window).bind('beforeunload', function () {
         if (upload.getState()=='STARTED')
-            showToast('Uploading will resume in the background')
+            $().toastmessage('showNoticeToast','Uploading will resume in the background');
     });
 
     if (vars.upload_progress) {

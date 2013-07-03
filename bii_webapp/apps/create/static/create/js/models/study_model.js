@@ -11,16 +11,42 @@ var StudyModel = function (studies) {
     var self = this;
 
     self.subscription = function (data, study) {
-        study.s_id(study.s_id().replace(' ', '_'));
+
+        var s_id=study.s_id().replace(' ', '_');
+        if(s_id!=study.s_id()){
+            study.s_id(s_id);
+            return;
+        }
+
+        var cnt=0;
+        for(var i=0;i<self.studies().length;i++){
+            var currStudy=self.studies()[i];
+            if(currStudy.s_id()==s_id){
+                cnt++;
+                if(cnt==2)
+                    break;
+            }
+        }
+
+        if(cnt==2){
+            study.s_id(study.s_id()+'_'+(cnt-1));
+            return;
+        }
+
+        study.s_sample_filename('s_' + study.s_id() + '.txt');
+
         for (var i = 0; i < study.s_assays_model.assays().length; i++) {
             var assay = study.s_assays_model.assays()[i];
-            var split = assay.s_filename().split('_');
+            var split = assay.filename().split('_');
             split[1] = study.s_id();
-            assay.s_filename(split.join('_'));
+            assay.filename(split.join('_'));
         }
     }
 
     if (studies == undefined) {
+
+        var filename = 's_.txt';
+
         var study = {
             s_id: ko.observable(""),
             s_title: "",
@@ -29,21 +55,27 @@ var StudyModel = function (studies) {
             s_funding_agency: "",
             s_submission_date: "",
             s_public_release_date: "",
-            s_pubs_model: new StudyPublicationModel(),
-            s_contacts_model: new StudyContactModel(),
-            s_factors_model: new StudyFactorModel(),
-            s_protocols_model: new StudyProtocolModel()
+            s_sample_filename: ko.observable(filename.replace(/ /g, '_')),
+            s_pubs_model: new StudyPublicationModel([]),
+            s_contacts_model: new StudyContactModel([]),
+            s_factors_model: new StudyFactorModel([]),
+            s_protocols_model: new StudyProtocolModel([])
         };
         study.s_assays_model = new StudyAssayModel(study.s_id);
         studies = [study]
         study.s_id.subscribe(function (data) {
             self.subscription(data, study)
         });
+
+        study.s_spreadsheet = new StudySpreadSheetModel(studies.length);
     }
 
     self.studies = ko.observableArray(studies);
 
     self.addStudy = function () {
+
+        var filename = 's_.txt';
+
         var study = {
             s_id: ko.observable(""),
             s_title: "",
@@ -52,19 +84,33 @@ var StudyModel = function (studies) {
             s_funding_agency: "",
             s_submission_date: "",
             s_public_release_date: "",
-            s_pubs_model: new StudyPublicationModel(),
-            s_contacts_model: new StudyContactModel(),
-            s_factors_model: new StudyFactorModel(),
-            s_protocols_model: new StudyProtocolModel()
+            s_sample_filename: ko.observable(filename),
+            s_pubs_model: new StudyPublicationModel([]),
+            s_contacts_model: new StudyContactModel([]),
+            s_factors_model: new StudyFactorModel([]),
+            s_protocols_model: new StudyProtocolModel([])
         }
         study.s_assays_model = new StudyAssayModel(study.s_id);
         self.studies.push(study);
         study.s_id.subscribe(function (data) {
             self.subscription(data, study)
         });
+
+        study.s_spreadsheet = new StudySpreadSheetModel(self.studies().length);
     };
 
     self.removeStudy = function (study) {
+        var index = self.studies.indexOf(study);
+        if (index != self.studies().length - 1) {
+            var studies = [];
+            for (var i = 0; i < self.studies().length; i++) {
+                if (i != index) {
+                    studies.push(self.studies()[i]);
+                }
+            }
+            studies.push(self.studies()[index]);
+            self.studies(studies);
+        }
         self.studies.remove(study);
     };
 
@@ -80,6 +126,7 @@ var StudyModel = function (studies) {
                 s_funding_agency: currStudy.s_funding_agency,
                 s_submission_date: currStudy.s_submission_date,
                 s_public_release_date: currStudy.s_public_release_date,
+                s_sample_filename: currStudy.s_sample_filename(),
                 s_assays: currStudy.s_assays_model.toJSON().assays,
                 s_pubs: currStudy.s_pubs_model.toJSON().publications,
                 s_contacts: currStudy.s_contacts_model.toJSON().contacts,

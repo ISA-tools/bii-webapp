@@ -11,16 +11,16 @@ var StudyContactModel = function (contacts) {
     if (!contacts)
         contacts = [
             {
-                s_person_ref: "",
-                s_person_last_name: "",
-                s_person_first_name: "",
-                s_person_mid_initials: "",
-                s_person_email: "",
-                s_person_phone: "",
-                s_person_fax: "",
-                s_person_address: "",
-                s_person_affiliation: "",
-                s_person_roles: ""
+               person_ref: "",
+               person_last_name: "",
+               person_first_name: "",
+               person_mid_initials: "",
+               person_email: "",
+               person_phone: "",
+               person_fax: "",
+               person_address: "",
+               person_affiliation: "",
+               person_roles: ""
             }
         ]
 
@@ -29,20 +29,31 @@ var StudyContactModel = function (contacts) {
 
     self.addContact = function () {
         self.contacts.push({
-            s_person_ref: "",
-            s_person_last_name: "",
-            s_person_first_name: "",
-            s_person_mid_initials: "",
-            s_person_email: "",
-            s_person_phone: "",
-            s_person_fax: "",
-            s_person_address: "",
-            s_person_affiliation: "",
-            s_person_roles: ""
+           person_ref: "",
+           person_last_name: "",
+           person_first_name: "",
+           person_mid_initials: "",
+           person_email: "",
+           person_phone: "",
+           person_fax: "",
+           person_address: "",
+           person_affiliation: "",
+           person_roles: ""
         });
     };
 
     self.removeContact = function (contact) {
+        var index = self.contacts.indexOf(contact);
+        if (index != self.contacts().length - 1) {
+            var contacts = [];
+            for (var i = 0; i < self.contacts().length; i++) {
+                if (i != index) {
+                    contacts.push(self.contacts()[i]);
+                }
+            }
+            contacts.push(self.contacts()[index]);
+            self.contacts(contacts);
+        }
         self.contacts.remove(contact);
     };
 
@@ -50,16 +61,16 @@ var StudyContactModel = function (contacts) {
         var contacts = [];
         for (var i = 0; i < self.contacts().length; i++) {
             var contact = {
-                s_person_ref: self.contacts()[i].s_person_ref,
-                s_person_last_name: self.contacts()[i].s_person_last_name,
-                s_person_first_name: self.contacts()[i].s_person_first_name,
-                s_person_mid_initials: self.contacts()[i].s_person_mid_initials,
-                s_person_email: self.contacts()[i].s_person_email,
-                s_person_phone: self.contacts()[i].s_person_phone,
-                s_person_fax: self.contacts()[i].s_person_fax,
-                s_person_address: self.contacts()[i].s_person_address,
-                s_person_affiliation: self.contacts()[i].s_person_affiliation,
-                s_person_roles: self.contacts()[i].s_person_roles
+               person_ref: self.contacts()[i].person_ref,
+               person_last_name: self.contacts()[i].person_last_name,
+               person_first_name: self.contacts()[i].person_first_name,
+               person_mid_initials: self.contacts()[i].person_mid_initials,
+               person_email: self.contacts()[i].person_email,
+               person_phone: self.contacts()[i].person_phone,
+               person_fax: self.contacts()[i].person_fax,
+               person_address: self.contacts()[i].person_address,
+               person_affiliation: self.contacts()[i].person_affiliation,
+               person_roles: self.contacts()[i].person_roles
             }
             contacts.push(contact);
         }

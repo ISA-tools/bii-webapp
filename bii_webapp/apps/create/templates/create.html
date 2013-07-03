@@ -6,6 +6,9 @@
 <link href="{% static 'create/js/lib/handsontable/jquery.handsontable.full.css' %}" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'create/js/lib/jquery/jquery.modal.css' %}" type="text/css" media="screen" />
 {% endblock %}
+{% block no_compress_script %}
+<script src="{% static 'create/js/lib/knockoutjs/knockout-2.2.1.js' %}"></script>
+{% endblock %}
 {% block extrascript %}
 <script>
     vars.configuration = {% autoescape off %}{{configuration}}{% endautoescape %};
@@ -13,7 +16,6 @@
         vars.configuration = JSON.parse(vars.configuration);
     }
 </script>
-<script src="{% static 'create/js/lib/knockoutjs/knockout-2.2.1.js' %}"></script>
 <script src="{% static 'create/js/lib/handsontable/jquery.handsontable.full.js' %}"></script>
 <script src="{% static 'create/js/lib/jquery/jquery.validate.js' %}"></script>
 <script src="{% static 'create/js/lib/jquery/additional-methods.js' %}"></script>
@@ -25,6 +27,7 @@
 <script src="{% static 'create/js/models/study_protocols_model.js' %}"></script>
 <script src="{% static 'create/js/models/study_publications_model.js' %}"></script>
 <script src="{% static 'create/js/models/study_model.js' %}"></script>
+<script src="{% static 'create/js/models/study_spreadsheet_model.js' %}"></script>
 <script src="{% static 'create/js/models/spreadsheet_model.js' %}"></script>
 <script src="{% static 'create/js/models/investigation_model.js' %}"></script>
 <script src="{% static 'create/js/models/view_model.js' %}"></script>
@@ -43,18 +46,17 @@
             {% csrf_token %}
             <div class="tabbable tabs-left">
                 <ul id="inv_study_tab" class="nav nav-tabs">
-                    <li class='active inv_li'>
+                    <li class='inv_li' data-bind="attr:{class:$root.activeState($($element))}">
                         <a class="a_inv" href="#investigation_tab1" data-toggle="tab">
                             Investigation</a></li>
 
                     <!--  ko foreach:investigation().i_studies_model.studies -->
-                    <li class="study_li">
+                    <li class="study_li" data-bind="attr:{class:$root.activeState($($element))}">
                         <!-- ko if: ($index() !== 0) -->
                         <a class="a_remove"><img data-bind='click: $parent.investigation().i_studies_model.removeStudy'
-                                                 src="/bii_webapp/static/base/img/basket_x.png"
-                                                 onclick="javascript:selectDefaultStudy(this)"></a>
+                                                 src="/bii_webapp/static/base/img/basket_x.png" onclick="javascript:selectDefaultStudy(this)"></a>
                         <!-- /ko -->
-                        <a class="a_study" data-bind="attr: { href:'#study_tab' + ($index()+1)}" data-toggle="tab">
+                        <a class="a_study" data-bind="attr: { href:'#study_tab' + ($index()+1) }" data-toggle="tab">
                             Study <span data-bind="text: ($index()+1)"></span></a></li>
 
                     <!-- ko if: ($index() === ($parent.investigation().i_studies_model.studies().length - 1)) -->
@@ -68,18 +70,18 @@
 
                 <div class="tab-content">
 
-                    <div id="investigation_tab1" class="tab-pane active">
+                    <div id="investigation_tab1" class="tab-pane" data-bind="attr:{class:$root.activeState($($element))}">
                         {% include "investigation_template.html" %}
                     </div>
 
                     <!-- ko foreach: investigation().i_studies_model.studies -->
-                    <div class="tab-pane" data-bind="attr: { id:'study_tab'+($index()+1)} ">
+                    <div class="tab-pane" data-bind="attr: { id:'study_tab'+($index()+1),class:$root.activeState($($element))} ">
                         {% include "study_template.html" %}
                     </div>
                     <!-- /ko -->
 
                     <div class="upload_button">
-                        <button class="btn btn-info" type="submit">Save
+                        <button id="save_button" class="btn btn-info" type="submit">Save
                         </button>
                     </div>
 

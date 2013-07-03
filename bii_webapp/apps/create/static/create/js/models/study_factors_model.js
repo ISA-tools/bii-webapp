@@ -11,8 +11,8 @@ var StudyFactorModel = function (factors) {
     if (!factors)
         factors = [
             {
-                s_factor_name: "",
-                s_factor_type: ""
+               factor_name: "",
+               factor_type: ""
             }
         ]
 
@@ -21,12 +21,23 @@ var StudyFactorModel = function (factors) {
 
     self.addFactor = function () {
         self.factors.push({
-            s_factor_name: "",
-            s_factor_type: ""
+           factor_name: "",
+           factor_type: ""
         });
     };
 
     self.removeFactor = function (factor) {
+        var index = self.factors.indexOf(factor);
+        if (index != self.factors().length - 1) {
+            var factors = [];
+            for (var i = 0; i < self.factors().length; i++) {
+                if (i != index) {
+                    factors.push(self.factors()[i]);
+                }
+            }
+            factors.push(self.factors()[index]);
+            self.factors(factors);
+        }
         self.factors.remove(factor);
     };
 
@@ -34,8 +45,8 @@ var StudyFactorModel = function (factors) {
         var factors = [];
         for (var i = 0; i < self.factors().length; i++) {
             var factor = {
-                s_factor_name: self.factors()[i].s_factor_name,
-                s_factor_type: self.factors()[i].s_factor_type
+               factor_name: self.factors()[i].factor_name,
+               factor_type: self.factors()[i].factor_type
             }
             factors.push(factor);
         }

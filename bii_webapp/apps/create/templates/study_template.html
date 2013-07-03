@@ -33,13 +33,25 @@
         <td><input type="date"
                    data-bind='value: s_public_release_date, uniqueName: false'/></td>
     </tr>
+    <tr>
+        <td>Edit Sample Spreadsheet</td>
+        <td>
+            <a class="btn btn-info" rel="modal:open"
+               data-bind="text: s_sample_filename,attr: {'href':'#sample_modal'+($index()+1)},click:function(){s_spreadsheet.addSpreadSheet(true)}"></a>
+    </tr>
     </tbody>
 </table>
+
+<div data-bind="attr: {'id':'sample_modal'+($index()+1)}" class="modal" style="display:none">
+    <div class="modal-header"><h1 data-bind="text: s_sample_filename"></h1></div>
+    <div data-bind="attr: {'id':'sample_modal-body'+($index()+1)}" class="modal-body"></div>
+    <div class="modal-footer"><a class="btn btn-info" href="#" rel="modal:close">Close</a> or press ESC</p></div>
+</div>
 
 <h2>STUDY ASSAYS (<span data-bind='text: s_assays_model.assays().length'></span>)</h2>
 <div class="tabbable">
 
-    <ul id="s_assays_tab" class="nav nav-tabs">
+    <ul data-bind="attr: {'id':'s_assays_main_tab'+($index()+1)}" class="nav nav-tabs">
 
         <!-- ko if: s_assays_model.assays().length==0 -->
         <li><a href="#" class="add_item" data-bind='click: s_assays_model.addAssay' data-toggle="tab">+</a>
@@ -47,7 +59,7 @@
         <!-- /ko -->
 
         <!-- ko foreach: s_assays_model.assays -->
-        <li data-bind="attr: {class:$index()===0 ? 'active' : ''}">
+        <li data-bind="attr: {class:$root.activeState($($element))}">
             <a data-bind="attr: { href:'#s_assays_tab' + ($index()+1)}" data-toggle="tab">
                 <img data-bind='click: $parent.s_assays_model.removeAssay'
                      src="/bii_webapp/static/base/img/basket_x.png" onclick="javascript:selectDefaultStudy(this)">
@@ -58,15 +70,14 @@
         <li><a href="#" class="add_item" data-bind='click: $parent.s_assays_model.addAssay' data-toggle="tab">+</a>
         </li>
         <!-- /ko -->
-
         <!-- /ko -->
 
     </ul>
 
-    <div class="tab-content" id="s_assay_tab_content">
-        <!-- ko foreach: s_assays_model.assays -->
-        <div class="tab-pane active"
-             data-bind="attr: { id:'s_assays_tab'+($index()+1),class:$parent.s_assays_model.assays().length==1 || $index()===0 ? 'tab-pane active' : 'tab-pane'} ">
+    <div class="tab-content" data-bind="attr: {'id':'s_assay_tab_content'+($index()+1)}">
+        <!-- ko foreach: s_assays_model.assays  -->
+        <div class="tab-pane"
+             data-bind="attr: { id:'s_assays_tab'+($index()+1),class:$root.activeState($($element))}">
             {% include "study_assays.html" %}
         </div>
         <!-- /ko -->
@@ -76,7 +87,7 @@
 
 <h2>STUDY PUBLICATIONS (<span data-bind='text: s_pubs_model.publications().length'></span>)</h2>
 <div class="tabbable">
-    <ul id="s_pubs_tab" class="nav nav-tabs">
+    <ul data-bind="attr: {'id':'s_pubs_main_tab'+($index()+1)}" class="nav nav-tabs">
 
         <!-- ko if: s_pubs_model.publications().length==0 -->
         <li><a href="#" class="add_item" data-bind='click: s_pubs_model.addPublication' data-toggle="tab">+</a>
@@ -84,7 +95,7 @@
         <!-- /ko -->
 
         <!-- ko foreach:s_pubs_model.publications -->
-        <li data-bind="attr: {class:$index()===0 ? 'active' : ''}">
+        <li data-bind="attr: {class:$root.activeState($($element))}">
             <a data-bind="attr: { href:'#s_pubs_tab' + ($index()+1)}" data-toggle="tab">
                 <img data-bind='click: $parent.s_pubs_model.removePublication'
                      src="/bii_webapp/static/base/img/basket_x.png" onclick="javascript:selectDefaultStudy(this)">
@@ -98,8 +109,8 @@
     </ul>
     <div class="tab-content">
         <!-- ko foreach: s_pubs_model.publications -->
-        <div class="tab-pane active"
-             data-bind="attr: { id:'s_pubs_tab'+($index()+1),class:$parent.s_pubs_model.publications().length==1 || $index()===0 ? 'tab-pane active' : 'tab-pane'} ">
+        <div class="tab-pane"
+             data-bind="attr: { id:'s_pubs_tab'+($index()+1),class:$root.activeState($($element))} ">
             {% include "study_publications.html" %}
         </div>
         <!-- /ko -->
@@ -108,7 +119,7 @@
 
 <h2>STUDY FACTORS (<span data-bind='text: s_factors_model.factors().length'></span>)</h2>
 <div class="tabbable">
-    <ul id="s_factors_tab" class="nav nav-tabs">
+    <ul data-bind="attr: {'id':'s_factors_main_tab'+($index()+1)}" class="nav nav-tabs">
 
         <!-- ko if: s_factors_model.factors().length ==0 -->
         <li><a href="#" class="add_item" data-bind='click: s_factors_model.addFactor' data-toggle="tab">+</a>
@@ -116,7 +127,7 @@
         <!-- /ko -->
 
         <!-- ko foreach: s_factors_model.factors -->
-        <li data-bind="attr: {class:$index()===0 ? 'active' : ''}">
+        <li data-bind="attr: {class:$root.activeState($($element))}">
             <a data-bind="attr: { href:'#s_factors_tab' + ($index()+1)}" data-toggle="tab">
                 <img data-bind='click: $parent.s_factors_model.removeFactor'
                      src="/bii_webapp/static/base/img/basket_x.png" onclick="javascript:selectDefaultStudy(this)">
@@ -131,8 +142,8 @@
     </ul>
     <div class="tab-content">
         <!-- ko foreach: s_factors_model.factors -->
-        <div class="tab-pane active"
-             data-bind="attr: { id:'s_factors_tab'+($index()+1),class:$parent.s_factors_model.factors().length==1 || $index()===0 ? 'tab-pane active' : 'tab-pane'} ">
+        <div class="tab-pane"
+             data-bind="attr: { id:'s_factors_tab'+($index()+1),class:$root.activeState($($element))} ">
             {% include "study_factors.html" %}
         </div>
         <!-- /ko -->
@@ -142,7 +153,7 @@
 <h2>STUDY PROTOCOLS (<span data-bind='text: s_protocols_model.protocols().length'></span>)</h2>
 
 <div class="tabbable">
-    <ul id="s_protocols_tab" class="nav nav-tabs">
+    <ul data-bind="attr: {'id':'s_protocols_main_tab'+($index()+1)}" class="nav nav-tabs">
 
         <!-- ko if: s_protocols_model.protocols().length ==0 -->
         <li><a href="#" class="add_item" data-bind='click:s_protocols_model.addProtocol'
@@ -150,7 +161,7 @@
         <!-- /ko -->
 
         <!-- ko foreach: s_protocols_model.protocols -->
-        <li data-bind="attr: {class:$index()===0 ? 'active' : ''}">
+        <li data-bind="attr: {class:$root.activeState($($element))}">
             <a data-bind="attr: { href:'#s_protocols_tab' + ($index()+1)}" data-toggle="tab">
                 <img data-bind='click: $parent.s_protocols_model.removeProtocol'
                      src="/bii_webapp/static/base/img/basket_x.png" onclick="javascript:selectDefaultStudy(this)">
@@ -166,8 +177,8 @@
     </ul>
     <div class="tab-content">
         <!-- ko foreach: s_protocols_model.protocols -->
-        <div class="tab-pane active"
-             data-bind="attr: { id:'s_protocols_tab'+($index()+1),class:$parent.s_protocols_model.protocols().length==1 || $index()===0 ? 'tab-pane active' : 'tab-pane'} ">
+        <div class="tab-pane"
+             data-bind="attr: { id:'s_protocols_tab'+($index()+1),class:$root.activeState($($element))} ">
             {% include "study_protocols.html" %}
         </div>
         <!-- /ko -->
@@ -177,7 +188,7 @@
 <h2>STUDY CONTACTS (<span data-bind='text: s_contacts_model.contacts().length'></span>)</h2>
 
 <div class="tabbable">
-    <ul id="s_contacts_tab" class="nav nav-tabs">
+    <ul data-bind="attr: {'id':'s_contacts_main_tab'+($index()+1)}" class="nav nav-tabs">
 
         <!-- ko if: s_contacts_model.contacts().length ==0 -->
         <li><a href="#" class="add_item" data-bind='click: s_contacts_model.addContact' data-toggle="tab">+</a>
@@ -185,7 +196,7 @@
         <!-- /ko -->
 
         <!-- ko foreach:s_contacts_model.contacts -->
-        <li data-bind="attr: {class:$index()===0 ? 'active' : ''}">
+        <li data-bind="attr: {class:$root.activeState($($element))}">
             <a data-bind="attr: { href:'#s_contacts_tab' + ($index()+1)}" data-toggle="tab">
                 <img data-bind='click: $parent.s_contacts_model.removeContact'
                      src="/bii_webapp/static/base/img/basket_x.png" onclick="javascript:selectDefaultStudy(this)">
@@ -197,10 +208,10 @@
         <!-- /ko -->
         <!-- /ko -->
     </ul>
+
     <div class="tab-content">
         <!-- ko foreach: s_contacts_model.contacts -->
-        <div class="tab-pane active"
-             data-bind="attr: { id:'s_contacts_tab'+($index()+1),class:$parent.s_contacts_model.contacts().length==1 || $index()===0 ? 'tab-pane active' : 'tab-pane'} ">
+        <div class="tab-pane" data-bind="attr: { id:'s_contacts_tab'+($index()+1),class:$root.activeState($($element))} ">
             {% include "study_contacts.html" %}
         </div>
         <!-- /ko -->

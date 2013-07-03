@@ -11,14 +11,14 @@ var StudyProtocolModel = function (protocols) {
     if (!protocols)
         protocols = [
             {
-                s_protocol_name: "",
-                s_protocol_type: "",
-                s_protocol_description: "",
-                s_protocol_uri: "",
-                s_protocol_version: "",
-                s_protocol_parameters_name: "",
-                s_protocol_components_name: "",
-                s_protocol_components_type: ""
+                protocol_name: "",
+                protocol_type: "",
+                protocol_description: "",
+                protocol_uri: "",
+                protocol_version: "",
+                protocol_parameters_name: "",
+                protocol_components_name: "",
+                protocol_components_type: ""
             }
         ]
 
@@ -27,18 +27,29 @@ var StudyProtocolModel = function (protocols) {
 
     self.addProtocol = function () {
         self.protocols.push({
-            s_protocol_name: "",
-            s_protocol_type: "",
-            s_protocol_description: "",
-            s_protocol_uri: "",
-            s_protocol_version: "",
-            s_protocol_parameters_name: "",
-            s_protocol_components_name: "",
-            s_protocol_components_type: ""
+            protocol_name: "",
+            protocol_type: "",
+            protocol_description: "",
+            protocol_uri: "",
+            protocol_version: "",
+            protocol_parameters_name: "",
+            protocol_components_name: "",
+            protocol_components_type: ""
         });
     };
 
     self.removeProtocol = function (protocol) {
+        var index = self.protocols.indexOf(protocol);
+        if (index != self.protocols().length - 1) {
+            var protocols = [];
+            for (var i = 0; i < self.protocols().length; i++) {
+                if (i != index) {
+                    protocols.push(self.protocols()[i]);
+                }
+            }
+            protocols.push(self.protocols()[index]);
+            self.protocols(protocols);
+        }
         self.protocols.remove(protocol);
     };
 
@@ -46,14 +57,14 @@ var StudyProtocolModel = function (protocols) {
         var protocols = [];
         for (var i = 0; i < self.protocols().length; i++) {
             var protocol = {
-                s_protocol_name: self.protocols()[i].s_protocol_name,
-                s_protocol_type: self.protocols()[i].s_protocol_type,
-                s_protocol_description: self.protocols()[i].s_protocol_description,
-                s_protocol_uri: self.protocols()[i].s_protocol_uri,
-                s_protocol_version: self.protocols()[i].s_protocol_version,
-                s_protocol_parameters_name: self.protocols()[i].s_protocol_parameters_name,
-                s_protocol_components_name: self.protocols()[i].s_protocol_components_name,
-                s_protocol_components_type: self.protocols()[i].s_protocol_components_type
+                protocol_name: self.protocols()[i].protocol_name,
+                protocol_type: self.protocols()[i].protocol_type,
+                protocol_description: self.protocols()[i].protocol_description,
+                protocol_uri: self.protocols()[i].protocol_uri,
+                protocol_version: self.protocols()[i].protocol_version,
+                protocol_parameters_name: self.protocols()[i].protocol_parameters_name,
+                protocol_components_name: self.protocols()[i].protocol_components_name,
+                protocol_components_type: self.protocols()[i].protocol_components_type
             }
             protocols.push(protocol);
         }

@@ -2,7 +2,7 @@ from common import *
 
 DEBUG=True
 TEMPLATE_DEBUG = DEBUG
-
+COMPRESS_ENABLED=False
 SITE_ID=1
 
 WEBSERVICES_URL='http://localhost:9090/bii-ws/'

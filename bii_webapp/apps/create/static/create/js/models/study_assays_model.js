@@ -47,12 +47,9 @@ var StudyAssayModel = function (studyID, assays) {
     var self = this;
 
     self.studyID = studyID;
-    self.availableMeasurements = ko.observableArray(vars.configuration.measurements);
-    self.availableTechnologies = ko.observableArray(vars.configuration.measurements[0].technologies);
-    self.availablePlatforms = ko.observableArray(vars.configuration.measurements[0].technologies[0].platforms);
 
     var measuSubscription = function (data, assay) {
-        self.availableTechnologies(data.technologies);
+        assay.availableTechnologies(data.technologies);
         var filename = assay.filename();
         var split = filename.split('_').slice(0, 2);
         var spaceSplit = data.measurement.split(' ');
@@ -68,37 +65,49 @@ var StudyAssayModel = function (studyID, assays) {
 
         filename += (cnt == 0 ? '' : cnt) + '.txt';
         assay.filename(filename);
-        assay.spreadsheet.addSpreadSheet(false, assay.measurement().measurement, assay.technology().technology);
+        assay.spreadsheet.addSpreadSheet(false);
     }
 
     var techSubscription = function (data, assay) {
-        self.availablePlatforms(data.platforms);
-        assay.spreadsheet.addSpreadSheet(false, assay.measurement().measurement, assay.technology().technology);
+        assay.availablePlatforms(data.platforms);
+        assay.spreadsheet.addSpreadSheet(false);
     }
 
     if (!assays) {
-        var filename = 'a_' + self.studyID() + "_" + self.availableMeasurements()[0].measurement + '.txt';
-        var assay =
-        {
-            measurement: ko.observable(0),
-            technology: ko.observable(0),
-            platform: ko.observable(0),
-            filename: ko.observable(filename.replace(/ /g, '_'))
-        }
+        var assay = {};
+        assay.availableMeasurements = ko.observableArray(vars.configuration.measurements);
+        assay.availableTechnologies = ko.observableArray(vars.configuration.measurements[0].technologies);
+        assay.availablePlatforms = ko.observableArray(vars.configuration.measurements[0].technologies[0].platforms);
+
+        var filename = 'a_' + self.studyID() + "_" + assay.availableMeasurements()[0].measurement + '.txt';
+        assay.measurement = ko.observable(0),
+            assay.technology = ko.observable(0),
+            assay.platform = ko.observable(0),
+            assay.filename = ko.observable(filename.replace(/ /g, '_'))
         assays = [assay]
+
         assay.measurement.subscribe(function (data) {
             measuSubscription(data, assay)
         });
         assay.technology.subscribe(function (data) {
             techSubscription(data, assay)
         });
-        assay.spreadsheet = new SpreadSheetModel(1, assay.measurement().measurement, assay.technology().technology);
+
     }
 
     self.assays = ko.observableArray(assays);
+    for (var i = 0; i < self.assays().length; i++) {
+        var assay = self.assays()[i];
+        assay.spreadsheet = new SpreadSheetModel(assay, self.assays);
+    }
 
     self.addAssay = function () {
-        var filename = 'a_' + self.studyID() + "_" + self.availableMeasurements()[0].measurement;
+        var assay = {};
+        assay.availableMeasurements = ko.observableArray(vars.configuration.measurements);
+        assay.availableTechnologies = ko.observableArray(vars.configuration.measurements[0].technologies);
+        assay.availablePlatforms = ko.observableArray(vars.configuration.measurements[0].technologies[0].platforms);
+
+        var filename = 'a_' + self.studyID() + "_" + assay.availableMeasurements()[0].measurement;
         filename = filename.replace(/ /g, '_');
         var cnt = 0;
         for (var i = 0; i < self.assays().length; i++) {
@@ -109,32 +118,43 @@ var StudyAssayModel = function (studyID, assays) {
 
         filename += (cnt == 0 ? '' : cnt) + '.txt';
 
-        var assay = {
-            measurement: ko.observable(0),
-            technology: ko.observable(0),
-            platform: ko.observable(0),
-            filename: ko.observable(filename)
-        }
+        assay.measurement = ko.observable(0);
+        assay.technology = ko.observable(0);
+        assay.platform = ko.observable(0);
+        assay.filename = ko.observable(filename);
+
         self.assays.push(assay);
+
         assay.measurement.subscribe(function (data) {
             measuSubscription(data, assay)
         });
         assay.technology.subscribe(function (data) {
             techSubscription(data, assay)
         });
-        assay.spreadsheet = new SpreadSheetModel(self.assays().length, assay.measurement().measurement, assay.technology().technology);
+        assay.spreadsheet = new SpreadSheetModel(assay, self.assays);
     };
 
     self.removeAssay = function (assay) {
+        var index = self.assays.indexOf(assay);
+        if (index != self.assays().length - 1) {
+            var assays = [];
+            for (var i = 0; i < self.assays().length; i++) {
+                if (i != index) {
+                    assays.push(self.assays()[i]);
+                }
+            }
+            assays.push(self.assays()[index]);
+            self.assays(assays);
+        }
         self.assays.remove(assay);
-    };
+    }
 
     self.toJSON = function () {
         var assays = [];
         for (var i = 0; i < self.assays().length; i++) {
             var assay = {
-                measurement: self.assays()[i].measurement(),
-                technology: self.assays()[i].technology(),
+                measurement: self.assays()[i].measurement().measurement,
+                technology: self.assays()[i].technology().technology,
                 platform: self.assays()[i].platform(),
                 filename: self.assays()[i].filename(),
                 spreadsheet: self.assays()[i].spreadsheet.toJSON()

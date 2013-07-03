@@ -3,19 +3,17 @@
     <tr>
         <td>Select Measurement</td>
         <td>
-            <select data-bind="options: $parent.s_assays_model.availableMeasurements,  value: measurement, optionsText: 'measurement'"></select>
+            <select data-bind="options: availableMeasurements,  value: measurement, optionsText: 'measurement'"></select>
     </tr>
     <tr>
         <td>Select Technology</td>
         <td>
-            <select id="technologiesSelect"
-                    data-bind="options: $parent.s_assays_model.availableTechnologies, optionsText: 'technology', value: technology"></select>
+            <select data-bind="attr: {'id':'technologiesSelect'+($index()+1)},options: availableTechnologies, optionsText: 'technology', value: technology"></select>
     </tr>
     <tr>
         <td>Select Platform</td>
         <td>
-            <select id="platformsSelect"
-                    data-bind="options: $parent.s_assays_model.availablePlatforms,  value: platform"></select>
+            <select data-bind="attr: {'id':'platformsSelect'+($index()+1)},options:availablePlatforms,  value: platform"></select>
     </tr>
     <tr>
         <td>Edit Spreadsheet</td>

@@ -58,3 +58,7 @@ var showToast = function (msg, duration) {
 var hideToast = function () {
     $('.toast').hide();
 }
+
+$().toastmessage({
+    position : 'middle-center'
+});

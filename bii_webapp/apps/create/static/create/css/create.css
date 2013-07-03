@@ -29,15 +29,12 @@ h4 {
     padding: 10px;
     display: block;
     background-color: gray;
+    border-bottom: 1.5px solid white;
 }
 
 #create-container .config_box a:hover {
     text-decoration: none;
     background-color: #24aae1 !important;
-}
-
-#create-container .config_box a:last-child {
-    border-radius: 0px 0px 6px 6px;
 }
 
 #create-container .config_box a:first-child {
@@ -83,13 +80,6 @@ h4 {
 
 .study_edit td input {
     width: 20em;
-}
-
-.study_edit #studies_tab {
-    height: 2067px;
-    text-align: right;
-    font-size: 20px;
-    min-width: 122px;
 }
 
 textarea {
@@ -154,11 +144,18 @@ tr td:first-child {
     cursor: pointer !important;
 }
 
+#inv_study_tab img{
+    width: 14px;
+    height: 13px;
+}
+
 .nav-tabs > li img {
     width: 12px;
-    height: 12px;
-    margin-right: 10px;
+    height: 11px;
+    margin-right: 4px;
+    margin-left: -6px;
     margin-top: -2px;
+    padding: 5px;
 }
 
 .upload_button {
@@ -225,4 +222,5 @@ tr td:first-child {
 .modal-footer {
     float: right;
     background-color: white;
+    border: none;
 }

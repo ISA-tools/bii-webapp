@@ -26,7 +26,7 @@ $(document).ready(function () {
             viewModel.save();
         },
         invalidHandler: function (event, validator) {
-
+            $().toastmessage('showErrorToast', 'Please complete missing fields');
             //clear errors
             for (var i = 0; i < errorEls.length; i++) {
                 var el = errorEls[i];

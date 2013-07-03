@@ -6,105 +6,22 @@ from bii_webapp.settings import common
 from django.views.decorators.csrf import csrf_exempt
 import json
 import os
-import xmltodict
-import xml.etree.ElementTree as ElementTree
 import csv
-
-configurations = {}
+import time
+import parser
 
 # def parseHeaders(fileconfig):
 #     headers=[]
 #     for field in fileconfig['field']:
 
 
-def parseFields(tree, fields):
-    tags = tree._children[0]._children
-    i = 0
-    for tag in tags:
-        type = tag.tag[tag.tag.rindex('}') + 1:]
-        if 'header' in tag.attrib and tag.attrib['header'] == fields[i]['@header']:
-            i += 1
-
-        if type != 'field' and 'field' in type:
-            fields[i - 1][type] = tag.attrib
-
-    pass
-
-
-def loadConfigurations():
-    directory = common.SITE_ROOT + '/config/'
-    measurements = []
-    technologiesPlatforms = []
-    headers = []
-
-    config = {'measurements': measurements}
-    config['headers'] = headers
-    for root, dirs, files in os.walk(directory):
-        for dir in dirs:
-            configurations[dir] = config
-            for root, dirs, files in os.walk(directory + dir):
-                for file in files:
-                    f = open(directory + dir + '/' + file)
-                    strFile = f.read()
-                    tree = ElementTree.XML(strFile)
-                    o = xmltodict.parse(strFile)
-                    configFile = o['isatab-config-file']
-                    fileconfig = configFile['isatab-configuration']
-                    if '@isatab-assay-type' not in fileconfig:
-                        continue
-                    measurement = fileconfig['measurement']
-                    measurementObj = next((m for m in measurements if m['measurement'] == measurement['@term-label']),
-                                          None)
-                    if measurementObj == None:
-                        measurementObj = {'measurement': measurement['@term-label']}
-                        measurements.append(measurementObj)
-
-                    technology = fileconfig['technology']
-                    tech = technology['@term-label']
-                    if tech == '':
-                        tech = 'no technology required'
-
-                    parseFields(tree, fileconfig['field'])
-                    headers.append({'name': measurement['@term-label'] + ',' + tech, 'fields': fileconfig['field']})
-
-                    techObj = next((t for t in technologiesPlatforms if t['technology'] == tech), None)
-                    if techObj == None:
-                        techObj = {'technology': tech}
-                        if tech == 'no technology required':
-                            techObj['platforms'] = ['Not Available']
-                        technologiesPlatforms.append(techObj)
-
-                    if 'technologies' in measurementObj:
-                        measurementObj['technologies'].append(techObj)
-                    else:
-                        measurementObj['technologies'] = [techObj]
-
-    f = open(directory + 'platforms.xml')
-    o = xmltodict.parse(f)
-    for techType in o['technology-platforms']['technology']:
-        type = techType['@type'].replace('Section[', '')[:-1].lower();
-        platforms = []
-        if techType['platforms'] != None:
-            for plat in techType['platforms']['platform']:
-                if plat['machine'] != None:
-                    platforms.append(plat['machine'] + ' (' + plat['vendor'] + ')')
-                else:
-                    platforms.append(plat['vendor'])
-        else:
-            platforms = ['Not Available']
-        for techObj in technologiesPlatforms:
-            if type in techObj['technology']:
-                techObj['platforms'] = platforms
-
-
 @decorators.login_required(login_url=views.login)
 def create(request, config=None):
-    global configurations
-    if (len(configurations) == 0):
-        loadConfigurations()
+    if len(parser.configurations) == 0:
+        parser.loadConfigurations()
 
     if 'config' not in request.session and config == None:
-        return render_to_response("select_config.html", {'configurations': configurations.keys()},
+        return render_to_response("select_config.html", {'configurations': parser.configurations.keys()},
                                   context_instance=RequestContext(request))
 
     if config != None:
@@ -116,16 +33,35 @@ def create(request, config=None):
     json_data = open(common.SITE_ROOT + '/fixtures/assay_mapping.json')
     jsonf = json.load(json_data)
     json_data.close()
-    return render_to_response("create.html", {"configuration": json.dumps(configurations[config])},
+    return render_to_response("create.html", {"configuration": json.dumps(parser.configurations[config])},
                               context_instance=RequestContext(request))
-
 
 @csrf_exempt
 @decorators.login_required(login_url=views.login)
 def save(request,config):
     investigation=json.loads(request.POST['investigation'])
-    f = csv.writer(open("/tmp/test.csv", "wb+"))
-    x=1
-    return HttpResponse("")
+    directory=common.SITE_ROOT + '/tmp'
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+        os.chmod(directory,0o777)
+
+    millis = int(round(time.time() * 1000))
+    f = csv.writer(open(directory+'/temp'+str(millis)+'.txt', "wb+"), delimiter='\t',
+                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+
+    if not investigation['i_skip_investigation']:
+        parser.writeInvestigation(f,investigation)
+        parser.writePubsFor(f,investigation['i_pubs'],'INVESTIGATION')
+        parser.writeContactsFor(f,investigation['i_contacts'],'INVESTIGATION')
+
+    for study in investigation['i_studies']:
+        parser.writeStudy(f,study)
+        parser.writePubsFor(f,study['s_pubs'],'STUDY')
+        parser.writeFactors(f,study['s_factors'])
+        parser.writeAssays(f,study['s_assays'])
+        parser.writeProtocols(f,study['s_protocols'])
+        parser.writeContactsFor(f,study['s_contacts'],'STUDY')
+
+    return HttpResponse(json.dumps({'INFO':{'messages':'File saved','total':1}}))
 
 

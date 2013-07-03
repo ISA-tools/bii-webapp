@@ -7,19 +7,16 @@
  */
 
 
-var SpreadSheetModel = function (assayID, measurement, technology) {
+var SpreadSheetModel = function (assay,assays) {
     var self = this;
 
-    self.measurement = measurement;
-    self.technology = technology;
-    self.assayID = assayID;
     self.columns = {};
     self.fields = [];
 
     function findFields() {
         var headers = vars.configuration.headers;
         for (var i = 0; i < headers.length; i++) {
-            if (headers[i].name == self.measurement + ',' + self.technology) {
+            if (headers[i].name == assay.measurement().measurement + ',' + assay.technology().technology) {
                 self.fields = headers[i].fields;
                 break;
             }
@@ -86,29 +83,23 @@ var SpreadSheetModel = function (assayID, measurement, technology) {
         });
     };
 
-    self.addSpreadSheet = function (init, measurement, technology) {
+    self.addSpreadSheet = function (init) {
         if (initialised && init)
             return;
 
         if (!initialised && init)
             initialised = true;
 
-        if (measurement) {
-            self.measurement = measurement;
-        }
-        if (technology) {
-            self.technology = technology;
-        }
-
         findFields();
         getColumns();
-        var modal = $('#modal' + self.assayID);
+        var assayIndex=assays.indexOf(assay)+1;
+        var modal = $('#modal' + assayIndex);
         if(modal.length==0)
             modal=$('.modal');
 
         modal.show();
 
-        var modalBody = $('#modal-body' + self.assayID);
+        var modalBody = $('#modal-body' + assayIndex);
         if(modalBody.length==0)
             modalBody=$('.modal-body');
 
@@ -129,7 +120,7 @@ var SpreadSheetModel = function (assayID, measurement, technology) {
     }
 
     self.toJSON = function () {
-        var modalBody = $('#modal-body' + self.assayID);
+        var modalBody = $('#modal-body' + (assays.indexOf(assay)+1));
         if (modalBody.data('handsontable'))
             return modalBody.data('handsontable').getData();
         else{
