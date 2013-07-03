@@ -8,6 +8,7 @@ import json
 import os
 import csv
 import time
+import zipfile
 import parser
 
 # def parseHeaders(fileconfig):
@@ -62,6 +63,16 @@ def save(request,config):
         parser.writeAssays(f,study['s_assays'],directory)
         parser.writeProtocols(f,study['s_protocols'])
         parser.writeContactsFor(f,study['s_contacts'],'STUDY')
+
+    zipName=(str)(millis)+"_archive.zip"
+    zf = zipfile.ZipFile(directory+"/"+zipName, "w")
+    for dirname, subdirs, files in os.walk(directory):
+        for filename in files:
+            if filename==zipName:
+                continue
+            zf.write(os.path.join(dirname, filename), arcname=filename)
+        zf.close()
+
 
     return HttpResponse(json.dumps({'INFO':{'messages':'File saved','total':1}}))
 
