@@ -72,8 +72,11 @@ var InvestigationModel = function (investigation) {
             },
             timeout: -1,
             error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
+                $().toastmessage('showErrorToast',ErrorText);
+                $('#save_button').removeAttr('disabled', 'disabled');
+                $('#save_button').text('Save');
                 if (xmlHttpRequest.readyState == 0 || xmlHttpRequest.status == 0)
-                    return;  // it's not really an error
+                    return;
             },
             // Form data
             data: formData,

@@ -3,6 +3,7 @@ import xml.etree.ElementTree as ElementTree
 import xmltodict
 from bii_webapp.settings import common
 import os
+import csv
 
 configurations = {}
 
@@ -101,7 +102,24 @@ def writeInvestigation(f,investigation):
     f.writerow(['Investigation Submission Date']+['"'+investigation['i_submission_date']+'"'])
     f.writerow(['Investigation Public Release Date']+['"'+investigation['i_public_release_date']+'"'])
 
-def writeStudy(f,study):
+
+def writeSpreadsheet(directory,filename,spreadsheet):
+    csvWriter = csv.writer(open(directory+'/'+filename, "wb+"), delimiter='\t', quotechar='"', quoting=csv.QUOTE_ALL)
+    unOrderedHeaders=spreadsheet[0].keys()
+    headers=[None]*len(unOrderedHeaders)
+    for header in unOrderedHeaders:
+        row=header[header.rindex('_'):]
+        row=(int)(row.replace('_row',''))
+        header=header[:header.rindex('_')]
+        headers[row]=header;
+    csvWriter.writerow(headers)
+
+    for row in spreadsheet:
+        csvWriter.writerow(row.values())
+
+
+
+def writeStudy(f,study,directory):
     f.writerow(['STUDY'])
     f.writerow(['Study Identifier']+['"'+study['s_id']+'"'])
     f.writerow(['Study Title']+['"'+study['s_title']+'"'])
@@ -115,8 +133,11 @@ def writeStudy(f,study):
     f.writerow(['Study Design Type']+['""'])
     f.writerow(['Study Design Type Term Accession Number']+['""'])
     f.writerow(['Study Design Type Term Source REF']+['""'])
+    writeSpreadsheet(directory,study['s_sample_filename'],study['s_spreadsheet'])
 
 def writePubsFor(f, pubs,forStr):
+    if len(pubs)==0:
+        return
     author_list=[]
     doi=[]
     status=[]
@@ -145,6 +166,8 @@ def writePubsFor(f, pubs,forStr):
 
 
 def writeContactsFor(f, contacts,forStr):
+    if len(contacts)==0:
+        return
     lastNames=[]
     firstNames=[]
     midInitials=[]
@@ -184,6 +207,8 @@ def writeContactsFor(f, contacts,forStr):
     f.writerow(['Investigation Person Roles Term Source REF']+refs)
 
 def writeFactors(f, factors):
+    if len(factors)==0:
+        return
     name=[]
     type=[]
     accession=[]
@@ -200,7 +225,9 @@ def writeFactors(f, factors):
     f.writerow(['Study Factor Type Term Accession Number']+accession)
     f.writerow(['Study Factor Type Term Source REF']+refs)
 
-def writeAssays(f, assays):
+def writeAssays(f, assays,directory):
+    if len(assays)==0:
+        return
     filename=[]
     mtype=[]
     maccession=[]
@@ -228,8 +255,11 @@ def writeAssays(f, assays):
     f.writerow(['Study Assay Technology Type Term Accession Number']+ttype)
     f.writerow(['Study Assay Technology Type Term Source REF']+taccession)
     f.writerow(['Study Assay Technology Platform']+platform)
+    writeSpreadsheet(directory,assay['filename'],assay['spreadsheet'])
 
 def writeProtocols(f, protocols):
+    if len(protocols)==0:
+        return
     name=[]
     type=[]
     accession=[]

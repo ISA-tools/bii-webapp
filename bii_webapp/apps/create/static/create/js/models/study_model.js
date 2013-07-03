@@ -67,10 +67,15 @@ var StudyModel = function (studies) {
             self.subscription(data, study)
         });
 
-        study.s_spreadsheet = new StudySpreadSheetModel(studies.length);
     }
 
+
     self.studies = ko.observableArray(studies);
+    for (var i = 0; i < self.studies().length; i++) {
+        var study = self.studies()[i];
+        study.s_spreadsheet = new StudySpreadSheetModel(study, self.studies);
+    }
+
 
     self.addStudy = function () {
 
@@ -96,7 +101,7 @@ var StudyModel = function (studies) {
             self.subscription(data, study)
         });
 
-        study.s_spreadsheet = new StudySpreadSheetModel(self.studies().length);
+        study.s_spreadsheet = new StudySpreadSheetModel(study,self.studies);
     };
 
     self.removeStudy = function (study) {
@@ -127,6 +132,7 @@ var StudyModel = function (studies) {
                 s_submission_date: currStudy.s_submission_date,
                 s_public_release_date: currStudy.s_public_release_date,
                 s_sample_filename: currStudy.s_sample_filename(),
+                s_spreadsheet: currStudy.s_spreadsheet.toJSON(),
                 s_assays: currStudy.s_assays_model.toJSON().assays,
                 s_pubs: currStudy.s_pubs_model.toJSON().publications,
                 s_contacts: currStudy.s_contacts_model.toJSON().contacts,

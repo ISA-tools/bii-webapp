@@ -7,10 +7,9 @@
  */
 
 
-var StudySpreadSheetModel = function (studyID) {
+var StudySpreadSheetModel = function (study,studies) {
     var self = this;
 
-    self.studyID = studyID;
     self.columns = {};
     self.fields = vars.configuration.sampleHeaders[0].fields;
 
@@ -81,13 +80,13 @@ var StudySpreadSheetModel = function (studyID) {
             initialised = true;
 
         getColumns();
-        var modal = $('#sample_modal' + self.studyID);
+        var modal = $('#sample_modal' + (studies.indexOf(study)+1));
         if(modal.length==0)
             modal=$('.sample_modal');
 
         modal.show();
 
-        var modalBody = $('#sample_modal-body' + self.studyID);
+        var modalBody = $('#sample_modal-body' + (studies.indexOf(study)+1));
         if(modalBody.length==0)
             modalBody=$('.sample_modal-body');
 
@@ -108,7 +107,7 @@ var StudySpreadSheetModel = function (studyID) {
     }
 
     self.toJSON = function () {
-        var modalBody = $('#sample_modal-body' + self.studyID);
+        var modalBody = $('#sample_modal-body' + (studies.indexOf(study)+1));
         if (modalBody.data('handsontable'))
             return modalBody.data('handsontable').getData();
         else{

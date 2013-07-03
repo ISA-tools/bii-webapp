@@ -40,13 +40,14 @@ def create(request, config=None):
 @decorators.login_required(login_url=views.login)
 def save(request,config):
     investigation=json.loads(request.POST['investigation'])
-    directory=common.SITE_ROOT + '/tmp'
+    millis = int(round(time.time() * 1000))
+    directory=common.SITE_ROOT + '/tmp/'+str(millis)
     if not os.path.exists(directory):
         os.makedirs(directory)
         os.chmod(directory,0o777)
 
-    millis = int(round(time.time() * 1000))
-    f = csv.writer(open(directory+'/temp'+str(millis)+'.txt', "wb+"), delimiter='\t',
+
+    f = csv.writer(open(directory+'/i_investigation.txt', "wb+"), delimiter='\t',
                             quotechar='|', quoting=csv.QUOTE_MINIMAL)
 
     if not investigation['i_skip_investigation']:
@@ -55,10 +56,10 @@ def save(request,config):
         parser.writeContactsFor(f,investigation['i_contacts'],'INVESTIGATION')
 
     for study in investigation['i_studies']:
-        parser.writeStudy(f,study)
+        parser.writeStudy(f,study,directory)
         parser.writePubsFor(f,study['s_pubs'],'STUDY')
         parser.writeFactors(f,study['s_factors'])
-        parser.writeAssays(f,study['s_assays'])
+        parser.writeAssays(f,study['s_assays'],directory)
         parser.writeProtocols(f,study['s_protocols'])
         parser.writeContactsFor(f,study['s_contacts'],'STUDY')
 
