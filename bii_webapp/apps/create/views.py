@@ -1,15 +1,13 @@
 from django.contrib.auth import decorators, views
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse,HttpRequest, HttpResponseBadRequest
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from bii_webapp.settings import common
 from django.views.decorators.csrf import csrf_exempt
-import json
-import os
-import csv
-import time
-import zipfile
-import parser
+from bii_webapp.apps import upload
+import json,os,csv,time,zipfile,parser
+from threading import  Thread
+import requests
 
 # def parseHeaders(fileconfig):
 #     headers=[]
@@ -73,7 +71,17 @@ def save(request,config):
             zf.write(os.path.join(dirname, filename), arcname=filename)
         zf.close()
 
+    request1=request
+    filesize=(str)(os.path.getsize(directory+"/"+zipName))
 
-    return HttpResponse(json.dumps({'INFO':{'messages':'File saved','total':1}}))
+    request1.POST={'filename':zipName,'filesize':filesize}
+    response=upload.resources.postInit(request1)
+    obj=json.loads(response.content)
 
-
+    request2=request
+    request2.POST={'uploadID':obj['INFO']['uploadID'],'filename':zipName,'filesize':filesize}
+    request2.FILES['file']=open(directory+"/"+zipName, 'rb')
+    t = Thread(target = upload.resources.uploadFile,args=[request2])
+    t.start()
+    return response
+    # return HttpResponse(json.dumps({'INFO':{'messages':'File saved','total':1}}))

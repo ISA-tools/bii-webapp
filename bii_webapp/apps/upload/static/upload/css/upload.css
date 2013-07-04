@@ -1,5 +1,11 @@
+#upload-top-container {
+    width: 627px;
+    margin: 0 auto;
+}
+
 #upload-container {
     width: 627px;
+    margin: 0 auto;
 }
 
 h2 {
@@ -40,7 +46,7 @@ h2 {
     height: 80px;
 }
 
-.fileupload .main-connector {
+.main-connector {
     position: absolute;
     width: 4px;
     height: 0px;

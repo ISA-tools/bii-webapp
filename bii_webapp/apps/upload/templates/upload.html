@@ -1,41 +1,8 @@
 {% extends "base.html" %}
-{% load widget_tweaks %}
 {% load static from staticfiles %}
-{% block extracss %}
-<link href="{% static 'upload/libs/bootstrap-fileupload/bootstrap-fileupload.min.css' %}" rel="stylesheet">
-<link href="{% static 'upload/css/upload.css' %}" rel="stylesheet">
-{% endblock %}
-{% block extrascript %}
-<script>
-    vars=function() {
-        var upload_progress = '{% autoescape off %}{{ request.session.upload_progress }}{% endautoescape %}';
-        if (upload_progress && upload_progress.length > 0) {
-            upload_progress = JSON.parse(upload_progress);
-        }
-
-        return {
-            ws_server: '{{WS_SERVER}}',
-            url: {
-                uploadFile: "{% url 'upload.uploadFile' %}",
-                uploadFileProgress: "{% url 'upload.uploadFileProgress' %}",
-                cancelUpload: "{% url 'upload.cancelUpload' %}",
-                resetUpload: "{% url 'upload.resetUpload' %}",
-                init: "{% url 'upload.initUpload' %}"
-            },
-            upload_progress: upload_progress
-        }
-    }();
-</script>
-<script src="{% static 'upload/libs/bootstrap-fileupload/bootstrap-fileupload.min.js' %}"></script>
-<script src="{% static 'upload/js/request.js' %}"></script>
-<script src="{% static 'upload/js/init_upload.js' %}"></script>
-<script src="{% static 'upload/js/upload.js' %}"></script>
-<script src="{% static 'upload/js/progressHandler.js' %}"></script>
-<script src="{% static 'upload/js/helper.js' %}"></script>
-{% endblock %}
 {% block title %}BII | Upload{% endblock %}
 {% block content %}
-<div id="upload-container">
+<div id="upload-top-container">
     <h2>Upload ISA-Tab</h2>
 
     <div class="fileupload fileupload-new" data-provides="fileupload">
@@ -52,114 +19,8 @@
         <div class="main-connector"></div>
     </div>
 
-    <div class="uploading-container">
-        <div class="connector">
-        </div>
-        <div class="connector-pin grey"></div>
-        <div id="uploading" class="upload-function">
-            <div class="title grey">UPLOADING</div>
-            <div>
-                <div class="filename"></div>
-                <div class="progress">
-                    <div class="bar grey">0%</div>
-                </div>
+    {% include 'upload_template.html' %}
 
-                <div class="issue dropdown warnings-container">
-                    <a class="dropdown-toggle" href="#">
-                        <div class="issue_title warnings"></div>
-                    </a>
-
-                    <div class="dropdown-menu warnings">
-                        <div class="issue_content"></div>
-                    </div>
-                </div>
-
-                <div class="issue dropdown errors-container">
-                    <a class="dropdown-toggle" href="#">
-                        <div class="issue_title errors"></div>
-                    </a>
-
-                    <div class="dropdown-menu errors">
-                        <div class="issue_content"></div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <div class="uploading-container">
-        <div class="connector"></div>
-        <div class="connector-pin green"></div>
-        <div id="validating" class="upload-function">
-            <div class="title green">VALIDATING</div>
-            <div>
-                <div class="filename"></div>
-                <div class="progress">
-                    <div class="bar green">0%</div>
-                </div>
-                <div class="issue dropdown warnings-container">
-                    <a class="dropdown-toggle" href="#">
-                        <div class="issue_title warnings"></div>
-                    </a>
-
-                    <div class="dropdown-menu warnings">
-                        <div class="issue_content"></div>
-                    </div>
-                </div>
-
-                <div class="issue dropdown errors-container">
-                    <a class="dropdown-toggle" href="#">
-                        <div class="issue_title errors"></div>
-                    </a>
-
-                    <div class="dropdown-menu errors">
-                        <div class="issue_content"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="uploading-container">
-        <div class="connector">
-        </div>
-        <div class="connector-pin orange"></div>
-        <div id="persisting" class="upload-function">
-            <div class="title orange">PERSISTING</div>
-            <div>
-                <div class="filename"></div>
-                <div class="progress">
-                    <div class="bar orange">0%</div>
-                </div>
-                <div class="issue dropdown warnings-container">
-                    <a class="dropdown-toggle" href="#">
-                        <div class="issue_title warnings"></div>
-                    </a>
-
-                    <div class="dropdown-menu warnings">
-                        <div class="issue_content"></div>
-                    </div>
-                </div>
-
-                <div class="issue dropdown errors-container">
-                    <a class="dropdown-toggle" href="#">
-                        <div class="issue_title errors"></div>
-                    </a>
-
-                    <div class="dropdown-menu errors">
-                        <div class="issue_content"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="result">
-        <a href="{% url 'browse.investigation' %}">
-            <div class="filename"></div>
-        </a>
-    </div>
 
 </div>
 {% endblock %}

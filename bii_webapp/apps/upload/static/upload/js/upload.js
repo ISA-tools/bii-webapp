@@ -4,10 +4,11 @@
 var upload = function () {
 
     var STATE = 'STOPPED';
+    var uploadID=''
 
     function reset(callback, param) {
         helper.toggleButtons('resetting');
-        request.reset();
+        uploadID=''
         vars.upload_session = '';
         if (STATE == 'STARTED')
             STATE = 'STOPPING'
@@ -41,12 +42,14 @@ var upload = function () {
         progressHandler.progressStage(currStageID, progress, animate)
     }
 
-    function recursiveUpdates(upload_session) {
+    function pollProgress(upload_session) {
 
         if(upload_session.ERROR){
             STATE = 'STOPPED';
             return;
         }
+
+        update(upload_session);
 
         if (isIssuesExist(upload_session)) {
             helper.toggleButtons('select');
@@ -55,19 +58,17 @@ var upload = function () {
             return;
         }
 
-        update(upload_session);
-
         if (STATE == 'STOPPING' || upload_session.UPLOAD.stage == 'complete') {
             STATE = 'STOPPED';
             helper.toggleButtons('select');
             return;
         }
 
-        setTimeout(function(){request.requestUpdate(function (upload_session) {
+        setTimeout(function(){request.requestUpdate(uploadID,function (upload_session) {
 
             function checkQueue() {
                 if (!progressHandler.isRunning())
-                    recursiveUpdates(upload_session);
+                    pollProgress(upload_session);
                 else if(STATE=='STARTED')
                     setTimeout(checkQueue, 500);
             }
@@ -84,7 +85,7 @@ var upload = function () {
             sticky   : true,
             type     : 'notice'
         });
-        request.requestInit(function (data) {
+        request.requestInit(file,function (data) {
             if (isIssuesExist(data)) {
                 $().toastmessage('removeToast', initToast);
                 $().toastmessage('showErrorToast', data.ERROR.messages);
@@ -92,9 +93,10 @@ var upload = function () {
                 return;
             }
             $().toastmessage('removeToast', initToast);
+            uploadID=data.INFO.uploadID
             progressHandler.progressStage(1, 0);
             helper.toggleButtons('cancel');
-            request.uploadFile(file, function (data) {
+            request.uploadFile(uploadID,file, function (data) {
                 update(data,true);
                 helper.toggleButtons('select');
                 if(isIssuesExist(data))
@@ -102,7 +104,7 @@ var upload = function () {
                 STATE = 'STOPPED';
             });
             STATE = 'STARTED';
-            recursiveUpdates(data);
+            pollProgress(data);
         })
     }
 
@@ -120,7 +122,7 @@ var upload = function () {
         if (upload_session.UPLOAD.stage != 'complete') {
             STATE = 'STARTED';
             helper.toggleButtons('cancel');
-            recursiveUpdates(upload_session);
+            pollProgress(upload_session);
         }
     }
 
@@ -170,12 +172,12 @@ var upload = function () {
             if (data.ERROR)
                 $().toastmessage('showErrorToast', data.ERROR.messages);
         }
-        request.cancelFile(callback);
+        request.cancelFile(uploadID,callback);
         vars.upload_session = '';
         reset();
     };
 
-    var getState = function () {
+    function getState() {
         return STATE;
     }
 
@@ -184,7 +186,9 @@ var upload = function () {
         start: start,
         cancel: cancel,
         reset: reset,
-        getState: getState
+        getState: getState,
+        update:update,
+        isIssuesExist:isIssuesExist
     };
 
 }

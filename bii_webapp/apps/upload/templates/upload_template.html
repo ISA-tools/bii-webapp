@@ -1,0 +1,128 @@
+{% load static from staticfiles %}
+<link href="{% static 'upload/libs/bootstrap-fileupload/bootstrap-fileupload.min.css' %}" rel="stylesheet">
+<link href="{% static 'upload/css/upload.css' %}" rel="stylesheet">
+<script>
+    vars.ws_server = '{{WS_SERVER}}';
+    vars.urls.uploadFile = "{% url 'upload.uploadFile' %}";
+    vars.urls.uploadFileProgress = "{% url 'upload.uploadFileProgress' %}";
+    vars.urls.cancelUpload = "{% url 'upload.cancelUpload' %}";
+    vars.urls.resetUpload = "{% url 'upload.resetUpload' %}";
+    vars.urls.init = "{% url 'upload.initUpload' %}";
+</script>
+<script src="{% static 'upload/libs/bootstrap-fileupload/bootstrap-fileupload.min.js' %}"></script>
+<script src="{% static 'upload/js/request.js' %}"></script>
+<script src="{% static 'upload/js/init_upload.js' %}"></script>
+<script src="{% static 'upload/js/upload.js' %}"></script>
+<script src="{% static 'upload/js/progressHandler.js' %}"></script>
+<script src="{% static 'upload/js/helper.js' %}"></script>
+
+<div id="upload-container">
+    <div class="uploading-container">
+        <div class="connector">
+        </div>
+        <div class="connector-pin grey"></div>
+        <div id="uploading" class="upload-function">
+            <div class="title grey">UPLOADING</div>
+            <div>
+                <div class="filename"></div>
+                <div class="progress">
+                    <div class="bar grey">0%</div>
+                </div>
+
+                <div class="issue dropdown warnings-container">
+                    <a class="dropdown-toggle" href="#">
+                        <div class="issue_title warnings"></div>
+                    </a>
+
+                    <div class="dropdown-menu warnings">
+                        <div class="issue_content"></div>
+                    </div>
+                </div>
+
+                <div class="issue dropdown errors-container">
+                    <a class="dropdown-toggle" href="#">
+                        <div class="issue_title errors"></div>
+                    </a>
+
+                    <div class="dropdown-menu errors">
+                        <div class="issue_content"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="uploading-container">
+        <div class="connector"></div>
+        <div class="connector-pin green"></div>
+        <div id="validating" class="upload-function">
+            <div class="title green">VALIDATING</div>
+            <div>
+                <div class="filename"></div>
+                <div class="progress">
+                    <div class="bar green">0%</div>
+                </div>
+                <div class="issue dropdown warnings-container">
+                    <a class="dropdown-toggle" href="#">
+                        <div class="issue_title warnings"></div>
+                    </a>
+
+                    <div class="dropdown-menu warnings">
+                        <div class="issue_content"></div>
+                    </div>
+                </div>
+
+                <div class="issue dropdown errors-container">
+                    <a class="dropdown-toggle" href="#">
+                        <div class="issue_title errors"></div>
+                    </a>
+
+                    <div class="dropdown-menu errors">
+                        <div class="issue_content"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="uploading-container">
+        <div class="connector">
+        </div>
+        <div class="connector-pin orange"></div>
+        <div id="persisting" class="upload-function">
+            <div class="title orange">PERSISTING</div>
+            <div>
+                <div class="filename"></div>
+                <div class="progress">
+                    <div class="bar orange">0%</div>
+                </div>
+                <div class="issue dropdown warnings-container">
+                    <a class="dropdown-toggle" href="#">
+                        <div class="issue_title warnings"></div>
+                    </a>
+
+                    <div class="dropdown-menu warnings">
+                        <div class="issue_content"></div>
+                    </div>
+                </div>
+
+                <div class="issue dropdown errors-container">
+                    <a class="dropdown-toggle" href="#">
+                        <div class="issue_title errors"></div>
+                    </a>
+
+                    <div class="dropdown-menu errors">
+                        <div class="issue_content"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="result">
+        <a href="">
+            <div class="filename"></div>
+        </a>
+    </div>
+</div>

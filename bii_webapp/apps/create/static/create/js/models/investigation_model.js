@@ -60,19 +60,26 @@ var InvestigationModel = function (investigation) {
         var formData = new FormData();
         formData.append('investigation', JSON.stringify(investigation));
         formData.append('csrfmiddlewaretoken', document.getElementsByName('csrfmiddlewaretoken')[0].value);
-
+        var url = document.URL;
+        url = url.substring(0, url.lastIndexOf("/")) + '/save';
         $.ajax({
-            url: document.URL + 'save',  //server script to process data
+            url: url,  //server script to process data
             type: 'POST',
             //Ajax events
             success: successHandler = function (data) {
-                $().toastmessage('showSuccessToast', data.INFO.messages);
-                $('#save_button').removeAttr('disabled', 'disabled');
-                $('#save_button').text('Save');
+                if (data.ERROR)
+                    $().toastmessage('showErrorToast', data.ERROR.messages);
+                else {
+                    $().toastmessage('showSuccessToast', data.UPLOAD.filename + ' created');
+                    $('#save_button').removeAttr('disabled', 'disabled');
+                    $('#save_button').text('Save');
+                    upload.reset();
+                    create_upload.start(data);
+                }
             },
             timeout: -1,
             error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
-                $().toastmessage('showErrorToast',ErrorText);
+                $().toastmessage('showErrorToast', ErrorText);
                 $('#save_button').removeAttr('disabled', 'disabled');
                 $('#save_button').text('Save');
                 if (xmlHttpRequest.readyState == 0 || xmlHttpRequest.status == 0)

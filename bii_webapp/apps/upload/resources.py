@@ -13,7 +13,7 @@ TIMEOUT = 300 #seconds
 
 @csrf_exempt
 @decorators.login_required(login_url=views.login)
-def getInit(request):
+def postInit(request):
     if 'uploadID' in request.session:
         del request.session['uploadID']
 
@@ -21,8 +21,9 @@ def getInit(request):
         del request.session['upload_progress']
 
     url = settings.WEBSERVICES_URL + 'upload/init'
+
     try:
-        r = requests.get(url, timeout=TIMEOUT)
+        r = requests.post(url,files=request.POST, timeout=TIMEOUT)
         obj = json.loads(r.content)
         request.session['uploadID'] = obj['INFO']['uploadID']
         request.session['upload_progress'] = json.dumps({'UPLOAD': obj['UPLOAD']})
@@ -39,25 +40,26 @@ def uploadFile(request):
     try:
         STATE = 'UPLOADING'
         file = request.FILES['file']
-        name = file.name
-        size = file.size
+        name = request.POST['filename']
+        size = request.POST['filesize']
         obj = json.loads(request.session['upload_progress'])
         obj['UPLOAD']['filename'] = name
         obj['UPLOAD']['filesize'] = size
         request.session['upload_progress'] = json.dumps(obj)
-        mimetype = file.content_type
-        extension = file.name[file.name.rindex('.'):]
+        # mimetype = file.content_type
+        extension = name[name.rindex('.'):]
 
         valid_ext = '(\.(?i)(zip|tar|gz)$)'
         valid_mime = '^application/(zip|x-zip-compressed|x-tar|x-gzip|octet-stream)$'
 
         # Validate file type
-        if not (re.match(valid_mime, mimetype) and re.match(valid_ext, extension)):
+        # not (re.match(valid_mime, mimetype) and
+        if not re.match(valid_ext, extension):
             r = errorResponse(request, 'Invalid file type', 1)
             return r
 
         files = {'file': file}
-        data = {'uploadID': request.session['uploadID'], 'filesize': size}
+        data = {'uploadID': request.POST['uploadID'], 'filesize': size}
         url = settings.WEBSERVICES_URL + 'upload'
         try:
             r = requests.post(url, data=data, files=files, timeout=TIMEOUT)
@@ -112,10 +114,9 @@ def resetUpload(request):
 
 @csrf_exempt
 @decorators.login_required(login_url=views.login)
-def getProgress(request):
-    uploadID = request.session['uploadID']
+def getProgress(request,uploadID=None):
     url = settings.WEBSERVICES_URL + 'upload/progress'
-    url += '?uploadID=' + uploadID
+    url += '?uploadID=' + request.GET['uploadID']
     try:
         r = requests.get(url, timeout=TIMEOUT)
     except requests.exceptions.ConnectionError, e:

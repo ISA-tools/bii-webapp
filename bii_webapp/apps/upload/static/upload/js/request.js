@@ -1,8 +1,8 @@
 var request = function () {
 
-    function requestUpdate(callback) {
+    function requestUpdate(uploadID,callback) {
         $.ajax({
-                url: vars.url.uploadFileProgress,  //server script to process data
+                url: vars.urls.uploadFileProgress+'?uploadID='+uploadID,  //server script to process data
                 type: 'GET',
                 //Ajax events
                 success: completeHandler = function (data) {
@@ -21,10 +21,15 @@ var request = function () {
         ;
     }
 
-    function requestInit(callback) {
+    function requestInit(file,callback) {
+        var name = file.name;
+        var size = file.size;
+        var formData = new FormData();
+        formData.append('filename', name);
+        formData.append('filesize', size);
         $.ajax({
-                url: vars.url.init,  //server script to process data
-                type: 'GET',
+                url: vars.urls.init,  //server script to process data
+                type: 'POST',
                 //Ajax events
                 success: completeHandler = function (data) {
                     if (callback)callback(data);
@@ -36,7 +41,11 @@ var request = function () {
                     handleConnectionErrors();
                     if (callback)callback(vars.upload_progress);
                 },
-                dataType: 'json'
+                data: formData,
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false
             }
         )
         ;
@@ -67,9 +76,9 @@ var request = function () {
         }
     }
 
-    function cancelFile(callback) {
+    function cancelFile(uploadID,callback) {
         $.ajax({
-                url: vars.url.cancelUpload,  //server script to process data
+                url: vars.urls.cancelUpload+'?uploadID='+uploadID,  //server script to process data
                 type: 'GET',
                 //Ajax events
                 success: completeHandler = function (data) {
@@ -90,7 +99,7 @@ var request = function () {
 
     function reset() {
         $.ajax({
-                url: vars.url.resetUpload,  //server script to process data
+                url: vars.urls.resetUpload,  //server script to process data
                 type: 'GET',
                 async: false
                 //Ajax events
@@ -98,18 +107,21 @@ var request = function () {
         );
     }
 
-    function uploadFile(file, callback) {
-        name = file.name;
-        size = file.size;
-        type = file.type;
+    function uploadFile(uploadID,file, callback) {
+        var name = file.name;
+        var size = file.size;
+        var type = file.type;
 
         if (file.name.length < 1) {
             alert('Filename less than a character')
         } else {
             var formData = new FormData();
             formData.append('file', file);
+            formData.append('uploadID', uploadID);
+            formData.append('filename', name);
+            formData.append('filesize', size);
             $.ajax({
-                url: vars.url.uploadFile,  //server script to process data
+                url: vars.urls.uploadFile,  //server script to process data
                 type: 'POST',
                 //Ajax events
                 success: successHandler = function (data) {

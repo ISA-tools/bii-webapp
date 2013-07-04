@@ -14,13 +14,14 @@ $(document).ready(function () {
             $().toastmessage('showNoticeToast','Uploading will resume in the background');
     });
 
-    if (vars.upload_progress) {
-        upload.resume(vars.upload_progress);
-    }
+//    if (vars.upload_progress) {
+//        upload.resume(vars.upload_progress);
+//    }
 
     $('#file').change(function () {
         if ($('#file').val()) {
-            upload.reset(upload.start, this.files[0]);
+            upload.reset();
+            upload.start(this.files[0]);
         }
     })
 });

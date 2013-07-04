@@ -32,6 +32,7 @@
 <script src="{% static 'create/js/models/investigation_model.js' %}"></script>
 <script src="{% static 'create/js/models/view_model.js' %}"></script>
 <script src="{% static 'create/js/create.js' %}"></script>
+<script src="{% static 'create/js/create_upload.js' %}"></script>
 {% endblock %}
 {% block title %}BII | Create{% endblock %}
 {% block content %}
@@ -90,6 +91,6 @@
             </div>
         </form>
     </div>
-
+    {% include "create_upload.html" %}
 </div>
 {% endblock %}
