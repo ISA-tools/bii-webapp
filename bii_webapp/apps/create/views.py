@@ -77,6 +77,8 @@ def save(request,config):
     request1.POST={'filename':zipName,'filesize':filesize}
     response=upload.resources.postInit(request1)
     obj=json.loads(response.content)
+    if 'ERROR' in obj:
+        return response
 
     request2=request
     request2.POST={'uploadID':obj['INFO']['uploadID'],'filename':zipName,'filesize':filesize}

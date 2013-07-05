@@ -1,27 +1,20 @@
 {% extends "browse_base.html" %}
 {% load static from staticfiles %}
 {% block extra_browse_css %}
-<link href="{% static 'browse/css/report.css' %}" rel="stylesheet">
 <link href="{% static 'browse/css/investigation.css' %}" rel="stylesheet">
-<link href="{% static 'browse/css/browse.css' %}" rel="stylesheet">
 {% endblock %}
 {% block extra_browse_script %}
 <script>
-    var data = '{% autoescape off %}{{data}}{% endautoescape %}';
-    if (data && data.length > 0) {
-//        data.replace("\'","\\\'")
-        data = JSON.parse(data);
+    var investigation = '{% autoescape off %}{{investigation_json}}{% endautoescape %}';
+    if (investigation && investigation.length > 0) {
+        investigation = JSON.parse(investigation);
     }
-    vars.investigation = data;
+    vars.investigation = investigation;
 </script>
-<script src="{% static 'browse/js/models/contacts_model.js' %}"></script>
-<script src="{% static 'browse/js/models/assays_model.js' %}"></script>
-<script src="{% static 'browse/js/models/factors_model.js' %}"></script>
-<script src="{% static 'browse/js/models/protocols_model.js' %}"></script>
-<script src="{% static 'browse/js/models/publications_model.js' %}"></script>
-<script src="{% static 'browse/js/models/study_model.js' %}"></script>
-<script src="{% static 'browse/js/models/investigation_model.js' %}"></script>
-<script src="{% static 'browse/js/investigation.js' %}"></script>
+<script src="{% static 'create/js/models/contacts_model.js' %}"></script>
+<script src="{% static 'create/js/models/publications_model.js' %}"></script>
+<script src="{% static 'create/js/models/investigation_model.js' %}"></script>
+<script src="{% static 'browse/js/models/investigation_view_model.js' %}"></script>
 {% endblock %}
 
 {% block title %}BII | Investigation{% endblock %}
@@ -29,20 +22,20 @@
 
 <div id="rep_top_details" class="rep_container">
     <div id="rep_header_blue">
-        <h1 data-bind='text: investigation().i_id'></h1>
+        <h1 class="editable_field" data-original-title="Enter investigation ID" data-type="text" data-bind='text: investigation().i_id'></h1>
 
         <div>
             <a href=""><img src="{% static 'browse/img/download.png' %}"/></a>
-            <a href=""><img src="{% static 'browse/img/edit.png' %}"/></a>
+            <a href="javascript:edit.edit_field(this)"><img src="{% static 'browse/img/edit.png' %}"/></a>
             <a href=""><img src="{% static 'browse/img/delete.png' %}"/></a>
         </div>
     </div>
 
     <div id="rep_header_details">
-        <p data-bind='text: investigation().i_title'>
+        <p class="editable_field" data-original-title="Enter investigation title" data-type="textarea" data-bind='text: investigation().i_title'>
         </p>
 
-        <p data-bind='text: investigation().i_description'>
+        <p class="editable_field" data-original-title="Enter investigation description" data-type="textarea" data-bind='text: investigation().i_description'>
         </p>
 
     </div>
@@ -53,7 +46,8 @@
         <h2>Publications</h2>
 
         <div>
-            <a data-target="#collapse_1" data-toggle="collapse" href="#collapse_1" class="dropdown_button"><img
+            <a data-target="#collapse_pubs" data-toggle="collapse" href="#collapse_pubs"
+               class="dropdown_button"><img
                     src="{% static 'browse/img/dropdown.png' %}"/></a>
         </div>
 
@@ -63,11 +57,10 @@
         </div>
     </div>
 
-    <div id="collapse_1" class="collapse in" data-bind="foreach:investigation().i_pubs_model.publications">
-        <div class="gray_title" data-bind='text: pub_title'></div>
-        <p data-bind='text: pub_author_list'>
-            <br><a href="">BIOINFORMATICS, 2008</a>
-        </p>
+    <div id="collapse_pubs" class="collapse in" data-bind="foreach:investigation().i_pubs_model.publications">
+        <p class="gray_title editable_field" data-original-title="Enter publication title" data-type="textarea" data-bind='text: pub_title'></p>
+        <p class="editable_field" data-original-title="Enter publication author list" data-type="textarea" data-bind='text: pub_author_list'>
+        </p><a href="">BIOINFORMATICS, 2008</a>
     </div>
 
 </div>
@@ -77,7 +70,8 @@
         <h2>Contacts</h2>
 
         <div>
-            <a data-target="#collapse_2" data-toggle="collapse" href="#collapse_2" class="dropdown_button"><img
+            <a data-target="#collapse_contacts" data-toggle="collapse" href="#collapse_contacts"
+               class="dropdown_button"><img
                     src="{% static 'browse/img/dropdown.png' %}"/></a>
         </div>
         <div>
@@ -86,62 +80,68 @@
         </div>
     </div>
 
-    <div id="collapse_2" class="collapse in" data-bind="foreach:investigation().i_contacts_model.contacts">
+    <div id="collapse_contacts" class="collapse in" data-bind="foreach:investigation().i_contacts_model.contacts">
         <div class="rep_contact">
             <div class="rep_contact_name">
-                <span data-bind='text: $data.person_first_name'></span>
-                <span data-bind="text: $data.person_mid_initials+'.' "></span>
-                <span data-bind='text: $data.person_last_name'></span>
+                <span class="editable_field" data-original-title="Enter contact name midinitials and surname"
+                      data-bind='text: $data.person_first_name +" "+($data.person_mid_initials?$data.person_mid_initials+".":"")+" "+$data.person_last_name'></span>
             </div>
-            <span data-bind='text: $data.person_affiliation'></span>
+            <span class="editable_field" data-original-title="Enter contact affiliation" data-bind='text: $data.person_affiliation'></span>
         </div>
     </div>
 </div>
 
-<div class="studies" data-bind="foreach:investigation().i_studies_model.studies">
-
+<div class="studies">
+    {% for study in investigation.i_studies %}
     <div class="study">
         <div class="study_id">
-            <a data-bind="text: $data.s_id,attr:{href:'{{ request.get_full_path }}/study/'+$index()}"></a>
+            <a href="{% url 'browse.investigation.study' investigation.i_id study.s_id %}">{{ study.s_id }}</a>
         </div>
         <div class="study_info">
-            <div class="study_char" data-bind="foreach:$data.s_organisms">
-                <!-- ko if: ($index() < $parent.s_organisms.length-1) --><span data-bind="text:$data+','"></span><!-- /ko -->
-                <!-- ko if: ($index() == $parent.s_organisms.length-1) --><span data-bind="text:$data"></span><!-- /ko -->
+            <div class="study_char">
+                {% for organism in study.s_organisms %}
+                <span>{{ organism }}</span>
+                {% endfor %}
             </div>
 
             <div class="study_details">
 
-                <div class="study_title" data-bind='text: $data.s_title'>
+                <div class="study_title">
+                    {{ study.s_title }}
                 </div>
 
-                <div class="assays" data-bind="foreach:$data.s_assays_model.assays">
+                <div class="assays">
+                    {% for assay in study.s_assays %}
                     <div class="assay">
-                        <a data-bind="attr:{href:'{{ request.get_full_path }}/study/'+$parentContext.$index() +'/assay/'+$index()}">
-                            <div data-bind='text: $data.number_of_samples'>
+                        <a href="{% url 'browse.investigation.study.assay' investigation.i_id study.s_id forloop.counter0 %}">
+                            <div>
+                                {{assay.number_of_samples}}
                             </div>
                             <div class="assay_type">
                                 <div>
-                                    <img data-bind="attr: { src:'{% static 'browse/img/measurements/'%}'+$data.measurement+'.png'}"/>
+                                    <img src="{% static 'browse/img/measurements/'%}{{assay.measurement}}.png"/>
 
-                                    <p data-bind='text: $data.measurement'>
+                                    <p>
+                                        {{assay.measurement}}
                                     </p>
                                 </div>
                                 <div>
-                                    <img data-bind="attr: { src:'{% static 'browse/img/technologies/'%}'+$data.technology+'.png'}"/>
+                                    <img src="{% static 'browse/img/technologies/'%}{{assay.technology}}.png"/>
 
-                                    <p data-bind='text: $data.technology'>
+                                    <p>
+                                        {{assay.technology}}
                                     </p>
                                 </div>
                             </div>
                         </a>
                     </div>
+                    {% endfor %}
                 </div>
 
             </div>
         </div>
     </div>
-
+    {% endfor %}
 </div>
 
 

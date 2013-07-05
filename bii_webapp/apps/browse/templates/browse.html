@@ -5,7 +5,7 @@
     vars.urls.getPage = "{% url 'browse.getPage' 1 %}".slice(0, -2)
 </script>
 <script src="{% static 'browse/js/browse.js' %}"></script>
-<script src="{% static 'browse/js/lib/bootstrap-paginator.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap/bootstrap-paginator.min.js' %}"></script>
 {% endblock %}
 
 {% block title %}BII | Search{% endblock %}
@@ -17,13 +17,13 @@
     {% for investigation in data.investigations %}
     <div class="investigation">
         <div class="inv_id">
-            <div><a href="{% url 'browse.investigation' forloop.counter0 %}">{{ investigation.i_id }}</a></div>
+            <div><a href="{% url 'browse.investigation' investigation.i_id %}">{{ investigation.i_id }}</a></div>
         </div>
         <div class="studies">
             {% for study in investigation.i_studies %}
             <div class="study">
                 <div class="study_id">
-                    <a href="{% url 'browse.investigation.study' forloop.parentloop.counter0 forloop.counter0 %}">{{ study.s_id }}</a>
+                    <a href="{% url 'browse.investigation.study' investigation.i_id study.s_id %}">{{ study.s_id }}</a>
                 </div>
                 <div class="study_info">
                     <div class="study_char">
@@ -38,7 +38,7 @@
                         <div class="assays">
                             {% for assay in study.s_assays %}
                             <div class="assay">
-                                <a href="{% url 'browse.investigation.study.assay' forloop.parentloop.parentloop.counter0 forloop.parentloop.counter0 forloop.counter0 %}">
+                                <a href="{% url 'browse.investigation.study.assay' investigation.i_id study.s_id forloop.counter0 %}">
                                     <div>
                                         {{assay.number_of_samples}}
                                     </div>
@@ -74,7 +74,7 @@
     {% for study in data.studies %}
     <div class="study">
         <div class="study_id">
-            <a href="{% url 'browse.study' forloop.counter0 %}">{{ study.s_id }}</a>
+            <a href="{% url 'browse.study' study.s_id %}">{{ study.s_id }}</a>
         </div>
         <div class="study_info">
             <div class="study_char">
@@ -89,7 +89,7 @@
                 <div class="assays">
                     {% for assay in study.s_assays %}
                     <div class="assay">
-                        <a href="{% url 'browse.study.assay' forloop.parentloop.counter0 forloop.counter0 %}">
+                        <a href="{% url 'browse.study.assay' study.s_id forloop.counter0 %}">
                             <div>
                                 {{assay.number_of_samples}}
                             </div>

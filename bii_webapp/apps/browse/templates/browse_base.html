@@ -2,20 +2,21 @@
 {% load static from staticfiles %}
 {% load widget_tweaks %}
 {% block extracss %}
-<link href="{% static 'browse/css/report.css' %}" rel="stylesheet">
-<link href="{% static 'browse/css/browse.css' %}" rel="stylesheet">
+<link href="{% static 'browse/css/browse_base.css' %}" rel="stylesheet">
 {% block extra_browse_css %}
 {% endblock %}
 
 {% endblock %}
 {% block no_compress_script %}
-<script src="{% static 'browse/js/lib/knockoutjs/knockout-2.2.1.js' %}"></script>
+<script src="{% static 'libs/knockoutjs/knockout-2.2.1.js' %}"></script>
 {% endblock %}
 {% block extrascript %}
-<script src="{% static 'browse/js/lib/jquery/jquery.validate.min.js' %}"></script>
-<script src="{% static 'browse/js/lib/collapse.js' %}"></script>
+<script src="{% static 'libs/jquery/jquery.validate.min.js' %}"></script>
+<script src="{% static 'libs/collapse.js' %}"></script>
+<script src="{% static 'libs/bootstrap/bootstrap-editable/js/bootstrap-editable.min.js' %}"></script>
 {% block extra_browse_script %}
 {% endblock %}
+<script src="{% static 'browse/js/init_browse.js' %}"></script>
 {% endblock %}
 
 {% block title %}BII | Investigation{% endblock %}

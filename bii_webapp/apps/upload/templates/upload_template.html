@@ -1,5 +1,5 @@
 {% load static from staticfiles %}
-<link href="{% static 'upload/libs/bootstrap-fileupload/bootstrap-fileupload.min.css' %}" rel="stylesheet">
+<link href="{% static 'libs/bootstrap/bootstrap-fileupload/bootstrap-fileupload.min.css' %}" rel="stylesheet">
 <link href="{% static 'upload/css/upload.css' %}" rel="stylesheet">
 <script>
     vars.ws_server = '{{WS_SERVER}}';
@@ -9,7 +9,7 @@
     vars.urls.resetUpload = "{% url 'upload.resetUpload' %}";
     vars.urls.init = "{% url 'upload.initUpload' %}";
 </script>
-<script src="{% static 'upload/libs/bootstrap-fileupload/bootstrap-fileupload.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap/bootstrap-fileupload/bootstrap-fileupload.min.js' %}"></script>
 <script src="{% static 'upload/js/request.js' %}"></script>
 <script src="{% static 'upload/js/init_upload.js' %}"></script>
 <script src="{% static 'upload/js/upload.js' %}"></script>

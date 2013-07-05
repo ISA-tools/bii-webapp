@@ -3,7 +3,7 @@
 {% load static from staticfiles %}
 {% block extracss %}
 <link href="{% static 'create/css/create.css' %}" rel="stylesheet">
-<link href="{% static 'create/js/lib/handsontable/jquery.handsontable.full.css' %}" rel="stylesheet">
+<link href="{% static 'libs/jquery/handsontable/jquery.handsontable.full.css' %}" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'create/js/lib/jquery/jquery.modal.css' %}" type="text/css" media="screen" />
 {% endblock %}
 {% block no_compress_script %}
@@ -16,16 +16,16 @@
         vars.configuration = JSON.parse(vars.configuration);
     }
 </script>
-<script src="{% static 'create/js/lib/handsontable/jquery.handsontable.full.js' %}"></script>
-<script src="{% static 'create/js/lib/jquery/jquery.validate.js' %}"></script>
-<script src="{% static 'create/js/lib/jquery/additional-methods.js' %}"></script>
-<script src="{% static 'create/js/lib/jquery/jquery.modal.min.js' %}" type="text/javascript" charset="utf-8"></script>
-<script src="{% static 'create/js/lib/xml2json.js' %}"></script>
-<script src="{% static 'create/js/models/study_contacts_model.js' %}"></script>
+<script src="{% static 'libs/jquery/handsontable/jquery.handsontable.full.js' %}"></script>
+<script src="{% static 'libs/jquery/jquery.validate.js' %}"></script>
+<script src="{% static 'libs/jquery/additional-methods.js' %}"></script>
+<script src="{% static 'libs/jquery/jquery.modal.min.js' %}" type="text/javascript" charset="utf-8"></script>
+<script src="{% static 'libs/xml2json.js' %}"></script>
+<script src="{% static 'create/js/models/contacts_model.js' %}"></script>
 <script src="{% static 'create/js/models/study_assays_model.js' %}"></script>
 <script src="{% static 'create/js/models/study_factors_model.js' %}"></script>
 <script src="{% static 'create/js/models/study_protocols_model.js' %}"></script>
-<script src="{% static 'create/js/models/study_publications_model.js' %}"></script>
+<script src="{% static 'create/js/models/publications_model.js' %}"></script>
 <script src="{% static 'create/js/models/study_model.js' %}"></script>
 <script src="{% static 'create/js/models/study_spreadsheet_model.js' %}"></script>
 <script src="{% static 'create/js/models/spreadsheet_model.js' %}"></script>

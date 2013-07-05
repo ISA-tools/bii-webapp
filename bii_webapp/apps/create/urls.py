@@ -3,7 +3,7 @@ from views import *
 
 urlpatterns = patterns('',
     url(r'^$', create, name='create.create'),
-    url(r'^(.+)/$', create, name='create.create'),
-    url(r'^(.+)/save$', save, name='create.save'),
+    url(r'^([^//]+)/$', create, name='create.create'),
+    url(r'^([^//]+)/save$', save, name='create.save'),
 )
 

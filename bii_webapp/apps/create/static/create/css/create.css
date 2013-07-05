@@ -17,7 +17,7 @@ h4 {
 }
 
 #create-container .config_box {
-    border: 3px #6e6e70 solid;
+    border: 5px #6e6e70 solid;
     border-radius: 10px;
     min-width: 600px;
     min-height: 300px;

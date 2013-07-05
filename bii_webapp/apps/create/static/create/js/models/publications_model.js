@@ -7,7 +7,7 @@
  */
 
 
-var StudyPublicationModel = function (publications) {
+var PublicationModel = function (publications) {
 
     var self = this;
 

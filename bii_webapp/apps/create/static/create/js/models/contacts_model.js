@@ -7,7 +7,7 @@
  */
 
 
-var StudyContactModel = function (contacts) {
+var ContactModel = function (contacts) {
     if (!contacts)
         contacts = [
             {

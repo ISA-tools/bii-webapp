@@ -36,15 +36,13 @@ function createOptions() {
             technologies: getTechnologies(vars.configuration[i].technologies)
         })
     }
-
-
 }
-
-createOptions();
 
 var StudyAssayModel = function (studyID, assays) {
 
     var self = this;
+
+    self.createOptions=createOptions;
 
     self.studyID = studyID;
 
@@ -81,9 +79,9 @@ var StudyAssayModel = function (studyID, assays) {
 
         var filename = 'a_' + self.studyID() + "_" + assay.availableMeasurements()[0].measurement + '.txt';
         assay.measurement = ko.observable(0),
-            assay.technology = ko.observable(0),
-            assay.platform = ko.observable(0),
-            assay.filename = ko.observable(filename.replace(/ /g, '_'))
+        assay.technology = ko.observable(0),
+        assay.platform = ko.observable(0),
+        assay.filename = ko.observable(filename.replace(/ /g, '_'))
         assays = [assay]
 
         assay.measurement.subscribe(function (data) {
@@ -93,13 +91,16 @@ var StudyAssayModel = function (studyID, assays) {
             techSubscription(data, assay)
         });
 
+        self.assays = ko.observableArray(assays);
+        for (var i = 0; i < self.assays().length; i++) {
+            var assay = self.assays()[i];
+            assay.spreadsheet = new SpreadSheetModel(assay, self.assays);
+        }
+
+    } else {
+        self.assays = ko.observableArray(assays);
     }
 
-    self.assays = ko.observableArray(assays);
-    for (var i = 0; i < self.assays().length; i++) {
-        var assay = self.assays()[i];
-        assay.spreadsheet = new SpreadSheetModel(assay, self.assays);
-    }
 
     self.addAssay = function () {
         var assay = {};

@@ -1,0 +1,95 @@
+{
+    "i_id": "BII-I-1",
+    "i_title": "Study of the impact of changes in flux on the transcriptome, proteome, endometabolome andxexometabolome of the yeast Saccharomyces cerevisiae under different nutrient limitations.",
+    "i_description": "We wished to study the impact of growth rate on the total complement of mRNA molecules, proteins, and metabolites in S. cerevisiae, independent of any nutritional or other physiological effects. To achieve this, we carried out our analyses on yeast grown in steady-state chemostat culture under four different nutrient limitations (glucose, ammonium, phosphate, and sulfate) at three different dilution (that is, growth) rates (D = u = 0.07, 0.1, and 0.2/hour, equivalent to population doubling times (Td) of 10 hours, 7 hours, and 3.5 hours, respectively; u = specific growth rate defined as grams of biomass generated per gram of biomass present per unit time).",
+    "i_submission_date": "",
+    "i_public_release_date": "",
+    "i_publications": [
+        {
+            "pubmed_id": "",
+            "pub_doi": "",
+            "pub_author_list": "Castrillo JI, Zeef LA, Hoyle DC, Zhang N, Hayes A, Gardner DC, Cornell MJ, Petty J, Hakes L, Wardleworth L, Rash B, Brown M, Dunn WB, Broadhurst D, O'Donoghue K, Hester SS, Dunkley TP, Hart SR, Swainston N, Li P, Gaskell SJ, Paton NW, Lilley KS, Kell DB, Oliver SG",
+            "pub_title": "Growth control of the eukaryote cell: a systems biology study in yeast.",
+            "pub_status": ""
+        }
+    ],
+    "i_contacts": [
+        {
+            "person_ref": "",
+            "person_last_name": "Castrillo",
+            "person_first_name": "Juan",
+            "person_mid_initials": "I",
+            "person_email": "",
+            "person_phone": "",
+            "person_fax": "",
+            "person_address": "",
+            "person_affiliation": "Cambridge University",
+            "person_roles": ""
+        },
+        {
+            "person_ref": "",
+            "person_last_name": "Zeef",
+            "person_first_name": "Leo",
+            "person_mid_initials": "A",
+            "person_email": "",
+            "person_phone": "",
+            "person_fax": "",
+            "person_address": "",
+            "person_affiliation": "Cambridge University",
+            "person_roles": ""
+        },
+        {
+            "person_ref": "",
+            "person_last_name": "Oliver",
+            "person_first_name": "Stephen",
+            "person_mid_initials": "G",
+            "person_email": "",
+            "person_phone": "",
+            "person_fax": "",
+            "person_address": "",
+            "person_affiliation": "Cambridge University",
+            "person_roles": ""
+        }
+    ],
+    "i_studies": [
+        {
+            "s_id": "BII-S-1",
+            "s_title": "Study of the impact of changes in flux on the transcriptome, proteome, endometabolome and exometabolome of the yeast Saccharomyces cerevisiae under different nutrient limitations",
+            "s_organisms": ["SACCHROMYCES CEREVISIAE (BAKER'S YEAST)"],
+            "s_assays": [
+                {
+                    "num_of_samples": 45,
+                    "measurement": "transcription profiling",
+                    "technology": "dna microarray"
+                },
+                {
+                    "num_of_samples": 111,
+                    "measurement": "metabolite profiling",
+                    "technology": "mass spectrometry"
+                },
+                {
+                    "num_of_samples": 3,
+                    "measurement": "protein expression profiling",
+                    "technology": "mass spectrometry"
+                },
+                {
+                    "num_of_samples": 32,
+                    "measurement": "protein expression profiling",
+                    "technology": "mass spectrometry"
+                }
+            ]
+        },
+        {
+            "s_id": "BII-S-2",
+            "s_title": "A time course analysis of transcription response in yeast treated with rapamycin, a specific inhibitor of the TORC1 complex: impact on yeast growth",
+            "s_organisms": ["SACCHROMYCES CEREVISIAE (BAKER'S YEAST)"],
+            "s_assays": [
+                {
+                    "num_of_samples": 14,
+                    "measurement": "transcription profiling",
+                    "technology": "dna microarray"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,67 @@
+{
+    "investigations": [
+        {
+            "i_id": "BII-I-1",
+            "i_studies": [
+                {
+                    "s_id": "BII-S-1",
+                    "s_title": "Study of the impact of changes in flux on the transcriptome, proteome, endometabolome and exometabolome of the yeast Saccharomyces cerevisiae under different nutrient limitations",
+                    "s_organisms": ["SACCHROMYCES CEREVISIAE (BAKER'S YEAST)"],
+                    "s_assays": [
+                        {
+                            "num_of_samples": 45,
+                            "measurement": "transcription profiling",
+                            "technology": "dna microarray"
+                        },
+                        {
+                            "num_of_samples": 111,
+                            "measurement": "metabolite profiling",
+                            "technology": "mass spectrometry"
+                        },
+                        {
+                            "num_of_samples": 3,
+                            "measurement": "protein expression profiling",
+                            "technology": "mass spectrometry"
+                        },
+                        {
+                            "num_of_samples": 32,
+                            "measurement": "protein expression profiling",
+                            "technology": "mass spectrometry"
+                        }
+                    ]
+                },
+                {
+                    "s_id": "BII-S-2",
+                    "s_title": "A time course analysis of transcription response in yeast treated with rapamycin, a specific inhibitor of the TORC1 complex: impact on yeast growth",
+                    "s_organisms": ["SACCHROMYCES CEREVISIAE (BAKER'S YEAST)"],
+                    "s_assays": [
+                        {
+                            "num_of_samples": 14,
+                            "measurement": "transcription profiling",
+                            "technology": "dna microarray"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "studies": [
+        {
+            "s_id": "BII-S-3",
+            "s_title": "Metagenomes and Metatranscriptomes of phytoplankton blooms from an ocean acidification mesocosm experiment",
+            "s_organisms": ["MARINE METAGENOME"],
+            "s_assays": [
+                {
+                    "num_of_samples": 4,
+                    "measurement": "transcription profiling",
+                    "technology": "nucleotide sequencing"
+                },
+                {
+                    "num_of_samples": 111,
+                    "measurement": "metagenome sequencing",
+                    "technology": "nucleotide sequencing"
+                }
+            ]
+        }
+    ]
+}

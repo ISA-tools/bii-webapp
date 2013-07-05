@@ -23,8 +23,8 @@ var InvestigationModel = function (investigation) {
             i_description: "",
             i_submission_date: "",
             i_public_release_date: "",
-            i_pubs_model: new StudyPublicationModel([]),
-            i_contacts_model: new StudyContactModel([]),
+            i_pubs_model: new PublicationModel([]),
+            i_contacts_model: new ContactModel([]),
             i_studies_model: new StudyModel()
         }
         investigation.i_id.subscribe(function (data) {
@@ -71,11 +71,11 @@ var InvestigationModel = function (investigation) {
                     $().toastmessage('showErrorToast', data.ERROR.messages);
                 else {
                     $().toastmessage('showSuccessToast', data.UPLOAD.filename + ' created');
-                    $('#save_button').removeAttr('disabled', 'disabled');
-                    $('#save_button').text('Save');
                     upload.reset();
                     create_upload.start(data);
                 }
+                $('#save_button').removeAttr('disabled', 'disabled');
+                $('#save_button').text('Save');
             },
             timeout: -1,
             error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {

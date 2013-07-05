@@ -56,8 +56,8 @@ var StudyModel = function (studies) {
             s_submission_date: "",
             s_public_release_date: "",
             s_sample_filename: ko.observable(filename.replace(/ /g, '_')),
-            s_pubs_model: new StudyPublicationModel([]),
-            s_contacts_model: new StudyContactModel([]),
+            s_pubs_model: new PublicationModel([]),
+            s_contacts_model: new ContactModel([]),
             s_factors_model: new StudyFactorModel([]),
             s_protocols_model: new StudyProtocolModel([])
         };
@@ -67,15 +67,14 @@ var StudyModel = function (studies) {
             self.subscription(data, study)
         });
 
+        self.studies = ko.observableArray(studies);
+        for (var i = 0; i < self.studies().length; i++) {
+            var study = self.studies()[i];
+            study.s_spreadsheet = new StudySpreadSheetModel(study, self.studies);
+        }
+    }else{
+        self.studies = ko.observableArray(studies);
     }
-
-
-    self.studies = ko.observableArray(studies);
-    for (var i = 0; i < self.studies().length; i++) {
-        var study = self.studies()[i];
-        study.s_spreadsheet = new StudySpreadSheetModel(study, self.studies);
-    }
-
 
     self.addStudy = function () {
 
@@ -90,8 +89,8 @@ var StudyModel = function (studies) {
             s_submission_date: "",
             s_public_release_date: "",
             s_sample_filename: ko.observable(filename),
-            s_pubs_model: new StudyPublicationModel([]),
-            s_contacts_model: new StudyContactModel([]),
+            s_pubs_model: new PublicationModel([]),
+            s_contacts_model: new ContactModel([]),
             s_factors_model: new StudyFactorModel([]),
             s_protocols_model: new StudyProtocolModel([])
         }

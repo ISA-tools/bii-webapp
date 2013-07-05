@@ -6,7 +6,7 @@
     <title>{% block title %}BII{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% compress css %}
-    <link href="{% static 'libs/bootstrap/css/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'libs/bootstrap/bootstrap/css/bootstrap.css' %}" rel="stylesheet">
     <link href="{% static 'libs/jquery/toastmessage/css/jquery.toastmessage.css' %}" rel="stylesheet">
     <link href="{% static 'base/css/base.css' %}" rel="stylesheet">
     {% block extracss %}{% endblock %}
@@ -22,7 +22,7 @@
     <script src="{% static 'libs/jquery/jquery.actual.min.js' %}"></script>
     <script src="{% static 'libs/jsonjs/json2.js' %}"></script>
     <!-- Bootstrap -->
-    <script src="{% static 'libs/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'libs/bootstrap/bootstrap/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'base/js/base.js' %}"></script>
     <script>vars={};vars.urls={};</script>
     {% block extrascript %}{% endblock %}

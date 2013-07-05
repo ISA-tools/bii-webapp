@@ -12,9 +12,8 @@ TIMEOUT = 60 #seconds
 # @login_required(None, index, None)
 def browse(request):
     request.breadcrumbs('Browse the BII', request.path)
-    json_data = open(common.SITE_ROOT + '/fixtures/sample.json')
+    json_data = open(common.SITE_ROOT + '/fixtures/browse.json')
     loaded=json.load(json_data)
-    request.session['data']=json.dumps(loaded)
     json_data.close()
     return render_to_response("browse.html",{"data":loaded},context_instance=RequestContext(request))
 
@@ -33,55 +32,58 @@ def getPage(request, num="1"):
                             {"ERROR": {"total": 1, "messages": 'Connection timed out, please try again later'}})
 
 
-def investigation(request, invIndex=None):
-    if not 'data' in request.session or invIndex==None:
+def investigation(request, invID=None):
+    if invID==None:
         return redirect(browse)
 
-    invIndex=int(invIndex)
-    data=json.loads(request.session['data'])
-    data=data['investigations'][invIndex]
-    data=json.dumps(data).replace("'","\\'")
+    json_data = open(common.SITE_ROOT + '/fixtures/investigation.json')
+    loaded=json.load(json_data)
+    investigation=json.dumps(loaded).replace("'","\\'")
+    json_data.close()
 
+    path=request.path
     request.breadcrumbs(
-        [('Browse the BII', '/browse/'), ('Investigation', request.path)])
-    return render_to_response("investigation.html",{"data":data},context_instance=RequestContext(request))
+        [('Browse the BII', path[:path.rindex('investigation')]), ('Investigation', request.path)])
+    return render_to_response("investigation.html",{"investigation":loaded,"investigation_json":investigation},context_instance=RequestContext(request))
 
 
-def study(request,invIndex=None,studyIndex=None):
-    if not 'data' in request.session or studyIndex==None:
+def study(request,invID=None,studyID=None):
+    if studyID==None:
         return redirect(browse)
 
-    data=json.loads(request.session['data'])
-    studyIndex=int(studyIndex)
+    json_data = open(common.SITE_ROOT + '/fixtures/study.json')
+    loaded=json.load(json_data)
+    study=json.dumps(loaded).replace("'","\\'")
+    json_data.close()
 
-    if invIndex==None:
-        studies=data['studies']
-    else:
-        studies=data['investigations'][int(invIndex)]['i_studies']
-
-    data=studies[studyIndex]
-    data=json.dumps(data).replace("'","\\'")
-
+    path=request.path
     request.breadcrumbs(
-        [('Browse the BII', '/browse/'), ('Investigation', '/browse/investigation/'), ('Study', request.path)])
-    return render_to_response("study.html",{"data":data},context_instance=RequestContext(request))
+        [('Browse the BII', path[:path.rindex('investigation')]), ('Investigation', path[:path.rindex('study')]), ('Study', request.path)])
+    return render_to_response("study.html",{"investigation":{"i_id":invID},"study":loaded,"study_json":study},context_instance=RequestContext(request))
 
 
-def assay(request,invIndex=None,studyIndex=None,assayIndex=None):
-    if not 'data' in request.session or studyIndex==None or assayIndex==None:
+def assay(request,invID=None,studyID=None,assayID=None):
+    if studyID==None or assayID==None:
         return redirect(browse)
 
-    request.breadcrumbs([('Browse the BII', '/browse/'), ('Investigation', '/browse/investigation/'),
-                         ('Study', '/browse/investigation/study/'), ('Assay', request.path)])
-    return render_to_response("assay.html", context_instance=RequestContext(request))
+    json_data = open(common.SITE_ROOT + '/fixtures/assay.json')
+    loaded=json.load(json_data)
+    assay=json.dumps(loaded).replace("'","\\'")
+    json_data.close()
+
+    path=request.path
+    request.breadcrumbs([('Browse the BII', path[:path.rindex('investigation')]),('Investigation', path[:path.rindex('study')]),
+                        ('Study', path[:path.rindex('assay')]), ('Assay', request.path)])
+    return render_to_response("assay.html",{"investigation":{"i_id":None},"study":{"s_id":studyID},"assay":loaded,"assay_json":assay}, context_instance=RequestContext(request))
 
 
-def sample(request,invIndex=-1,studyIndex=-1,sample=-1):
-    if not 'data' in request.session or studyIndex==-1 or sample==-1:
+def sample(request,invID=None,studyID=None,sample=-1):
+    if studyID==-1 or sample==-1:
         return redirect(browse)
 
-    request.breadcrumbs([('Browse the BII', '/browse/'), ('Investigation', '/browse/investigation/'),
-                         ('Study', '/browse/investigation/study/'), ('Sample', request.path)])
+    path=request.path
+    request.breadcrumbs([('Browse the BII', path[:path.rindex('investigation')]), ('Investigation', path[:path.rindex('study')]),
+                         ('Study', path[:path.rindex('sample')]), ('Sample', request.path)])
     return render_to_response("sample.html", context_instance=RequestContext(request))
 
 #Registration view override
