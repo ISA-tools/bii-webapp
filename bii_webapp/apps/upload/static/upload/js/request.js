@@ -8,7 +8,6 @@ var request = function () {
                 success: completeHandler = function (data) {
                     if (callback)callback(data);
                 },
-                timeout: -1,
                 error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
                     if (xmlHttpRequest.readyState == 0 || xmlHttpRequest.status == 0)
                         return;  // it's not really an error
@@ -34,7 +33,6 @@ var request = function () {
                 success: completeHandler = function (data) {
                     if (callback)callback(data);
                 },
-                timeout: -1,
                 error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
                     if (xmlHttpRequest.readyState == 0 || xmlHttpRequest.status == 0)
                         return;  // it's not really an error
@@ -84,7 +82,6 @@ var request = function () {
                 success: completeHandler = function (data) {
                     if (callback)callback(data);
                 },
-                timeout: -1,
                 error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
                     if (xmlHttpRequest.readyState == 0 || xmlHttpRequest.status == 0)
                         return;  // it's not really an error
@@ -127,7 +124,6 @@ var request = function () {
                 success: successHandler = function (data) {
                     if (callback) callback(data);
                 },
-                timeout: -1,
                 error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
                     if (xmlHttpRequest.readyState == 0 || xmlHttpRequest.status == 0)
                         return;  // it's not really an error

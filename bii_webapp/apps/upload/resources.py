@@ -9,7 +9,7 @@ import re
 import os
 import stat
 
-TIMEOUT = 300 #seconds
+TIMEOUT = 1500 #seconds
 
 @csrf_exempt
 @decorators.login_required(login_url=views.login)

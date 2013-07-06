@@ -6,6 +6,7 @@
 #upload-container {
     width: 627px;
     margin: 0 auto;
+    height: 541px;
 }
 
 h2 {
@@ -72,6 +73,7 @@ h2 {
     position: relative;
     width: 250px;
     height: 110px;
+    float: left;
     clear: both;
 }
 
@@ -110,6 +112,10 @@ h2 {
 
 .uploading-container .orange {
     background-color: #f7931d !important;
+}
+
+.uploading-container .blue {
+    background-color: #0000FF!important;
 }
 
 .uploading-container .green {
@@ -224,8 +230,12 @@ RESULT
 **/
 #result {
     text-align: center;
-    margin-top: 34px;
     display: none;
+    clear: both;
+    top: 32px;
+    position: relative;
+    z-index: 2;
+    height:80px;
 }
 
 #result .filename {

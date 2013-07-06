@@ -58,11 +58,14 @@ var helper = function () {
         if (stage == 'validating') {
             return 2;
         }
-        if (stage == 'persisting') {
+        if (stage == 'converting') {
             return 3;
         }
-        if (stage == 'complete') {
+        if (stage == 'persisting') {
             return 4;
+        }
+        if (stage == 'complete') {
+            return 5;
         }
     }
 

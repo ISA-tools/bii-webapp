@@ -5,8 +5,8 @@ var create_upload = function () {
             {escapeClose: false,
             clickClose: false,
             showClose: false});
-        $('#upload_modal .modal-footer >a').attr('onclick', 'javascript:upload.cancel()');
-        $('#upload_modal .modal-footer >a').text('Cancel');
+        $('#upload_modal #cancelButton').attr('onclick', 'javascript:upload.cancel()');
+        $('#upload_modal #cancelButton').text('Cancel');
 
         var file = {
             name: data.UPLOAD.filename,
@@ -30,16 +30,16 @@ var create_upload = function () {
         upload.update(upload_session);
 
         if (upload.isIssuesExist(upload_session)) {
-            $('#upload_modal .modal-footer >a').removeAttr('onclick');
-            $('#upload_modal .modal-footer >a').text('Close');
+            $('#upload_modal #cancelButton').removeAttr('onclick');
+            $('#upload_modal #cancelButton').text('Close');
             STATE = 'STOPPED';
             return;
         }
 
         if (STATE == 'STOPPING' || upload_session.UPLOAD.stage == 'complete') {
             STATE = 'STOPPED';
-            $('#upload_modal .modal-footer >a').removeAttr('onclick');
-            $('#upload_modal .modal-footer >a').text('Close');
+            $('#upload_modal #cancelButton').removeAttr('onclick');
+            $('#upload_modal #cancelButton').text('Close');
             return;
         }
 

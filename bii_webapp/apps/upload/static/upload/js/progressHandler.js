@@ -44,6 +44,15 @@ var progressHandler = function () {
     }();
 
     function showStage(stage, animate) {
+        //Ensure that stage is not visible
+        var cnt = helper.stageElement(stage);
+        var uplFun = cnt.find('.upload-function');
+
+        if (uplFun.is(':visible')) {
+            callback.call();
+            return;
+        }
+
         console.log('showStage');
 
         var connector_height = $('.main-connector').height();
