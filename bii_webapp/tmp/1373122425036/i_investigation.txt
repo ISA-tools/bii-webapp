@@ -1,0 +1,22 @@
+STUDY
+Study Identifier	"as"
+Study Title	"sad"
+Study Description	"asd"
+Study Grand Number	""
+Study Funding Agency	""
+Study Submission Date	""
+Study Public Release Date	""
+Study File Name	""
+STUDY DESIGN DESCRIPTORS
+Study Design Type	""
+Study Design Type Term Accession Number	""
+Study Design Type Term Source REF	""
+STUDY ASSAYS
+Study Assay File Name	"a_as_cell_counting1.txt"
+Study Assay Measurement Type	"cell counting"
+Study Assay Measurement Type Term Accession Number	""
+Study Assay Measurement Type Term Source REF	""
+Study Assay Technology Type	"a_as_cell_counting1.txt"
+Study Assay Technology Type Term Accession Number	"flow cytometry"
+Study Assay Technology Type Term Source REF	""
+Study Assay Technology Platform	"A10-Analyzer (Apogee)"
