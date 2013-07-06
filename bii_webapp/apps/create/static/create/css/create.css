@@ -1,6 +1,5 @@
 input[type='checkbox'] {
     border: 1px solid #cccccc;
-    -webkit-appearance: none;
     width: 20px !important;
     height: 20px;
     background: white;

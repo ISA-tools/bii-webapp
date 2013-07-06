@@ -1,7 +1,5 @@
 $(document).ready(function () {
 
-//    $('.uneditable-input >i').removeClass('icon-file')
-
     $('#retry').hide();
 
     $('#select_file').click(function(){

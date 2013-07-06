@@ -36,6 +36,12 @@ h3 {
     position: relative;
 }
 
+.inv_id:hover {
+    cursor: pointer;
+    text-decoration: none;
+    background-color: #cccdce;
+}
+
 .inv_id > div {
     -webkit-transform: rotate(-90deg);
     -moz-transform: rotate(-90deg);
@@ -49,8 +55,9 @@ h3 {
     font-size: 16px;
 }
 
-.inv_id > a:hover {
+.inv_id a:hover {
     cursor: pointer;
+    text-decoration: none;
 }
 
 /**
@@ -79,6 +86,17 @@ h3 {
     font-size: 16px;
     text-align: center;
     line-height: 120px;
+    z-index: 3;
+    position: absolute;
+}
+
+.study_id > a:hover{
+    text-decoration: none;
+}
+
+.study_id:hover{
+    cursor: pointer;
+    background-color: #1f93c2;
 }
 
 .study_info {
@@ -123,6 +141,10 @@ h3 {
     height: 90px;
     width: 150px;
     float: left;
+}
+
+.assay_type:hover {
+    background-color: #cccdce;
 }
 
 .assay > a > div:first-child {
