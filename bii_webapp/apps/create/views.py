@@ -6,7 +6,7 @@ from bii_webapp.settings import common
 from django.views.decorators.csrf import csrf_exempt
 from bii_webapp.apps import upload
 import json,os,csv,time,zipfile,parser
-from threading import  Thread
+from threading import Thread
 import requests
 
 # def parseHeaders(fileconfig):

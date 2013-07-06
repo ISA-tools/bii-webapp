@@ -20,7 +20,6 @@ $(document).ready(function () {
 
     $('#file').change(function () {
         if ($('#file').val()) {
-            upload.reset();
             upload.start(this.files[0]);
         }
     })

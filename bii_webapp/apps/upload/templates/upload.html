@@ -1,8 +1,15 @@
 {% extends "base.html" %}
 {% load static from staticfiles %}
+{% block extrascript %}
+<script src="{% static 'libs/jszip.js' %}"></script>
+<script src="{% static 'libs/jszip-load.js' %}"></script>
+{% endblock %}
 {% block title %}BII | Upload{% endblock %}
 {% block content %}
 <div id="upload-top-container">
+    <script>
+        vars.urls.sampleFile ="{% url 'upload.sampleFile' %}"
+    </script>
     <h2>Upload ISA-Tab</h2>
 
     <div class="fileupload fileupload-new" data-provides="fileupload">
@@ -16,6 +23,7 @@
             </button>
             <a id="retry" class="btn btn-info" href="javascript:$('#file').trigger('change')"><img src="{% static 'upload/img/retry.png' %}"/></a>
         </div>
+        <div class="sample_file"><a href="javascript:upload.loadSample()">Try a sample file</a></div>
         <div class="main-connector"></div>
     </div>
 

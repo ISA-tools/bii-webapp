@@ -3,8 +3,10 @@ from django.http import HttpResponse, HttpResponseBadRequest
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from bii_webapp.apps.files.models import *
+from threading import Thread
 import json
 import requests
+from bii_webapp.settings import  common
 import re
 import os
 import stat
@@ -33,6 +35,27 @@ def postInit(request):
         r = HttpResponse(json.dumps({'ERROR': {'total': 1,'messages': 'Connection timed out, please try again'}}))
     return HttpResponse(r)
 
+
+@csrf_exempt
+@decorators.login_required(login_url=views.login)
+def sampleFile(request):
+    request1=request
+    name='sample.zip'
+    directory=common.SITE_ROOT + '/media/samples/'
+    filesize=(str)(os.path.getsize(directory+"/"+name))
+
+    request1.POST={'filename':name,'filesize':filesize}
+    response=postInit(request1)
+    obj=json.loads(response.content)
+    if 'ERROR' in obj:
+        return response
+
+    request2=request
+    request2.POST={'uploadID':obj['INFO']['uploadID'],'filename':name,'filesize':filesize}
+    request2.FILES['file']=open(directory+"/"+name, 'rb')
+    t = Thread(target = uploadFile,args=[request2])
+    t.start()
+    return response
 
 @csrf_exempt
 @decorators.login_required(login_url=views.login)

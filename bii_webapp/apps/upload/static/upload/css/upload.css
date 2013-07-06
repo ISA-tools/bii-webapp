@@ -47,6 +47,13 @@ h2 {
     height: 80px;
 }
 
+.fileupload .sample_file{
+    text-align: right;
+
+    margin-top: -17px;
+    padding-right: 40px;
+}
+
 .main-connector {
     position: absolute;
     width: 4px;

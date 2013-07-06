@@ -4,6 +4,7 @@ from resources import *
 
 urlpatterns = patterns('',
     url(r'^$', upload, name='upload.upload'),
+    url(r'^sampleFile/$',sampleFile,name='upload.sampleFile'),
     url(r'^uploadFile/$',uploadFile,name='upload.uploadFile'),
     url(r'^uploadFile/progress/$',getProgress,name='upload.uploadFileProgress'),
     url(r'^uploadFile/progress(?P<uploadID>\w+})/$',getProgress),

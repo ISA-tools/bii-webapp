@@ -1,6 +1,7 @@
 var create_upload = function () {
 
     function start(data) {
+        upload.reset();
         $('#upload_modal').modal(
             {escapeClose: false,
             clickClose: false,

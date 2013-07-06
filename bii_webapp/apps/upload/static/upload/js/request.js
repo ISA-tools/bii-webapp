@@ -1,5 +1,24 @@
 var request = function () {
 
+    function getSample(callback){
+        $.ajax({
+                url: vars.urls.sampleFile,  //server script to process data
+                type: 'GET',
+                //Ajax events
+                success: completeHandler = function (data) {
+                    if(callback)
+                        callback(data);
+                },
+                error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
+                    if (xmlHttpRequest.readyState == 0 || xmlHttpRequest.status == 0)
+                        return;  // it's not really an error
+                },
+                dataType: 'json'
+            }
+        )
+        ;
+    }
+
     function requestUpdate(uploadID,callback) {
         $.ajax({
                 url: vars.urls.uploadFileProgress+'?uploadID='+uploadID,  //server script to process data
@@ -145,6 +164,7 @@ var request = function () {
         cancelFile: cancelFile,
         uploadFile: uploadFile,
         reset: reset,
+        getSample:getSample,
         requestInit: requestInit
     }
 }

@@ -4,11 +4,11 @@
 var upload = function () {
 
     var STATE = 'STOPPED';
-    var uploadID=''
+    var uploadID = ''
 
     function reset(callback, param) {
         helper.toggleButtons('resetting');
-        uploadID=''
+        uploadID = ''
         vars.upload_session = '';
         if (STATE == 'STARTED')
             STATE = 'STOPPING'
@@ -44,7 +44,7 @@ var upload = function () {
 
     function pollProgress(upload_session) {
 
-        if(upload_session.ERROR){
+        if (upload_session.ERROR) {
             STATE = 'STOPPED';
             return;
         }
@@ -64,28 +64,31 @@ var upload = function () {
             return;
         }
 
-        setTimeout(function(){request.requestUpdate(uploadID,function (upload_session) {
+        setTimeout(function () {
+            request.requestUpdate(uploadID, function (upload_session) {
 
-            function checkQueue() {
-                if (!progressHandler.isRunning())
-                    pollProgress(upload_session);
-                else if(STATE=='STARTED')
-                    setTimeout(checkQueue, 500);
-            }
+                function checkQueue() {
+                    if (!progressHandler.isRunning())
+                        pollProgress(upload_session);
+                    else if (STATE == 'STARTED')
+                        setTimeout(checkQueue, 500);
+                }
 
-            checkQueue();
+                checkQueue();
 
-        })},2000);
+            })
+        }, 2000);
     }
 
     function start(file) {
+        upload.reset();
         helper.insertFields(file);
-        var initToast=$().toastmessage('showToast', {
-            text     : 'Initiating upload',
-            sticky   : true,
-            type     : 'notice'
+        var initToast = $().toastmessage('showToast', {
+            text: 'Initiating upload',
+            sticky: true,
+            type: 'notice'
         });
-        request.requestInit(file,function (data) {
+        request.requestInit(file, function (data) {
             if (isIssuesExist(data)) {
                 $().toastmessage('removeToast', initToast);
                 $().toastmessage('showErrorToast', data.ERROR.messages);
@@ -93,13 +96,13 @@ var upload = function () {
                 return;
             }
             $().toastmessage('removeToast', initToast);
-            uploadID=data.INFO.uploadID
+            uploadID = data.INFO.uploadID
             progressHandler.progressStage(1, 0);
             helper.toggleButtons('cancel');
-            request.uploadFile(uploadID,file, function (data) {
-                update(data,true);
+            request.uploadFile(uploadID, file, function (data) {
+                update(data, true);
                 helper.toggleButtons('select');
-                if(isIssuesExist(data))
+                if (isIssuesExist(data))
                     $('#retry').show();
                 STATE = 'STOPPED';
             });
@@ -116,7 +119,7 @@ var upload = function () {
         file.size = upload_session.UPLOAD.filesize;
         helper.insertFields(file);
         update(upload_session, false);
-        if (isIssuesExist(upload_session)){
+        if (isIssuesExist(upload_session)) {
             return;
         }
         if (upload_session.UPLOAD.stage != 'complete') {
@@ -127,7 +130,6 @@ var upload = function () {
     }
 
     function isIssuesExist(data) {
-
         if (data.ERROR) {
             $().toastmessage('showErrorToast', data.ERROR.messages);
             return true;
@@ -172,7 +174,7 @@ var upload = function () {
             if (data.ERROR)
                 $().toastmessage('showErrorToast', data.ERROR.messages);
         }
-        request.cancelFile(uploadID,callback);
+        request.cancelFile(uploadID, callback);
         vars.upload_session = '';
         reset();
     };
@@ -181,14 +183,46 @@ var upload = function () {
         return STATE;
     }
 
+    function loadSample() {
+        upload.reset();
+        var initToast = $().toastmessage('showToast', {
+            text: 'Initiating upload',
+            sticky: true,
+            type: 'notice'
+        });
+
+        var callback=function(data){
+            var file = {
+                name: data.UPLOAD.filename,
+                size: data.UPLOAD.filesize
+            }
+            helper.insertFields(file);
+            if (isIssuesExist(data)) {
+                $().toastmessage('removeToast', initToast);
+                $().toastmessage('showErrorToast', data.ERROR.messages);
+                $('#retry').show();
+                return;
+            }
+            $().toastmessage('removeToast', initToast);
+            uploadID = data.INFO.uploadID
+            progressHandler.progressStage(1, 0);
+            helper.toggleButtons('cancel');
+            STATE = 'STARTED';
+            pollProgress(data);
+        }
+        request.getSample(callback);
+
+    }
+
     return {
         resume: resume,
         start: start,
         cancel: cancel,
         reset: reset,
         getState: getState,
-        update:update,
-        isIssuesExist:isIssuesExist
+        update: update,
+        loadSample: loadSample,
+        isIssuesExist: isIssuesExist
     };
 
 }
