@@ -110,8 +110,8 @@ var SpreadSheetModel = function (assay,assays) {
             startRows: 20,
             rowHeaders: true,
             contextMenu: true,
-            width: 1152,
-            height: 600,
+            width: 1140,
+            height: 530,
             cells: function (row, col, prop) {
                 this.renderer = whiteRenderer;
             }

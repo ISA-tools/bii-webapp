@@ -209,9 +209,14 @@ tr td:first-child {
 }
 
 .modal {
-    width: 1152px !important;
-    padding: 10px !important;
-    margin-left: -587px !important;
+    width: 1145px!important;
+    max-width: 1145px;
+    padding: 10px!important;
+    margin-left: -583px!important;
+    overflow: auto;
+    height: 700px;
+    max-height: 700px;
+    margin-top: -350px;
 }
 
 .modal-header {
@@ -225,15 +230,17 @@ tr td:first-child {
 
 .modal-body {
     max-height: none !important;
-    height: 600px !important;
+    height: 530px !important;
     padding: 0px !important;
-    width: 1152px !important;
+    width: 1140px !important;
+    max-height: 1140px!important;
 }
 
 .modal-footer {
-    float: right;
     background-color: white;
     border: none;
+    margin-right: 40px;
+    width: 1102px;
 }
 
 .main-connector {
