@@ -1,5 +1,5 @@
 from django.contrib.auth import decorators, views
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse,HttpRequest, HttpResponseBadRequest,QueryDict
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from bii_webapp.apps.files.models import *
@@ -15,7 +15,7 @@ TIMEOUT = 1500 #seconds
 
 @csrf_exempt
 @decorators.login_required(login_url=views.login)
-def postInit(request):
+def postInit(request,sample=None):
     if 'uploadID' in request.session:
         del request.session['uploadID']
 
@@ -25,7 +25,14 @@ def postInit(request):
     url = settings.WEBSERVICES_URL + 'upload/init'
 
     try:
-        r = requests.post(url,files=request.POST, timeout=TIMEOUT)
+        data={}
+        if sample==None:
+            data=request.POST
+        else:
+            data['filename']=sample['filename']
+            data['filesize']=sample['filesize']
+
+        r = requests.post(url,files=data, timeout=TIMEOUT)
         obj = json.loads(r.content)
         request.session['uploadID'] = obj['INFO']['uploadID']
         request.session['upload_progress'] = json.dumps({'UPLOAD': obj['UPLOAD']})
@@ -39,32 +46,44 @@ def postInit(request):
 @csrf_exempt
 @decorators.login_required(login_url=views.login)
 def sampleFile(request):
-    request1=request
+
     name='sample.zip'
     directory=common.SITE_ROOT + '/media/samples/'
     filesize=(str)(os.path.getsize(directory+"/"+name))
 
-    request1.POST={'filename':name,'filesize':filesize}
-    response=postInit(request1)
+    # request.POST={'filename':name,'filesize':filesize}
+    sample={'filename':name,'filesize':filesize}
+    response=postInit(request,sample)
     obj=json.loads(response.content)
     if 'ERROR' in obj:
         return response
 
-    request2=request
-    request2.POST={'uploadID':obj['INFO']['uploadID'],'filename':name,'filesize':filesize}
-    request2.FILES['file']=open(directory+"/"+name, 'rb')
-    t = Thread(target = uploadFile,args=[request2])
+    # request.POST={'uploadID':obj['INFO']['uploadID'],'filename':name,'filesize':filesize}
+    # request.FILES['file']=(open(directory+"/"+name, 'rb'))
+    sample['file']=open(directory+"/"+name, 'rb')
+    sample['uploadID']=obj['INFO']['uploadID']
+    t = Thread(target = uploadFile,args=[request,sample])
     t.start()
+
     return response
 
 @csrf_exempt
 @decorators.login_required(login_url=views.login)
-def uploadFile(request):
+def uploadFile(request,sample=None):
     try:
         STATE = 'UPLOADING'
-        file = request.FILES['file']
-        name = request.POST['filename']
-        size = request.POST['filesize']
+
+        if sample==None:
+            file = request.FILES['file']
+            name = request.POST['filename']
+            size = request.POST['filesize']
+            uploadID=request.POST['uploadID']
+        else:
+            file = sample['file']
+            name = sample['filename']
+            size = sample['filesize']
+            uploadID= sample['uploadID']
+
         obj = json.loads(request.session['upload_progress'])
         obj['UPLOAD']['filename'] = name
         obj['UPLOAD']['filesize'] = size
@@ -82,7 +101,7 @@ def uploadFile(request):
             return r
 
         files = {'file': file}
-        data = {'uploadID': request.POST['uploadID'], 'filesize': size}
+        data = {'uploadID': uploadID, 'filesize': size}
         url = settings.WEBSERVICES_URL + 'upload'
         try:
             r = requests.post(url, data=data, files=files, timeout=TIMEOUT)
