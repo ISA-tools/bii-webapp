@@ -17,11 +17,11 @@ h4 {
 
 #create-container .config_box {
     border: 5px #6e6e70 solid;
-    border-radius: 10px;
+    border-radius: 0px;
     min-width: 600px;
     min-height: 300px;
     list-style: none;
-    margin: 10px 0px !important;
+    margin: 0px 0px !important;
 }
 
 #create-container .config_box a {
@@ -115,7 +115,7 @@ tr td:first-child {
 
 #num_of_studies {
     font-size: 18px;
-    background-color: #3e3e3f;
+    background-color: #6e6e70;
     padding: 10px;
     color: white;
 }
@@ -277,4 +277,24 @@ tr td:first-child {
 
 #upload_file_title > div:first-child > h3 {
     display: inline;
+}
+
+/*Breadcrumb override*/
+#breadcrumb-wrapper {
+    margin-bottom: 0px;
+    border-bottom: 3px solid white;
+    background-color: #6e6e70;
+}
+
+
+#breadcrumb-wrapper .breadcrumb {
+    background-color: #6e6e70;
+}
+
+.breadcrumb > li > a {
+    color:white;
+}
+
+.breadcrumb > li .divider {
+    color:white;
 }

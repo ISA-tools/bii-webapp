@@ -19,20 +19,19 @@ def create(request, config=None):
     if len(parser.configurations) == 0:
         parser.loadConfigurations()
 
-    if 'config' not in request.session and config == None:
-        return render_to_response("select_config.html", {'configurations': parser.configurations.keys()},
+    path=request.path
+    if path.endswith('create/') or path.endswith('create'):
+        request.breadcrumbs('Select configuration', request.path)
+        return render_to_response("select_config.html", {'configurations': parser.configurations.keys(),
+                                                         "pageNotice":'Here you need to select the configuration from which the creator fields will be generated'},
                                   context_instance=RequestContext(request))
 
-    if config != None:
-        request.session['config'] = config
-    else:
-        del request.session['config']
-        return redirect(create)
+    request.breadcrumbs([('Select configuration','/create'),('Create', request.path)])
 
     json_data = open(common.SITE_ROOT + '/fixtures/assay_mapping.json')
     jsonf = json.load(json_data)
     json_data.close()
-    return render_to_response("create.html", {"configuration": json.dumps(parser.configurations[config])},
+    return render_to_response("create.html", {"configuration": json.dumps(parser.configurations[config]),"pageNotice":'In this page you can create and save a new ISA Tab file'},
                               context_instance=RequestContext(request))
 
 @csrf_exempt

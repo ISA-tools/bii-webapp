@@ -10,8 +10,7 @@
 {% block content %}
 <div id="create-container">
     <h2>Create ISA-Tab</h2>
-
-    <h4>Select Configuration</h4>
+    {% include "breadcrumb_bar.html" %}
     <ul class='config_box'>
         {% for config in configurations %}
            <a href="{% url 'create.create' config %}">{{config}}</a>

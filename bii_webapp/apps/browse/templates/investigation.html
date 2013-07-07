@@ -26,7 +26,6 @@
 
         <div>
             <a href=""><img src="{% static 'browse/img/download.png' %}"/></a>
-            <a href="javascript:edit.edit_field(this)"><img src="{% static 'browse/img/edit.png' %}"/></a>
             <a href=""><img src="{% static 'browse/img/delete.png' %}"/></a>
         </div>
     </div>
@@ -51,10 +50,6 @@
                     src="{% static 'browse/img/dropdown.png' %}"/></a>
         </div>
 
-        <div>
-            <a><img src="{% static 'browse/img/edit.png' %}"/>
-            </a>
-        </div>
     </div>
 
     <div id="collapse_pubs" class="collapse in" data-bind="foreach:investigation().i_pubs_model.publications">
@@ -73,10 +68,6 @@
             <a data-target="#collapse_contacts" data-toggle="collapse" href="#collapse_contacts"
                class="dropdown_button"><img
                     src="{% static 'browse/img/dropdown.png' %}"/></a>
-        </div>
-        <div>
-            <a><img src="{% static 'browse/img/edit.png' %}"/>
-            </a>
         </div>
     </div>
 

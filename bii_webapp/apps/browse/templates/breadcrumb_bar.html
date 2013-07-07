@@ -4,5 +4,19 @@
         <li><a href="{{ breadcrumb.url }}">{{ breadcrumb.name }}</a> <span class="divider">/</span></li>
         {% endfor %}
     </ul>
-    <div class="right"><a href="">i</a></div>
+    <div class="right"><a href="#">i</a></div>
 </div>
+<script>
+    vars.pageNotice='{{pageNotice}}'
+    $(document).ready(function () {
+        $('#breadcrumb-wrapper div a').click(function () {
+            if (vars.pageNotice)
+                $().toastmessage('showToast', {
+                    text: vars.pageNotice,
+                    sticky: true,
+                    type: 'notice',
+                    position: 'top-right'
+                });
+        })
+    });
+</script>

@@ -351,7 +351,7 @@ h1 {
 .toast-item{
     margin-bottom: 0px;
     padding-bottom: 0px;
-    padding: 14px 0px;
+    padding: 14px 10px;
 }
 .toast-item-close{
 
@@ -359,7 +359,7 @@ h1 {
     position: static;
 
 
-    margin-right: 8px;
+    margin-right: -1px;
 
 
     margin-top: -2px;
@@ -369,4 +369,47 @@ h1 {
     color: white;
     font-size: 15px;
     margin-bottom: 0px;
+}
+
+.tooltip.left {
+    margin-left: -10px;
+}
+
+/**
+BREADCRUMB
+**/
+
+#breadcrumb-wrapper {
+    margin-bottom: 12px;
+    height: 30px;
+    padding-right: 10px;
+    background-color: #f2f3f4;
+    overflow: hidden;
+}
+
+#breadcrumb-wrapper div a:hover{
+    background-color: #1f93c2;
+    text-decoration: none;
+}
+
+#breadcrumb-wrapper .breadcrumb {
+    font-size: 16px;
+    margin-top: -3px;
+    background-color: #f2f3f4;
+}
+
+#breadcrumb-wrapper div a {
+    color: #ffffff;
+    line-height: 30px;
+    background-color: #24aae1;
+    padding: 3px 10px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+}
+.breadcrumb > li > .divider {
+    color: #0088cc;
+}
+.breadcrumb > li > a {
+    color: #0088cc;
 }

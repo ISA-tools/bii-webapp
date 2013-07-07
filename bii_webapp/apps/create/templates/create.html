@@ -36,9 +36,10 @@
 {% endblock %}
 {% block title %}BII | Create{% endblock %}
 {% block content %}
+
 <div id="create-container">
     <h2>Create ISA-Tab</h2>
-
+    {% include "breadcrumb_bar.html" %}
     <p id="num_of_studies"><span data-bind='text: investigation().i_studies_model.studies().length'>&nbsp;</span>
         study(s) added</p>
 

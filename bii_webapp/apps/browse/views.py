@@ -15,7 +15,7 @@ def browse(request):
     json_data = open(common.SITE_ROOT + '/fixtures/browse.json')
     loaded=json.load(json_data)
     json_data.close()
-    return render_to_response("browse.html",{"data":loaded},context_instance=RequestContext(request))
+    return render_to_response("browse.html",{"data":loaded,'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},context_instance=RequestContext(request))
 
 def getPage(request, num="1"):
     request.breadcrumbs('Browse the BII', request.path)
@@ -44,7 +44,7 @@ def investigation(request, invID=None):
     path=request.path
     request.breadcrumbs(
         [('Browse the BII', path[:path.rindex('investigation')]), ('Investigation', request.path)])
-    return render_to_response("investigation.html",{"investigation":loaded,"investigation_json":investigation},context_instance=RequestContext(request))
+    return render_to_response("investigation.html",{"investigation":loaded,"investigation_json":investigation,'pageNotice':'Various fields can be edited by clicking'},context_instance=RequestContext(request))
 
 
 def study(request,invID=None,studyID=None):
@@ -59,7 +59,7 @@ def study(request,invID=None,studyID=None):
     path=request.path
     request.breadcrumbs(
         [('Browse the BII', path[:path.rindex('investigation')]), ('Investigation', path[:path.rindex('study')]), ('Study', request.path)])
-    return render_to_response("study.html",{"investigation":{"i_id":invID},"study":loaded,"study_json":study},context_instance=RequestContext(request))
+    return render_to_response("study.html",{"investigation":{"i_id":invID},"study":loaded,"study_json":study,'pageNotice':'Various fields can be edited by clicking on them'},context_instance=RequestContext(request))
 
 
 def assay(request,invID=None,studyID=None,assayID=None):
