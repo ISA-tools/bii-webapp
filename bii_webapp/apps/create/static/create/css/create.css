@@ -197,35 +197,35 @@ tr td:first-child {
     font-weight: bold;
 }
 
-#upload_modal{
+#upload_modal {
     width: 845px !important;
     margin-left: -432px !important;
-    height: 758px!important;
+    height: 758px !important;
     max-height: 758px;
-    margin-top: -390px!important;
+    margin-top: -390px !important;
 }
 
-#upload_modal > .modal-header{
+#upload_modal > .modal-header {
     padding: 0px;
 
     text-align: center;
 }
 
-#upload_modal > .modal-body{
+#upload_modal > .modal-body {
     width: 845px !important;
-    height: 670px!important;
+    height: 670px !important;
 }
 
-#upload_modal > .modal-footer{
+#upload_modal > .modal-footer {
     width: 785px;
     margin-top: -40px;
 }
 
 .modal {
-    width: 1145px!important;
+    width: 1145px !important;
     max-width: 1145px;
-    padding: 10px!important;
-    margin-left: -583px!important;
+    padding: 10px !important;
+    margin-left: -583px !important;
     overflow: auto;
     height: 742px;
     max-height: 700px;
@@ -246,7 +246,7 @@ tr td:first-child {
     height: 530px !important;
     padding: 0px !important;
     width: 1140px !important;
-    max-height: 1140px!important;
+    max-height: 1140px !important;
 }
 
 .modal-footer {

@@ -354,7 +354,15 @@ h1 {
     padding: 14px 0px;
 }
 .toast-item-close{
-    top: 12px;
+
+    float: right;
+    position: static;
+
+
+    margin-right: 8px;
+
+
+    margin-top: -2px;
 
 }
 .toast-item p{
