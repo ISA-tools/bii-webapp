@@ -7,10 +7,15 @@
 {% block extrascript %}
 {% endblock %}
 {% block title %}BII | Create{% endblock %}
+
+{% block breadcrumb_bar %}
+{% include "breadcrumb_bar.html" %}
+{% endblock %}
+
 {% block content %}
 <div id="create-container">
     <h2>Create ISA-Tab</h2>
-    {% include "breadcrumb_bar.html" %}
+    <h4>Select Configuration</h4>
     <ul class='config_box'>
         {% for config in configurations %}
            <a href="{% url 'create.create' config %}">{{config}}</a>

@@ -5,17 +5,23 @@ from django.conf import settings
 from django.http import HttpResponse
 from bii_webapp.settings import common
 from django.shortcuts import redirect
+import re
 
 
 TIMEOUT = 60 #seconds
 
 # @login_required(None, index, None)
 def browse(request):
-    request.breadcrumbs('Browse the BII', request.path)
     json_data = open(common.SITE_ROOT + '/fixtures/browse.json')
-    loaded=json.load(json_data)
+    loaded = json.load(json_data)
     json_data.close()
-    return render_to_response("browse.html",{"data":loaded,'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},context_instance=RequestContext(request))
+
+    blist=generateBreadcrumbs(request.path)
+    request.breadcrumbs(blist)
+    return render_to_response("browse.html", {"data": loaded,
+                                              'pageNotice': 'This page shows the accessible studies for your account, click on each to get more details'},
+                              context_instance=RequestContext(request))
+
 
 def getPage(request, num="1"):
     request.breadcrumbs('Browse the BII', request.path)
@@ -33,62 +39,92 @@ def getPage(request, num="1"):
 
 
 def investigation(request, invID=None):
-    if invID==None:
+    if invID == None:
         return redirect(browse)
 
     json_data = open(common.SITE_ROOT + '/fixtures/investigation.json')
-    loaded=json.load(json_data)
-    investigation=json.dumps(loaded).replace("'","\\'")
+    loaded = json.load(json_data)
+    investigation = json.dumps(loaded).replace("'", "\\'")
     json_data.close()
 
-    path=request.path
-    request.breadcrumbs(
-        [('Browse the BII', path[:path.rindex('investigation')]), ('Investigation', request.path)])
-    return render_to_response("investigation.html",{"investigation":loaded,"investigation_json":investigation,'pageNotice':'Various fields can be edited by clicking'},context_instance=RequestContext(request))
+    blist=generateBreadcrumbs(request.path)
+    request.breadcrumbs(blist)
+    return render_to_response("investigation.html", {"investigation": loaded, "investigation_json": investigation,
+                                                     'pageNotice': 'Various fields can be edited by clicking'},
+                              context_instance=RequestContext(request))
 
 
-def study(request,invID=None,studyID=None):
-    if studyID==None:
+def study(request, invID=None, studyID=None):
+    if studyID == None:
         return redirect(browse)
 
     json_data = open(common.SITE_ROOT + '/fixtures/study.json')
-    loaded=json.load(json_data)
-    study=json.dumps(loaded).replace("'","\\'")
+    loaded = json.load(json_data)
+    study = json.dumps(loaded).replace("'", "\\'")
     json_data.close()
 
-    path=request.path
-    request.breadcrumbs(
-        [('Browse the BII', path[:path.rindex('investigation')]), ('Investigation', path[:path.rindex('study')]), ('Study', request.path)])
-    return render_to_response("study.html",{"investigation":{"i_id":invID},"study":loaded,"study_json":study,'pageNotice':'Various fields can be edited by clicking on them'},context_instance=RequestContext(request))
+    blist=generateBreadcrumbs(request.path)
+    request.breadcrumbs(blist)
+
+    return render_to_response("study.html", {"investigation": {"i_id": invID}, "study": loaded, "study_json": study,
+                                             'pageNotice': 'Various fields can be edited by clicking on them'},
+                              context_instance=RequestContext(request))
 
 
-def assay(request,invID=None,studyID=None,assayID=None):
-    if studyID==None or assayID==None:
+def generateBreadcrumbs(path=None):
+    split = path.split('/')
+
+    bPath = '/browse/'
+    breadcrumbs = [('Browse the BII', bPath)]
+
+    investigation = re.search('(?<=investigation/)[^/.]+', path)
+    if (investigation):
+        investigation=investigation.group(0)
+        bPath += 'investigation/' + investigation +'/'
+        breadcrumbs.append(('Investigation ' + investigation, bPath))
+
+    study = re.search('(?<=study/)[^/.]+', path)
+    if (study):
+        study=study.group(0)
+        bPath += 'study/' + study +'/'
+        breadcrumbs.append(('Study ' + study, bPath))
+
+    sample = re.search('(?<=sample/)[^/.]+', path)
+    if (sample):
+        sample=sample.group(0)
+        bPath += 'sample/' + sample +'/'
+        breadcrumbs.append(('Sample ' + sample, bPath))
+
+    assay = re.search('(?<=assay/)[^/.]+', path)
+    if (assay):
+        assay=assay.group(0)
+        bPath += 'assay/' + assay +'/'
+        breadcrumbs.append(('Assay ' + assay, bPath))
+
+    return breadcrumbs
+
+
+def assay(request, invID=None, studyID=None, assayID=None):
+    if studyID == None or assayID == None:
         return redirect(browse)
 
     json_data = open(common.SITE_ROOT + '/fixtures/assay.json')
-    loaded=json.load(json_data)
-    assay=json.dumps(loaded).replace("'","\\'")
+    loaded = json.load(json_data)
+    assay = json.dumps(loaded).replace("'", "\\'")
     json_data.close()
 
-    path=request.path
-    request.breadcrumbs([('Browse the BII', path[:path.rindex('investigation')]),('Investigation', path[:path.rindex('study')]),
-                        ('Study', path[:path.rindex('assay')]), ('Assay', request.path)])
-    return render_to_response("assay.html",{"investigation":{"i_id":None},"study":{"s_id":studyID},"assay":loaded,"assay_json":assay}, context_instance=RequestContext(request))
+    blist=generateBreadcrumbs(request.path)
+    request.breadcrumbs(blist)
+    return render_to_response("assay.html",
+                              {"investigation": {"i_id": None}, "study": {"s_id": studyID}, "assay": loaded,
+                               "assay_json": assay}, context_instance=RequestContext(request))
 
 
-def sample(request,invID=None,studyID=None,sample=-1):
-    if studyID==-1 or sample==-1:
+def sample(request, invID=None, studyID=None, sample=-1):
+    if studyID == -1 or sample == -1:
         return redirect(browse)
 
-    path=request.path
-    request.breadcrumbs([('Browse the BII', path[:path.rindex('investigation')]), ('Investigation', path[:path.rindex('study')]),
-                         ('Study', path[:path.rindex('sample')]), ('Sample', request.path)])
+    blist=generateBreadcrumbs(request.path)
+    request.breadcrumbs(blist)
+
     return render_to_response("sample.html", context_instance=RequestContext(request))
-
-#Registration view override
-
-# @login_required(login_url='/accounts/login/')
-# def profile(request):
-#     user_profile = request.user.get_profile()
-#     url = user_profile.url

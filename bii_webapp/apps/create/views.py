@@ -48,12 +48,16 @@ def save(request,config):
     f = csv.writer(open(directory+'/i_investigation.txt', "wb+"), delimiter='\t',
                             quotechar='|', quoting=csv.QUOTE_MINIMAL)
 
+    zipName=request.user.username+'_'
     if not investigation['i_skip_investigation']:
+        zipName+=investigation['i_id']
         parser.writeInvestigation(f,investigation)
         parser.writePubsFor(f,investigation['i_pubs'],'INVESTIGATION')
         parser.writeContactsFor(f,investigation['i_contacts'],'INVESTIGATION')
 
     for study in investigation['i_studies']:
+        if(zipName.endswith('_')):
+            zipName+=study['s_id']
         parser.writeStudy(f,study,directory)
         parser.writePubsFor(f,study['s_pubs'],'STUDY')
         parser.writeFactors(f,study['s_factors'])
@@ -61,7 +65,7 @@ def save(request,config):
         parser.writeProtocols(f,study['s_protocols'])
         parser.writeContactsFor(f,study['s_contacts'],'STUDY')
 
-    zipName=(str)(millis)+"_archive.zip"
+    zipName+=".zip"
     zf = zipfile.ZipFile(directory+"/"+zipName, "w")
     for dirname, subdirs, files in os.walk(directory):
         for filename in files:

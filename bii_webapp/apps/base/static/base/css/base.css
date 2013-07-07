@@ -380,10 +380,10 @@ BREADCRUMB
 **/
 
 #breadcrumb-wrapper {
-    margin-bottom: 12px;
+    margin-top: 1px;
     height: 30px;
     padding-right: 10px;
-    background-color: #f2f3f4;
+    background-color: #6e6e70;
     overflow: hidden;
 }
 
@@ -395,7 +395,7 @@ BREADCRUMB
 #breadcrumb-wrapper .breadcrumb {
     font-size: 16px;
     margin-top: -3px;
-    background-color: #f2f3f4;
+    background-color: #6e6e70;
 }
 
 #breadcrumb-wrapper div a {
@@ -408,8 +408,8 @@ BREADCRUMB
     font-weight: bold;
 }
 .breadcrumb > li > .divider {
-    color: #0088cc;
+    color: white;
 }
 .breadcrumb > li > a {
-    color: #0088cc;
+    color: white;
 }
