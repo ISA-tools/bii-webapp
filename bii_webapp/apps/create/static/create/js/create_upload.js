@@ -4,8 +4,8 @@ var create_upload = function () {
         upload.reset();
         $('#upload_modal').modal(
             {escapeClose: false,
-            clickClose: false,
-            showClose: false});
+                clickClose: false,
+                showClose: false});
         $('#upload_modal #cancelButton').attr('onclick', 'javascript:upload.cancel()');
         $('#upload_modal #cancelButton').text('Cancel');
 
@@ -16,15 +16,50 @@ var create_upload = function () {
         $('#upload_file_title h3').text(file.name);
         helper.insertFields(file);
         progressHandler.progressStage(1, 0);
-        helper.toggleButtons('cancel');
-        STATE = 'STARTED';
+
+
+        var name = file.name;
+        var size = file.size;
+        var formData = new FormData();
+        formData.append('filename', name);
+        formData.append('filesize', size);
+        formData.append('uploadID', data.INFO.uploadID);
+        var url = document.URL;
+        url = url.substring(0, url.lastIndexOf("/")) + '/uploadSave';
+
+        $.ajax({
+                url: url,  //server script to process data
+                type: 'POST',
+                //Ajax events
+                success: completeHandler = function (data) {
+                    $('#upload_modal #cancelButton').removeAttr('onclick');
+                    $('#upload_modal #cancelButton').text('Close');
+                    if (data.UPLOAD)
+                        upload.update(data, true);
+                    upload.isIssuesExist(data)
+                    upload.STATE = 'STOPPED';
+                },
+                error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
+                    if (xmlHttpRequest.readyState == 0 || xmlHttpRequest.status == 0)
+                        return;  // it's not really an error
+                },
+                dataType: 'json',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false
+            }
+        )
+        ;
+
+        upload.STATE = 'STARTED';
         pollProgress(data.INFO.uploadID, data);
     }
 
     function pollProgress(uploadID, upload_session) {
 
         if (upload_session.ERROR) {
-            STATE = 'STOPPED';
+            upload.STATE = 'STOPPED';
             return;
         }
 
@@ -33,12 +68,12 @@ var create_upload = function () {
         if (upload.isIssuesExist(upload_session)) {
             $('#upload_modal #cancelButton').removeAttr('onclick');
             $('#upload_modal #cancelButton').text('Close');
-            STATE = 'STOPPED';
+            upload.STATE = 'STOPPED';
             return;
         }
 
-        if (STATE == 'STOPPING' || upload_session.UPLOAD.stage == 'complete') {
-            STATE = 'STOPPED';
+        if (upload.STATE == 'STOPPING' || upload_session.UPLOAD.stage == 'complete') {
+            upload.STATE = 'STOPPED';
             $('#upload_modal #cancelButton').removeAttr('onclick');
             $('#upload_modal #cancelButton').text('Close');
             return;
@@ -50,7 +85,7 @@ var create_upload = function () {
                 function checkQueue() {
                     if (!progressHandler.isRunning())
                         pollProgress(uploadID, upload_session);
-                    else if (STATE == 'STARTED')
+                    else if (upload.STATE == 'STARTED')
                         setTimeout(checkQueue, 500);
                 }
 

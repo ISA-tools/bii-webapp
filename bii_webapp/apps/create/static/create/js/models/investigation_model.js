@@ -61,7 +61,8 @@ var InvestigationModel = function (investigation) {
         formData.append('investigation', JSON.stringify(investigation));
         formData.append('csrfmiddlewaretoken', document.getElementsByName('csrfmiddlewaretoken')[0].value);
         var url = document.URL;
-        url = url.substring(0, url.lastIndexOf("/")) + '/save';
+        url = url.substring(0, url.lastIndexOf("/")) + '/initSave';
+
         $.ajax({
             url: url,  //server script to process data
             type: 'POST',
@@ -71,7 +72,6 @@ var InvestigationModel = function (investigation) {
                     $().toastmessage('showErrorToast', data.ERROR.messages);
                 else {
                     $().toastmessage('showSuccessToast', data.UPLOAD.filename + ' created');
-                    upload.reset();
                     create_upload.start(data);
                 }
                 $('#save_button').removeAttr('disabled', 'disabled');

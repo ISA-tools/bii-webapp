@@ -4,6 +4,7 @@
 var upload = function () {
 
     var STATE = 'STOPPED';
+    var retry = true;
     var uploadID = ''
 
     function reset(callback, param) {
@@ -44,7 +45,7 @@ var upload = function () {
 
     function pollProgress(upload_session) {
 
-        if (upload_session.ERROR) {
+        if (upload_session.ERROR || upload_session == undefined) {
             STATE = 'STOPPED';
             return;
         }
@@ -53,7 +54,7 @@ var upload = function () {
 
         if (isIssuesExist(upload_session)) {
             helper.toggleButtons('select');
-            $('#retry').show();
+            if (retry)$('#retry').show();
             STATE = 'STOPPED';
             return;
         }
@@ -91,8 +92,7 @@ var upload = function () {
         request.requestInit(file, function (data) {
             if (isIssuesExist(data)) {
                 $().toastmessage('removeToast', initToast);
-                $().toastmessage('showErrorToast', data.ERROR.messages);
-                $('#retry').show();
+                if (retry)$('#retry').show();
                 return;
             }
             $().toastmessage('removeToast', initToast);
@@ -100,33 +100,17 @@ var upload = function () {
             progressHandler.progressStage(1, 0);
             helper.toggleButtons('cancel');
             request.uploadFile(uploadID, file, function (data) {
-                update(data, true);
+                if (data.UPLOAD)
+                    update(data, true);
                 helper.toggleButtons('select');
                 if (isIssuesExist(data))
-                    $('#retry').show();
+                    if (retry)$('#retry').show();
                 STATE = 'STOPPED';
             });
             STATE = 'STARTED';
+            retry = true;
             pollProgress(data);
         })
-    }
-
-    function resume(upload_session) {
-        var file = {};
-        if (upload_session.ERROR || upload_session.UPLOAD.filesize == -1)
-            return;
-        file.name = upload_session.UPLOAD.filename;
-        file.size = upload_session.UPLOAD.filesize;
-        helper.insertFields(file);
-        update(upload_session, false);
-        if (isIssuesExist(upload_session)) {
-            return;
-        }
-        if (upload_session.UPLOAD.stage != 'complete') {
-            STATE = 'STARTED';
-            helper.toggleButtons('cancel');
-            pollProgress(upload_session);
-        }
     }
 
     function isIssuesExist(data) {
@@ -191,31 +175,38 @@ var upload = function () {
             type: 'notice'
         });
 
-        var callback=function(data){
+        var callback = function (data) {
+            if (isIssuesExist(data)) {
+                $().toastmessage('removeToast', initToast);
+                return;
+            }
             var file = {
                 name: data.UPLOAD.filename,
                 size: data.UPLOAD.filesize
             }
             helper.insertFields(file);
-            if (isIssuesExist(data)) {
-                $().toastmessage('removeToast', initToast);
-                $().toastmessage('showErrorToast', data.ERROR.messages);
-                $('#retry').show();
-                return;
-            }
             $().toastmessage('removeToast', initToast);
             uploadID = data.INFO.uploadID
             progressHandler.progressStage(1, 0);
             helper.toggleButtons('cancel');
+
+            request.uploadSample(uploadID, file, function (data) {
+                if (data.UPLOAD)
+                    update(data, true);
+                helper.toggleButtons('select');
+                isIssuesExist(data)
+                STATE = 'STOPPED';
+            });
+
             STATE = 'STARTED';
+            retry = false;
             pollProgress(data);
         }
-        request.getSample(callback);
+        request.initSample('sample.zip', callback);
 
     }
 
     return {
-        resume: resume,
         start: start,
         cancel: cancel,
         reset: reset,

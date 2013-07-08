@@ -4,9 +4,8 @@
 <script>
     vars.ws_server = '{{WS_SERVER}}';
     vars.urls.uploadFile = "{% url 'upload.uploadFile' %}";
-    vars.urls.uploadFileProgress = "{% url 'upload.uploadFileProgress' %}";
-    vars.urls.cancelUpload = "{% url 'upload.cancelUpload' %}";
-    vars.urls.resetUpload = "{% url 'upload.resetUpload' %}";
+    vars.urls.uploadFileProgress = "{% url 'upload.uploadFile.progress' %}";
+    vars.urls.cancelUpload = "{% url 'upload.uploadFile.cancel' %}";
     vars.urls.init = "{% url 'upload.initUpload' %}";
 </script>
 <script src="{% static 'libs/bootstrap/bootstrap-fileupload/bootstrap-fileupload.min.js' %}"></script>

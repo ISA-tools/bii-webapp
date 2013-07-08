@@ -12,9 +12,6 @@ urlpatterns = patterns('',
     url(r'^$',include('bii_webapp.apps.base.urls')),
     url(r'^upload/', include('bii_webapp.apps.upload.urls')),
     url(r'^files/', include('bii_webapp.apps.files.urls')),
-    # (r'^media/(.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
-    # (r'^media/samples/(.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT+'/samples'}),
-    url(r'^bii_webapp/static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
     url(r'^admin/', include(admin.site.urls)),
 )
 

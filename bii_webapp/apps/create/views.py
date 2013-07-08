@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from bii_webapp.apps import upload
 import json,os,csv,time,zipfile,parser
 from threading import Thread
+import shutil
 import requests
 
 # def parseHeaders(fileconfig):
@@ -36,28 +37,31 @@ def create(request, config=None):
 
 @csrf_exempt
 @decorators.login_required(login_url=views.login)
-def save(request,config):
+def initSave(request,config):
     investigation=json.loads(request.POST['investigation'])
     millis = int(round(time.time() * 1000))
-    directory=common.SITE_ROOT + '/tmp/'+str(millis)
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-        os.chmod(directory,0o777)
-
-
-    f = csv.writer(open(directory+'/i_investigation.txt', "wb+"), delimiter='\t',
-                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+    directory=common.SITE_ROOT + '/tmp/'+request.user.username+'/'
 
     zipName=request.user.username+'_'
     if not investigation['i_skip_investigation']:
         zipName+=investigation['i_id']
+    else:
+        study=investigation['i_studies'][0]
+        zipName+=study['s_id']
+
+    directory+=zipName+'/'
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    os.chmod(directory,0o777)
+    f = csv.writer(open(directory+'/i_investigation.txt', "wb+"), delimiter='\t',
+                   quotechar='|', quoting=csv.QUOTE_MINIMAL)
+
+    if not investigation['i_skip_investigation']:
         parser.writeInvestigation(f,investigation)
         parser.writePubsFor(f,investigation['i_pubs'],'INVESTIGATION')
         parser.writeContactsFor(f,investigation['i_contacts'],'INVESTIGATION')
 
     for study in investigation['i_studies']:
-        if(zipName.endswith('_')):
-            zipName+=study['s_id']
         parser.writeStudy(f,study,directory)
         parser.writePubsFor(f,study['s_pubs'],'STUDY')
         parser.writeFactors(f,study['s_factors'])
@@ -79,14 +83,20 @@ def save(request,config):
 
     request1.POST={'filename':zipName,'filesize':filesize}
     response=upload.resources.postInit(request1)
-    obj=json.loads(response.content)
-    if 'ERROR' in obj:
-        return response
-
-    request2=request
-    request2.POST={'uploadID':obj['INFO']['uploadID'],'filename':zipName,'filesize':filesize}
-    request2.FILES['file']=open(directory+"/"+zipName, 'rb')
-    t = Thread(target = upload.resources.uploadFile,args=[request2])
-    t.start()
     return response
-    # return HttpResponse(json.dumps({'INFO':{'messages':'File saved','total':1}}))
+
+
+@csrf_exempt
+@decorators.login_required(login_url=views.login)
+def uploadSave(request,config):
+    name=request.POST['filename']
+    name=name[:name.rindex('.')]
+    directory=common.SITE_ROOT + '/tmp/'+request.user.username+'/'+name
+    # request2=request
+    # request2.POST={'uploadID':obj['INFO']['uploadID'],'filename':zipName,'filesize':filesize}
+    f=open(directory+"/"+request.POST['filename'], 'rb')
+    request.FILES['file']=f
+    response=upload.resources.uploadFile(request)
+    f.close()
+    shutil.rmtree(common.SITE_ROOT + '/tmp/'+request.user.username+'/')
+    return response

@@ -4,6 +4,7 @@ from views import *
 urlpatterns = patterns('',
     url(r'^$', create, name='create.create'),
     url(r'^([^//]+)/$', create, name='create.create'),
-    url(r'^([^//]+)/save$', save, name='create.save'),
+    url(r'^([^//]+)/initSave$', initSave, name='create.initSave$'),
+    url(r'^([^//]+)/uploadSave$', uploadSave, name='create.uploadSave$'),
 )
 

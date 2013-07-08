@@ -1,8 +1,8 @@
 var request = function () {
 
-    function getSample(callback){
+    function initSample(sampleName,callback){
         $.ajax({
-                url: vars.urls.sampleFile,  //server script to process data
+                url: vars.urls.initSample+'?sampleName='+sampleName,  //server script to process data
                 type: 'GET',
                 //Ajax events
                 success: completeHandler = function (data) {
@@ -14,6 +14,36 @@ var request = function () {
                         return;  // it's not really an error
                 },
                 dataType: 'json'
+            }
+        )
+        ;
+    }
+
+    function uploadSample(uploadID,file,callback){
+        var name = file.name;
+        var size = file.size;
+        var formData = new FormData();
+        formData.append('filename', name);
+        formData.append('filesize', size);
+        formData.append('uploadID', uploadID);
+
+        $.ajax({
+                url: vars.urls.uploadSample,  //server script to process data
+                type: 'POST',
+                //Ajax events
+                success: completeHandler = function (data) {
+                    if(callback)
+                        callback(data);
+                },
+                error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
+                    if (xmlHttpRequest.readyState == 0 || xmlHttpRequest.status == 0)
+                        return;  // it's not really an error
+                },
+                dataType: 'json',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false
             }
         )
         ;
@@ -113,16 +143,6 @@ var request = function () {
         ;
     }
 
-    function reset() {
-        $.ajax({
-                url: vars.urls.resetUpload,  //server script to process data
-                type: 'GET',
-                async: false
-                //Ajax events
-            }
-        );
-    }
-
     function uploadFile(uploadID,file, callback) {
         var name = file.name;
         var size = file.size;
@@ -163,8 +183,8 @@ var request = function () {
         requestUpdate: requestUpdate,
         cancelFile: cancelFile,
         uploadFile: uploadFile,
-        reset: reset,
-        getSample:getSample,
+        initSample:initSample,
+        uploadSample:uploadSample,
         requestInit: requestInit
     }
 }
