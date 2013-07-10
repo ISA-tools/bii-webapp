@@ -6,7 +6,7 @@ logger.info("PRODUCTION SETTINGS")
 
 COMPRESS_ENABLED=True
 
-ALLOWED_HOSTS = [".bii"]
+ALLOWED_HOSTS = [".bii.oerc.ox.ac.uk"]
 
 DEBUG=False
 TEMPLATE_DEBUG = DEBUG
