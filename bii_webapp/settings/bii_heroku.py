@@ -6,7 +6,7 @@ logger.info("PRODUCTION SETTINGS")
 
 COMPRESS_ENABLED=True
 
-ALLOWED_HOSTS = [".bii.herokuapp.com"]
+ALLOWED_HOSTS = ["bii.herokuapp.com"]
 
 DEBUG=False
 TEMPLATE_DEBUG = DEBUG
