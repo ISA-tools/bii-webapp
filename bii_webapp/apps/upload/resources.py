@@ -71,6 +71,7 @@ def uploadFile(request, sample=None):
     try:
         STATE = 'UPLOADING'
 
+
         if sample == None:
             file = request.FILES['file']
             name = request.POST['filename']
@@ -100,7 +101,7 @@ def uploadFile(request, sample=None):
         try:
             r = requests.post(url, data=data, files=files, timeout=TIMEOUT)
             resp = json.loads(r.content);
-            if (resp['UPLOAD']['stage'] == 'cancelled'):
+            if 'ERROR' in resp or 'UPLOAD' in resp and resp['UPLOAD']['stage'] == 'cancelled':
                 return HttpResponse(r)
 
             if resp['UPLOAD']['stage'] == 'complete':

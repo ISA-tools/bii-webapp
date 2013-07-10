@@ -2,7 +2,9 @@
 {% load static from staticfiles %}
 {% block extra_browse_script %}
 <script>
-    vars.urls.getPage = "{% url 'browse.getPage' 1 %}".slice(0, -2)
+    vars.urls.browse = "{% url 'browse.browse' %}";
+    vars.number_of_pages=parseInt("{{number_of_pages}}");
+    vars.current_page=parseInt("{{current_page}}");
 </script>
 <script src="{% static 'browse/js/browse.js' %}"></script>
 <script src="{% static 'libs/bootstrap/bootstrap-paginator.min.js' %}"></script>
@@ -16,9 +18,11 @@
 <div id="results">
     {% for investigation in data.investigations %}
     <div class="investigation">
+        {% if investigation.i_id != "" %}
         <div class="inv_id">
             <div><a href="{% url 'browse.investigation' investigation.i_id %}">{{ investigation.i_id }}</a></div>
         </div>
+        {% endif %}
         <div class="studies">
             {% for study in investigation.i_studies %}
             <div class="study">
@@ -70,54 +74,6 @@
         </div>
     </div>
     {% endfor %}
-
-    {% for study in data.studies %}
-    <div class="study">
-        <div class="study_id">
-            <a href="{% url 'browse.study' study.s_id %}">{{ study.s_id }}</a>
-        </div>
-        <div class="study_info">
-            <div class="study_char">
-                {% for organism in study.s_organisms %}
-                <span>{{ organism }}</span>
-                {% endfor %}
-            </div>
-            <div class="study_details">
-                <div class="study_title">
-                    {{ study.s_title }}
-                </div>
-                <div class="assays">
-                    {% for assay in study.s_assays %}
-                    <div class="assay">
-                        <a href="{% url 'browse.study.assay' study.s_id forloop.counter0 %}">
-                            <div>
-                                {{assay.number_of_samples}}
-                            </div>
-                            <div class="assay_type">
-                                <div>
-                                    <img src="{% static 'browse/img/measurements/'%}{{assay.measurement}}.png"/>
-
-                                    <p>
-                                        {{assay.measurement}}
-                                    </p>
-                                </div>
-                                <div>
-                                    <img src="{% static 'browse/img/technologies/'%}{{assay.technology}}.png"/>
-
-                                    <p>
-                                        {{assay.technology}}
-                                    </p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    {% endfor %}
-                </div>
-
-            </div>
-        </div>
-        {% endfor %}
-    </div>
 
 </div>
 

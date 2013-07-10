@@ -4,12 +4,12 @@
  */
 $(document).ready(function () {
     var options = {
-        currentPage: 1,
-        totalPages: 5,
+        currentPage: vars.current_page,
+        totalPages: vars.number_of_pages,
         alignment: "center",
         useBootstrapTooltip: true,
         pageUrl: function (type, page, current) {
-            return vars.urls.getPage + page;
+            return vars.urls.browse + page;
         }
     }
 

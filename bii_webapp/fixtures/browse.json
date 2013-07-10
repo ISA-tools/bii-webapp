@@ -43,23 +43,26 @@
                     ]
                 }
             ]
-        }
-    ],
-    "studies": [
+        },
         {
-            "s_id": "BII-S-3",
-            "s_title": "Metagenomes and Metatranscriptomes of phytoplankton blooms from an ocean acidification mesocosm experiment",
-            "s_organisms": ["MARINE METAGENOME"],
-            "s_assays": [
+            "i_id": "",
+            "i_studies": [
                 {
-                    "num_of_samples": 4,
-                    "measurement": "transcription profiling",
-                    "technology": "nucleotide sequencing"
-                },
-                {
-                    "num_of_samples": 111,
-                    "measurement": "metagenome sequencing",
-                    "technology": "nucleotide sequencing"
+                    "s_id": "BII-S-3",
+                    "s_title": "Metagenomes and Metatranscriptomes of phytoplankton blooms from an ocean acidification mesocosm experiment",
+                    "s_organisms": ["MARINE METAGENOME"],
+                    "s_assays": [
+                        {
+                            "num_of_samples": 4,
+                            "measurement": "transcription profiling",
+                            "technology": "nucleotide sequencing"
+                        },
+                        {
+                            "num_of_samples": 111,
+                            "measurement": "metagenome sequencing",
+                            "technology": "nucleotide sequencing"
+                        }
+                    ]
                 }
             ]
         }

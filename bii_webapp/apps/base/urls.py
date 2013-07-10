@@ -6,6 +6,6 @@ from django.views.generic import RedirectView
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^$',RedirectView.as_view(url='/browse/')),
+    url(r'^$',RedirectView.as_view(url='/browse')),
 )
 
