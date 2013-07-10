@@ -19,17 +19,19 @@ def browse(request, page=1):
     r = requests.post(settings.WEBSERVICES_URL + 'retrieve/browse',
                       data=json.dumps({'username': request.user.username, 'page': page}))
     loaded = json.loads(r.content)
+
+    loaded2 = json.load(json_data)
     if 'ERROR' in loaded:
         if page != 1:
             return redirect(browse,1)
 
 
-    invs=json.loads(loaded['results'])
+    results=json.loads(loaded['results'])
     json_data.close()
 
     blist = generateBreadcrumbs(request.path)
     request.breadcrumbs(blist)
-    return render_to_response("browse.html", {"data": invs,'number_of_pages':loaded['number_of_pages'], 'current_page':page,
+    return render_to_response("browse.html", {"data": results,'number_of_pages':loaded['number_of_pages'], 'current_page':page,
                                               'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
                               context_instance=RequestContext(request))
 

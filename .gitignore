@@ -9,3 +9,6 @@
 /bii_webapp/media/files
 
 /bii_webapp/tmp
+/*.iml
+
+/.pydevproject

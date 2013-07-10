@@ -1,8 +1,0 @@
-
-/.project
-/.pydevproject
-/venv
-/deploy
-*.pyc
-/bii_webapp/static
-/bii_webapp/media/files
