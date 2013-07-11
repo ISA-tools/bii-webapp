@@ -4,8 +4,6 @@ from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from bii_webapp.apps.files.models import *
 from threading import Thread
-import traceback
-import logging
 import json
 import requests
 from bii_webapp.settings import common
@@ -118,10 +116,9 @@ def uploadFile(request, sample=None):
         except requests.exceptions.Timeout, e:
             r = errorResponse(request, 'Connection timed out, please try again later')
     except Exception, e:
-        print '>>> traceback <<<'
-        traceback.print_exc()
-        logging.exception(e)
-        print '>>> end of traceback <<<'
+        import logging
+        logger = logging.getLogger('django.request')
+        logger.exception(e)
         r = errorResponse(request, 'Oops something went wrong, please try again')
 
     return respond(request, r)
