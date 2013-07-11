@@ -38,6 +38,8 @@ $(document).ready(function () {
     //logo width plus profile width
     var widthLeft = 1144 - (rightWidth + 74) - 5;
     $('#searchbar').width(widthLeft);
+
+    $('#main-menu').css('width',$('#main-menu > ul').children('li').length*100);
 });
 
 var showToast = function (msg, duration) {

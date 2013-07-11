@@ -24,7 +24,8 @@
     <!-- Bootstrap -->
     <script src="{% static 'libs/bootstrap/bootstrap/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'base/js/base.js' %}"></script>
-    <script>vars={};vars.urls={};</script>
+    <script>vars = {};
+    vars.urls = {};</script>
     {% block extrascript %}{% endblock %}
     {% endcompress %}
     {% block no_compress_script %}{% endblock %}
@@ -39,7 +40,7 @@
                     <li>
                         <div>
                             <a href="{% url 'browse.browse' 1 %}"><img src="{% static 'base/img/logo.png' %}" width="74"
-                                                                     height="35"/></a>
+                                                                       height="35"/></a>
                         </div>
                     </li>
 
@@ -128,7 +129,7 @@
                                     Settings
                                 </p></a>
                         </li>
-
+                        {% if user.is_authenticated %}
                         <li>
                             <a id="admin" href="{% url 'admin:index' %}"> <img src="{% static 'base/img/admin.png' %}"/>
 
@@ -136,11 +137,12 @@
                                     Admin
                                 </p></a>
                         </li>
-
+                        {% endif %}
                         <li id="basket_li">
                             <a id="basket" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
                                 <div>6</div>
                                 <img src="{% static 'base/img/basket.png' %}"/>
+
                                 <p>
                                     Basket
                                 </p>
@@ -161,7 +163,8 @@
     </div>
     <div style="clear: both; line-height: 0;">&nbsp;</div>
     <div id="footer">
-        <div><img src="{% static 'base/img/footer_logo.png' %}"/></div><span class="right">Copyright 2013-Present, ISA tools team</span>
+        <div><img src="{% static 'base/img/footer_logo.png' %}"/></div>
+        <span class="right">Copyright 2013-Present, ISA tools team</span>
     </div>
 </div>
 </body>

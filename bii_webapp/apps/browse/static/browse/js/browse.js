@@ -31,6 +31,8 @@ $(document).ready(function () {
         var inv_id = $($(this).children('.inv_id')[0]);
         inv_id.height(totalHeight);
         inv_id.css("line-height", (totalHeight + 'px'));
+        var awidth=$(inv_id.find('a')).width();
+        $(inv_id.find('a')).css('margin-left',(24-awidth)/2);
     });
 
     $(".study").each(function (index) {
