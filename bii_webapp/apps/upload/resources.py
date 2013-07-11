@@ -100,6 +100,9 @@ def uploadFile(request, sample=None):
         url = settings.WEBSERVICES_URL + 'upload'
         try:
             r = requests.post(url, data=data, files=files, timeout=TIMEOUT)
+            import logging
+            logger = logging.getLogger('django.request')
+            logger.exception(r.content)
             resp = json.loads(r.content)
             if 'ERROR' in resp or 'UPLOAD' in resp and resp['UPLOAD']['stage'] == 'cancelled':
                 return HttpResponse(r)
