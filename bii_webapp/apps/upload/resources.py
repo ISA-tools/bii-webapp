@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from bii_webapp.apps.files.models import *
 from threading import Thread
 import traceback
+import logging
 import json
 import requests
 from bii_webapp.settings import common
@@ -101,7 +102,7 @@ def uploadFile(request, sample=None):
         url = settings.WEBSERVICES_URL + 'upload'
         try:
             r = requests.post(url, data=data, files=files, timeout=TIMEOUT)
-            resp = json.loads(r.content);
+            resp = json.loads(r.content)
             if 'ERROR' in resp or 'UPLOAD' in resp and resp['UPLOAD']['stage'] == 'cancelled':
                 return HttpResponse(r)
 
@@ -119,6 +120,7 @@ def uploadFile(request, sample=None):
     except Exception, e:
         print '>>> traceback <<<'
         traceback.print_exc()
+        logging.exception(e)
         print '>>> end of traceback <<<'
         r = errorResponse(request, 'Oops something went wrong, please try again')
 
