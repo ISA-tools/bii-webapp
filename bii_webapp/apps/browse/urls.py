@@ -9,7 +9,6 @@ urlpatterns = patterns('',
                        url(r'^$', browse,name='browse.browse'),
                        url(r'^(\d+)/$', browse,name='browse.browse'),
                        url(r'^$',RedirectView.as_view(url='/browse/1/')),
-                       url(r'^page/(\d+)$', getPage,name='browse.getPage'),
 
                        url(r'^investigation/([^//]+)/$',investigation,name='browse.investigation'),
                        url(r'^investigation/([^//]+)/study/([^//]+)/$',study,name='browse.investigation.study'),

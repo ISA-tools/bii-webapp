@@ -41,22 +41,6 @@ def browse(request, page=1):
                                               'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
                               context_instance=RequestContext(request))
 
-
-# def getPage(request, num="1"):
-#     request.breadcrumbs('Browse the BII', request.path)
-#     # fetch page
-#     url = settings.WEBSERVICES_URL + 'retrieve'
-#     data = {'user': request.user.username, 'page': num}
-#     try:
-#         r = requests.post(url, data=json.dump(data), timeout=TIMEOUT)
-#         return render_to_response("browse.html", {"data": r.content}, context_instance=RequestContext(request))
-#     except requests.exceptions.RequestException, e:
-#         return HttpResponse(request, {"ERROR": {"total": 1, "messages": "Upload server could not be reached"}})
-#     except requests.exceptions.Timeout, e:
-#         return HttpResponse(request, request,
-#                             {"ERROR": {"total": 1, "messages": 'Connection timed out, please try again later'}})
-
-
 @decorators.login_required(login_url=views.login)
 def investigation(request, invID=None):
     if invID == None:
