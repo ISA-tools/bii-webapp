@@ -6,28 +6,34 @@ from django.http import HttpResponse
 from bii_webapp.settings import common
 from django.shortcuts import redirect
 from django.contrib.auth import decorators, views
-
+from django.views.decorators.csrf import csrf_exempt
 import re
 
-
-TIMEOUT = 60 #seconds
+@csrf_exempt
+@decorators.login_required(login_url=views.login)
+def updateInvestigation(request):
+    data=request.POST.copy()
+    data['type']='investigation';
+    url = settings.WEBSERVICES_URL + 'update'
+    r=requests.post(url, data=json.dumps(data))
+    return HttpResponse(r)
 
 
 @decorators.login_required(login_url=views.login)
 def browse(request, page=1):
-    json_data = open(common.SITE_ROOT + '/fixtures/browse.json')
+    # json_data = open(common.SITE_ROOT + '/fixtures/browse.json')
     r = requests.post(settings.WEBSERVICES_URL + 'retrieve/browse',
                       data=json.dumps({'username': request.user.username, 'page': page}))
     loaded = json.loads(r.content)
 
-    loaded2 = json.load(json_data)
+    # loaded2 = json.load(json_data)
     if 'ERROR' in loaded:
-        if page != 1:
+        if (int)(page) != 1:
             return redirect(browse,1)
 
 
     results=json.loads(loaded['results'])
-    json_data.close()
+    # json_data.close()
 
     blist = generateBreadcrumbs(request.path)
     request.breadcrumbs(blist)
@@ -36,25 +42,28 @@ def browse(request, page=1):
                               context_instance=RequestContext(request))
 
 
-def getPage(request, num="1"):
-    request.breadcrumbs('Browse the BII', request.path)
-    # fetch page
-    url = settings.WEBSERVICES_URL + 'retrieve'
-    data = {'user': request.user.username, 'page': num}
-    try:
-        r = requests.post(url, data=json.dump(data), timeout=TIMEOUT)
-        return render_to_response("browse.html", {"data": r.content}, context_instance=RequestContext(request))
-    except requests.exceptions.RequestException, e:
-        return HttpResponse(request, {"ERROR": {"total": 1, "messages": "Upload server could not be reached"}})
-    except requests.exceptions.Timeout, e:
-        return HttpResponse(request, request,
-                            {"ERROR": {"total": 1, "messages": 'Connection timed out, please try again later'}})
+# def getPage(request, num="1"):
+#     request.breadcrumbs('Browse the BII', request.path)
+#     # fetch page
+#     url = settings.WEBSERVICES_URL + 'retrieve'
+#     data = {'user': request.user.username, 'page': num}
+#     try:
+#         r = requests.post(url, data=json.dump(data), timeout=TIMEOUT)
+#         return render_to_response("browse.html", {"data": r.content}, context_instance=RequestContext(request))
+#     except requests.exceptions.RequestException, e:
+#         return HttpResponse(request, {"ERROR": {"total": 1, "messages": "Upload server could not be reached"}})
+#     except requests.exceptions.Timeout, e:
+#         return HttpResponse(request, request,
+#                             {"ERROR": {"total": 1, "messages": 'Connection timed out, please try again later'}})
 
 
 @decorators.login_required(login_url=views.login)
 def investigation(request, invID=None):
     if invID == None:
         return redirect(browse)
+
+    r = requests.post(settings.WEBSERVICES_URL + 'retrieve/investigation',
+                      data=json.dumps({'username': request.user.username, 'investigationID':invID}))
 
     json_data = open(common.SITE_ROOT + '/fixtures/investigation.json')
     loaded = json.load(json_data)

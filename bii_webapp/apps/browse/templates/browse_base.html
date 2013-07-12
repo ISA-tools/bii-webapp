@@ -3,6 +3,7 @@
 {% load widget_tweaks %}
 {% block extracss %}
 <link href="{% static 'browse/css/browse_base.css' %}" rel="stylesheet">
+<link href="{% static 'libs/bootstrap/bootstrap-editable/css/bootstrap-editable.css' %}" rel="stylesheet">
 {% block extra_browse_css %}
 {% endblock %}
 
@@ -18,6 +19,7 @@
 {% block extra_browse_script %}
 {% endblock %}
 <script src="{% static 'browse/js/init_browse.js' %}"></script>
+<script src="{% static 'browse/js/update.js' %}"></script>
 {% endblock %}
 
 {% block title %}BII | Investigation{% endblock %}

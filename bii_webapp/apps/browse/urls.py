@@ -20,6 +20,8 @@ urlpatterns = patterns('',
                        url(r'^study/([^//]+)/assay/(\d+)$',assay,name='browse.study.assay'),
                        url(r'^study/([^//]+)/sample/(\d+)$',sample,name='browse.study.sample'),
 
+                       url(r'^updateInvestigation$',updateInvestigation,name='browse.updateInvestigation'),
+
                        #   url(r'^upload/',upload,name='upload'),
                        # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
                        # url('^accounts/profile/', 'main.views.private_profile'),

@@ -4,11 +4,6 @@
  */
 $(document).ready(function () {
     var investigation=vars.investigation;
-    investigation.i_pubs_model=new PublicationModel(investigation.i_publications);
-    investigation.i_contacts_model=new ContactModel(investigation.i_contacts);
-    delete investigation['i_publications'];
-    delete investigation['i_contacts'];
-
     viewModel = new InvestigationModel(investigation);
     ko.applyBindings(viewModel);
 

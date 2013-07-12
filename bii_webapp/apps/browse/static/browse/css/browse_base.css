@@ -9,7 +9,7 @@
 
 .collapse {
     overflow: hidden;
-    padding: 10px 0  0;
+    padding: 10px 0 0;
 }
 
 h3 {
@@ -25,7 +25,7 @@ h3 {
     width: 1084px;
 }
 
-.investigation{
+.investigation {
     overflow: hidden;
 }
 
@@ -48,8 +48,7 @@ h3 {
     -moz-transform: rotate(-90deg);
     -ms-transform: rotate(-90deg);
     -o-transform: rotate(-90deg);
-    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3)
-    line-height: 24px;
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3) line-height:24px;
     white-space: nowrap;
     margin: 0px;
     font-weight: bold;
@@ -69,7 +68,7 @@ h3 {
     width: 1050px;
 }
 
-.study a{
+.study a {
     color: #ffffff;
 }
 
@@ -91,11 +90,11 @@ h3 {
     position: absolute;
 }
 
-.study_id > a:hover{
+.study_id > a:hover {
     text-decoration: none;
 }
 
-.study_id:hover{
+.study_id:hover {
     cursor: pointer;
     background-color: #1f93c2;
 }
@@ -209,25 +208,26 @@ h3 {
 .rep_container p {
     margin: 3px 0px;
 }
+
 /**
 GRAY TITLE
 **/
 .gray_title {
-    color:#3e3e3f;
+    color: #3e3e3f;
     margin: 10px 0px;
     height: 35px;
     line-height: 35px;
     padding: 0px 10px;
-    background-color:#f3f3f4;
+    background-color: #f3f3f4;
     font-size: 18px;
 }
 
 .gray_title .title_text {
     float: left;
-    color:#3e3e3f;
+    color: #3e3e3f;
 }
 
-.gray_title .title_text span{
+.gray_title .title_text span {
     font-weight: bold;
     line-height: 13px;
 }
@@ -246,14 +246,14 @@ GRAY TITLE
 /**
 GRAY TITLE SIZE 50
 **/
-.gray_title50{
+.gray_title50 {
     margin: 0px;
     height: 40px;
     line-height: 40px;
     padding: 0px 10px;
-    background-color:#f3f3f4;
+    background-color: #f3f3f4;
     font-size: 20px;
-    color:#3e3e3f;
+    color: #3e3e3f;
 }
 
 .gray_title50 span {
@@ -265,11 +265,11 @@ GRAY TITLE SIZE 50
     font-size: 16px;
 }
 
-.gray_title50 > div div:first-child{
+.gray_title50 > div div:first-child {
     float: left;
 }
 
-.gray_title50 > div div:last-child{
+.gray_title50 > div div:last-child {
     float: right;
 }
 
@@ -279,20 +279,20 @@ GRAY TITLE SIZE 50
     margin-top: -4px;
 }
 
-#after_grey_title{
+#after_grey_title {
     margin-top: 5px;
-    font-size:16px ;
+    font-size: 16px;
 }
 
 /**
 GREY TITLE WITH BLUE LEFT BORDER AT START
 **/
 
-.b_left_blue{
+.b_left_blue {
     border-left: 10px solid #24aae1;
 }
 
-.b_left_orange{
+.b_left_orange {
     border-left: 10px solid orangered;
 }
 
@@ -334,7 +334,7 @@ HEADER
 DETAILS
 **/
 
-#rep_header_details{
+#rep_header_details {
     padding: 10px 0px 0px;
 }
 
@@ -342,7 +342,7 @@ DETAILS
     font-size: 16px;
     font-weight: bold;
     line-height: 21px;
-    color:#3e3e3f;
+    color: #3e3e3f;
 }
 
 #rep_header_details p:last-child {
@@ -379,11 +379,11 @@ DEEP GRAY HEADERS
 }
 
 .rep_header div:last-child {
-    margin-right:5px
+    margin-right: 5px
 }
 
-.rep_header div img{
-    margin-top:-3px;
+.rep_header div img {
+    margin-top: -3px;
     height: 35px;
 }
 
@@ -408,27 +408,23 @@ CONTACTS
 }
 
 /*EDITABLE OVERRIDES*/
-.editable{
+.editable {
     border-bottom: none !important;
     font-style: normal !important;
 }
 
-.editable:hover{
+.editable:hover {
     cursor: pointer;
 }
 
-.input-large{
-    width: 460px!important;
+.input-large {
+    width: 460px !important;
 }
 
 .rep_top_container {
     overflow: visible;
 }
 
-.popover{
-    max-width: none;
-}
-
-.popover-content {
-    padding: 4px 14px;
+.editable-error-block {
+    clear: both;
 }

@@ -30,6 +30,12 @@ var InvestigationModel = function (investigation) {
         investigation.i_id.subscribe(function (data) {
             self.subscription(investigation)
         });
+    }else{
+        investigation.i_id=ko.observable(investigation.i_id);
+        investigation.i_pubs_model=new PublicationModel(investigation.i_publications);
+        investigation.i_contacts_model=new ContactModel(investigation.i_contacts);
+        delete investigation['i_publications'];
+        delete investigation['i_contacts'];
     }
 
     self.investigation = ko.observable(investigation);

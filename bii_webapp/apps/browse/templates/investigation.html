@@ -10,6 +10,7 @@
         investigation = JSON.parse(investigation);
     }
     vars.investigation = investigation;
+    vars.urls.updateInvestigation="{% url 'browse.updateInvestigation' %}"
 </script>
 <script src="{% static 'create/js/models/contacts_model.js' %}"></script>
 <script src="{% static 'create/js/models/publications_model.js' %}"></script>
@@ -22,7 +23,8 @@
 
 <div id="rep_top_details" class="rep_container">
     <div id="rep_header_blue">
-        <h1 class="editable_field" data-original-title="Enter investigation ID" data-type="text" data-bind='text: investigation().i_id'></h1>
+        <h1 id="i_id" class="editable_field" name="i_id" data-original-title="Enter investigation ID" data-type="text"
+            data-bind='text: investigation().i_id'></h1>
 
         <div>
             <a href=""><img src="{% static 'browse/img/download.png' %}"/></a>
