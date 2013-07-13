@@ -142,12 +142,12 @@ def writePubsFor(f, pubs,forStr):
     doi=[]
     status=[]
     title=[]
-    pubmed_id=[]
+    pub_med_id=[]
     accession=[]
     refs=[]
 
     for pub in pubs:
-        pubmed_id.append('"'+pub['pubmed_id']+'"')
+        pub_med_id.append('"'+pub['pub_med_id']+'"')
         doi.append('"'+pub['pub_doi']+'"')
         author_list.append('"'+pub['pub_author_list']+'"')
         title.append('"'+pub['pub_title']+'"')
@@ -156,7 +156,7 @@ def writePubsFor(f, pubs,forStr):
         refs.append('"'+''+'"')
 
     f.writerow([forStr+' PUBLICATIONS'])
-    f.writerow(['Investigation PubMed ID']+pubmed_id)
+    f.writerow(['Investigation PubMed ID']+pub_med_id)
     f.writerow(['Investigation Publication DOI']+doi)
     f.writerow(['Investigation Publication Author List']+author_list)
     f.writerow(['Investigation Publication Title']+title)

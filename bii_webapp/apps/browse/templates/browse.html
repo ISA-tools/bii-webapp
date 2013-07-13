@@ -16,6 +16,9 @@
 <div id="pagination"></div>
 
 <div id="results">
+    {% if data.ERROR %}
+    <script>$().toastmessage('showErrorToast', '{{data.ERROR.messages}}');</script>
+    {% else %}
     {% for investigation in data.investigations %}
     <div class="investigation">
         <div class="inv_id">
@@ -122,6 +125,7 @@
         </div>
     </div>
     {% endfor %}
+    {% endif %}
 
 </div>
 

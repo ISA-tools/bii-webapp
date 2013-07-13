@@ -12,9 +12,9 @@ var PublicationModel = function (publications) {
     var self = this;
 
     self.subscription = function (data, pub) {
-        var pub_id = pub.pubmed_id().replace(' ', '_');
-        if (pub_id != pub.pubmed_id()) {
-            pub.pubmed_id(pub_id);
+        var pub_id = pub.pub_med_id().replace(' ', '_');
+        if (pub_id != pub.pub_med_id()) {
+            pub.pub_med_id(pub_id);
             return;
         }
 
@@ -23,7 +23,7 @@ var PublicationModel = function (publications) {
             var study=viewModel.investigation().i_studies_model.studies()[i];
             for (var j = 0; j < study.s_pubs_model.publications().length; j++) {
                 var currPub = study.s_pubs_model.publications()[j];
-                if (currPub.pubmed_id() == pub.pubmed_id()) {
+                if (currPub.pub_med_id() == pub.pub_med_id()) {
                     cnt++;
                     if (cnt == 2)
                         break;
@@ -31,21 +31,21 @@ var PublicationModel = function (publications) {
             }
         }
         if (cnt == 2) {
-            pub.pubmed_id(pub.pubmed_id() + '_' + 1);
+            pub.pub_med_id(pub.pub_med_id() + '_' + 1);
             return
         }
     }
 
     if (!publications) {
         var pub = {
-            pubmed_id: ko.observable(""),
+            pub_med_id: ko.observable(""),
             pub_doi: "",
             pub_author_list: "",
             pub_title: "",
             pub_status: ""
         }
         publications = [pub]
-        pub.pubmed_id.subscribe(function (data) {
+        pub.pub_med_id.subscribe(function (data) {
             self.subscription(data, pub);
         });
     }
@@ -54,14 +54,14 @@ var PublicationModel = function (publications) {
 
     self.addPublication = function () {
         var pub = {
-            pubmed_id: ko.observable(""),
+            pub_med_id: ko.observable(""),
             pub_doi: "",
             pub_author_list: "",
             pub_title: "",
             pub_status: ""
         }
         self.publications.push(pub);
-        pub.pubmed_id.subscribe(function (data) {
+        pub.pub_med_id.subscribe(function (data) {
             self.subscription(data, pub);
         });
     };
@@ -85,7 +85,7 @@ var PublicationModel = function (publications) {
         var publications = [];
         for (var i = 0; i < self.publications().length; i++) {
             var publication = {
-                pubmed_id: self.publications()[i].pubmed_id(),
+                pub_med_id: self.publications()[i].pub_med_id(),
                 pub_doi: self.publications()[i].pub_doi,
                 pub_author_list: self.publications()[i].pub_author_list,
                 pub_title: self.publications()[i].pub_title,

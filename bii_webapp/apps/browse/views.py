@@ -24,7 +24,16 @@ def browse(request, page=1):
     # json_data = open(common.SITE_ROOT + '/fixtures/browse.json')
     r = requests.post(settings.WEBSERVICES_URL + 'retrieve/browse',
                       data=json.dumps({'username': request.user.username, 'page': page}))
-    loaded = json.loads(r.content)
+    try:
+        loaded = json.loads(r.content)
+    except ValueError:
+        return render_to_response("browse.html", {"data": {"ERROR":{"messages":"Results could not be retrieved","total":1}},'number_of_pages':0, 'current_page':0,
+                                                  'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
+                                  context_instance=RequestContext(request))
+    except Exception:
+        return render_to_response("browse.html", {"data": {"ERROR":{"messages":"Server is down","total":1}},'number_of_pages':0, 'current_page':0,
+                                                  'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
+                                  context_instance=RequestContext(request))
 
     # loaded2 = json.load(json_data)
     if 'ERROR' in loaded:
@@ -49,8 +58,8 @@ def investigation(request, invID=None):
     r = requests.post(settings.WEBSERVICES_URL + 'retrieve/investigation',
                       data=json.dumps({'username': request.user.username, 'investigationID':invID}))
 
-    json_data = open(common.SITE_ROOT + '/fixtures/investigation.json')
-    loaded = json.load(json_data)
+    json_data = open(common.SITE_ROOT + '/fixtures/study.json')
+    loaded = json.loads(r.content)
     investigation = json.dumps(loaded).replace("'", "\\'")
     json_data.close()
 
@@ -66,16 +75,18 @@ def study(request, invID=None, studyID=None):
     if studyID == None:
         return redirect(browse)
 
+    r = requests.post(settings.WEBSERVICES_URL + 'retrieve/study',
+                      data=json.dumps({'username': request.user.username, 'studyID':studyID}))
+
     json_data = open(common.SITE_ROOT + '/fixtures/study.json')
-    loaded = json.load(json_data)
+    loaded = json.loads(r.content)
     study = json.dumps(loaded).replace("'", "\\'")
     json_data.close()
 
     blist = generateBreadcrumbs(request.path)
     request.breadcrumbs(blist)
-
-    return render_to_response("study.html", {"investigation": {"i_id": invID}, "study": loaded, "study_json": study,
-                                             'pageNotice': 'Various fields can be edited by clicking on them'},
+    return render_to_response("study.html", {"investigation": {"i_id": invID},"study": loaded, "study_json": study,
+                                                     'pageNotice': 'Various fields can be edited by clicking'},
                               context_instance=RequestContext(request))
 
 
