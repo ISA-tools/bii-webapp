@@ -105,6 +105,11 @@ var upload = function () {
                 helper.toggleButtons('select');
                 if (isIssuesExist(data))
                     if (retry)$('#retry').show();
+
+                if (data.UPLOAD.type == 'investigation')
+                    $('#result > a').attr('href', vars.urls.getInvestigation + '/' + data.UPLOAD.ID);
+                else
+                    $('#result > a').attr('href', vars.urls.getStudy + '/' + data.UPLOAD.ID);
                 STATE = 'STOPPED';
             });
             STATE = 'STARTED';
@@ -194,7 +199,11 @@ var upload = function () {
                 if (data.UPLOAD)
                     update(data, true);
                 helper.toggleButtons('select');
-                isIssuesExist(data)
+                if (!isIssuesExist(data))
+                    if (data.UPLOAD.type == 'investigation')
+                        $('#result > a').attr('href', vars.urls.getInvestigation + '/' + data.UPLOAD.ID);
+                    else
+                        $('#result > a').attr('href', vars.urls.getStudy + '/' + data.UPLOAD.ID);
                 STATE = 'STOPPED';
             });
 

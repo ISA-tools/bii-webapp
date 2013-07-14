@@ -72,6 +72,9 @@ def investigation(request, invID=None):
 
 @decorators.login_required(login_url=views.login)
 def study(request, invID=None, studyID=None):
+    path=request.path
+    if path.find('investigation',7,21)==-1:
+        studyID=invID
     if studyID == None:
         return redirect(browse)
 

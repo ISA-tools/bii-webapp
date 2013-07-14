@@ -36,7 +36,11 @@ var create_upload = function () {
                     $('#upload_modal #cancelButton').text('Close');
                     if (data.UPLOAD)
                         upload.update(data, true);
-                    upload.isIssuesExist(data)
+                    if (!upload.isIssuesExist(data))
+                        if (data.UPLOAD.type == 'investigation')
+                            $('#result > a').attr('href', vars.urls.getInvestigation + '/' + data.UPLOAD.ID);
+                        else
+                            $('#result > a').attr('href', vars.urls.getStudy + '/' + data.UPLOAD.ID);
                     upload.STATE = 'STOPPED';
                 },
                 error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
