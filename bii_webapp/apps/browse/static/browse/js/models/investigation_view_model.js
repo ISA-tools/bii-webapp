@@ -15,4 +15,34 @@ $(document).ready(function () {
         $(this).children('.study_id').height(elheight);
         $(this).children('.study_id').css('line-height',elheight+'px');
     });
+
+
+    $('.editable_field').editable({
+        success: function (response, newValue) {
+            if (response.ERROR) return response.ERROR.messages; //msg will be shown in editable form
+            if(response.field && response.field=='i_id'){
+                viewModel.investigation().i_id(newValue);
+                var invLI=$($('#breadcrumb-wrapper > ul').children('li')[1]);
+                var aEl=$(invLI.find('a'));
+                var href=aEl.attr('href');
+                var index=href.substr(0,href.length-1).lastIndexOf('/')+1;
+                aEl.attr('href',href.substr(0,index)+newValue+'/');
+                aEl.text('Investigation '+newValue);
+            }
+        },
+        ajaxOptions: {
+            type: 'post',
+            dataType: 'json'
+        },
+
+        url:vars.urls.updateInvestigation,
+        pk:viewModel.investigation().i_id
+    });
+    $('.editable_field').click(function () {
+        if ($(this).parents('.collapse').length > 0) {
+            var el = $($(this).parents('.collapse')[0]);
+            el.css('overflow', 'visible');
+        }
+    })
+
 });

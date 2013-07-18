@@ -11,6 +11,7 @@
         study = JSON.parse(study);
     }
     vars.study = study;
+    vars.urls.updateStudy="{% url 'browse.updateStudy' %}"
 </script>
 <script src="{% static 'create/js/models/contacts_model.js' %}"></script>
 <script src="{% static 'create/js/models/study_assays_model.js' %}"></script>
@@ -25,7 +26,7 @@
 {% block browse_content %}
 <div id="rep_top_details" class="rep_container">
     <div id="rep_header_blue">
-        <h1 class="editable_field" data-original-title="Enter study ID" data-bind='text: studies()[0].s_id()'></h1>
+        <h1 class="editable_field" data-name="s_id" data-original-title="Enter study ID" data-bind='text: studies()[0].s_id()'></h1>
 
         <div>
             <a href=""><img src="{% static 'browse/img/download.png' %}"/></a>
@@ -34,10 +35,10 @@
     </div>
 
     <div id="rep_header_details">
-        <p class="editable_field" data-type="textarea" data-original-title="Enter study title" data-bind='text: studies()[0].s_title'>
+        <p class="editable_field" data-name="s_title" data-type="textarea" data-original-title="Enter study title" data-bind='text: studies()[0].s_title'>
         </p>
 
-        <p class="editable_field" data-type="textarea" data-original-title="Enter study description" data-bind='text: studies()[0].s_description'>
+        <p class="editable_field" data-name="s_description" data-type="textarea" data-original-title="Enter study description" data-bind='text: studies()[0].s_description'>
         </p>
 
     </div>
@@ -53,8 +54,8 @@
     </div>
 
     <div id="collapse_pubs" class="collapse in" data-bind="foreach:studies()[0].s_pubs_model.publications">
-        <p class="gray_title editable_field" data-type="textarea" data-original-title="Enter publication title" data-bind='text: pub_title'></p>
-        <p class="editable_field" data-type="textarea" data-original-title="Enter publication author list" data-bind='text: pub_author_list'>
+        <p class="gray_title editable_field" data-name="pub_title" data-type="textarea" data-original-title="Enter publication title" data-bind='text: pub_title'></p>
+        <p class="editable_field" data-name="pub_author_list" data-type="textarea" data-original-title="Enter publication author list" data-bind='text: pub_author_list'>
         </p><a href="">BIOINFORMATICS, 2008</a>
     </div>
 
@@ -74,10 +75,10 @@
     <div id="collapse_contacts" class="collapse in" data-bind="foreach:studies()[0].s_contacts_model.contacts">
         <div class="rep_contact">
             <div class="rep_contact_name">
-                <span class="editable_field" data-original-title="Enter contact name midinitials and surname"
+                <span class="editable_field" data-name="person_name" data-original-title="Enter contact name midinitials and surname"
                       data-bind='text: $data.person_first_name +" "+($data.person_mid_initials?$data.person_mid_initials+".":"")+" "+$data.person_last_name'></span>
             </div>
-            <span class="editable_field" data-original-title="Enter contact affiliation" data-bind='text: $data.person_affiliation'></span>
+            <span class="editable_field" data-name="person_affiliation" data-original-title="Enter contact affiliation" data-bind='text: $data.person_affiliation'></span>
         </div>
     </div>
 </div>

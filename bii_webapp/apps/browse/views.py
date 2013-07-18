@@ -15,8 +15,21 @@ def updateInvestigation(request):
     data=request.POST.copy()
     data['type']='investigation';
     url = settings.WEBSERVICES_URL + 'update'
+    r=requests.post(url, data=json.dumps(data));
+    loaded = json.loads(r.content)
+    loaded['field']=data['name']
+    return HttpResponse(json.dumps(loaded))
+
+@csrf_exempt
+@decorators.login_required(login_url=views.login)
+def updateStudy(request):
+    data=request.POST.copy()
+    data['type']='study';
+    url = settings.WEBSERVICES_URL + 'update'
     r=requests.post(url, data=json.dumps(data))
-    return HttpResponse(r)
+    loaded = json.loads(r.content)
+    loaded['field']=data['name']
+    return HttpResponse(json.dumps(loaded))
 
 
 @decorators.login_required(login_url=views.login)
@@ -60,6 +73,9 @@ def investigation(request, invID=None):
 
     json_data = open(common.SITE_ROOT + '/fixtures/study.json')
     loaded = json.loads(r.content)
+    if 'ERROR' in loaded:
+       return redirect(browse)
+
     investigation = json.dumps(loaded).replace("'", "\\'")
     json_data.close()
 
@@ -83,6 +99,9 @@ def study(request, invID=None, studyID=None):
 
     json_data = open(common.SITE_ROOT + '/fixtures/study.json')
     loaded = json.loads(r.content)
+    if 'ERROR' in loaded:
+        return redirect(browse)
+
     study = json.dumps(loaded).replace("'", "\\'")
     json_data.close()
 

@@ -23,7 +23,7 @@
 
 <div id="rep_top_details" class="rep_container">
     <div id="rep_header_blue">
-        <h1 id="i_id" class="editable_field" name="i_id" data-original-title="Enter investigation ID" data-type="text"
+        <h1 id="i_id" class="editable_field" data-name="i_id" data-original-title="Enter investigation ID" data-type="text"
             data-bind='text: investigation().i_id'></h1>
 
         <div>
@@ -33,10 +33,10 @@
     </div>
 
     <div id="rep_header_details">
-        <p class="editable_field" data-original-title="Enter investigation title" data-type="textarea" data-bind='text: investigation().i_title'>
+        <p class="editable_field" data-name="i_title" data-original-title="Enter investigation title" data-type="textarea" data-bind='text: investigation().i_title'>
         </p>
 
-        <p class="editable_field" data-original-title="Enter investigation description" data-type="textarea" data-bind='text: investigation().i_description'>
+        <p class="editable_field" data-name="i_description" data-original-title="Enter investigation description" data-type="textarea" data-bind='text: investigation().i_description'>
         </p>
 
     </div>
@@ -55,8 +55,8 @@
     </div>
 
     <div id="collapse_pubs" class="collapse in" data-bind="foreach:investigation().i_pubs_model.publications">
-        <p class="gray_title editable_field" data-original-title="Enter publication title" data-type="textarea" data-bind='text: pub_title'></p>
-        <p class="editable_field" data-original-title="Enter publication author list" data-type="textarea" data-bind='text: pub_author_list'>
+        <p class="gray_title editable_field" data-name="pub_title" data-original-title="Enter publication title" data-type="textarea" data-bind='text: pub_title'></p>
+        <p class="editable_field" data-name="pub_author_list" data-original-title="Enter publication author list" data-type="textarea" data-bind='text: pub_author_list'>
         </p><a href="">BIOINFORMATICS, 2008</a>
     </div>
 
@@ -76,10 +76,10 @@
     <div id="collapse_contacts" class="collapse in" data-bind="foreach:investigation().i_contacts_model.contacts">
         <div class="rep_contact">
             <div class="rep_contact_name">
-                <span class="editable_field" data-original-title="Enter contact name midinitials and surname"
+                <span class="editable_field" data-name="person_name" data-original-title="Enter contact name midinitials and surname"
                       data-bind='text: $data.person_first_name +" "+($data.person_mid_initials?$data.person_mid_initials+".":"")+" "+$data.person_last_name'></span>
             </div>
-            <span class="editable_field" data-original-title="Enter contact affiliation" data-bind='text: $data.person_affiliation'></span>
+            <span class="editable_field" data-name="person_affiliation" data-original-title="Enter contact affiliation" data-bind='text: $data.person_affiliation'></span>
         </div>
     </div>
 </div>

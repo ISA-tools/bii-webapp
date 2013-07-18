@@ -22,6 +22,7 @@ urlpatterns = patterns('',
                        url(r'^study/([^//]+)/sample/(\d+)$',sample,name='browse.study.sample'),
 
                        url(r'^updateInvestigation$',updateInvestigation,name='browse.updateInvestigation'),
+                       url(r'^updateStudy$',updateStudy,name='browse.updateStudy'),
 
                        #   url(r'^upload/',upload,name='upload'),
                        # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
