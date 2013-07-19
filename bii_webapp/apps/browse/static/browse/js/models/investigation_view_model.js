@@ -22,7 +22,8 @@ $(document).ready(function () {
             if (response.ERROR) return response.ERROR.messages; //msg will be shown in editable form
             if(response.field && response.field=='i_id'){
                 viewModel.investigation().i_id(newValue);
-                var invLI=$($('#breadcrumb-wrapper > ul').children('li')[1]);
+                var children=$('#breadcrumb-wrapper > ul').children('li');
+                var invLI=$(children[children.length-1]);
                 var aEl=$(invLI.find('a'));
                 var href=aEl.attr('href');
                 var index=href.substr(0,href.length-1).lastIndexOf('/')+1;

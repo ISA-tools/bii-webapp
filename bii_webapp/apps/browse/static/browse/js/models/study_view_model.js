@@ -27,8 +27,9 @@ $(document).ready(function () {
             if (response.ERROR) return response.ERROR.messages; //msg will be shown in editable form
             if(response.field && response.field=='s_id'){
                 viewModel.studies()[0].s_id(newValue);
-                var invLI=$($('#breadcrumb-wrapper > ul').children('li')[2]);
-                var aEl=$(invLI.find('a'));
+                var children=$('#breadcrumb-wrapper > ul').children('li');
+                var studyLi=$(children[children.length-1]);
+                var aEl=$(studyLi.find('a'));
                 var href=aEl.attr('href');
                 var index=href.substr(0,href.length-1).lastIndexOf('/')+1;
                 aEl.attr('href',href.substr(0,index)+newValue+'/');
