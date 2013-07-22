@@ -308,6 +308,7 @@ h1 {
 #main-container {
     padding: 30px 40px;
     min-height: 1000px;
+    overflow: hidden;
 }
 
 #main-content {

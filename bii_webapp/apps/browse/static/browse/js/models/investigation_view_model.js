@@ -19,17 +19,8 @@ $(document).ready(function () {
 
     $('.editable_field').editable({
         success: function (response, newValue) {
+            if(response.field && response.field=='i_id')viewModel.investigation().i_id(newValue);
             if (response.ERROR) return response.ERROR.messages; //msg will be shown in editable form
-            if(response.field && response.field=='i_id'){
-                viewModel.investigation().i_id(newValue);
-                var children=$('#breadcrumb-wrapper > ul').children('li');
-                var invLI=$(children[children.length-1]);
-                var aEl=$(invLI.find('a'));
-                var href=aEl.attr('href');
-                var index=href.substr(0,href.length-1).lastIndexOf('/')+1;
-                aEl.attr('href',href.substr(0,index)+newValue+'/');
-                aEl.text('Investigation '+newValue);
-            }
         },
         ajaxOptions: {
             type: 'post',

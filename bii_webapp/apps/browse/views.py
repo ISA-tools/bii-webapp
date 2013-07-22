@@ -53,8 +53,8 @@ def browse(request, page=1):
         if (int)(page) != 1:
             return redirect(browse,1)
 
-
     results=json.loads(loaded['results'])
+    request.session['browse']=results
     # json_data.close()
 
     blist = generateBreadcrumbs(request.path)
@@ -68,16 +68,25 @@ def investigation(request, invID=None):
     if invID == None:
         return redirect(browse)
 
+
     r = requests.post(settings.WEBSERVICES_URL + 'retrieve/investigation',
                       data=json.dumps({'username': request.user.username, 'investigationID':invID}))
 
-    json_data = open(common.SITE_ROOT + '/fixtures/study.json')
+    # json_data = open(common.SITE_ROOT + '/fixtures/study.json')
     loaded = json.loads(r.content)
-    if 'ERROR' in loaded:
+    if 'ERROR' in loaded or not 'browse' in request.session:
        return redirect(browse)
 
+    results=request.session['browse']
+
+    for inv in results['investigations']:
+        if inv['i_id']==invID:
+            i_studies=inv['i_studies']
+            break
+
+    loaded.update({'i_studies':i_studies})
     investigation = json.dumps(loaded).replace("'", "\\'")
-    json_data.close()
+    # json_data.close()
 
     blist = generateBreadcrumbs(request.path)
     request.breadcrumbs(blist)

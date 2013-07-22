@@ -23,8 +23,7 @@
 
 <div id="rep_top_details" class="rep_container">
     <div id="rep_header_blue">
-        <h1 id="i_id" class="editable_field" data-name="i_id" data-original-title="Enter investigation ID" data-type="text"
-            data-bind='text: investigation().i_id'></h1>
+        <h1 id="i_id" data-bind='text: investigation().i_id'></h1>
 
         <div>
             <a href=""><img src="{% static 'browse/img/download.png' %}"/></a>
@@ -108,7 +107,7 @@
                     <div class="assay">
                         <a href="{% url 'browse.investigation.study.assay' investigation.i_id study.s_id forloop.counter0 %}">
                             <div>
-                                {{assay.number_of_samples}}
+                                {{assay.assay_type_count}}
                             </div>
                             <div class="assay_type">
                                 <div>

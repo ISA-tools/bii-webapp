@@ -26,7 +26,7 @@
 {% block browse_content %}
 <div id="rep_top_details" class="rep_container">
     <div id="rep_header_blue">
-        <h1 class="editable_field" data-name="s_id" data-original-title="Enter study ID" data-bind='text: studies()[0].s_id()'></h1>
+        <h1 data-bind='text: studies()[0].s_id()'></h1>
 
         <div>
             <a href=""><img src="{% static 'browse/img/download.png' %}"/></a>
@@ -96,7 +96,7 @@
     <div class="collapse in" id="collapse_assays">
         {% for assay in study.s_assays %}
         <div class="assay_title gray_title b_left_blue">
-            <span class="title_text"> {{assay.measurement|cap}} <span>USING</span> {{assay.technology|cap}}<span class="assay_num">{{assay.num_of_samples}}</span></span>
+            <span class="title_text"> {{assay.measurement|cap}} <span>USING</span> {{assay.technology|cap}}<span class="assay_num">{{assay.assay_type_count}}</span></span>
             <div><a href="{% url 'browse.investigation.study.assay' investigation.i_id study.s_id forloop.counter %}">DETAILS</a></div>
         </div>
 

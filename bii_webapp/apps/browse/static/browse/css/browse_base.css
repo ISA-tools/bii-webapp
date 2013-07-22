@@ -72,6 +72,10 @@ h3 {
     color: #ffffff;
 }
 
+.study a:hover {
+    text-decoration: none;
+}
+
 .study {
     overflow: hidden;
     min-height: 90px;

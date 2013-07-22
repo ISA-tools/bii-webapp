@@ -9,22 +9,22 @@
                     "s_organisms": ["SACCHROMYCES CEREVISIAE (BAKER'S YEAST)"],
                     "s_assays": [
                         {
-                            "num_of_samples": 45,
+                            "assay_type_count": 45,
                             "measurement": "transcription profiling",
                             "technology": "dna microarray"
                         },
                         {
-                            "num_of_samples": 111,
+                            "assay_type_count": 111,
                             "measurement": "metabolite profiling",
                             "technology": "mass spectrometry"
                         },
                         {
-                            "num_of_samples": 3,
+                            "assay_type_count": 3,
                             "measurement": "protein expression profiling",
                             "technology": "mass spectrometry"
                         },
                         {
-                            "num_of_samples": 32,
+                            "assay_type_count": 32,
                             "measurement": "protein expression profiling",
                             "technology": "mass spectrometry"
                         }
@@ -36,7 +36,7 @@
                     "s_organisms": ["SACCHROMYCES CEREVISIAE (BAKER'S YEAST)"],
                     "s_assays": [
                         {
-                            "num_of_samples": 14,
+                            "assay_type_count": 14,
                             "measurement": "transcription profiling",
                             "technology": "dna microarray"
                         }
@@ -53,12 +53,12 @@
                     "s_organisms": ["MARINE METAGENOME"],
                     "s_assays": [
                         {
-                            "num_of_samples": 4,
+                            "assay_type_count": 4,
                             "measurement": "transcription profiling",
                             "technology": "nucleotide sequencing"
                         },
                         {
-                            "num_of_samples": 111,
+                            "assay_type_count": 111,
                             "measurement": "metagenome sequencing",
                             "technology": "nucleotide sequencing"
                         }

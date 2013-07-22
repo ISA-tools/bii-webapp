@@ -198,8 +198,8 @@ tr td:first-child {
 }
 
 #upload_modal {
-    width: 845px !important;
-    margin-left: -432px !important;
+    width: 945px !important;
+    margin-left: -486px !important;
     height: 758px !important;
     max-height: 758px;
     margin-top: -390px !important;
@@ -212,7 +212,7 @@ tr td:first-child {
 }
 
 #upload_modal > .modal-body {
-    width: 845px !important;
+    width: 945px !important;
     height: 670px !important;
 }
 
@@ -256,7 +256,7 @@ tr td:first-child {
 }
 
 .main-connector {
-    left: 421px !important;
+    left: 471px !important;
     top: 57px !important;
 }
 

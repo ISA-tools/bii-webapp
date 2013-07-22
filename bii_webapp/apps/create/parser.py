@@ -95,6 +95,11 @@ def parseFields(tree, fields):
 
 
 def writeInvestigation(f,investigation):
+    f.writerow(['ONTOLOGY SOURCE REFERENCE'])
+    f.writerow(['Term Source Name']+['""'])
+    f.writerow(['Term Source File']+['""'])
+    f.writerow(['Term Source Version']+['""'])
+    f.writerow(['Term Source Description']+['""'])
     f.writerow(['INVESTIGATION'])
     f.writerow(['Investigation Identifier']+['"'+investigation['i_id']+'"'])
     f.writerow(['Investigation Title']+['"'+investigation['i_title']+'"'])
@@ -124,8 +129,8 @@ def writeStudy(f,study,directory):
     f.writerow(['Study Identifier']+['"'+study['s_id']+'"'])
     f.writerow(['Study Title']+['"'+study['s_title']+'"'])
     f.writerow(['Study Description']+['"'+study['s_description']+'"'])
-    f.writerow(['Study Grand Number']+['"'+study['s_grand_number']+'"'])
-    f.writerow(['Study Funding Agency']+['"'+study['s_funding_agency']+'"'])
+    f.writerow(['Comment[Study Grant Number]']+['"'+study['s_grand_number']+'"'])
+    f.writerow(['Comment[Study Funding Agency]']+['"'+study['s_funding_agency']+'"'])
     f.writerow(['Study Submission Date']+['"'+study['s_submission_date']+'"'])
     f.writerow(['Study Public Release Date']+['"'+study['s_public_release_date']+'"'])
     f.writerow(['Study File Name']+['""'])
@@ -136,8 +141,6 @@ def writeStudy(f,study,directory):
     writeSpreadsheet(directory,study['s_sample_filename'],study['s_spreadsheet'])
 
 def writePubsFor(f, pubs,forStr):
-    if len(pubs)==0:
-        return
     author_list=[]
     doi=[]
     status=[]
@@ -155,19 +158,17 @@ def writePubsFor(f, pubs,forStr):
         accession.append('"'+''+'"')
         refs.append('"'+''+'"')
 
-    f.writerow([forStr+' PUBLICATIONS'])
-    f.writerow(['Investigation PubMed ID']+pub_med_id)
-    f.writerow(['Investigation Publication DOI']+doi)
-    f.writerow(['Investigation Publication Author List']+author_list)
-    f.writerow(['Investigation Publication Title']+title)
-    f.writerow(['Investigation Publication Status']+status)
-    f.writerow(['Investigation Publication Status Term Accession Number']+accession)
-    f.writerow(['Investigation Publication Status Term Source REF']+refs)
+    f.writerow([forStr.upper()+' PUBLICATIONS'])
+    f.writerow([forStr+' PubMed ID']+pub_med_id)
+    f.writerow([forStr+' Publication DOI']+doi)
+    f.writerow([forStr+' Publication Author List']+author_list)
+    f.writerow([forStr+' Publication Title']+title)
+    f.writerow([forStr+' Publication Status']+status)
+    f.writerow([forStr+' Publication Status Term Accession Number']+accession)
+    f.writerow([forStr+' Publication Status Term Source REF']+refs)
 
 
 def writeContactsFor(f, contacts,forStr):
-    if len(contacts)==0:
-        return
     lastNames=[]
     firstNames=[]
     midInitials=[]
@@ -193,22 +194,20 @@ def writeContactsFor(f, contacts,forStr):
         refs.append('"'+contact['person_ref']+'"')
 
 
-    f.writerow([forStr+' CONTACTS'])
-    f.writerow(['Investigation Person Last Name']+lastNames)
-    f.writerow(['Investigation Person First Name']+firstNames)
-    f.writerow(['Investigation Person Mid Initials']+midInitials)
-    f.writerow(['Investigation Person Email']+emails)
-    f.writerow(['Investigation Person Phone']+phones)
-    f.writerow(['Investigation Person Fax']+fax)
-    f.writerow(['Investigation Person Address']+addresses)
-    f.writerow(['Investigation Person Affiliation']+affiliations)
-    f.writerow(['Investigation Person Roles']+roles)
-    f.writerow(['Investigation Person Roles Term Accession Number']+accession)
-    f.writerow(['Investigation Person Roles Term Source REF']+refs)
+    f.writerow([forStr.upper()+' CONTACTS'])
+    f.writerow([forStr+' Person Last Name']+lastNames)
+    f.writerow([forStr+' Person First Name']+firstNames)
+    f.writerow([forStr+' Person Mid Initials']+midInitials)
+    f.writerow([forStr+' Person Email']+emails)
+    f.writerow([forStr+' Person Phone']+phones)
+    f.writerow([forStr+' Person Fax']+fax)
+    f.writerow([forStr+' Person Address']+addresses)
+    f.writerow([forStr+' Person Affiliation']+affiliations)
+    f.writerow([forStr+' Person Roles']+roles)
+    f.writerow([forStr+' Person Roles Term Accession Number']+accession)
+    f.writerow([forStr+' Person Roles Term Source REF']+refs)
 
 def writeFactors(f, factors):
-    if len(factors)==0:
-        return
     name=[]
     type=[]
     accession=[]
@@ -226,8 +225,6 @@ def writeFactors(f, factors):
     f.writerow(['Study Factor Type Term Source REF']+refs)
 
 def writeAssays(f, assays,directory):
-    if len(assays)==0:
-        return
     filename=[]
     mtype=[]
     maccession=[]
@@ -258,8 +255,6 @@ def writeAssays(f, assays,directory):
     writeSpreadsheet(directory,assay['filename'],assay['spreadsheet'])
 
 def writeProtocols(f, protocols):
-    if len(protocols)==0:
-        return
     name=[]
     type=[]
     accession=[]

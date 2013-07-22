@@ -1,5 +1,5 @@
 {
-    "num_of_samples": 45,
+    "assay_type_count": 45,
     "measurement": "transcription profiling",
     "technology": "dna microarray",
     "platform": ""

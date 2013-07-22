@@ -53,21 +53,23 @@ def initSave(request,config):
     if not os.path.exists(directory):
         os.makedirs(directory)
     os.chmod(directory,0o777)
-    f = csv.writer(open(directory+'/i_investigation.txt', "wb+"), delimiter='\t',
+    file=open(directory+'/i_investigation.txt', "wb+")
+    f = csv.writer(file, delimiter='\t',
                    quotechar='|', quoting=csv.QUOTE_MINIMAL)
 
-    if not investigation['i_skip_investigation']:
-        parser.writeInvestigation(f,investigation)
-        parser.writePubsFor(f,investigation['i_pubs'],'INVESTIGATION')
-        parser.writeContactsFor(f,investigation['i_contacts'],'INVESTIGATION')
+    parser.writeInvestigation(f,investigation)
+    parser.writePubsFor(f,investigation['i_pubs'],'Investigation')
+    parser.writeContactsFor(f,investigation['i_contacts'],'Investigation')
 
     for study in investigation['i_studies']:
         parser.writeStudy(f,study,directory)
-        parser.writePubsFor(f,study['s_pubs'],'STUDY')
+        parser.writePubsFor(f,study['s_pubs'],'Study')
         parser.writeFactors(f,study['s_factors'])
         parser.writeAssays(f,study['s_assays'],directory)
         parser.writeProtocols(f,study['s_protocols'])
-        parser.writeContactsFor(f,study['s_contacts'],'STUDY')
+        parser.writeContactsFor(f,study['s_contacts'],'Study')
+
+    file.close()
 
     zipName+=".zip"
     zf = zipfile.ZipFile(directory+"/"+zipName, "w")
@@ -92,8 +94,6 @@ def uploadSave(request,config):
     name=request.POST['filename']
     name=name[:name.rindex('.')]
     directory=common.SITE_ROOT + '/tmp/'+request.user.username+'/'+name
-    # request2=request
-    # request2.POST={'uploadID':obj['INFO']['uploadID'],'filename':zipName,'filesize':filesize}
     f=open(directory+"/"+request.POST['filename'], 'rb')
     request.FILES['file']=f
     response=upload.resources.uploadFile(request)
