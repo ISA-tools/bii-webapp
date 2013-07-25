@@ -32,4 +32,4 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 SITE_ID=5
 
-WEBSERVICES_URL='http://bii.oerc.ox.ac.uk/bii-ws/'
+WEBSERVICES_URL='http://bii.oerc.ox.ac.uk:8080/bii-ws/'
