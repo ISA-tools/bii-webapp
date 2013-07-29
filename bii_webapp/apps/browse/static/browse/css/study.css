@@ -2,93 +2,53 @@
    ASSAYS
 **/
 
-.assay_num {
-    margin-left: 20px;
-    background-color: #24aae1;
-    color: #ffffff;
-    border-radius: 18px;
-    padding: 3px;
-    font-size: 16px;
-}
-
-.assay_title a {
-    background-color: #24aae1;
-    color: #ffffff;
-    font-size: 15px;
-    padding: 3px;
-}
-
-.assay_details_title {
-    padding: 0px 10px;
-    height: 40px;
-    line-height: 40px;
-    margin: 10px 0px;
-}
-
-.assay_details_title>div {
-    float: left;
-}
-
-.assay_details_title>div img {
-    margin-top: -2px;
-    height: 30px;
-    width: 30px;
-}
-
-.assay_details_title span {
-    font-size: 18px;
-    margin-left: 10px;
-}
-
-.assay_details > div:first-child span span {
-    background-color: #f3f3f4;
-    font-size: 15px;
-    padding: 3px;
-    font-weight: bold;
-}
-
-.assay_columns {
+.group_columns {
     overflow: hidden;
-    padding: 0px 40px;
+    padding: 0px;
 }
 
-.assay_column {
-    width: 497px;
-}
-
-.assay_columns > .assay_column:first-child {
+.group_column {
+    width: 1084px;
+    margin-bottom: 10px;
     float: left;
 }
 
-.assay_columns > .assay_column:nth-child(2) {
-    float: right;
+.group_count {
     margin-left: 10px;
+    background-color: #24aae1;
+    text-align: center;
+    color: white;
+    border-radius: 30px;
+    margin-right: 20px;
+    font-size: 18px;
+    padding: 5px 10px;
 }
 
-.assay_column_title {
+.group_column_title {
     padding: 0px 10px;
-    line-height: 35px;
+    line-height: 34px;
     background-color: #f3f3f4;
     border-left: 10px solid #6e6e70;
-    margin: 10px 0px;
+    margin: 0px;
     overflow: hidden;
 }
 
-.assay_column_title div {
-    float: right;
+.group_column_title div {
+    display: inline;
 }
 
-.assay_column_title div img {
+.group_column_title div img {
     margin-top: -3px;
     width: 25px;
     height: 25px;
 }
 
-.assay_column_title>span {
+.group_column_title>span {
     float: left;
+    max-width: 877px;
 }
 
-.assay_row {
+.group_row {
     border-top: 2px solid #f3f3f4;
     border-left: 2px solid #f3f3f4;
     border-right: 2px solid #f3f3f4;
@@ -97,27 +57,43 @@
     padding: 0px 10px;
 }
 
-.assay_row a {
+.group_row a {
     float: left;
 }
 
-.assay_row div {
+.group_row div {
     float: right;
 }
 
-.assay_row div img {
+.group_row div img {
     margin-top: -2px;
     height: 33px;
 }
 
-.assay_row div img {
+.group_row div img {
     margin-left: 5px;
 }
 
-.assay_row div img:first-child {
+.group_row div img:first-child {
     margin-left: 0px;
 }
 
-.assay_rows .assay_row:last-child {
+.group_rows .group_row:last-child {
     border-bottom: 2px solid #f3f3f4;
+}
+
+.assay{
+    margin-top: 0px;
+}
+
+.assay a {
+    color: #ffffff;
+}
+
+.assay a:hover {
+    text-decoration: none;
+}
+
+.assays{
+    float: none;
 }

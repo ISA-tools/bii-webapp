@@ -219,11 +219,10 @@ GRAY TITLE
 .gray_title {
     color: #3e3e3f;
     margin: 10px 0px;
-    height: 35px;
-    line-height: 35px;
-    padding: 0px 10px;
+    padding: 7px 10px;
     background-color: #f3f3f4;
     font-size: 18px;
+    min-height: 21px;
 }
 
 .gray_title .title_text {
@@ -323,7 +322,6 @@ HEADER
     line-height: 70px;
     color: white !important;
     float: left;
-    font-style: none;
 }
 
 #rep_header_blue div {
@@ -431,4 +429,21 @@ CONTACTS
 
 .editable-error-block {
     clear: both;
+}
+
+#confirmDelete .modal-header {
+    text-align: center;
+}
+
+#confirmDelete .modal-header h3 {
+    text-align: center;
+}
+
+#confirmDelete .modal-footer {
+    text-align: center;
+}
+
+#confirmDelete .modal-footer a {
+    width: 50px;
+    margin-right: 6px;
 }

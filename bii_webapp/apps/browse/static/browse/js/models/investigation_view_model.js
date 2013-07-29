@@ -37,4 +37,48 @@ $(document).ready(function () {
         }
     })
 
+    $.modal.defaults = {
+        overlay: "#000",        // Overlay color
+        opacity: 0.75,          // Overlay opacity
+        zIndex: 1,              // Overlay z-index.
+        escapeClose: false,      // Allows the user to close the modal by pressing `ESC`
+        clickClose: false,       // Allows the user to close the modal by clicking the overlay
+        modalClass: "modal",    // CSS class added to the element being displayed in the modal.
+        spinnerHtml: null,      // HTML appended to the default spinner during AJAX requests.
+        showSpinner: true       // Enable/disable the default spinner during AJAX requests.
+    };
 });
+
+var deleteInvestigation=function(){
+    $.ajax({
+            url: vars.urls.deleteInvestigation,  //server script to process data
+            type: 'POST',
+            //Ajax events
+            success: completeHandler = function (data) {
+                    if(data.ERROR){
+                        $().toastmessage('showToast', {
+                            text: data.ERROR.messages,
+                            sticky: false,
+                            type: 'error'
+                        });
+                        $('#confirmDelete .modal-footer > span a').show();
+                        $('#confirmDelete .modal-footer > span > font').remove();
+                        $.modal.close();
+                    }else{
+                        window.location = vars.urls.browse
+                    }
+            },
+            error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
+              if (xmlHttpRequest.readyState == 0 || xmlHttpRequest.status == 0)
+                        return;
+            },
+            data:JSON.stringify({pk:vars.investigation.i_id(),type:"investigation"}),
+            dataType: 'json',
+            cache: false,
+            contentType: false,
+            processData: false
+        }
+     );
+    $('#confirmDelete modal-footer > span a').hide();
+    $('#confirmDelete modal-footer > span').prepend('<font color="red">Deleting...</font>');
+}

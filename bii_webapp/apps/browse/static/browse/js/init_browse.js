@@ -10,8 +10,14 @@ $(document).ready(function () {
         window.location = ref;
     })
 
-    $('.collapse').each(function () {
-        $(this).height($(this).height());
+//    $('.collapse').each(function () {
+//        $(this).css('height',($(this).height()));
+//    });
+
+    $('.editable_field').each(function () {
+        if ($(this).parents('.collapse').length > 0) {
+            $(this).css('height',($(this).height()));
+        }
     });
 
     $('[data-toggle="collapse"]').click(function () {

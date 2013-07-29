@@ -33,7 +33,7 @@
                 <div class="study_info">
                     <div class="study_char">
                         {% for organism in study.s_organisms %}
-                        <span>{{ organism }}</span>
+                        <span>{{ organism }}{% if not forloop.last %}, {% endif %} </span>
                         {% endfor %}
                     </div>
                     <div class="study_details">
@@ -86,7 +86,7 @@
         <div class="study_info">
             <div class="study_char">
                 {% for organism in study.s_organisms %}
-                <span>{{ organism }}</span>
+                <span>{{ organism }}{% if not forloop.last %}, {% endif %} </span>
                 {% endfor %}
             </div>
             <div class="study_details">

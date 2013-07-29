@@ -53,8 +53,7 @@ var create_upload = function () {
                 contentType: false,
                 processData: false
             }
-        )
-        ;
+        );
 
         upload.STATE = 'STARTED';
         pollProgress(data.INFO.uploadID, data);

@@ -11,6 +11,22 @@ import re
 
 @csrf_exempt
 @decorators.login_required(login_url=views.login)
+def deleteInvestigation(request):
+    url = settings.WEBSERVICES_URL + 'update/delete'
+    r=requests.post(url, data=request.body);
+    loaded = json.loads(r.content)
+    return HttpResponse(json.dumps(loaded))
+
+@csrf_exempt
+@decorators.login_required(login_url=views.login)
+def deleteStudy(request):
+    url = settings.WEBSERVICES_URL + 'update/delete'
+    r=requests.post(url, data=request.body);
+    loaded = json.loads(r.content)
+    return HttpResponse(json.dumps(loaded))
+
+@csrf_exempt
+@decorators.login_required(login_url=views.login)
 def updateInvestigation(request):
     data=request.POST.copy()
     data['type']='investigation';
@@ -52,6 +68,10 @@ def browse(request, page=1):
     if 'ERROR' in loaded:
         if (int)(page) != 1:
             return redirect(browse,1)
+        else:
+            return render_to_response("browse.html", {"data": loaded,'number_of_pages':0, 'current_page':0,
+                                                      'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
+                                      context_instance=RequestContext(request))
 
     results=json.loads(loaded['results'])
     request.session['browse']=results
@@ -74,15 +94,20 @@ def investigation(request, invID=None):
 
     # json_data = open(common.SITE_ROOT + '/fixtures/study.json')
     loaded = json.loads(r.content)
-    if 'ERROR' in loaded or not 'browse' in request.session:
+    if 'ERROR' in loaded:
        return redirect(browse)
 
-    results=request.session['browse']
-
-    for inv in results['investigations']:
-        if inv['i_id']==invID:
-            i_studies=inv['i_studies']
-            break
+    i_studies=None
+    if 'browse' in request.session:
+        results=request.session['browse']
+        for inv in results['investigations']:
+            if inv['i_id']==invID:
+                i_studies=inv['i_studies']
+                break
+    if i_studies == None:
+        r = requests.post(settings.WEBSERVICES_URL + 'retrieve/investigation/studies',
+                          data=json.dumps({'username': request.user.username, 'investigationID':invID}))
+        i_studies=json.loads(r.content)['i_studies']
 
     loaded.update({'i_studies':i_studies})
     investigation = json.dumps(loaded).replace("'", "\\'")
@@ -111,6 +136,29 @@ def study(request, invID=None, studyID=None):
     if 'ERROR' in loaded:
         return redirect(browse)
 
+    s_assays=None
+    studies=None
+    if 'browse' in request.session:
+        results=request.session['browse']
+        if invID!=studyID:
+            for inv in results['investigations']:
+                if inv['i_id']==invID:
+                    studies=inv['i_studies']
+                    break
+        else:
+            studies=results['studies']
+
+        for study in studies:
+            if study['s_id']==studyID:
+                s_assays=study['s_assays']
+                break
+
+    if s_assays == None:
+        r = requests.post(settings.WEBSERVICES_URL + 'retrieve/study/assays',
+                          data=json.dumps({'username': request.user.username, 'studyID':studyID}))
+        s_assays=json.loads(r.content)['s_assays']
+
+    loaded.update({'s_assays':s_assays})
     study = json.dumps(loaded).replace("'", "\\'")
     json_data.close()
 

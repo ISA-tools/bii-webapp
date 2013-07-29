@@ -2,24 +2,23 @@
     margin-bottom: 40px;
 }
 
-.assay_columns {
+.group_columns {
     padding: 0px !important;
     margin-top: 10px;
 }
 
-.assay_column {
-    width: 537px !important;
+.group_column {
 }
 
-.assay_column_title {
+.group_column_title {
 }
 
-.assay_row >div:first-child {
+.group_row >div:first-child {
     float: left;
     margin-right: 10px;
 }
 
-.assay_row > div:first-child > img {
+.group_row > div:first-child > img {
     height: 30px;
     width: auto;
 }

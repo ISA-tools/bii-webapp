@@ -1,0 +1,229 @@
+{% extends "browse_base.html" %}
+{% load static from staticfiles %}
+{% load tags %}
+{% block extra_browse_css %}
+<link href="{% static 'browse/css/study.css' %}" rel="stylesheet">
+{% endblock %}
+{% block extra_browse_script %}
+<script>
+    var study = '{% autoescape off %}{{study_json}}{% endautoescape %}';
+    if (study && study.length > 0) {
+        study = JSON.parse(study);
+    }
+    vars.study = study;
+    vars.urls.updateStudy="{% url 'browse.updateStudy' %}"
+</script>
+<script src="{% static 'create/js/models/contacts_model.js' %}"></script>
+<script src="{% static 'create/js/models/study_assays_model.js' %}"></script>
+<script src="{% static 'create/js/models/study_factors_model.js' %}"></script>
+<script src="{% static 'create/js/models/study_protocols_model.js' %}"></script>
+<script src="{% static 'create/js/models/study_spreadsheet_model.js' %}"></script>
+<script src="{% static 'create/js/models/publications_model.js' %}"></script>
+<script src="{% static 'create/js/models/study_model.js' %}"></script>
+<script src="{% static 'browse/js/models/study_view_model.js' %}"></script>
+{% endblock %}
+{% block title %}BII | Study{% endblock %}
+{% block browse_content %}
+<div id="rep_top_details" class="rep_container">
+    <div id="rep_header_blue">
+        <h1 data-bind='text: studies()[0].s_id()'></h1>
+
+        <div>
+            <a href=""><img src="{% static 'browse/img/download.png' %}"/></a>
+            <a href=""><img src="{% static 'browse/img/delete.png' %}"/></a>
+        </div>
+    </div>
+
+    <div id="rep_header_details">
+        <p class="editable_field" data-name="s_title" data-type="textarea" data-original-title="Enter study title" data-bind='text: studies()[0].s_title'>
+        </p>
+
+        <p class="editable_field" data-name="s_description" data-type="textarea" data-original-title="Enter study description" data-bind='text: studies()[0].s_description'>
+        </p>
+
+    </div>
+</div>
+
+<div id="rep_publications" class="rep_container">
+    <div class="rep_header">
+        <h2>Publications</h2>
+        <div>
+            <a data-target="#collapse_pubs" data-toggle="collapse" href="#collapse_pubs" class="dropdown_button"><img
+                    src="{% static 'browse/img/dropdown.png' %}"/></a>
+        </div>
+    </div>
+
+    <div id="collapse_pubs" class="collapse in" data-bind="foreach:studies()[0].s_pubs_model.publications">
+        <p class="gray_title editable_field" data-name="pub_title" data-type="textarea" data-original-title="Enter publication title" data-bind='text: pub_title'></p>
+        <p class="editable_field" data-name="pub_author_list" data-type="textarea" data-original-title="Enter publication author list" data-bind='text: pub_author_list'>
+        </p><a href="">BIOINFORMATICS, 2008</a>
+    </div>
+
+</div>
+
+<div id="rep_contacts" class="rep_container">
+    <div class="rep_header">
+        <h2>Contacts</h2>
+
+        <div>
+            <a data-target="#collapse_contacts" data-toggle="collapse" href="#collapse_contacts"
+               class="dropdown_button"><img
+                    src="{% static 'browse/img/dropdown.png' %}"/></a>
+        </div>
+    </div>
+
+    <div id="collapse_contacts" class="collapse in" data-bind="foreach:studies()[0].s_contacts_model.contacts">
+        <div class="rep_contact">
+            <div class="rep_contact_name">
+                <span class="editable_field" data-name="person_name" data-original-title="Enter contact name midinitials and surname"
+                      data-bind='text: $data.person_first_name +" "+($data.person_mid_initials?$data.person_mid_initials+".":"")+" "+$data.person_last_name'></span>
+            </div>
+            <span class="editable_field" data-name="person_affiliation" data-original-title="Enter contact affiliation" data-bind='text: $data.person_affiliation'></span>
+        </div>
+    </div>
+</div>
+
+<div id="rep_assays" class="rep_container">
+    <div class="rep_header">
+        <h2>Assays</h2>
+
+        <div>
+            <a data-target="#collapse_assays" data-toggle="collapse" href="#collapse_assays" class="dropdown_button"><img
+                    src="{% static 'browse/img/dropdown.png' %}"/></a>
+        </div>
+    </div>
+
+    <div class="collapse in" id="collapse_assays">
+        {% for assay in study.s_assays %}
+        <div class="assay_title gray_title b_left_blue">
+            <span class="title_text"> {{assay.measurement|cap}} <span>USING</span> {{assay.technology|cap}}<span class="assay_num">{{assay.assay_type_count}}</span></span>
+            <div><a href="{% url 'browse.investigation.study.assay' investigation.i_id study.s_id forloop.counter %}">DETAILS</a></div>
+        </div>
+
+        <div class="assay_details">
+            <div class="assay_details_title">
+                <div>
+                    <a data-target="#collapse_a{{ forloop.counter }}" data-toggle="collapse" href="#collapse_a{{ forloop.counter }}"
+                       class="dropdown_button">
+                        <img src="{% static 'browse/img/dropdown_grey.png' %}"/>
+                    </a>
+                </div>
+                <span>
+                    <!-- ko foreach:studies()[0].s_organisms -->
+                    <!-- ko text:  $data --><!-- /ko -->
+                    <!-- ko if:  $index()<$parent.studies()[0].s_organisms.length-1 --> <!-- ko text:  ', ' --><!-- /ko --><!-- /ko -->
+                    <!-- /ko -->
+                <span>
+                    <!-- ko foreach:studies()[0].s_characteristics -->
+                    <a href="" data-bind="text:$data"></a>
+                    <!-- ko if:  $index()<$parent.studies()[0].s_characteristics.length-1 --><!-- ko text:  ', ' --><!-- /ko --><!-- /ko -->
+                    <!-- /ko -->
+                </span>
+                </span>
+            </div>
+
+            <div id="collapse_a{{ forloop.counter }}" class="assay_columns collapse in">
+                <div class="assay_column">
+                    <div class="assay_column_title">
+                        <span>Carbon 0.2 l/hour</span>
+
+                        <div>
+                            <a data-target="#collapse_a{{ forloop.counter}}s1" data-toggle="collapse" href="#collapse_a{{ forloop.counter}}s1"
+                               class="dropdown_button"><img src="{% static 'browse/img/dropdown_grey.png' %}"/></a>
+                        </div>
+                    </div>
+
+                    <div class="assay_rows collapse in" id="collapse_a{{ forloop.counter }}s1">
+
+                        <div class="assay_row">
+                            <a href="{% url 'browse.investigation.study.sample' investigation.i_id study.s_id forloop.counter %}">GSM 33421</a>
+
+                            <div>
+                                <img src="{% static 'browse/img/raw_data.png' %}"/>
+                                <img src="{% static 'browse/img/processed_data.png' %}"/>
+                                <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
+                            </div>
+                        </div>
+
+                        <div class="assay_row">
+                            <a href="{% url 'browse.investigation.study.sample' investigation.i_id study.s_id forloop.counter %}">GSM 33422</a>
+
+                            <div>
+                                <img src="{% static 'browse/img/raw_data.png' %}"/>
+                                <img src="{% static 'browse/img/processed_data.png' %}"/>
+                                <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
+                            </div>
+                        </div>
+
+                        <div class="assay_row">
+                            <a href="{% url 'browse.investigation.study.sample' investigation.i_id study.s_id forloop.counter %}">GSM 33423</a>
+
+                            <div>
+                                <img src="{% static 'browse/img/raw_data.png' %}"/>
+                                <img src="{% static 'browse/img/processed_data.png' %}"/>
+                                <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="assay_column">
+
+                    <div class="assay_column_title">
+                        <span>Sulphur 0.07 l/hour</span>
+
+                        <div>
+                            <a data-target="#collapse_a{{ forloop.counter}}s2" data-toggle="collapse" href="#collapse_a{{ forloop.counter}}s2"
+                               class="dropdown_button"><img src="{% static 'browse/img/dropdown_grey.png' %}"/></a>
+                        </div>
+                    </div>
+
+                    <div class="assay_rows collapse in" id="collapse_a{{ forloop.counter}}s2">
+
+                        <div class="assay_row">
+                            <a href="{% url 'browse.investigation.study.sample' investigation.i_id study.s_id forloop.counter %}">GSM 33431</a>
+
+                            <div>
+                                <img src="{% static 'browse/img/raw_data.png' %}"/>
+                                <img src="{% static 'browse/img/processed_data.png' %}"/>
+                                <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
+                            </div>
+                        </div>
+
+                        <div class="assay_row">
+                            <a href="{% url 'browse.investigation.study.sample' investigation.i_id study.s_id forloop.counter %}">GSM 33432</a>
+
+                            <div>
+                                <img src="{% static 'browse/img/raw_data.png' %}"/>
+                                <img src="{% static 'browse/img/processed_data.png' %}"/>
+                                <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
+                            </div>
+                        </div>
+
+                        <div class="assay_row">
+                            <a href="{% url 'browse.investigation.study.sample' investigation.i_id study.s_id forloop.counter %}">GSM 33433</a>
+
+                            <div>
+                                <img src="{% static 'browse/img/raw_data.png' %}"/>
+                                <img src="{% static 'browse/img/processed_data.png' %}"/>
+                                <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+</div>
+
+
+{% endblock %}
+

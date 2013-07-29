@@ -2,6 +2,7 @@
 {% load static from staticfiles %}
 {% block extra_browse_css %}
 <link href="{% static 'browse/css/investigation.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'libs/jquery/jquery.modal.css' %}" type="text/css" media="screen"/>
 {% endblock %}
 {% block extra_browse_script %}
 <script>
@@ -10,16 +11,25 @@
         investigation = JSON.parse(investigation);
     }
     vars.investigation = investigation;
-    vars.urls.updateInvestigation="{% url 'browse.updateInvestigation' %}"
+    vars.urls.updateInvestigation = "{% url 'browse.updateInvestigation' %}"
+    vars.urls.browse = "{% url 'browse.browse' %}"
+    vars.urls.deleteInvestigation = "{% url 'browse.deleteInvestigation' %}"
 </script>
 <script src="{% static 'create/js/models/contacts_model.js' %}"></script>
 <script src="{% static 'create/js/models/publications_model.js' %}"></script>
 <script src="{% static 'create/js/models/investigation_model.js' %}"></script>
 <script src="{% static 'browse/js/models/investigation_view_model.js' %}"></script>
+<script src="{% static 'libs/jquery/jquery.modal.min.js' %}" type="text/javascript" charset="utf-8"></script>
 {% endblock %}
 
 {% block title %}BII | Investigation{% endblock %}
 {% block browse_content %}
+
+<div id="confirmDelete" class="modal" style="display:none">
+    <div class="modal-header"><h3>Are you sure you want to delete this investigation?</h3></div>
+    <div class="modal-footer"><span><a href="javascript:deleteInvestigation()" class="btn btn-info">Yes</a><a
+            class="btn btn-info" href="#" rel="modal:close">No</a></span></div>
+</div>
 
 <div id="rep_top_details" class="rep_container">
     <div id="rep_header_blue">
@@ -27,15 +37,17 @@
 
         <div>
             <a href=""><img src="{% static 'browse/img/download.png' %}"/></a>
-            <a href=""><img src="{% static 'browse/img/delete.png' %}"/></a>
+            <a rel="modal:open" href="#confirmDelete"><img src="{% static 'browse/img/delete.png' %}"/></a>
         </div>
     </div>
 
     <div id="rep_header_details">
-        <p class="editable_field" data-name="i_title" data-original-title="Enter investigation title" data-type="textarea" data-bind='text: investigation().i_title'>
+        <p class="editable_field" data-name="i_title" data-original-title="Enter investigation title"
+           data-type="textarea" data-bind='text: investigation().i_title'>
         </p>
 
-        <p class="editable_field" data-name="i_description" data-original-title="Enter investigation description" data-type="textarea" data-bind='text: investigation().i_description'>
+        <p class="editable_field" data-name="i_description" data-original-title="Enter investigation description"
+           data-type="textarea" data-bind='text: investigation().i_description'>
         </p>
 
     </div>
@@ -54,8 +66,11 @@
     </div>
 
     <div id="collapse_pubs" class="collapse in" data-bind="foreach:investigation().i_pubs_model.publications">
-        <p class="gray_title editable_field" data-name="pub_title" data-original-title="Enter publication title" data-type="textarea" data-bind='text: pub_title'></p>
-        <p class="editable_field" data-name="pub_author_list" data-original-title="Enter publication author list" data-type="textarea" data-bind='text: pub_author_list'>
+        <p class="gray_title editable_field" data-name="pub_title" data-original-title="Enter publication title"
+           data-type="textarea" data-bind='text: pub_title'></p>
+
+        <p class="editable_field" data-name="pub_author_list" data-original-title="Enter publication author list"
+           data-type="textarea" data-bind='text: pub_author_list'>
         </p><a href="">BIOINFORMATICS, 2008</a>
     </div>
 
@@ -75,65 +90,81 @@
     <div id="collapse_contacts" class="collapse in" data-bind="foreach:investigation().i_contacts_model.contacts">
         <div class="rep_contact">
             <div class="rep_contact_name">
-                <span class="editable_field" data-name="person_name" data-original-title="Enter contact name midinitials and surname"
+                <span class="editable_field" data-name="person_name"
+                      data-original-title="Enter contact name midinitials and surname"
                       data-bind='text: $data.person_first_name +" "+($data.person_mid_initials?$data.person_mid_initials+".":"")+" "+$data.person_last_name'></span>
             </div>
-            <span class="editable_field" data-name="person_affiliation" data-original-title="Enter contact affiliation" data-bind='text: $data.person_affiliation'></span>
+            <span class="editable_field" data-name="person_affiliation" data-original-title="Enter contact affiliation"
+                  data-bind='text: $data.person_affiliation'></span>
         </div>
     </div>
 </div>
 
-<div class="studies">
-    {% for study in investigation.i_studies %}
-    <div class="study">
-        <div class="study_id">
-            <a href="{% url 'browse.investigation.study' investigation.i_id study.s_id %}">{{ study.s_id }}</a>
+<div id="rep_studies" class="rep_container">
+
+    <div class="rep_header">
+        <h2>Studies</h2>
+
+        <div>
+            <a data-target="#collapse_studies" data-toggle="collapse" href="#collapse_studies"
+               class="dropdown_button"><img
+                    src="{% static 'browse/img/dropdown.png' %}"/></a>
         </div>
-        <div class="study_info">
-            <div class="study_char">
-                {% for organism in study.s_organisms %}
-                <span>{{ organism }}</span>
-                {% endfor %}
+    </div>
+
+    <div id="collapse_studies" class="studies collapse in">
+
+        {% for study in investigation.i_studies %}
+        <div class="study">
+            <div class="study_id">
+                <a href="{% url 'browse.investigation.study' investigation.i_id study.s_id %}">{{ study.s_id }}</a>
             </div>
-
-            <div class="study_details">
-
-                <div class="study_title">
-                    {{ study.s_title }}
-                </div>
-
-                <div class="assays">
-                    {% for assay in study.s_assays %}
-                    <div class="assay">
-                        <a href="{% url 'browse.investigation.study.assay' investigation.i_id study.s_id forloop.counter0 %}">
-                            <div>
-                                {{assay.assay_type_count}}
-                            </div>
-                            <div class="assay_type">
-                                <div>
-                                    <img src="{% static 'browse/img/measurements/'%}{{assay.measurement}}.png"/>
-
-                                    <p>
-                                        {{assay.measurement}}
-                                    </p>
-                                </div>
-                                <div>
-                                    <img src="{% static 'browse/img/technologies/'%}{{assay.technology}}.png"/>
-
-                                    <p>
-                                        {{assay.technology}}
-                                    </p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+            <div class="study_info">
+                <div class="study_char">
+                    {% for organism in study.s_organisms %}
+                    <span>{{ organism }}{% if not forloop.last %}, {% endif %} </span>
                     {% endfor %}
                 </div>
 
+                <div class="study_details">
+
+                    <div class="study_title">
+                        {{ study.s_title }}
+                    </div>
+
+                    <div class="assays">
+                        {% for assay in study.s_assays %}
+                        <div class="assay">
+                            <a href="{% url 'browse.investigation.study.assay' investigation.i_id study.s_id forloop.counter0 %}">
+                                <div>
+                                    {{assay.assay_type_count}}
+                                </div>
+                                <div class="assay_type">
+                                    <div>
+                                        <img src="{% static 'browse/img/measurements/'%}{{assay.measurement}}.png"/>
+
+                                        <p>
+                                            {{assay.measurement}}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <img src="{% static 'browse/img/technologies/'%}{{assay.technology}}.png"/>
+
+                                        <p>
+                                            {{assay.technology}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
             </div>
         </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 </div>
 
 

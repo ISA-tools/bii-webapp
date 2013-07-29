@@ -23,6 +23,8 @@ urlpatterns = patterns('',
 
                        url(r'^updateInvestigation$',updateInvestigation,name='browse.updateInvestigation'),
                        url(r'^updateStudy$',updateStudy,name='browse.updateStudy'),
+                       url(r'^deleteInvestigation$',deleteInvestigation,name='browse.deleteInvestigation'),
+                       url(r'^deleteStudy$',deleteStudy,name='browse.deleteStudy'),
 
                        #   url(r'^upload/',upload,name='upload'),
                        # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
