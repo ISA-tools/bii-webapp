@@ -79,6 +79,6 @@ var deleteInvestigation=function(){
             processData: false
         }
      );
-    $('#confirmDelete modal-footer > span a').hide();
-    $('#confirmDelete modal-footer > span').prepend('<font color="red">Deleting...</font>');
+    $('#confirmDelete .modal-footer > span a').hide();
+    $('#confirmDelete .modal-footer > span').prepend('<font color="red">Deleting...</font>');
 }
