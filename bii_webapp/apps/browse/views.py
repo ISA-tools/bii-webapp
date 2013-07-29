@@ -13,7 +13,11 @@ import re
 @decorators.login_required(login_url=views.login)
 def deleteInvestigation(request):
     url = settings.WEBSERVICES_URL + 'update/delete'
-    r=requests.post(url, data=request.body);
+    try:
+        r=requests.post(url, data=request.body);
+    except Exception:
+        return HttpResponse(json.dumps({"ERROR":{"messages":"Server is down","total":1}}))
+
     loaded = json.loads(r.content)
     return HttpResponse(json.dumps(loaded))
 
@@ -21,7 +25,11 @@ def deleteInvestigation(request):
 @decorators.login_required(login_url=views.login)
 def deleteStudy(request):
     url = settings.WEBSERVICES_URL + 'update/delete'
-    r=requests.post(url, data=request.body);
+    try:
+        r=requests.post(url, data=request.body);
+    except Exception:
+        return HttpResponse(json.dumps({"ERROR":{"messages":"Server is down","total":1}}))
+
     loaded = json.loads(r.content)
     return HttpResponse(json.dumps(loaded))
 
@@ -31,7 +39,11 @@ def updateInvestigation(request):
     data=request.POST.copy()
     data['type']='investigation';
     url = settings.WEBSERVICES_URL + 'update'
-    r=requests.post(url, data=json.dumps(data));
+    try:
+        r=requests.post(url, data=json.dumps(data));
+    except Exception:
+        return HttpResponse(json.dumps({"ERROR":{"messages":"Server is down","total":1}}))
+
     loaded = json.loads(r.content)
     loaded['field']=data['name']
     return HttpResponse(json.dumps(loaded))
@@ -42,7 +54,12 @@ def updateStudy(request):
     data=request.POST.copy()
     data['type']='study';
     url = settings.WEBSERVICES_URL + 'update'
-    r=requests.post(url, data=json.dumps(data))
+
+    try:
+        r=requests.post(url, data=json.dumps(data))
+    except Exception:
+        return HttpResponse(json.dumps({"ERROR":{"messages":"Server is down","total":1}}))
+
     loaded = json.loads(r.content)
     loaded['field']=data['name']
     return HttpResponse(json.dumps(loaded))
