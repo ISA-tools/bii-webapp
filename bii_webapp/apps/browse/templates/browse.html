@@ -19,6 +19,9 @@
     {% if data.ERROR %}
     <script>$().toastmessage('showErrorToast', '{{data.ERROR.messages}}');</script>
     {% else %}
+    {% if data.INFO %}
+    <script>$().toastmessage('showNoticeToast', '{{data.INFO.messages}}');</script>
+    {% else %}
     {% for investigation in data.investigations %}
     <div class="investigation">
         <div class="inv_id">
@@ -125,6 +128,7 @@
         </div>
     </div>
     {% endfor %}
+    {% endif %}
     {% endif %}
 
 </div>

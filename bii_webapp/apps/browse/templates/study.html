@@ -179,10 +179,10 @@
                     </div>
 
                     <div class="group_rows collapse" id="collapse_a{{ forloop.counter }}s1">
-
+                        {% for member in group.members %}
                         <div class="group_row">
                             <a href="{% url 'browse.investigation.study.sample' investigation.i_id study.s_id forloop.counter %}">GSM
-                                {{group.member}}</a>
+                                {{member}}</a>
 
                             <div>
                                 <img src="{% static 'browse/img/raw_data.png' %}"/>
@@ -190,6 +190,7 @@
                                 <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
                             </div>
                         </div>
+                        {% endfor %}
 
                     </div>
 

@@ -105,7 +105,7 @@ def uploadFile(request, sample=None):
             logger.exception(r)
             resp = json.loads(r.content)
             if 'ERROR' in resp or 'UPLOAD' in resp and resp['UPLOAD']['stage'] == 'cancelled':
-                return HttpResponse(r)
+                return respond(request,r)
 
             if resp['UPLOAD']['stage'] == 'complete':
                 user = request.user
@@ -166,4 +166,4 @@ def respond(request, response):
         return resp
     else:
         obj = json.loads(response.content)
-        return HttpResponse(json.dumps(obj).replace('\\', '\\\\'))
+        return HttpResponse(json.dumps(obj))

@@ -27,6 +27,7 @@ h1 {
     width: 1164px !important;
     background-color: white !important;
     text-align: center;
+    overflow: visible;
 }
 
 .btn-info {
@@ -308,7 +309,7 @@ h1 {
 #main-container {
     padding: 30px 40px;
     min-height: 1000px;
-    overflow: hidden;
+    overflow: visible;
 }
 
 #main-content {

@@ -50,6 +50,7 @@ var upload = function () {
             return;
         }
 
+        vars.upload_session=upload_session;
         update(upload_session);
 
         if (isIssuesExist(upload_session)) {
@@ -100,8 +101,9 @@ var upload = function () {
             progressHandler.progressStage(1, 0);
             helper.toggleButtons('cancel');
             request.uploadFile(uploadID, file, function (data) {
-                if (data.UPLOAD)
+                if (data.UPLOAD){
                     update(data, true);
+                }
                 helper.toggleButtons('select');
                 if (isIssuesExist(data))
                     if (retry)$('#retry').show();

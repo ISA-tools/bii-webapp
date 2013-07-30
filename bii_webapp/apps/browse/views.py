@@ -7,7 +7,10 @@ from bii_webapp.settings import common
 from django.shortcuts import redirect
 from django.contrib.auth import decorators, views
 from django.views.decorators.csrf import csrf_exempt
+from django.core.cache import cache
 import re
+
+cache.clear()
 
 @csrf_exempt
 @decorators.login_required(login_url=views.login)
@@ -19,6 +22,15 @@ def deleteInvestigation(request):
         return HttpResponse(json.dumps({"ERROR":{"messages":"Server is down","total":1}}))
 
     loaded = json.loads(r.content)
+    cache.delete('browse')
+    loaded=json.loads(request.body)
+    inv=cache.get(loaded['pk'])
+    studies=inv['i_studies']
+    for study in studies:
+        cache.delete(study['s_id'])
+
+    cache.delete(loaded['pk'])
+
     return HttpResponse(json.dumps(loaded))
 
 @csrf_exempt
@@ -31,6 +43,10 @@ def deleteStudy(request):
         return HttpResponse(json.dumps({"ERROR":{"messages":"Server is down","total":1}}))
 
     loaded = json.loads(r.content)
+    cache.delete('browse')
+    loaded=json.loads(request.body)
+    cache.delete(loaded['pk'])
+
     return HttpResponse(json.dumps(loaded))
 
 @csrf_exempt
@@ -46,6 +62,11 @@ def updateInvestigation(request):
 
     loaded = json.loads(r.content)
     loaded['field']=data['name']
+
+    cache.delete('browse')
+    pk=request.POST['pk']
+    cache.delete(pk)
+
     return HttpResponse(json.dumps(loaded))
 
 @csrf_exempt
@@ -62,16 +83,38 @@ def updateStudy(request):
 
     loaded = json.loads(r.content)
     loaded['field']=data['name']
+
+    cache.delete('browse')
+    pk=request.POST['pk']
+    cache.delete(pk)
+
     return HttpResponse(json.dumps(loaded))
 
 
 @decorators.login_required(login_url=views.login)
 def browse(request, page=1):
-    # json_data = open(common.SITE_ROOT + '/fixtures/browse.json')
+    loaded=cache.get('browse')
     try:
-        r = requests.post(settings.WEBSERVICES_URL + 'retrieve/browse',
-                      data=json.dumps({'username': request.user.username, 'page': page}))
-        loaded = json.loads(r.content)
+        if loaded==None:
+            r = requests.post(settings.WEBSERVICES_URL + 'retrieve/browse',
+                          data=json.dumps({'username': request.user.username, 'page': page}))
+            loaded = json.loads(r.content)
+
+            if 'ERROR' in loaded:
+                if (int)(page) != 1:
+                    return redirect(browse,1)
+                else:
+                    return render_to_response("browse.html", {"data": loaded,'number_of_pages':0, 'current_page':0,
+                                                              'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
+                                              context_instance=RequestContext(request))
+
+            if 'INFO' in loaded:
+                return render_to_response("browse.html", {"data": loaded,'number_of_pages':0, 'current_page':0,
+                                                      'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
+                                      context_instance=RequestContext(request))
+
+            cache.set('browse', loaded, None)
+
     except ValueError:
         return render_to_response("browse.html", {"data": {"ERROR":{"messages":"Results could not be retrieved","total":1}},'number_of_pages':0, 'current_page':0,
                                                   'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
@@ -81,21 +124,11 @@ def browse(request, page=1):
                                                   'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
                                   context_instance=RequestContext(request))
 
-    # loaded2 = json.load(json_data)
-    if 'ERROR' in loaded:
-        if (int)(page) != 1:
-            return redirect(browse,1)
-        else:
-            return render_to_response("browse.html", {"data": loaded,'number_of_pages':0, 'current_page':0,
-                                                      'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
-                                      context_instance=RequestContext(request))
 
     results=json.loads(loaded['results'])
-    request.session['browse']=results
-    # json_data.close()
-
     blist = generateBreadcrumbs(request.path)
     request.breadcrumbs(blist)
+
     return render_to_response("browse.html", {"data": results,'number_of_pages':loaded['number_of_pages'], 'current_page':page,
                                               'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
                               context_instance=RequestContext(request))
@@ -105,38 +138,43 @@ def investigation(request, invID=None):
     if invID == None:
         return redirect(browse)
 
-    try:
-        r = requests.post(settings.WEBSERVICES_URL + 'retrieve/investigation',
-                      data=json.dumps({'username': request.user.username, 'investigationID':invID}))
+    loaded=cache.get(invID)
 
-    except Exception:
-        return render_to_response("browse.html", {"data": {"ERROR":{"messages":"Server is down","total":1}},'number_of_pages':0, 'current_page':0,
-                                                  'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
-                                  context_instance=RequestContext(request))
-
-    # json_data = open(common.SITE_ROOT + '/fixtures/study.json')
-    loaded = json.loads(r.content)
-    if 'ERROR' in loaded:
-       return redirect(browse)
-
-    i_studies=None
-    if 'browse' in request.session:
-        results=request.session['browse']
-        for inv in results['investigations']:
-            if inv['i_id']==invID:
-                i_studies=inv['i_studies']
-                break
-    if i_studies == None:
-        r = requests.post(settings.WEBSERVICES_URL + 'retrieve/investigation/studies',
+    if loaded==None:
+        try:
+            r = requests.post(settings.WEBSERVICES_URL + 'retrieve/investigation',
                           data=json.dumps({'username': request.user.username, 'investigationID':invID}))
-        i_studies=json.loads(r.content)['i_studies']
 
-    loaded.update({'i_studies':i_studies})
+            loaded = json.loads(r.content)
+            if 'ERROR' in loaded:
+                return redirect(browse)
+
+            i_studies=None
+            browse_data=cache.get('browse')
+            if browse_data!=None:
+                results=json.loads(browse_data['results'])
+                for inv in results['investigations']:
+                    if inv['i_id']==invID:
+                        i_studies=inv['i_studies']
+                        break
+            if i_studies == None:
+                r = requests.post(settings.WEBSERVICES_URL + 'retrieve/investigation/studies',
+                                  data=json.dumps({'username': request.user.username, 'investigationID':invID}))
+                i_studies=json.loads(r.content)['i_studies']
+
+            loaded.update({'i_studies':i_studies})
+            cache.set(invID, loaded, None)
+
+        except Exception:
+            return render_to_response("browse.html", {"data": {"ERROR":{"messages":"Server is down","total":1}},'number_of_pages':0, 'current_page':0,
+                                                      'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
+                                      context_instance=RequestContext(request))
+
     investigation = json.dumps(loaded).replace("'", "\\'")
-    # json_data.close()
 
     blist = generateBreadcrumbs(request.path)
     request.breadcrumbs(blist)
+
     return render_to_response("investigation.html", {"investigation": loaded, "investigation_json": investigation,
                                                      'pageNotice': 'Various fields can be edited by clicking'},
                               context_instance=RequestContext(request))
@@ -149,48 +187,55 @@ def study(request, invID=None, studyID=None):
         studyID=invID
     if studyID == None:
         return redirect(browse)
-    try:
-         r = requests.post(settings.WEBSERVICES_URL + 'retrieve/study',
-                      data=json.dumps({'username': request.user.username, 'studyID':studyID}))
 
-    except Exception:
-        return render_to_response("browse.html", {"data": {"ERROR":{"messages":"Server is down","total":1}},'number_of_pages':0, 'current_page':0,
-                                                  'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
-                                  context_instance=RequestContext(request))
+    loaded=cache.get(studyID)
 
-    json_data = open(common.SITE_ROOT + '/fixtures/study.json')
-    loaded = json.loads(r.content)
-    if 'ERROR' in loaded:
-        return redirect(browse)
-
-    s_assays=None
-    studies=None
-    if 'browse' in request.session:
-        results=request.session['browse']
-        if invID!=studyID:
-            for inv in results['investigations']:
-                if inv['i_id']==invID:
-                    studies=inv['i_studies']
-                    break
-        else:
-            studies=results['studies']
-
-        for study in studies:
-            if study['s_id']==studyID:
-                s_assays=study['s_assays']
-                break
-
-    if s_assays == None:
-        r = requests.post(settings.WEBSERVICES_URL + 'retrieve/study/assays',
+    if loaded==None:
+        try:
+            r = requests.post(settings.WEBSERVICES_URL + 'retrieve/study',
                           data=json.dumps({'username': request.user.username, 'studyID':studyID}))
-        s_assays=json.loads(r.content)['s_assays']
 
-    loaded.update({'s_assays':s_assays})
+            loaded = json.loads(r.content)
+
+            if 'ERROR' in loaded:
+                return redirect(browse)
+
+            s_assays=None
+            studies=None
+            browse_data=cache.get('browse')
+            if browse_data!=None:
+                results=json.loads(browse_data['results'])
+                if invID!=studyID:
+                    for inv in results['investigations']:
+                        if inv['i_id']==invID:
+                            studies=inv['i_studies']
+                            break
+                else:
+                    studies=results['studies']
+
+                for study in studies:
+                    if study['s_id']==studyID:
+                        s_assays=study['s_assays']
+                        break
+
+            if s_assays == None:
+                r = requests.post(settings.WEBSERVICES_URL + 'retrieve/study/assays',
+                                  data=json.dumps({'username': request.user.username, 'studyID':studyID}))
+                s_assays=json.loads(r.content)['s_assays']
+
+            loaded.update({'s_assays':s_assays})
+            cache.set(studyID, loaded, None)
+
+        except Exception:
+            return render_to_response("browse.html", {"data": {"ERROR":{"messages":"Server is down","total":1}},'number_of_pages':0, 'current_page':0,
+                                                      'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
+                                      context_instance=RequestContext(request))
+
     study = json.dumps(loaded).replace("'", "\\'")
-    json_data.close()
 
     blist = generateBreadcrumbs(request.path)
     request.breadcrumbs(blist)
+
     return render_to_response("study.html", {"investigation": {"i_id": invID},"study": loaded, "study_json": study,
                                                      'pageNotice': 'Various fields can be edited by clicking'},
                               context_instance=RequestContext(request))
