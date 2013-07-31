@@ -73,7 +73,15 @@
 
         <p class="editable_field" data-name="pub_author_list" data-type="textarea"
            data-original-title="Enter publication author list" data-bind='text: pub_author_list'>
-        </p><a href="">BIOINFORMATICS, 2008</a>
+        </p>
+        <!-- ko if: pubmed_id -->
+        <a data-bind='attr:{href:"http://www.ncbi.nlm.nih.gov/pubmed/"+pubmed_id}'>Link to publication</a>
+        <!-- /ko -->
+        <!-- ko if:!pubmed_id-->
+        <!-- ko if: pub_doi-->
+        <a data-bind='attr:{href:"http://dx.doi.org/"+pub_doi}'>Link to publication</a>
+        <!-- /ko -->
+        <!-- /ko -->
     </div>
 
 </div>
