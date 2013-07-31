@@ -97,7 +97,7 @@ def browse(request, page=1):
     try:
         if loaded==None:
             r = requests.post(settings.WEBSERVICES_URL + 'retrieve/browse',
-                          data=json.dumps({'username': request.user.username, 'page': page}))
+                          data=json.dumps({'username': request.user.username, 'page': page}),headers={'Cache-Control':'no-cache'})
             loaded = json.loads(r.content)
 
             if 'ERROR' in loaded:
@@ -143,7 +143,7 @@ def investigation(request, invID=None):
     if loaded==None:
         try:
             r = requests.post(settings.WEBSERVICES_URL + 'retrieve/investigation',
-                          data=json.dumps({'username': request.user.username, 'investigationID':invID}))
+                          data=json.dumps({'username': request.user.username, 'investigationID':invID}),headers={'Cache-Control':'no-cache'})
 
             loaded = json.loads(r.content)
             if 'ERROR' in loaded:
@@ -193,7 +193,7 @@ def study(request, invID=None, studyID=None):
     if loaded==None:
         try:
             r = requests.post(settings.WEBSERVICES_URL + 'retrieve/study',
-                          data=json.dumps({'username': request.user.username, 'studyID':studyID}))
+                          data=json.dumps({'username': request.user.username, 'studyID':studyID}),headers={'Cache-Control':'no-cache'})
 
             loaded = json.loads(r.content)
 
