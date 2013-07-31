@@ -219,10 +219,10 @@ ISSUES
 
 .upload-function div.dropdown-menu >div {
     padding: 3px 10px;
-    max-width: 350px;
+    max-width: 320px;
     max-height: 300px;
-    width: 350px;
-    overflow: scroll;
+    width: 320px;
+    overflow: auto;
     z-index: 2;
 }
 
