@@ -9,6 +9,7 @@ import requests
 from bii_webapp.settings import common
 import re
 import os
+from django.core.cache import cache
 import stat
 
 TIMEOUT = 1500 #seconds
@@ -108,11 +109,7 @@ def uploadFile(request, sample=None):
                 return respond(request,r)
 
             if resp['UPLOAD']['stage'] == 'complete':
-                user = request.user
-
-                # model = ISATabFile(uploaded_by=user, isafile=file)
-                # model.save()
-                # model.access.add(user)
+                cache.delete('browse')
 
         except requests.exceptions.RequestException, e:
             r = errorResponse(request, 'Upload server could not be reached')
