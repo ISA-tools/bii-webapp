@@ -3,13 +3,13 @@
  * once it knows how many studies it contains.
  */
 $(document).ready(function () {
-    var study=vars.study;
-    study.s_id=ko.observable(study.s_id)
-    study.s_pubs_model=new PublicationModel(study.s_publications);
-    study.s_contacts_model=new ContactModel(study.s_contacts);
-    study.s_factors_model=new StudyFactorModel(study.s_factors);
-    study.s_protocols_model=new StudyProtocolModel(study.s_protocols);
-    study.s_assays_model=new StudyAssayModel(study.s_id,study.s_assays);
+    var study = vars.study;
+    study.s_id = ko.observable(study.s_id)
+    study.s_pubs_model = new PublicationModel(study.s_publications);
+    study.s_contacts_model = new ContactModel(study.s_contacts);
+    study.s_factors_model = new StudyFactorModel(study.s_factors);
+    study.s_protocols_model = new StudyProtocolModel(study.s_protocols);
+    study.s_assays_model = new StudyAssayModel(study.s_id, study.s_assays);
     delete study['s_publications'];
     delete study['s_contacts'];
     delete study['s_factors'];
@@ -24,7 +24,7 @@ $(document).ready(function () {
 
     $('.editable_field').editable({
         success: function (response, newValue) {
-            if(response.field && response.field=='i_id')viewModel.investigation().i_id(newValue);
+            if (response.field && response.field == 'i_id')viewModel.investigation().i_id(newValue);
             if (response.ERROR) return response.ERROR.messages; //msg will be shown in editable form
         },
         ajaxOptions: {
@@ -32,8 +32,8 @@ $(document).ready(function () {
             dataType: 'json'
         },
 
-        url:vars.urls.updateStudy,
-        pk:viewModel.studies()[0].s_id
+        url: vars.urls.updateStudy,
+        pk: viewModel.studies()[0].s_id
     });
     $('.editable_field').click(function () {
         if ($(this).parents('.collapse').length > 0) {
@@ -55,13 +55,13 @@ $(document).ready(function () {
     };
 });
 
-var deleteStudy=function(){
+var deleteStudy = function () {
     $.ajax({
             url: vars.urls.deleteStudy,  //server script to process data
             type: 'POST',
             //Ajax events
             success: completeHandler = function (data) {
-                if(data.ERROR){
+                if (data.ERROR) {
                     $().toastmessage('showToast', {
                         text: data.ERROR.messages,
                         sticky: false,
@@ -70,15 +70,15 @@ var deleteStudy=function(){
                     $('#confirmDelete modal-footer > span a').show();
                     $('#confirmDelete modal-footer > span > font').remove();
                     $.modal.close();
-                }else{
-                    window.location = vars.urls.browse
                 }
+                window.location = vars.urls.browse
+
             },
             error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
                 if (xmlHttpRequest.readyState == 0 || xmlHttpRequest.status == 0)
                     return;
             },
-            data:JSON.stringify({pk:vars.study.s_id(),type:"study"}),
+            data: JSON.stringify({pk: vars.study.s_id(), type: "study"}),
             dataType: 'json',
             cache: false,
             contentType: false,

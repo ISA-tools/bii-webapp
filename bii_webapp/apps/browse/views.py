@@ -19,9 +19,13 @@ def deleteInvestigation(request):
     try:
         r=requests.post(url, data=request.body);
     except Exception:
-        return HttpResponse(json.dumps({"ERROR":{"messages":"Server is down","total":1}}))
+        return HttpResponse(json.dumps({"ERROR":{"messages":"Web Server error","total":1}}))
+
 
     loaded = json.loads(r.content)
+    if 'ERROR' in loaded:
+        return HttpResponse(json.dumps(loaded))
+
     cache.delete('browse')
     loaded=json.loads(request.body)
     inv=cache.get(loaded['pk'])
@@ -40,9 +44,12 @@ def deleteStudy(request):
     try:
         r=requests.post(url, data=request.body);
     except Exception:
-        return HttpResponse(json.dumps({"ERROR":{"messages":"Server is down","total":1}}))
+        return HttpResponse(json.dumps({"ERROR":{"messages":"Web Server error","total":1}}))
 
     loaded = json.loads(r.content)
+    if 'ERROR' in loaded:
+        return HttpResponse(json.dumps(loaded))
+
     cache.delete('browse')
     loaded=json.loads(request.body)
     cache.delete(loaded['pk'])
@@ -58,9 +65,12 @@ def updateInvestigation(request):
     try:
         r=requests.post(url, data=json.dumps(data));
     except Exception:
-        return HttpResponse(json.dumps({"ERROR":{"messages":"Server is down","total":1}}))
+        return HttpResponse(json.dumps({"ERROR":{"messages":"Web Server error","total":1}}))
 
     loaded = json.loads(r.content)
+    if 'ERROR' in loaded:
+        return HttpResponse(json.dumps(loaded))
+
     loaded['field']=data['name']
 
     cache.delete('browse')
@@ -79,11 +89,13 @@ def updateStudy(request):
     try:
         r=requests.post(url, data=json.dumps(data))
     except Exception:
-        return HttpResponse(json.dumps({"ERROR":{"messages":"Server is down","total":1}}))
+        return HttpResponse(json.dumps({"ERROR":{"messages":"Web Server error","total":1}}))
 
     loaded = json.loads(r.content)
-    loaded['field']=data['name']
+    if 'ERROR' in loaded:
+        return HttpResponse(json.dumps(loaded))
 
+    loaded['field']=data['name']
     cache.delete('browse')
     pk=request.POST['pk']
     cache.delete(pk)
@@ -120,7 +132,7 @@ def browse(request, page=1):
                                                   'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
                                   context_instance=RequestContext(request))
     except Exception:
-        return render_to_response("browse.html", {"data": {"ERROR":{"messages":"Server is down","total":1}},'number_of_pages':0, 'current_page':0,
+        return render_to_response("browse.html", {"data": {"ERROR":{"messages":"Web Server error","total":1}},'number_of_pages':0, 'current_page':0,
                                                   'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
                                   context_instance=RequestContext(request))
 
@@ -166,7 +178,7 @@ def investigation(request, invID=None):
             cache.set(invID, loaded, None)
 
         except Exception:
-            return render_to_response("browse.html", {"data": {"ERROR":{"messages":"Server is down","total":1}},'number_of_pages':0, 'current_page':0,
+            return render_to_response("browse.html", {"data": {"ERROR":{"messages":"Web Server error","total":1}},'number_of_pages':0, 'current_page':0,
                                                       'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
                                       context_instance=RequestContext(request))
 
@@ -227,7 +239,7 @@ def study(request, invID=None, studyID=None):
             cache.set(studyID, loaded, None)
 
         except Exception:
-            return render_to_response("browse.html", {"data": {"ERROR":{"messages":"Server is down","total":1}},'number_of_pages':0, 'current_page':0,
+            return render_to_response("browse.html", {"data": {"ERROR":{"messages":"Web Server error","total":1}},'number_of_pages':0, 'current_page':0,
                                                       'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
                                       context_instance=RequestContext(request))
 
