@@ -64,9 +64,8 @@ var deleteInvestigation=function(){
                         $('#confirmDelete .modal-footer > span a').show();
                         $('#confirmDelete .modal-footer > span > font').remove();
                         $.modal.close();
-                    }else{
-                        window.location = vars.urls.browse
                     }
+                        window.location = vars.urls.browse
             },
             error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
               if (xmlHttpRequest.readyState == 0 || xmlHttpRequest.status == 0)
