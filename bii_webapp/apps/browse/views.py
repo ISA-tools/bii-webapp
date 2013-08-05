@@ -26,6 +26,7 @@ def deleteInvestigation(request):
     if 'ERROR' in loaded:
         return HttpResponse(json.dumps(loaded))
 
+    print 'investigation deleted'
     cache.delete('browse')
     loaded=json.loads(request.body)
     inv=cache.get(loaded['pk'])
@@ -50,6 +51,7 @@ def deleteStudy(request):
     if 'ERROR' in loaded:
         return HttpResponse(json.dumps(loaded))
 
+    print 'study deleted'
     cache.delete('browse')
     loaded=json.loads(request.body)
     cache.delete(loaded['pk'])

@@ -298,3 +298,7 @@ tr td:first-child {
 .breadcrumb > li .divider {
     color:white;
 }
+
+.tab-content{
+    overflow:hidden;
+}
