@@ -144,7 +144,7 @@
                     <div class="assays">
                         {% for assay in study.s_assays %}
                         <div class="assay">
-                            <a href="{% url 'browse.investigation.study.assay' investigation.i_id study.s_id forloop.counter0 %}">
+                            <a href="{% url 'browse.investigation.study.assay' investigation.i_id study.s_id assay.measurement assay.technology %}">
                                 <div>
                                     {{assay.assay_type_count}}
                                 </div>
