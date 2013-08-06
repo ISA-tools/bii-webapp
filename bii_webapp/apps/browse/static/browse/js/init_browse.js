@@ -26,4 +26,5 @@ $(document).ready(function () {
     $('[data-toggle="collapse"]').click(function () {
         $($($(this).closest('.rep_header')).siblings('.collapse')[0]).css('overflow', 'hidden');
     })
+    dropdown($('.group_columns .collapse'), $('.collapsibleImage'));
 });

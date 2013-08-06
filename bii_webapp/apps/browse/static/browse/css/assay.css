@@ -7,6 +7,14 @@
     margin-top: 10px;
 }
 
+#after_grey_title {
+    margin-top: 10px;
+}
+#after_grey_title:first-child {
+    margin-top: 20px;
+}
+
+
 .group_column {
 }
 

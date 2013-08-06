@@ -41,7 +41,6 @@ $(document).ready(function () {
             el.css('overflow', 'visible');
         }
     });
-    dropdown($('.group_columns .collapse'), $('.collapsibleImage'));
 
     $.modal.defaults = {
         overlay: "#000",        // Overlay color

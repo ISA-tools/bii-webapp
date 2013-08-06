@@ -15,10 +15,10 @@ urlpatterns = patterns('',
 
                        url(r'^investigation/([^//]+)/$',investigation,name='browse.investigation'),
                        url(r'^investigation/([^//]+)/study/([^//]+)/$',study,name='browse.investigation.study'),
-                       url(r'^investigation/([^//]+)/study/([^//]+)/assay/(\d+)$',assay,name='browse.investigation.study.assay'),
+                       url(r'^investigation/([^//]+)/study/([^//]+)/assay/([^//]+)/([^//]+)$',assay,name='browse.investigation.study.assay'),
                        url(r'^investigation/([^//]+)/study/([^//]+)/sample/(\d+)$',sample,name='browse.investigation.study.sample'),
                        url(r'^study/([^//]+)/$',study,name='browse.study'),
-                       url(r'^study/([^//]+)/assay/(\d+)$',assay,name='browse.study.assay'),
+                       url(r'^study/([^//]+)/assay/([^//]+)/([^//]+)$',assay,name='browse.study.assay'),
                        url(r'^study/([^//]+)/sample/(\d+)$',sample,name='browse.study.sample'),
 
                        url(r'^updateInvestigation$',updateInvestigation,name='browse.updateInvestigation'),

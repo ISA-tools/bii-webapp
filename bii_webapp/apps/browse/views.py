@@ -138,7 +138,6 @@ def browse(request, page=1):
                                                   'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
                                   context_instance=RequestContext(request))
 
-
     results=json.loads(loaded['results'])
     blist = generateBreadcrumbs(request.path)
     request.breadcrumbs(blist)
@@ -199,6 +198,7 @@ def study(request, invID=None, studyID=None):
     path=request.path
     if path.find('investigation',7,21)==-1:
         studyID=invID
+        invID=None
     if studyID == None:
         return redirect(browse)
 
@@ -219,7 +219,7 @@ def study(request, invID=None, studyID=None):
             browse_data=cache.get('browse')
             if browse_data!=None:
                 results=json.loads(browse_data['results'])
-                if invID!=studyID:
+                if invID!=None:
                     for inv in results['investigations']:
                         if inv['i_id']==invID:
                             studies=inv['i_studies']
@@ -255,6 +255,71 @@ def study(request, invID=None, studyID=None):
                               context_instance=RequestContext(request))
 
 
+@decorators.login_required(login_url=views.login)
+def assay(request, invID=None, studyID=None, measurement=None, technology=None):
+    path=request.path
+    if path.find('investigation',7,21)==-1:
+        technology=measurement;
+        measurement=studyID;
+        studyID=invID
+        invID=None
+    if studyID == None or measurement==None or technology==None:
+        return redirect(browse)
+
+    loaded=cache.get((str)(studyID)+"_"+(str)(measurement)+"_"+(str)(technology))
+
+    if loaded==None:
+        try:
+            r = requests.post(settings.WEBSERVICES_URL + 'retrieve/study/assay',
+                              data=json.dumps({'username': request.user.username, 'studyID':studyID
+                                  , 'measurement':measurement, 'technology':technology}),headers={'Cache-Control':'no-cache'})
+
+            loaded = json.loads(r.content)
+
+            if 'ERROR' in loaded:
+                return redirect(browse)
+
+            organisms=None
+            assay=None
+            organisms=None
+            study=cache.get(studyID)
+            if study!=None:
+                assays=json.loads(study['s_assays'])
+                organisms=study['s_organisms']
+                for assay_obj in assays:
+                        if assay_obj['measurement_']==measurement and assay_obj['technology_']==technology:
+                            assay=assay_obj
+                            break
+            else:
+                r = requests.post(settings.WEBSERVICES_URL + 'retrieve/study/browse_view',
+                                  data=json.dumps({'username': request.user.username, 'studyID':studyID}))
+                studyObj=json.loads(r.content);
+                organisms=studyObj['s_organisms']
+                assays=studyObj['s_assays']
+                for assay_obj in assays:
+                    if assay_obj['measurement_']==measurement and assay_obj['technology_']==technology:
+                        assay=assay_obj
+                        break
+
+            loaded.update({'organisms':organisms})
+            loaded.update({'measurement':stripIRI(measurement)})
+            loaded.update({'technology':stripIRI(technology)})
+            cache.set((str)(studyID)+"_"+(str)(measurement)+"_"+(str)(technology), loaded, None)
+
+        except Exception:
+            return render_to_response("browse.html", {"data": {"ERROR":{"messages":"Web Server error","total":1}},'number_of_pages':0, 'current_page':0,
+                                                      'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
+                                      context_instance=RequestContext(request))
+
+    assay = json.dumps(loaded).replace("'", "\\'")
+
+    blist = generateBreadcrumbs(request.path)
+    request.breadcrumbs(blist)
+
+    return render_to_response("assay.html", {"study": {"s_id": studyID},"assay": loaded, "assay_json": assay,
+                                             'pageNotice': 'Assay details including the samples per study group'},
+                              context_instance=RequestContext(request))
+
 def generateBreadcrumbs(path=None):
     split = path.split('/')
 
@@ -283,27 +348,12 @@ def generateBreadcrumbs(path=None):
     if (assay):
         assay = assay.group(0)
         bPath += 'assay/' + assay + '/'
-        breadcrumbs.append(('Assay ' + assay, bPath))
+        breadcrumbs.append(('Assay ' + stripIRI(assay), bPath))
 
     return breadcrumbs
 
-
-@decorators.login_required(login_url=views.login)
-def assay(request, invID=None, studyID=None, assayID=None):
-    if studyID == None or assayID == None:
-        return redirect(browse)
-
-    json_data = open(common.SITE_ROOT + '/fixtures/assay.json')
-    loaded = json.load(json_data)
-    assay = json.dumps(loaded).replace("'", "\\'")
-    json_data.close()
-
-    blist = generateBreadcrumbs(request.path)
-    request.breadcrumbs(blist)
-    return render_to_response("assay.html",
-                              {"investigation": {"i_id": None}, "study": {"s_id": studyID}, "assay": loaded,
-                               "assay_json": assay}, context_instance=RequestContext(request))
-
+def stripIRI(value):
+     return value[value.index(':')+1:]
 
 @decorators.login_required(login_url=views.login)
 def sample(request, invID=None, studyID=None, sample=-1):

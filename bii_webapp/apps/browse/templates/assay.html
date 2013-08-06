@@ -10,15 +10,15 @@
 {% load static from staticfiles %}
 <div id="rep_top_details" class="rep_container">
     <div id="rep_header_blue">
-        <h1>BII-S-1 <span class="headerdivider">&nbsp;</span> Transcription Profiling</h1>
+        <h1>{{study.s_id}}<span class="headerdivider">&nbsp;</span> {{assay.measurement|capFirstLetter}}</h1>
     </div>
     <div class="gray_title50">
         <div>
-            <img src="{% static 'browse/img/measurements/transcription profiling.png' %}">
-            <span>transcription profiling</span>
-            <img src="{% static 'browse/img/technologies/dna microarray.png' %}">
+            <img src="{% static 'browse/img/measurements/'%}{{assay.measurement}}.png"/>
+            <span>{{assay.measurement}}</span>
+            <img src="{% static 'browse/img/technologies/'%}{{assay.technology}}.png"/>
             <span>
-                dna microarray
+               {{assay.technology}}
                 <a>affymetrix</a>
             </span>
         </div>
@@ -26,138 +26,61 @@
 </div>
 
 <div id="rep_assay_details" class="rep_container">
-    <div class="gray_title50">
+    <div class="gray_title50" style="background-color: transparent">
         <div>
-            <div>
+            <div style="float: left;">
                 <img src="{% static 'browse/img/saccharomyces.png' %}">
-                <span>Saccharomyces cerevisiae (Baker's yeast)</span>
-            </div>
-            <div>
-                <a data-target="#collapse_1" data-toggle="collapse" href="#collapse_1" class="dropdown_button"><img
-                        src="{% static 'browse/img/dropdown_grey.png' %}"/></a>
+                {% for organism in assay.organisms %}
+                <span>{{ organism }}{% if not forloop.last %}, {% endif %} </span>
+                {% endfor %}
             </div>
         </div>
     </div>
 </div>
 
 
-<div id="collapse_1" class="collapse in">
-    <div id="after_grey_title">STRAIN <a href="">FY1679</a></div>
+<div>
+    {% for study_group in assay.study_groups %}
+    <div id="after_grey_title">
+        {% for characteristic in study_group.characteristics %}
+        <span>{{characteristic.type|cap}}
+            {% for characteristic in characteristic.characteristics %}
+            <span><a>{{characteristic}}</a></span>
+             {% endfor %}
+        </span>
+        {% endfor %}
+    </div>
     <div class="group_columns">
         <div class="group_column">
             <div class="group_column_title">
-                <span>Carbon 0.2 l/hour</span>
+                <span>{{study_group.study_group}}</span>
 
                 <div style="float: right">
                     <div>
-                        <a data-target="#collapse_2" data-toggle="collapse" href="#collapse_2"
-                           class="dropdown_button"><img
+                        <a data-target="#collapse_{{ forloop.counter}}" data-toggle="collapse" href="#collapse__{{ forloop.counter}}"
+                           class="dropdown_button"><img class="collapsibleImage"
                                 src="{% static 'browse/img/dropdown_grey.png' %}"/></a>
                     </div>
                 </div>
             </div>
 
-            <div class="group_rows collapse in" id="collapse_2">
-
+            <div class="group_rows collapse" id="collapse_{{ forloop.counter}}">
+                {% for sample in study_group.samples %}
                 <div class="group_row">
-                    <div>
-                        <img src="{% static 'browse/img/checked.png' %}"/>
-                    </div>
-                    <a href="{% url 'browse.investigation.study.sample' 1 1 1 %}">GSM 33421</a>
-
+                    <a href="{% url 'browse.investigation.study.sample' 1 1 1 %}"> {{sample}}</a>
                     <div>
                         <img src="{% static 'browse/img/raw_data.png' %}"/>
                         <img src="{% static 'browse/img/processed_data.png' %}"/>
                         <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
                     </div>
                 </div>
-
-                <div class="group_row">
-                    <div>
-                        <img src="{% static 'browse/img/unchecked.png' %}"/>
-                    </div>
-
-                    <a href="{% url 'browse.investigation.study.sample' 1 1 1 %}">GSM 33422</a>
-
-                    <div>
-                        <img src="{% static 'browse/img/raw_data.png' %}"/>
-                        <img src="{% static 'browse/img/processed_data.png' %}"/>
-                        <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
-                    </div>
-                </div>
-
-                <div class="group_row">
-                    <div>
-                        <img src="{% static 'browse/img/unchecked.png' %}"/>
-                    </div>
-                    <a href="{% url 'browse.investigation.study.sample' 1 1 1 %}">GSM 33423</a>
-
-                    <div>
-                        <img src="{% static 'browse/img/raw_data.png' %}"/>
-                        <img src="{% static 'browse/img/processed_data.png' %}"/>
-                        <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
-                    </div>
-                </div>
-
-                <div class="group_row">
-                    <div>
-                        <img src="{% static 'browse/img/unchecked.png' %}"/>
-                    </div>
-                    <a href="{% url 'browse.investigation.study.sample' 1 1 1 %}">GSM 33424</a>
-
-                    <div>
-                        <img src="{% static 'browse/img/raw_data.png' %}"/>
-                        <img src="{% static 'browse/img/processed_data.png' %}"/>
-                        <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
-                    </div>
-                </div>
-
-                <div class="group_row">
-                    <div>
-                        <img src="{% static 'browse/img/checked.png' %}"/>
-                    </div>
-                    <a href="{% url 'browse.investigation.study.sample' 1 1 1 %}">GSM 33425</a>
-
-                    <div>
-                        <img src="{% static 'browse/img/raw_data.png' %}"/>
-                        <img src="{% static 'browse/img/processed_data.png' %}"/>
-                        <img src="{% static 'browse/img/analysis_result.png' %}"/>
-                    </div>
-                </div>
-
-                <div class="group_row">
-                    <div>
-                        <img src="{% static 'browse/img/checked.png' %}"/>
-                    </div>
-                    <a href="{% url 'browse.investigation.study.sample' 1 1 1 %}">GSM 33426</a>
-
-                    <div>
-                        <img src="{% static 'browse/img/raw_data.png' %}"/>
-                        <img src="{% static 'browse/img/processed_data.png' %}"/>
-                        <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
-                    </div>
-                </div>
-
-                <div class="group_row">
-                    <div>
-                        <img src="{% static 'browse/img/checked.png' %}"/>
-                    </div>
-                    <a href="{% url 'browse.investigation.study.sample' 1 1 1 %}">GSM
-                        33427</a>
-
-                    <div>
-                        <img src="{% static 'browse/img/raw_data.png' %}"/>
-                        <img src="{% static 'browse/img/processed_data.png' %}"/>
-                        <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
-                    </div>
-                </div>
-
+                {% endfor %}
             </div>
 
         </div>
 
     </div>
-</div>
+    {% endfor %}
 
 </div>
 
