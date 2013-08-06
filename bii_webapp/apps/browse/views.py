@@ -112,6 +112,12 @@ def browse(request, page=1):
         if loaded==None:
             r = requests.post(settings.WEBSERVICES_URL + 'retrieve/browse',
                           data=json.dumps({'username': request.user.username, 'page': page}),headers={'Cache-Control':'no-cache'})
+
+            if r.status_code!=200:
+                return render_to_response("browse.html", {"data": {"ERROR":{"messages":"Web Service failed","total":1}},'number_of_pages':0, 'current_page':0,
+                                                          'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
+                                          context_instance=RequestContext(request))
+
             loaded = json.loads(r.content)
 
             if 'ERROR' in loaded:
@@ -157,6 +163,11 @@ def investigation(request, invID=None):
         try:
             r = requests.post(settings.WEBSERVICES_URL + 'retrieve/investigation',
                           data=json.dumps({'username': request.user.username, 'investigationID':invID}),headers={'Cache-Control':'no-cache'})
+
+            if r.status_code!=200:
+                return render_to_response("browse.html", {"data": {"ERROR":{"messages":"Web Service failed","total":1}},'number_of_pages':0, 'current_page':0,
+                                                          'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
+                                          context_instance=RequestContext(request))
 
             loaded = json.loads(r.content)
             if 'ERROR' in loaded:
@@ -208,6 +219,11 @@ def study(request, invID=None, studyID=None):
         try:
             r = requests.post(settings.WEBSERVICES_URL + 'retrieve/study',
                           data=json.dumps({'username': request.user.username, 'studyID':studyID}),headers={'Cache-Control':'no-cache'})
+
+            if r.status_code!=200:
+                return render_to_response("browse.html", {"data": {"ERROR":{"messages":"Web Service failed","total":1}},'number_of_pages':0, 'current_page':0,
+                                                          'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
+                                          context_instance=RequestContext(request))
 
             loaded = json.loads(r.content)
 
@@ -273,6 +289,10 @@ def assay(request, invID=None, studyID=None, measurement=None, technology=None):
             r = requests.post(settings.WEBSERVICES_URL + 'retrieve/study/assay',
                               data=json.dumps({'username': request.user.username, 'studyID':studyID
                                   , 'measurement':measurement, 'technology':technology}),headers={'Cache-Control':'no-cache'})
+            if r.status_code!=200:
+                return render_to_response("browse.html", {"data": {"ERROR":{"messages":"Web Service failed","total":1}},'number_of_pages':0, 'current_page':0,
+                                                          'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
+                                          context_instance=RequestContext(request))
 
             loaded = json.loads(r.content)
 
