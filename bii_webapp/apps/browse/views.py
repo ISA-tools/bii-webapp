@@ -258,6 +258,7 @@ def study(request, invID=None, studyID=None):
                 return browse(request,1,loaded['ERROR'])
 
             s_assays=None
+            s_organisms=None
             studies=None
             browse_data=cache.get('browse')
             if browse_data!=None:
@@ -273,13 +274,17 @@ def study(request, invID=None, studyID=None):
                 for study in studies:
                     if study['s_id']==studyID:
                         s_assays=study['s_assays']
+                        s_organisms=study['s_organisms']
                         break
 
             if s_assays == None:
-                r = requests.post(settings.WEBSERVICES_URL + 'retrieve/study/assays',
+                r = requests.post(settings.WEBSERVICES_URL + 'retrieve/study/browse_view',
                                   data=json.dumps({'username': request.user.username, 'studyID':studyID}))
-                s_assays=json.loads(r.content)['s_assays']
+                load=json.loads(r.content)
+                s_assays=load['s_assays']
+                s_organisms=load['s_organisms']
 
+            loaded.update({'s_organisms':s_organisms})
             loaded.update({'s_assays':s_assays})
             cache.set(studyID, loaded, None)
 
@@ -320,7 +325,6 @@ def assay(request, invID=None, studyID=None, measurement=None, technology=None):
             if 'ERROR' in loaded:
                 return browse(request,1,loaded['ERROR'])
 
-            organisms=None
             organisms=None
             study=cache.get(studyID)
             if study!=None:
@@ -376,7 +380,7 @@ def generateBreadcrumbs(path=None):
         splitt=assay.split('/')
         assay=splitt[0]+'/'+splitt[1]
         bPath += 'assay/' + assay + '/'
-        breadcrumbs.append(('Assay ' + stripIRI(splitt[0]).title()+ ' with '+ stripIRI(splitt[1]).title(), bPath))
+        breadcrumbs.append(('Assay ' + stripIRI(splitt[0]).title()+ ' with '+ stripIRI(splitt[1]), bPath))
 
     return breadcrumbs
 
