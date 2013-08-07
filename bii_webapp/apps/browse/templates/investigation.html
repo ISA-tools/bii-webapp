@@ -66,10 +66,10 @@
     </div>
 
     <div id="collapse_pubs" class="collapse in" data-bind="foreach:investigation().i_pubs_model.publications">
-        <p class="gray_title editable_field" data-name="pub_title" data-original-title="Enter publication title"
+        <p class="gray_title" data-name="pub_title" data-original-title="Enter publication title"
            data-type="textarea" data-bind='text: pub_title'></p>
 
-        <p class="editable_field" data-name="pub_author_list" data-original-title="Enter publication author list"
+        <p data-name="pub_author_list" data-original-title="Enter publication author list"
            data-type="textarea" data-bind='text: pub_author_list'>
         </p>
         <!-- ko if: pubmed_id -->
@@ -99,11 +99,11 @@
     <div id="collapse_contacts" class="collapse in" data-bind="foreach:investigation().i_contacts_model.contacts">
         <div class="rep_contact">
             <div class="rep_contact_name">
-                <span class="editable_field" data-name="person_name"
+                <span data-name="person_name"
                       data-original-title="Enter contact name midinitials and surname"
                       data-bind='text: $data.person_first_name +" "+($data.person_mid_initials?$data.person_mid_initials+".":"")+" "+$data.person_last_name'></span>
             </div>
-            <span class="editable_field" data-name="person_affiliation" data-original-title="Enter contact affiliation"
+            <span data-name="person_affiliation" data-original-title="Enter contact affiliation"
                   data-bind='text: $data.person_affiliation'></span>
         </div>
     </div>

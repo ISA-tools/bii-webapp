@@ -447,3 +447,7 @@ CONTACTS
     width: 50px;
     margin-right: 6px;
 }
+
+.editable-empty{
+    color: #6e6e70;
+}

@@ -27,4 +27,6 @@ $(document).ready(function () {
         $($($(this).closest('.rep_header')).siblings('.collapse')[0]).css('overflow', 'hidden');
     })
     dropdown($('.group_columns .collapse'), $('.collapsibleImage'));
+
+    $('.editable-empty').text('Add value');
 });
