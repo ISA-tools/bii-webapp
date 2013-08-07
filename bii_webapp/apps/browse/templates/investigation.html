@@ -1,12 +1,14 @@
 {% extends "browse_base.html" %}
 {% load static from staticfiles %}
+{% load tags %}
 {% block extra_browse_css %}
 <link href="{% static 'browse/css/investigation.css' %}" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'libs/jquery/jquery.modal.css' %}" type="text/css" media="screen"/>
 {% endblock %}
 {% block extra_browse_script %}
 <script>
-    var investigation = '{% autoescape off %}{{investigation_json}}{% endautoescape %}';
+    var investigation ='{% autoescape off %}{{investigation|jsonify}}{% endautoescape %}';
+    investigation=investigation.replace(/\\n/g,"<br>");
     if (investigation && investigation.length > 0) {
         investigation = JSON.parse(investigation);
     }
@@ -43,11 +45,11 @@
 
     <div id="rep_header_details">
         <p class="editable_field" data-name="i_title" data-original-title="Enter investigation title"
-           data-type="textarea" data-bind='text: investigation().i_title'>
+           data-type="textarea" data-bind='html: investigation().i_title'>
         </p>
 
         <p class="editable_field" data-name="i_description" data-original-title="Enter investigation description"
-           data-type="textarea" data-bind='text: investigation().i_description'>
+           data-type="textarea" data-bind='html: investigation().i_description'>
         </p>
 
     </div>
@@ -144,7 +146,7 @@
                     <div class="assays">
                         {% for assay in study.s_assays %}
                         <div class="assay">
-                            <a href="{% url 'browse.investigation.study.assay' investigation.i_id study.s_id assay.measurement assay.technology %}">
+                            <a href="{% url 'browse.investigation.study.assay' investigation.i_id study.s_id assay.measurement_ assay.technology_ %}">
                                 <div>
                                     {{assay.assay_type_count}}
                                 </div>

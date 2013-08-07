@@ -3,7 +3,7 @@
  * once it knows how many studies it contains.
  */
 $(document).ready(function () {
-    var investigation=vars.investigation;
+    var investigation = vars.investigation;
     viewModel = new InvestigationModel(investigation);
     ko.applyBindings(viewModel);
 
@@ -11,24 +11,32 @@ $(document).ready(function () {
     $("#createISAForm").validate({ submitHandler: viewModel.save });
 
     $(".study").each(function (index) {
-        var elheight=$(this).outerHeight();
+        var elheight = $(this).outerHeight();
         $(this).children('.study_id').height(elheight);
-        $(this).children('.study_id').css('line-height',elheight+'px');
+        $(this).children('.study_id').css('line-height', elheight + 'px');
     });
 
 
     $('.editable_field').editable({
         success: function (response, newValue) {
-            if(response.field && response.field=='i_id')viewModel.investigation().i_id(newValue);
+            if (response.field && response.field == 'i_id')viewModel.investigation().i_id(newValue);
             if (response.ERROR) return response.ERROR.messages; //msg will be shown in editable form
         },
         ajaxOptions: {
             type: 'post',
             dataType: 'json'
         },
+        validate: function (value) {
+            if ($.trim(value) == '') {
+                return 'Title must not be empty';
+            }
+            if ((/[\/:*?"<>|]/.test(value))) {
+                return 'Invalid Characters detected';
+            }
+        },
 
-        url:vars.urls.updateInvestigation,
-        pk:viewModel.investigation().i_id
+        url: vars.urls.updateInvestigation,
+        pk: viewModel.investigation().i_id
     });
     $('.editable_field').click(function () {
         if ($(this).parents('.collapse').length > 0) {
@@ -49,35 +57,35 @@ $(document).ready(function () {
     };
 });
 
-var deleteInvestigation=function(){
+var deleteInvestigation = function () {
     $.ajax({
             url: vars.urls.deleteInvestigation,  //server script to process data
             type: 'POST',
             //Ajax events
             success: completeHandler = function (data) {
-                    if(data.ERROR){
-                        $().toastmessage('showToast', {
-                            text: data.ERROR.messages,
-                            sticky: false,
-                            type: 'error'
-                        });
-                        $('#confirmDelete .modal-footer > span a').show();
-                        $('#confirmDelete .modal-footer > span > font').remove();
-                        $.modal.close();
-                    }
-                        window.location = vars.urls.browse
+                if (data.ERROR) {
+                    $().toastmessage('showToast', {
+                        text: data.ERROR.messages,
+                        sticky: false,
+                        type: 'error'
+                    });
+                    $('#confirmDelete .modal-footer > span a').show();
+                    $('#confirmDelete .modal-footer > span > font').remove();
+                    $.modal.close();
+                }
+                window.location = vars.urls.browse
             },
             error: errorHandler = function (xmlHttpRequest, ErrorText, thrownError) {
-              if (xmlHttpRequest.readyState == 0 || xmlHttpRequest.status == 0)
-                        return;
+                if (xmlHttpRequest.readyState == 0 || xmlHttpRequest.status == 0)
+                    return;
             },
-            data:JSON.stringify({pk:vars.investigation.i_id(),type:"investigation"}),
+            data: JSON.stringify({pk: vars.investigation.i_id(), type: "investigation"}),
             dataType: 'json',
             cache: false,
             contentType: false,
             processData: false
         }
-     );
+    );
     $('#confirmDelete .modal-footer > span a').hide();
     $('#confirmDelete .modal-footer > span').prepend('<font color="red">Deleting...</font>');
 }

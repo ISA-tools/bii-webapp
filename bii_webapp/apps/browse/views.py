@@ -73,13 +73,43 @@ def updateInvestigation(request):
     if 'ERROR' in loaded:
         return HttpResponse(json.dumps(loaded))
 
-    loaded['field']=data['name']
 
-    cache.delete('browse')
+    loaded['field']=field=data['name']
+
     pk=request.POST['pk']
-    cache.delete(pk)
+
+    investigation=cache.get(pk)
+    if(investigation!=None):
+        investigation[loaded['field']]=data['value']
+        cache.set(pk,investigation)
+
 
     return HttpResponse(json.dumps(loaded))
+
+def updateBrowse(pk,field,value):
+    browse=cache.get('browse')
+    if browse==None:
+        return
+
+    found=False
+    results=json.loads(browse['results'])
+    if 'studies' in results:
+        studies=results['studies']
+        for s in studies:
+            if s['s_id']==pk:
+                found=True
+                s[field]=value
+                break
+        if not found:
+            investigations=results['investigations']
+            for i in investigations:
+                for s in i['i_studies']:
+                    if s['s_id']==pk:
+                        s[field]=value
+                        break
+
+    browse['results']=json.dumps(results)
+    cache.set('browse',browse)
 
 @csrf_exempt
 @decorators.login_required(login_url=views.login)
@@ -97,16 +127,21 @@ def updateStudy(request):
     if 'ERROR' in loaded:
         return HttpResponse(json.dumps(loaded))
 
-    loaded['field']=data['name']
-    cache.delete('browse')
+    loaded['field']=field=data['name']
+
     pk=request.POST['pk']
-    cache.delete(pk)
+    updateBrowse(pk,field,data['value'])
+
+    study=cache.get(pk)
+    if(study!=None):
+        study[loaded['field']]=data['value']
+        cache.set(pk,study)
 
     return HttpResponse(json.dumps(loaded))
 
 
 @decorators.login_required(login_url=views.login)
-def browse(request, page=1):
+def browse(request, page=1,errorMsg=None):
     loaded=cache.get('browse')
     try:
         if loaded==None:
@@ -148,7 +183,8 @@ def browse(request, page=1):
     blist = generateBreadcrumbs(request.path)
     request.breadcrumbs(blist)
 
-    return render_to_response("browse.html", {"data": results,'number_of_pages':loaded['number_of_pages'], 'current_page':page,
+
+    return render_to_response("browse.html", {"data": results,'number_of_pages':loaded['number_of_pages'], 'current_page':page, "ERROR":errorMsg,
                                               'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
                               context_instance=RequestContext(request))
 
@@ -165,13 +201,11 @@ def investigation(request, invID=None):
                           data=json.dumps({'username': request.user.username, 'investigationID':invID}),headers={'Cache-Control':'no-cache'})
 
             if r.status_code!=200:
-                return render_to_response("browse.html", {"data": {"ERROR":{"messages":"Web Service failed","total":1}},'number_of_pages':0, 'current_page':0,
-                                                          'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
-                                          context_instance=RequestContext(request))
+                return browse(request,1,{"messages":"Web Service failed","total":1})
 
             loaded = json.loads(r.content)
             if 'ERROR' in loaded:
-                return redirect(browse)
+                return browse(request,1,loaded['ERROR'])
 
             i_studies=None
             browse_data=cache.get('browse')
@@ -190,17 +224,12 @@ def investigation(request, invID=None):
             cache.set(invID, loaded, None)
 
         except Exception:
-            return render_to_response("browse.html", {"data": {"ERROR":{"messages":"Web Server error","total":1}},'number_of_pages':0, 'current_page':0,
-                                                      'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
-                                      context_instance=RequestContext(request))
-
-    investigation = json.dumps(loaded).replace("'", "\\'")
+            return browse(request,1,{"messages":"Web Server error","total":1})
 
     blist = generateBreadcrumbs(request.path)
     request.breadcrumbs(blist)
 
-    return render_to_response("investigation.html", {"investigation": loaded, "investigation_json": investigation,
-                                                     'pageNotice': 'Various fields can be edited by clicking'},
+    return render_to_response("investigation.html", {"investigation": loaded,'pageNotice': 'Various fields can be edited by clicking'},
                               context_instance=RequestContext(request))
 
 
@@ -221,14 +250,12 @@ def study(request, invID=None, studyID=None):
                           data=json.dumps({'username': request.user.username, 'studyID':studyID}),headers={'Cache-Control':'no-cache'})
 
             if r.status_code!=200:
-                return render_to_response("browse.html", {"data": {"ERROR":{"messages":"Web Service failed","total":1}},'number_of_pages':0, 'current_page':0,
-                                                          'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
-                                          context_instance=RequestContext(request))
+                return browse(request,1,{"messages":"Web Service failed","total":1})
 
             loaded = json.loads(r.content)
 
             if 'ERROR' in loaded:
-                return redirect(browse)
+                return browse(request,1,loaded['ERROR'])
 
             s_assays=None
             studies=None
@@ -257,16 +284,12 @@ def study(request, invID=None, studyID=None):
             cache.set(studyID, loaded, None)
 
         except Exception:
-            return render_to_response("browse.html", {"data": {"ERROR":{"messages":"Web Server error","total":1}},'number_of_pages':0, 'current_page':0,
-                                                      'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
-                                      context_instance=RequestContext(request))
-
-    study = json.dumps(loaded).replace("'", "\\'")
+            return browse(request,1,{"messages":"Web Server error","total":1})
 
     blist = generateBreadcrumbs(request.path)
     request.breadcrumbs(blist)
 
-    return render_to_response("study.html", {"investigation": {"i_id": invID},"study": loaded, "study_json": study,
+    return render_to_response("study.html", {"investigation": {"i_id": invID},"study": loaded,
                                                      'pageNotice': 'Various fields can be edited by clicking'},
                               context_instance=RequestContext(request))
 
@@ -290,36 +313,23 @@ def assay(request, invID=None, studyID=None, measurement=None, technology=None):
                               data=json.dumps({'username': request.user.username, 'studyID':studyID
                                   , 'measurement':measurement, 'technology':technology}),headers={'Cache-Control':'no-cache'})
             if r.status_code!=200:
-                return render_to_response("browse.html", {"data": {"ERROR":{"messages":"Web Service failed","total":1}},'number_of_pages':0, 'current_page':0,
-                                                          'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
-                                          context_instance=RequestContext(request))
+                return browse(request,1,{"messages":"Web Service failed","total":1})
 
             loaded = json.loads(r.content)
 
             if 'ERROR' in loaded:
-                return redirect(browse)
+                return browse(request,1,loaded['ERROR'])
 
             organisms=None
-            assay=None
             organisms=None
             study=cache.get(studyID)
             if study!=None:
-                assays=json.loads(study['s_assays'])
                 organisms=study['s_organisms']
-                for assay_obj in assays:
-                        if assay_obj['measurement_']==measurement and assay_obj['technology_']==technology:
-                            assay=assay_obj
-                            break
             else:
                 r = requests.post(settings.WEBSERVICES_URL + 'retrieve/study/browse_view',
                                   data=json.dumps({'username': request.user.username, 'studyID':studyID}))
                 studyObj=json.loads(r.content);
                 organisms=studyObj['s_organisms']
-                assays=studyObj['s_assays']
-                for assay_obj in assays:
-                    if assay_obj['measurement_']==measurement and assay_obj['technology_']==technology:
-                        assay=assay_obj
-                        break
 
             loaded.update({'organisms':organisms})
             loaded.update({'measurement':stripIRI(measurement)})
@@ -327,16 +337,12 @@ def assay(request, invID=None, studyID=None, measurement=None, technology=None):
             cache.set((str)(studyID)+"_"+(str)(measurement)+"_"+(str)(technology), loaded, None)
 
         except Exception:
-            return render_to_response("browse.html", {"data": {"ERROR":{"messages":"Web Server error","total":1}},'number_of_pages':0, 'current_page':0,
-                                                      'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
-                                      context_instance=RequestContext(request))
-
-    assay = json.dumps(loaded).replace("'", "\\'")
+            return browse(request,1,{"messages":"Web Server error","total":1})
 
     blist = generateBreadcrumbs(request.path)
     request.breadcrumbs(blist)
 
-    return render_to_response("assay.html", {"study": {"s_id": studyID},"assay": loaded, "assay_json": assay,
+    return render_to_response("assay.html", {"study": {"s_id": studyID},"assay": loaded,
                                              'pageNotice': 'Assay details including the samples per study group'},
                               context_instance=RequestContext(request))
 
@@ -364,11 +370,13 @@ def generateBreadcrumbs(path=None):
         bPath += 'sample/' + sample + '/'
         breadcrumbs.append(('Sample ' + sample, bPath))
 
-    assay = re.search('(?<=assay/)[^/.]+', path)
+    assay = re.search('(?<=assay/)[^.]+', path)
     if (assay):
         assay = assay.group(0)
+        splitt=assay.split('/')
+        assay=splitt[0]+'/'+splitt[1]
         bPath += 'assay/' + assay + '/'
-        breadcrumbs.append(('Assay ' + stripIRI(assay), bPath))
+        breadcrumbs.append(('Assay ' + stripIRI(splitt[0]).title()+ ' with '+ stripIRI(splitt[1]).title(), bPath))
 
     return breadcrumbs
 

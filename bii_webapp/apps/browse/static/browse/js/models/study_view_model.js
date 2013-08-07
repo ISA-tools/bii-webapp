@@ -31,7 +31,14 @@ $(document).ready(function () {
             type: 'post',
             dataType: 'json'
         },
-
+        validate: function(value) {
+            if($.trim(value) == ''){
+                return 'Title must not be empty';
+            }
+            if((/[\/:*?"<>|]/.test(value))) {
+                return 'Invalid Characters detected';
+            }
+        },
         url: vars.urls.updateStudy,
         pk: viewModel.studies()[0].s_id
     });

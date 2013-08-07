@@ -7,7 +7,8 @@
 {% endblock %}
 {% block extra_browse_script %}
 <script>
-    var study = '{% autoescape off %}{{study_json}}{% endautoescape %}';
+    var study ='{% autoescape off %}{{study|jsonify}}{% endautoescape %}';
+    study=study.replace(/\\n/g,"<br>");
     if (study && study.length > 0) {
         study = JSON.parse(study);
     }
@@ -47,11 +48,11 @@
 
     <div id="rep_header_details">
         <p class="editable_field" data-name="s_title" data-type="textarea" data-original-title="Enter study title"
-           data-bind='text: studies()[0].s_title'>
+           data-bind='html: studies()[0].s_title'>
         </p>
 
         <p class="editable_field" data-name="s_description" data-type="textarea"
-           data-original-title="Enter study description" data-bind='text: studies()[0].s_description'>
+           data-original-title="Enter study description" data-bind='html: studies()[0].s_description'>
         </p>
 
     </div>
