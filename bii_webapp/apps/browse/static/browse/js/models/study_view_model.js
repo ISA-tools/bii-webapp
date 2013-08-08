@@ -35,7 +35,7 @@ $(document).ready(function () {
             if($.trim(value) == ''){
                 return 'Title must not be empty';
             }
-            if((/[\/:*?"<>|]/.test(value))) {
+            if((/<>/.test(value))) {
                 return 'Invalid Characters detected';
             }
         },
