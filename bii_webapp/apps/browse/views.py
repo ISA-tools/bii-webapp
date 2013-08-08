@@ -144,7 +144,7 @@ def updateStudy(request):
 def browse(request, page=1,errorMsg=None):
     loaded=cache.get('browse')
     try:
-        if loaded==None:
+        if loaded==None or loaded['page']!=page:
             r = requests.post(settings.WEBSERVICES_URL + 'retrieve/browse',
                           data=json.dumps({'username': request.user.username, 'page': page}),headers={'Cache-Control':'no-cache'})
 
@@ -168,6 +168,7 @@ def browse(request, page=1,errorMsg=None):
                                                       'pageNotice':'This page shows the accessible studies for your account, click on each to get more details'},
                                       context_instance=RequestContext(request))
 
+            loaded.update({'page':page})
             cache.set('browse', loaded, None)
 
     except ValueError:
