@@ -213,7 +213,7 @@ var upload = function () {
             retry = false;
             pollProgress(data);
         }
-        request.initSample('BII-S-3.zip', callback);
+        request.initSample('BII-I-1.zip', callback);
 
     }
 

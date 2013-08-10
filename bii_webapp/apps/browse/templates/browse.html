@@ -22,6 +22,14 @@
     {% if data.INFO %}
     <script>$().toastmessage('showNoticeToast', '{{data.INFO.messages}}');</script>
     {% else %}
+
+    {% if toast.ERROR %}
+    <script>$().toastmessage('showErrorToast', '{{toast.ERROR.messages}}');</script>
+    {% endif %}
+    {% if toast.INFO %}
+    <script>$().toastmessage('showNoticeToast', '{{toast.INFO.messages}}');</script>
+    {% endif %}
+
     {% for investigation in data.investigations %}
     <div class="investigation">
         <div class="inv_id">

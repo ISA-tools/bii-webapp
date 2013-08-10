@@ -116,7 +116,9 @@ h3 {
     padding-left: 10px;
     height: 25px;
     line-height: 25px;
+    overflow: hidden;
     font-size: 14px;
+    text-overflow: ellipsis;
 }
 
 .study_details {
