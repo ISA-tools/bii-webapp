@@ -41,7 +41,7 @@
         <h1 data-bind='text: studies()[0].s_id()'></h1>
 
         <div>
-            <a href=""><img src="{% static 'browse/img/download.png' %}"/></a>
+            <!--<a href=""><img src="{% static 'browse/img/download.png' %}"/></a>-->
             <a rel="modal:open" href="#confirmDelete"><img src="{% static 'browse/img/delete.png' %}"/></a>
         </div>
     </div>
@@ -194,9 +194,11 @@
                                 {{member}}</a>
 
                             <div>
-                                <img src="{% static 'browse/img/raw_data.png' %}"/>
-                                <img src="{% static 'browse/img/processed_data.png' %}"/>
-                                <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
+                                <!--{% if sample.raw_data_file %}-->
+                                <!--<img class="showtooltip" src="{% static 'browse/img/raw_data.png' %}"/>-->
+                                {% endif %}
+                                <!--<img src="{% static 'browse/img/processed_data.png' %}"/>-->
+                                <!--<img src="{% static 'browse/img/analysis_result_gray.png' %}"/>-->
                             </div>
                         </div>
                         {% endfor %}

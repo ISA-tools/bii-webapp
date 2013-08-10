@@ -11,9 +11,9 @@ $(document).ready(function () {
     })
 
     $('.collapse').filter('.in').each(function () {
-        if($(this).find('.collapse').not('in').length>0)
+        if ($(this).find('.collapse').not('in').length > 0)
             return;
-        $(this).css('height',($(this).height()));
+        $(this).css('height', ($(this).height()));
     });
 
 //    $('.editable_field').each(function () {
@@ -29,4 +29,10 @@ $(document).ready(function () {
     dropdown($('.group_columns .collapse'), $('.collapsibleImage'));
 
     $('.editable-empty').text('Add value');
+
+    $('.showtooltip').tooltip({
+        animation: true,
+        placement: 'left'
+    })
+
 });

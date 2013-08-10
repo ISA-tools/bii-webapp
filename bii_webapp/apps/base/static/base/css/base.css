@@ -30,6 +30,13 @@ h1 {
     overflow: visible;
 }
 
+.template_img{
+    position: absolute;
+    margin-top: 15px;
+    margin-left: -9px;
+    opacity: 0.6;
+}
+
 .btn-info {
     background-color: #0097d6 !important;
     background-image: linear-gradient(#24aae1, #0097d6) !important;
@@ -283,7 +290,7 @@ h1 {
     background-color: #24aae1;
 }
 
-#basket-menu >a:nth-child(2){
+#basket-menu >a:nth-child(3){
     padding: 8px 5px;
 }
 
@@ -292,12 +299,12 @@ h1 {
     margin-right: 10px;
 }
 
-#basket-menu >a:nth-child(2)>img{
+#basket-menu > a:nth-child(3)>img{
     width:30px;
     height: 24px;
 }
 
-#basket-menu >a:last-child>img{
+#basket-menu > a:last-child>img{
     width:40px;
     height: 40px;
 }

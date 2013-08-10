@@ -69,11 +69,13 @@
             <div class="group_rows collapse" id="collapse_{{ forloop.parentloop.counter}}_{{ forloop.counter}}">
                 {% for sample in study_group.samples %}
                 <div class="group_row">
-                    <a href="{% url 'browse.investigation.study.sample' 1 1 1 %}"> {{sample}}</a>
+                    <a href="{% url 'browse.investigation.study.sample' 1 1 1 %}"> {{sample.name}}</a>
                     <div>
-                        <img src="{% static 'browse/img/raw_data.png' %}"/>
-                        <img src="{% static 'browse/img/processed_data.png' %}"/>
-                        <img src="{% static 'browse/img/analysis_result_gray.png' %}"/>
+                        {% if sample.raw_data_file %}
+                        <img class="showtooltip" title="{{sample.raw_data_file}}" src="{% static 'browse/img/raw_data.png' %}"/>
+                        <!--<img src="{% static 'browse/img/processed_data.png' %}"/>-->
+                        <!--<img src="{% static 'browse/img/analysis_result_gray.png' %}"/>-->
+                        {% endif %}
                     </div>
                 </div>
                 {% endfor %}

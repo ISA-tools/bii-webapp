@@ -114,21 +114,21 @@
                                 </p></a>
                         </li>
 
-                        <li>
-                            <a id="files" href="{% url 'files.files' %}"> <img src="{% static 'base/img/files.png' %}"/>
+                        <!--<li>
+                            <a id="files" href=""> <img src="{% static 'base/img/files.png' %}"/>
 
                                 <p>
                                     Files
                                 </p></a>
-                        </li>
+                        </li>   -->
 
-                        <li>
+                        <!--<li>
                             <a id="settings" href=""> <img src="{% static 'base/img/settings.png' %}"/>
 
                                 <p>
                                     Settings
                                 </p></a>
-                        </li>
+                        </li>-->
                         {% if user.is_authenticated %}
                         <li>
                             <a id="admin" href="{% url 'admin:index' %}"> <img src="{% static 'base/img/admin.png' %}"/>
