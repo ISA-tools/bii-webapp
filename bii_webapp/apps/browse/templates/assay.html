@@ -24,28 +24,23 @@
     </div>
 </div>
 
-<div id="rep_assay_details" class="rep_container">
-    <div class="gray_title50" style="background-color: transparent">
-        <div>
-            <div style="float: left;">
-                <img src="{% static 'browse/img/saccharomyces.png' %}">
-                {% for organism in assay.organisms %}
-                <span>{{ organism }}{% if not forloop.last %}, {% endif %} </span>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-</div>
-
 
 <div>
     {% for char_group in assay.characteristic_groups %}
+    <div id="rep_assay_details" class="rep_container">
+        <div class="gray_title50" style="background-color: transparent">
+            <div>
+                <div style="float: left;">
+                    <img src="{% static 'browse/img/saccharomyces.png' %}">
+                    <span>{{ char_group.organism }}{% if not forloop.last %}, {% endif %} </span>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="after_grey_title">
         {% for characteristic in char_group.characteristics %}
         <span>{{characteristic.type|cap}}
-            {% for value in characteristic.values %}
-            <span><a>{{value}}</a></span>
-             {% endfor %}
+        <span><a>{{characteristic.value}}</a></span>
         </span>
         {% endfor %}
     </div>
@@ -58,9 +53,10 @@
 
                 <div style="float: right">
                     <div>
-                        <a data-target="#collapse_{{ forloop.parentloop.counter}}_{{ forloop.counter}}" data-toggle="collapse" href="#collapse_{{ forloop.parentloop.counter}}_{{ forloop.counter}}"
+                        <a data-target="#collapse_{{ forloop.parentloop.counter}}_{{ forloop.counter}}"
+                           data-toggle="collapse" href="#collapse_{{ forloop.parentloop.counter}}_{{ forloop.counter}}"
                            class="dropdown_button"><img class="collapsibleImage"
-                                src="{% static 'browse/img/dropdown_grey.png' %}"/></a>
+                                                        src="{% static 'browse/img/dropdown_grey.png' %}"/></a>
                     </div>
                 </div>
             </div>
@@ -69,9 +65,11 @@
                 {% for sample in study_group.samples %}
                 <div class="group_row">
                     <a href="{% url 'browse.investigation.study.sample' 1 1 1 %}"> {{sample.name}}</a>
+
                     <div>
                         {% if sample.raw_data_file %}
-                        <img class="showtooltip" title="{{sample.raw_data_file}}" src="{% static 'browse/img/raw_data.png' %}"/>
+                        <img class="showtooltip" title="{{sample.raw_data_file}}"
+                             src="{% static 'browse/img/raw_data.png' %}"/>
                         <!--<img src="{% static 'browse/img/processed_data.png' %}"/>-->
                         <!--<img src="{% static 'browse/img/analysis_result_gray.png' %}"/>-->
                         {% endif %}

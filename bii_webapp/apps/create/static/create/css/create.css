@@ -203,6 +203,7 @@ tr td:first-child {
     height: 758px !important;
     max-height: 758px;
     margin-top: -390px !important;
+    overflow: visible;
 }
 
 #upload_modal > .modal-header {
@@ -214,6 +215,7 @@ tr td:first-child {
 #upload_modal > .modal-body {
     width: 945px !important;
     height: 670px !important;
+    overflow: visible;
 }
 
 #upload_modal > .modal-footer {

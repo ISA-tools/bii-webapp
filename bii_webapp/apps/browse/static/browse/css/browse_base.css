@@ -71,6 +71,7 @@ h3 {
 .study a {
     color: #ffffff;
     display: block;
+    overflow: hidden;
 }
 
 .study a:hover {
