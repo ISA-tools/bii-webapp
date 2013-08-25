@@ -36,7 +36,7 @@ def deleteInvestigation(request):
     for study in studies:
         assays = study['s_assays']
         for assay in assays:
-            cache.delete((str)(study['s_id']) + "_" + (str)(assay['measurement_']) + "_" + (str)(assay['technology_']))
+            cache.delete((str)(study['s_id']) + "_" + (str)(assay['measurement']) + "_" + (str)(assay['technology']))
         cache.delete(study['s_id'])
 
     cache.delete(loaded['pk'])
@@ -66,7 +66,7 @@ def deleteStudy(request):
     study = cache.get(loaded['pk'])
     assays = study['s_assays']
     for assay in assays:
-        cache.delete((str)(study['s_id']) + "_" + (str)(assay['measurement_']) + "_" + (str)(assay['technology_']))
+        cache.delete((str)(study['s_id']) + "_" + (str)(assay['measurement']) + "_" + (str)(assay['technology']))
     cache.delete(loaded['pk'])
 
     return HttpResponse(json.dumps(loaded))
