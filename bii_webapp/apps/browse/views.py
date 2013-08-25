@@ -190,7 +190,7 @@ def browse(request, page=1, msg=None):
                                           context_instance=RequestContext(request))
 
             loaded.update({'page': page})
-            cache.set('browse', loaded, None)
+            cache.set('browse', loaded,9223372036854775807)
 
     except ValueError:
         return render_to_response("browse.html",
@@ -250,7 +250,7 @@ def investigation(request, invID=None):
                 i_studies = json.loads(r.content)['i_studies']
 
             loaded.update({'i_studies': i_studies})
-            cache.set(invID, loaded, None)
+            cache.set(invID, loaded,9223372036854775807)
 
         except Exception:
             return browse(request, 1, {'ERROR': {"messages": "Web Server error", "total": 1}})
@@ -318,7 +318,7 @@ def study(request, invID=None, studyID=None):
 
             loaded.update({'s_organisms': s_organisms})
             loaded.update({'s_assays': s_assays})
-            cache.set(studyID, loaded, None)
+            cache.set(studyID, loaded,9223372036854775807)
 
         except Exception:
             return browse(request, 1, {'ERROR': {"messages": "Web Server error", "total": 1}})
@@ -372,7 +372,7 @@ def assay(request, invID=None, studyID=None, measurement=None, technology=None):
             loaded.update({'organisms': organisms})
             loaded.update({'measurement': stripIRI(measurement)})
             loaded.update({'technology': stripIRI(technology)})
-            cache.set((str)(studyID) + "_" + (str)(measurement) + "_" + (str)(technology), loaded, None)
+            cache.set((str)(studyID) + "_" + (str)(measurement) + "_" + (str)(technology), loaded,9223372036854775807)
 
         except Exception:
             return browse(request, 1, {'ERROR': {"messages": "Web Server error", "total": 1}})
