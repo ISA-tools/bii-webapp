@@ -8,9 +8,9 @@ from django.shortcuts import redirect
 from django.contrib.auth import decorators, views
 from django.views.decorators.csrf import csrf_exempt
 from django.core.cache import cache
-import re
+import re,sys
 
-cache_exp=9999999999999999999999999999999999
+cache_exp=sys.maxint
 cache.clear()
 
 
