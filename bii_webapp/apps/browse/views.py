@@ -8,7 +8,7 @@ from django.shortcuts import redirect
 from django.contrib.auth import decorators, views
 from django.views.decorators.csrf import csrf_exempt
 from django.core.cache import cache
-import re
+import re ,sys
 
 cache.clear()
 
@@ -96,7 +96,7 @@ def updateInvestigation(request):
     investigation = cache.get(pk)
     if (investigation != None):
         investigation[loaded['field']] = data['value']
-        cache.set(pk, investigation,0)
+        cache.set(pk, investigation,sys.maxsize)
 
     return HttpResponse(json.dumps(loaded))
 
@@ -124,7 +124,7 @@ def updateBrowseCache(pk, field, value):
                         break
 
     browse['results'] = json.dumps(results)
-    cache.set('browse', browse,0)
+    cache.set('browse', browse,sys.maxsize)
 
 
 @csrf_exempt
@@ -153,7 +153,7 @@ def updateStudy(request):
     study = cache.get(pk)
     if (study != None):
         study[loaded['field']] = data['value']
-        cache.set(pk, study,0)
+        cache.set(pk, study,sys.maxsize)
 
     return HttpResponse(json.dumps(loaded))
 
@@ -190,7 +190,7 @@ def browse(request, page=1, msg=None):
                                           context_instance=RequestContext(request))
 
             loaded.update({'page': page})
-            cache.set('browse', loaded, 0)
+            cache.set('browse', loaded, sys.maxsize)
 
     except ValueError:
         return render_to_response("browse.html",
@@ -250,7 +250,7 @@ def investigation(request, invID=None):
                 i_studies = json.loads(r.content)['i_studies']
 
             loaded.update({'i_studies': i_studies})
-            cache.set(invID, loaded, 0)
+            cache.set(invID, loaded, sys.maxsize)
 
         except Exception:
             return browse(request, 1, {'ERROR': {"messages": "Web Server error", "total": 1}})
@@ -318,7 +318,7 @@ def study(request, invID=None, studyID=None):
 
             loaded.update({'s_organisms': s_organisms})
             loaded.update({'s_assays': s_assays})
-            cache.set(studyID, loaded, 0)
+            cache.set(studyID, loaded, sys.maxsize)
 
         except Exception:
             return browse(request, 1, {'ERROR': {"messages": "Web Server error", "total": 1}})
@@ -372,7 +372,7 @@ def assay(request, invID=None, studyID=None, measurement=None, technology=None):
             loaded.update({'organisms': organisms})
             loaded.update({'measurement': stripIRI(measurement)})
             loaded.update({'technology': stripIRI(technology)})
-            cache.set((str)(studyID) + "_" + (str)(measurement) + "_" + (str)(technology), loaded, 0)
+            cache.set((str)(studyID) + "_" + (str)(measurement) + "_" + (str)(technology), loaded, sys.maxsize)
 
         except Exception:
             return browse(request, 1, {'ERROR': {"messages": "Web Server error", "total": 1}})
