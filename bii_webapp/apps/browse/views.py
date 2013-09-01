@@ -36,7 +36,8 @@ def deleteInvestigation(request):
     for study in studies:
         assays = study['s_assays']
         for assay in assays:
-            cache.delete((str)(study['s_id']) + "_" + (str)(assay['measurement']) + "_" + (str)(assay['technology']))
+            cache.delete((str)(study['s_id']) + "_" + (str)(assay['measurement']) + "_" + (str)(assay['technology'
+                                                                                                      '']))
         cache.delete(study['s_id'])
 
     cache.delete(loaded['pk'])
