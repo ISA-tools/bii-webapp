@@ -159,13 +159,16 @@ def updateStudy(request):
     return HttpResponse(json.dumps(loaded))
 
 
-@decorators.login_required(login_url=views.login)
 def browse(request, page=1, msg=None):
     loaded = cache.get('browse')
     try:
         if loaded == None or loaded['page'] != page:
+            username = "default"
+            if request.user:
+                username = request.user.username
+
             r = requests.post(settings.WEBSERVICES_URL + 'retrieve/browse',
-                              data=json.dumps({'username': request.user.username, 'page': page}),
+                              data=json.dumps({'username': username, 'page': page}),
                               headers={'Cache-Control': 'no-cache'})
 
             if r.status_code != 200:
