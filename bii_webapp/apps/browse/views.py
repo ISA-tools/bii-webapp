@@ -219,7 +219,6 @@ def browse(request, page=1, msg=None):
                               context_instance=RequestContext(request))
 
 
-@decorators.login_required(login_url=views.login)
 def investigation(request, invID=None):
     if invID == None:
         return redirect(browse)
@@ -227,9 +226,13 @@ def investigation(request, invID=None):
     loaded = cache.get(invID)
 
     if loaded == None:
+        username = "default"
+        if request.user:
+            username = request.user.username
+
         try:
             r = requests.post(settings.WEBSERVICES_URL + 'retrieve/investigation',
-                              data=json.dumps({'username': request.user.username, 'investigationID': invID}),
+                              data=json.dumps({'username': username, 'investigationID': invID}),
                               headers={'Cache-Control': 'no-cache'})
 
             if r.status_code != 200:
@@ -267,7 +270,6 @@ def investigation(request, invID=None):
                               context_instance=RequestContext(request))
 
 
-@decorators.login_required(login_url=views.login)
 def study(request, invID=None, studyID=None):
     path = request.path
     if path.find('investigation', 7, 21) == -1:
@@ -279,9 +281,12 @@ def study(request, invID=None, studyID=None):
     loaded = cache.get(studyID)
 
     if loaded == None:
+        username = "default"
+        if request.user:
+            username = request.user.username
         try:
             r = requests.post(settings.WEBSERVICES_URL + 'retrieve/study',
-                              data=json.dumps({'username': request.user.username, 'studyID': studyID}),
+                              data=json.dumps({'username': username, 'studyID': studyID}),
                               headers={'Cache-Control': 'no-cache'})
 
             if r.status_code != 200:
@@ -335,7 +340,6 @@ def study(request, invID=None, studyID=None):
                               context_instance=RequestContext(request))
 
 
-@decorators.login_required(login_url=views.login)
 def assay(request, invID=None, studyID=None, measurement=None, technology=None):
     path = request.path
     if path.find('investigation', 7, 21) == -1:
@@ -349,9 +353,12 @@ def assay(request, invID=None, studyID=None, measurement=None, technology=None):
     loaded = cache.get((str)(studyID) + "_" + (str)(measurement) + "_" + (str)(technology))
 
     if loaded == None:
+        username = "default"
+        if request.user:
+            username = request.user.username
         try:
             r = requests.post(settings.WEBSERVICES_URL + 'retrieve/study/assay',
-                              data=json.dumps({'username': request.user.username, 'studyID': studyID
+                              data=json.dumps({'username': username, 'studyID': studyID
                                   , 'measurement': measurement, 'technology': technology}),
                               headers={'Cache-Control': 'no-cache'})
             if r.status_code != 200:
