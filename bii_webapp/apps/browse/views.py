@@ -434,8 +434,6 @@ def generateBreadcrumbs(path=None):
 def stripIRI(value):
     return value[value.index(':') + 1:]
 
-
-@decorators.login_required(login_url=views.login)
 def sample(request, invID=None, studyID=None, sample=-1):
     if studyID == -1 or sample == -1:
         return redirect(browse)
