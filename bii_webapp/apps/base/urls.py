@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
 # from accounts.forms import RegistrationFormWithUniqueEmailAndName
 from django.contrib import admin
-from django.views.generic import RedirectView
+from django.views.generic.base import RedirectView
 
 admin.autodiscover()
 

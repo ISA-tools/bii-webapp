@@ -1,5 +1,5 @@
 from django.conf.urls import *
-from django.views.generic import TemplateView
+from django.views.generic.base import TemplateView
 from registration.forms import RegistrationFormUniqueEmail
 from registration.views import activate
 from views import profile
