@@ -172,11 +172,16 @@ def browse(request, page=1, msg=None):
                               headers={'Cache-Control': 'no-cache'})
 
             if r.status_code != 200:
+                if username == "default":
+                    text = 'This page shows the publicly accessible ISA-TAB datasets, click on each investigation/study/assay to get more details'
+                else:
+                    text = 'This page shows publicly accessible ISA-TAB datasets and those accessible for your account, click on each investigation/study/assay to get more details'
                 return render_to_response("browse.html",
                                           {"data": {"ERROR": {"messages": "Web Service failed", "total": 1}},
                                            'number_of_pages': 0, 'current_page': 0,
-                                           'pageNotice': 'This page shows the accessible studies for your account, click on each to get more details'},
+                                           'pageNotice': text},
                                           context_instance=RequestContext(request))
+
 
             loaded = json.loads(r.content)
 
