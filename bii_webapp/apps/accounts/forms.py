@@ -31,7 +31,7 @@ class UserForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
                 model = UserProfile
-                exclude=('user')
+                exclude=['user']
                 
     website=forms.URLField(label=_("Website"),
                            widget=forms.TextInput(),

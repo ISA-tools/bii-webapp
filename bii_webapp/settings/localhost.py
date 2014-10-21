@@ -5,8 +5,8 @@ TEMPLATE_DEBUG = DEBUG
 COMPRESS_ENABLED=False
 SITE_ID=1
 
-#WEBSERVICES_URL='http://localhost:9090/bii-ws/'
-WEBSERVICES_URL='http://bii.oerc.ox.ac.uk:8080/bii-ws/'
+WEBSERVICES_URL='http://localhost:9090/bii-ws/'
+#WEBSERVICES_URL='http://bii.oerc.ox.ac.uk:8080/bii-ws/'
 
 MIDDLEWARE_CLASSES += (
     'debug_toolbar.middleware.DebugToolbarMiddleware',

@@ -137,7 +137,6 @@ INSTALLED_APPS = (
     'bii_webapp.apps.templatetags',
     'bii_webapp.apps.accounts',
     'bii_webapp.apps.browse',
-    'bii_webapp.apps.browse',
     'bii_webapp.apps.upload',
     'bii_webapp.apps.base',
     'bii_webapp.apps.files',
